@@ -1,0 +1,15 @@
+system-config.js*
+app/**/*.js
+app/**/*.map
+node_modules
+jspm_packages
+bower_components
+aot/*
+dist/*
+yarn.lock
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/workspace.xml
+aot/
+dist/
+.idea/
