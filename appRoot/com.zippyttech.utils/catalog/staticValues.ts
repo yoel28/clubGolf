@@ -92,8 +92,8 @@ export class StaticValues {
         return{
             'isotipo':          'assets/img/default/zippy/isotipo.png',
             'isotipo-blanco':   'assets/img/default/zippy/isotipo-blanco.png',
-            'logo':             'assets/img/default/zippy/logo.png',
-            'logoBlanco':       'assets/img/default/zippy/logo-blanco.png',
+            'logo':             'assets/img/clubGolf/logo.png',
+            'logoBlanco':       'assets/img/clubGolf/logo.png',
             'robot':            'assets/img/default/zippy/robot.png',
             'warning':          'assets/img/default/warning.png',
         }
@@ -131,6 +131,7 @@ export class StaticValues {
         msg.processedRequest="Solicitud Procesada";
         msg.profile="Perfil";
         msg.save="Guardar";
+        msg.update="Actualizar";
 
         return msg;
 

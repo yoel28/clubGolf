@@ -6,6 +6,7 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
 declare var SystemJS:any;
 @Component({
+    moduleId: module.id,
     selector: 'user-activate',
     templateUrl: SystemJS.map.app+'/com.zippyttech.auth/user/activate/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/user/style.css']

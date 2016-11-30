@@ -2,10 +2,33 @@
 <html>
 <head>
   <base href="/">
-  <title>Angular 2 Tour of Heroes</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="styles.css">
+  <title>Club de Golf Pan&aacute;ma</title>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/icon" href="assets/img/default/zippy/favicon.png">
+
+  <link rel="stylesheet" href="node_modules/bootstrap-daterangepicker/daterangepicker.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/x-editable/dist/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/bootstrap-fileinput/css/fileinput.min.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/ng2-toastr/bundles/ng2-toastr.min.css" type="text/css"/>
+  <link rel="stylesheet" href="node_modules/ng2-select/components/css/ng2-select.css" type="text/css"/>
+
+  <link rel="stylesheet" href="styles.css" type="text/css" />
+  <link rel="stylesheet" href="print.css" media="print" type="text/css" />
+
+  <link rel="stylesheet" href="assets/css/semantic.min.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/css/style.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/css/AdminLTE.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/css/pink-blue.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/css/skins/skin-blue.css" type="text/css"/>
+
+  <link rel="stylesheet" href="assets/plugins/pace/pace.min.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/plugins/colorpicker/css/colorpicker.css" type="text/css"/>
 
   <!-- IE required polyfills, in this exact order -->
   <script src="node_modules/core-js/client/shim.min.js"></script>
@@ -16,18 +39,26 @@
 
 </head>
 
-<body>
-  <my-app>Loading...</my-app>
+<body class="hold-transition skin-blue sidebar-mini">
+<main>
+  <my-app>
+    <h1 class="col-lg-12 cargar">
+      <i class="fa fa-spinner fa-spin"></i>
+      &nbsp;Cargando...
+    </h1>
+  </my-app>
+</main>
 </body>
 
 <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="node_modules/moment/moment.js"></script>
+<script type="text/javascript" src="node_modules/humanize-duration/humanize-duration.js"></script>
 
 <script>
   System.import('system-config.js').then(function () {
     System.import('main');
   }).catch(console.error.bind(console));
 </script>
-
+<script type="text/javascript" src="assets/js/app.js"></script>
 </html>

@@ -1,32 +1,30 @@
 <div class="wrapper login-content">
     <div class="login-box">
-        <div class="login-logo">
-            <img [attr.src]="pathElments.logoBlanco" class="img-responsive img-logo">
-        </div>
         <div class="row form-content">
-
             <div class="header-login text-center">
                 <div class="login-box-body">
-                    <h4>{{msg.titleRecoverPassword}}</h4>
+                    <div class="row">
+                        <h2>{{msg.titleRecoverPassword}}</h2>
+                        <div class="col-lg-6 col-md-4 col-lg-offset-3 col-md-offset-3">
+                            <img [attr.src]="pathElements.logoBlanco" class="img-responsive img-logo">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-login">
                 <div class="login-box-body">
-                    <form role="form" [ngFormModel]="form" (submit)="recoverPassword($event)">
+                    <form role="form" [formGroup]="form" (submit)="recoverPassword($event)">
                         <fieldset>
                             <div class="form-group input-icon right">
-                                <i class="fa fa-user"></i>
-                                <input ngControl="username" class="form-control" [(ngModel)]="username.value"
-                                       #username="ngForm" placeholder="Email" type="email">
-                                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-                                    {{msg.pleaseEnterEmailOrUserValid}}
-                                </div>
+                                <i class="fa fa-user text-white"></i>
+                                <input formControlName="username" class="form-control input-control"
+                                       placeholder="Usuario / Email" type="text">
                             </div>
                             <button style="float:left;" class="btn btn-success btn-blue pull-left"
                                     (click)="onLogin($event)">
                                 <i class="fa fa-chevron-circle-left"></i>&nbsp;{{msg.start}}
                             </button>
-                            <button id="cntrlsubmit" type="submit" [disabled]="!form.valid"
+                            <button type="submit" [disabled]="!form.valid"
                                     class="btn  btn-success pull-right">
                                 &nbsp;{{msg.recover}}&nbsp;<i class="fa  fa-chevron-circle-right"></i>
                             </button>

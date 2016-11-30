@@ -13,6 +13,7 @@ import {ImageEdit} from "../../../com.zippyttech.ui/components/imageEdit/imageEd
 declare var SystemJS:any;
 
 @Component({
+    moduleId: module.id,
     selector: 'user-profile',
     templateUrl: SystemJS.map.app+'/com.zippyttech.auth/user/profile/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/user/profile/style.css'],

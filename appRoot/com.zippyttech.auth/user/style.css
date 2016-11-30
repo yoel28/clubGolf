@@ -1,18 +1,13 @@
-.form-login{
-    background-color: #e5e5e5;
+.form-login,.login-box-body,.header-login{
+    background-color: rgba(255, 255, 255, 0.35);
 }
-.login-box-body{
-    background: none !important;
-}
-.header-login{
-    background-color: #d2d6de;
+.input-control{
+    background-color: rgba(255, 255, 255, 0.35);
+    color: #6d6a6a;
+    border: 1px solid #fff;
 }
 .header-login .login-box-body h4{
     font-weight: bolder;
-}
-.form-content{
-    border: 6px solid #242454;
-    border-radius: 3px;
 }
 .login-content{
     background: url('assets/img/default/background-desktop.png') no-repeat center center fixed;
@@ -33,4 +28,8 @@ div, table, section, div.modal-dialog > div.modal-content {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;
     border-radius: 0px !important;
+}
+.btn-green-a80{
+    background-color: rgba(0,84,37,0.8);
+    color: white;
 }

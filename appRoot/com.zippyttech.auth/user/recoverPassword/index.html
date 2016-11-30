@@ -1,30 +1,32 @@
-<div class="wrapper login-content" >
+<div class="wrapper login-content">
     <div class="login-box">
-        <div class="login-logo">
-            <img src="assets/img/logo-blanco.png" class="img-responsive img-logo">
-        </div>
         <div class="row form-content">
             <div class="header-login text-center">
                 <div class="login-box-body">
-                    <h4>Recuperar Contrasena</h4>
+                    <div class="row">
+                        <h2>{{msg.titleRecoverPassword}}</h2>
+                        <div class="col-lg-6 col-md-4 col-lg-offset-3 col-md-offset-3">
+                            <img [attr.src]="pathElements.logoBlanco" class="img-responsive img-logo">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-login">
                 <div class="login-box-body">
-                    <form role="form" [ngFormModel]="form" (submit)="recoverPassword($event)" >
+                    <form role="form" [formGroup]="form" (submit)="recoverPassword($event)">
                         <fieldset>
                             <div class="form-group input-icon right">
-                                <i class="fa fa-key"></i>
-                                <input ngControl="password" class="form-control" [(ngModel)]="password.value"  #password="ngForm" placeholder="Contrasena" type="password">
-                                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-                                    Por favor ingrese una contrasena
-                                </div>
+                                <i class="fa fa-user text-white"></i>
+                                <input formControlName="password" class="form-control input-control"
+                                       placeholder="Contraseña nueva" type="text">
                             </div>
-                            <button style="float:left;" class="btn btn-success btn-blue pull-left" (click)="onLogin($event)">
-                                <i class="fa fa-chevron-circle-left"></i> Volver
+                            <button style="float:left;" class="btn btn-success btn-blue pull-left"
+                                    (click)="onLogin($event)">
+                                <i class="fa fa-chevron-circle-left"></i>&nbsp;{{msg.start}}
                             </button>
-                            <button id="cntrlsubmit" type="submit" [disabled]="!form.valid" class="btn  btn-success pull-right">
-                                Actualizar <i class="fa  fa-chevron-circle-right"></i>
+                            <button type="submit" [disabled]="!form.valid"
+                                    class="btn  btn-success pull-right">
+                                &nbsp;{{msg.update}}&nbsp;<i class="fa  fa-chevron-circle-right"></i>
                             </button>
                         </fieldset>
                     </form>

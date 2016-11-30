@@ -10,7 +10,6 @@ export class globalService extends RestController{
     help:any={};
     rules:any={};
     permissions:any=[];
-    allPermissions:any={};
     init=false;
 
     status={
@@ -37,7 +36,7 @@ export class globalService extends RestController{
             this.initSession();
         }
     }
-    initSession(){
+    initSession():void{
         this.initFinish(true);
         this.loadValidToken();
         this.loadMyPermissions();
@@ -45,7 +44,7 @@ export class globalService extends RestController{
         this.loadTooltips();
         this.loadRules();
     }
-    initFinish(reverse=false){
+    initFinish(reverse=false):void{
         if(reverse)
         {
             this.status.token.status=false;
@@ -58,18 +57,7 @@ export class globalService extends RestController{
         if(this.status.token.status && this.status.user.status  && this.status.permissions.status && this.status.params.status && this.status.help.status && this.status.rules.status)
             this.init=true;
     }
-    countInitSession(){
-        let count=1;
-        let that=this;
-        Object.keys(this.status).forEach(key=>{
-            if(!that.status[key].status)
-                count++;
-        })
-        console.log(100/count)
-        return (100/count);
-
-    }
-    error = err => {
+    error = (err:any):void => {
         if(localStorage.getItem('bearer')){
             this.initFinish(true);
             localStorage.removeItem('bearer');
@@ -77,9 +65,9 @@ export class globalService extends RestController{
             window.location.reload();
         }
     }
-    loadValidToken(){
+    loadValidToken():void{
         let that=this;
-        let successCallback= response => {
+        let successCallback=(response:any) => {
             Object.assign(that.user, response.json());
             that.status.token.status=true;
             that.initFinish();
@@ -87,9 +75,9 @@ export class globalService extends RestController{
         };
         this.httputils.doGet('/validate',successCallback,this.error);
     }
-    loadUser(){
+    loadUser():void{
         let that = this;
-        let successCallback= response => {
+        let successCallback= (response:any) => {
             Object.assign(that.user,that.user,response.json().list[0]);
             that.status.user.status=true;
             that.initFinish();
@@ -97,51 +85,51 @@ export class globalService extends RestController{
         let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"]]');
         this.httputils.doGet('/users?where='+where, successCallback,this.error);
     };
-    loadMyPermissions(){
+    loadMyPermissions():any{
         let that = this;
-        let successCallback= response => {
+        let successCallback= (response:any) => {
             Object.assign(that.permissions,response.json());
             that.status.permissions.status=true;
             that.initFinish();
         };
         return this.httputils.doGet('/current/permissions/',successCallback,this.error);
     }
-    loadParams(){
+    loadParams():void{
         let that = this;
-        let successCallback= response => {
+        let successCallback= (response:any) => {
             Object.assign(that.params,response.json().list);
             that.status.params.status=true;
             that.initFinish();
         };
         this.httputils.doGet('/params?max=1000',successCallback,this.error);
     }
-    loadRules(){
+    loadRules():void{
         let that = this;
-        let successCallback= response => {
+        let successCallback= (response:any) => {
             Object.assign(that.rules,response.json().list);
             that.status.rules.status=true;
             that.initFinish();
         };
         this.httputils.doGet('/rules?max=1000',successCallback,this.error);
     }
-    loadTooltips(){
+    loadTooltips():void{
         let that = this;
-        let successCallback= response => {
+        let successCallback= (response:any) => {
             Object.assign(that.help,response.json().list);
             that.status.help.status=true;
             that.initFinish();
         };
         this.httputils.doGet('/infos?max=1000',successCallback,this.error);
     }
-    existsPermission(keys){
-        let index = this.permissions.findIndex(obj => (keys.indexOf(obj.id) >= 0 || keys.indexOf(obj.code)>=0));
+    existsPermission(keys:any):boolean{
+        let index = this.permissions.findIndex((obj:any) => (keys.indexOf(obj.id) >= 0 || keys.indexOf(obj.code)>=0));
         if(index > -1)
             return true;
         return false;
     }
 
 
-    getParams(key){
+    getParams(key:string):string{
         let that = this;
         let valor="";
         Object.keys(this.params).forEach(index=>{
@@ -153,7 +141,7 @@ export class globalService extends RestController{
         return valor;
     }
 
-    getRule(key){
+    getRule(key:string):string{
         let that = this;
         let valor="";
         Object.keys(this.rules).forEach(index=>{
@@ -164,7 +152,7 @@ export class globalService extends RestController{
         })
         return valor;
     }
-    getTooltip(code){
+    getTooltip(code:string):any{
         let that = this;
         let valor={};
         Object.keys(this.help).forEach(index=>{
@@ -175,7 +163,7 @@ export class globalService extends RestController{
         })
         return valor;
     }
-    getKeys(data){
+    getKeys(data:any):any{
         return Object.keys(data);
     }
     

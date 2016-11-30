@@ -1,7 +1,7 @@
 import {Http} from '@angular/http';
 import {HttpUtils} from "./http-utils";
 import {OnInit} from "@angular/core";
-
+import {FormGroup} from "@angular/forms";
 
 export class RestController implements OnInit {
 
@@ -19,7 +19,6 @@ export class RestController implements OnInit {
     constructor(public http:Http) {
         this.httputils = new HttpUtils(http);
     }
-
     ngOnInit() {
     }
 
@@ -196,7 +195,7 @@ export class RestController implements OnInit {
         this.httputils.onDelete(this.endpoint + id, id, this.dataList.list, this.error);
     }
 
-    onSave(data:ControlGroup) {
+    onSave(data:FormGroup) {
         let body = JSON.stringify(data.value);
         this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
     }

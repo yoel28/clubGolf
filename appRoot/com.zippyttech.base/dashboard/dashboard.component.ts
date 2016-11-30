@@ -5,10 +5,9 @@ import {globalService} from "../../com.zippyttech.utils/globalService";
 declare var SystemJS:any;
 
 @Component({
-    moduleId: module.id,
     selector: 'dashboard',
-    templateUrl:'index.html',
-    styleUrls: ['style.css'],
+    templateUrl: SystemJS.map.app+'com.zippyttech.base/dashboard/index.html',
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.base/dashboard/style.css']
 })
 export class DashboardComponent implements OnInit,AfterViewInit{
 

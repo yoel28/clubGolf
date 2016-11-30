@@ -1,6 +1,149 @@
-<h1>{{title}}</h1>
-<div class="header-bar"></div>
-<nav>
-    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-</nav>
-<router-outlet></router-outlet>
+<div [class.wrapper]="myglobal.init">
+    <div *ngIf="validToken() && myglobal.init">
+        {{loadPage()}}
+        <header class="main-header">
+            <a href="#" [routerLink]="['/dashboard']" class="logo">
+                <span class="logo-mini">
+                    <img [attr.src]="pathElement.isotipo" class="img-responsive">
+                </span>
+                <span class="logo-lg">
+                    <img [attr.src]="pathElement.logoBlanco"
+                         class="img-responsive col-lg-10 col-md-10 col-sm-10 col-xs-6">
+                </span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a *ngIf="menu_list=='1'" href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <a *ngIf="menu_modal=='1'" type="button" class="btn btn-blue glyphicon glyphicon-th"
+                   style="font-size: x-large" data-toggle="modal" data-target="#myMenu">
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img [attr.src]="myglobal.user.image || pathElement.robot" class="user-image"
+                                     alt="User Image">
+                                <span class="hidden-xs">{{myglobal.user.username}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle"
+                                         alt="User Image">
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" (click)='onProfile($event)'
+                                           class="btn btn-default btn-flat">Perfil</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" (click)='logout($event)' class="btn btn-default btn-flat">Salir</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside *ngIf="menu_list=='1'" class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel cursor-pointer" (click)='onProfile()'>
+                    <div class="pull-left image">
+                        <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle">
+                    </div>
+                    <div class="pull-left info">
+                        <p>{{myglobal.user.name}}</p>
+                        <i class="fa fa-building text-success"></i> {{myglobal.user.companyName}}
+                    </div>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="header"><i class="fa fa-circle text-success"></i> {{myglobal.user.email}}</li>
+                    <li *ngFor="let item of menuItemsVisible(menuItems)"
+                        [class.treeview]="item.treeview"
+                        [class.active]="item.key && activeMenuId==item.key"
+                    >
+                        <a *ngIf="item.routerLink" href="#" [routerLink]="[item.routerLink]">
+                            <i class="{{item.icon}}"></i>
+                            <span>{{item.title}}</span>
+                        </a>
+                        <a *ngIf="item.key" (click)="activeMenu($event,item.key)">
+                            <i class="{{item.icon}}"></i>
+                            <span>{{item.title}}</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul *ngIf="item.treeview" class="treeview-menu">
+                            <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
+                                <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
+                                    <i class="{{subItem.icon}}"></i>
+                                    <span>{{subItem.title}}</span>
+                                </a>
+                                <a *ngIf="subItem.modal" (click)="subItem.function($event,myglobal)" data-toggle="modal"
+                                   [attr.data-target]="subItem.modalId">
+                                    <i class="{{subItem.icon}}"></i> <span>{{subItem.title}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+    <router-outlet></router-outlet>
+</div>
+
+<div class="main-footer-container noprint" *ngIf="validToken() && myglobal.init">
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            Aguaseo, C.A
+        </div>
+        <strong>Copyright &copy; 2016 <a href="#">AGUASEO</a>.</strong> Todos los derechos reservados.
+        <br/>En caso de error comunicarse al
+        {{myglobal.getParams('PHONE_SUPPORT')}} / {{ replace(myglobal.getParams('EMAIL_SUPPORT')) }}
+    </footer>
+</div>
+<div *ngIf="validToken()  && !myglobal.init " class="col-lg-12 cargar noprint">
+    <h1 *ngFor="let status of myglobal.getKeys(myglobal.status)">
+        <i class="fa fa-lg fa-check" *ngIf="myglobal.status[status].status"></i>
+        <i class="fa fa-spinner fa-spin" *ngIf="!myglobal.status[status].status"></i>
+        &nbsp;{{myglobal.status[status].title}}
+    </h1>
+</div>
+
+<div *ngIf="menu_modal=='1'" class="modal fade" id="myMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="color:#fff; opacity: 1;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="color:#fff; font-size:15pt;">Men&uacute; Principal</h4>
+            </div>
+            <div class="modal-body menu-modal">
+                <div *ngFor="let item of menuItemsTreeview(menuItems)"
+                     [class.treeview]="item.treeview">
+                    <a *ngIf="item.routerLink" data-dismiss="modal" class="a-menu-modal" href="#"
+                       [routerLink]="[item.routerLink]">
+                        <i *ngIf="!item.image" class="{{item.icon}}"></i>
+                        <img *ngIf="item.image" src="{{item.image}}"/>
+                        <p>{{item.title}}</p>
+                    </a>
+                    <div class="row" *ngIf="item.treeview">
+                        <h1 style="color:#ffffff; font-size: 12pt;">{{item.title}}</h1><br/>
+                        <div class="col-lg-2 col-md-2" *ngFor="let subItem of menuItemsVisible(item.treeview)">
+                            <a *ngIf="subItem.routerLink" data-dismiss="modal" href="#" class="a-menu-modal"
+                               [routerLink]="[subItem.routerLink]">
+                                <i class="{{subItem.icon}}"></i>
+                                <p>{{subItem.title}}</p>
+                            </a>
+                            <a *ngIf="subItem.modal" data-dismiss="modal" (click)="subItem.function($event)"
+                               class="a-menu-modal" data-toggle="modal" [attr.data-target]="subItem.modalId">
+                                <i class="{{subItem.icon}}"></i>
+                                <p>{{subItem.title}}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
