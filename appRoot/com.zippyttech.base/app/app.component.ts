@@ -1,4 +1,7 @@
-import {Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterContentChecked, HostListener} from '@angular/core';
+import {
+    Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterContentChecked, HostListener,
+    DoCheck
+} from '@angular/core';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {Router, RoutesRecognized} from "@angular/router";
@@ -14,7 +17,7 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.base/app/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.base/app/style.css'],
 })
-export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked {
+export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
     public pathElement = StaticValues.pathElements;
 
     public menuType:FormControl;
@@ -66,6 +69,9 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.menuItems=new FormControl([]);
     }
     public ngAfterViewInit() {
+
+    }
+    ngDoCheck(){
 
     }
     ngAfterContentChecked(){
