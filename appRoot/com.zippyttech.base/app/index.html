@@ -1,6 +1,6 @@
 <div [class.wrapper]="myglobal.init">
     <div *ngIf="validToken() && myglobal.init">
-        {{loadPage()}}
+        {{this.loadPage()}}
         <header class="main-header">
             <a href="#" [routerLink]="['/dashboard']" class="logo">
                 <span class="logo-mini">
@@ -12,10 +12,10 @@
                 </span>
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
-                <a *ngIf="menu_list=='1'" href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-                <a *ngIf="menu_modal=='1'" type="button" class="btn btn-blue glyphicon glyphicon-th"
+                <a *ngIf="menuType.value && menuType.value.modal" type="button" class="btn btn-blue glyphicon glyphicon-th"
                    style="font-size: x-large" data-toggle="modal" data-target="#myMenu">
                 </a>
                 <div class="navbar-custom-menu">
@@ -46,7 +46,7 @@
                 </div>
             </nav>
         </header>
-        <aside *ngIf="menu_list=='1'" class="main-sidebar">
+        <aside *ngIf="menuType.value && menuType.value.list" class="main-sidebar">
             <section class="sidebar">
                 <div class="user-panel cursor-pointer" (click)='onProfile()'>
                     <div class="pull-left image">
@@ -59,7 +59,7 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li class="header"><i class="fa fa-circle text-success"></i> {{myglobal.user.email}}</li>
-                    <li *ngFor="let item of menuItemsVisible(menuItems)"
+                    <li *ngFor="let item of menuItemsVisible(menuItems.value)"
                         [class.treeview]="item.treeview"
                         [class.active]="item.key && activeMenuId==item.key"
                     >
@@ -110,7 +110,7 @@
     </h1>
 </div>
 
-<div *ngIf="menu_modal=='1'" class="modal fade" id="myMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div *ngIf="menuType.value && menuType.value.modal" class="modal fade" id="myMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

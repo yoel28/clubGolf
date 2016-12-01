@@ -17,7 +17,7 @@ const myFirebaseConfig = {
     databaseURL: "https://ipanama-366c4.firebaseio.com",
     storageBucket: "ipanama-366c4.appspot.com"
 };
-enableProdMode();
+
 @NgModule({
     imports: [
         BrowserModule,

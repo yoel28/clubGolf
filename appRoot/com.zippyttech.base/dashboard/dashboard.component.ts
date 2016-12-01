@@ -9,14 +9,12 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.base/dashboard/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.base/dashboard/style.css']
 })
-export class DashboardComponent implements OnInit,AfterViewInit{
+export class DashboardComponent implements OnInit{
 
 
     constructor(public myglobal:globalService,public http:Http) {}
 
     ngOnInit():void{}
-
-    ngAfterViewInit():any {}
 
 }
 
