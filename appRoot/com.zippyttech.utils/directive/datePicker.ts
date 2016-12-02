@@ -1,10 +1,10 @@
-import {ElementRef, Directive, EventEmitter, OnInit} from "@angular/core";
+import {ElementRef, Directive, EventEmitter, OnInit, NgModule, Component} from "@angular/core";
 
 declare var jQuery:any;
 declare var moment:any;
 
-@Directive({
-    selector: "[datepicker]",
+@Component({
+    selector: "datepicker",
     inputs:['format'],
     outputs:['fecha']
 })

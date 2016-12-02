@@ -1,9 +1,9 @@
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
-import {MRole} from "../role/mRole";
+import {RoleModel} from "../role/role.model";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 
-export class MUser extends ModelBase{
+export class UserModel extends ModelBase{
     public rules={};
     public role:any;
     public pathElements=StaticValues.pathElements;
@@ -13,7 +13,7 @@ export class MUser extends ModelBase{
         this.initModel();
     }
     modelExternal() {
-        this.role= new MRole(this.myglobal);
+        this.role= new RoleModel(this.myglobal);
     }
     initRules(){
 

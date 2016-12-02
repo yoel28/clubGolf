@@ -1,16 +1,18 @@
-import {Component, OnInit,AfterViewInit} from '@angular/core';
-import {MRole} from "./mRole";
-import {BaseView} from "../../com.zippyttech.ui/view/base/baseView";
+import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
+import {RoleModel} from "./role.model";
+import {BaseViewComponent} from "../../com.zippyttech.ui/view/base/baseView.component";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 
 declare var SystemJS:any;
+@NgModule({
+    imports: [BaseViewComponent]
+})
 @Component({
     selector: 'role',
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
-    directives: [BaseView],
 })
-export class Role implements OnInit,AfterViewInit{
+export class RoleComponent implements OnInit,AfterViewInit{
 
     public instance:any={};
     public paramsTable:any={};
@@ -34,7 +36,7 @@ export class Role implements OnInit,AfterViewInit{
     }
 
     initModel():any {
-        this.model= new MRole(this.myglobal);
+        this.model= new RoleModel(this.myglobal);
     }
 
     initViewOptions() {

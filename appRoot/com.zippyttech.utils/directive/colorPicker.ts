@@ -1,5 +1,5 @@
-import {ElementRef, Directive, EventEmitter} from "@angular/core";
-import {Control} from "@angular/common";
+import {ElementRef, EventEmitter, Directive, OnInit} from "@angular/core";
+import {FormControl} from "@angular/forms";
 
 declare var jQuery:any;
 @Directive({
@@ -7,13 +7,13 @@ declare var jQuery:any;
     inputs:['hex'],
     outputs:['color']
 })
-export class ColorPicker {
+export class ColorPicker implements OnInit{
     public hide:any;
-    public hex:Control;
+    public hex:FormControl;
     public color:any;
 
     constructor(public element:ElementRef) {
-        this.hex = new Control('');
+        this.hex = new FormControl('');
         this.color = new EventEmitter();
     }
     ngOnInit(){
@@ -31,7 +31,7 @@ export class ColorPicker {
                 return false;
             },
             onChange: function (hsb, hex, rgb) {
-                that.hex.updateValue(hex);
+                that.hex.setValue(hex);
                 jQuery(that.element.nativeElement).css('backgroundColor', '#' + that.hex.value);
                 jQuery(that.element.nativeElement).val('#'+that.hex.value);
             }

@@ -1,7 +1,7 @@
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 
-export class MRole extends ModelBase{
+export class RoleModel extends ModelBase{
     public rules={};
     constructor(public myglobal:globalService){
         super('ROLE','/roles/',myglobal);

@@ -1,6 +1,5 @@
 import {ElementRef, Directive, EventEmitter, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
-import {ToastsManager} from "ng2-toastr/ng2-toastr";
 import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
 import {globalService} from "../globalService";
 
@@ -22,9 +21,9 @@ export class XEditable implements OnInit {
     public httputils:HttpUtils;
     public disabled:boolean;
 
-    constructor(public el:ElementRef, public http:Http,public myglobal:globalService, public toastr?:ToastsManager) {
+    constructor(public el:ElementRef, public http:Http,public myglobal:globalService) {
         this.success = new EventEmitter();
-        this.httputils = new HttpUtils(http, toastr);
+        this.httputils = new HttpUtils(http);
     }
 
     ngOnInit() {

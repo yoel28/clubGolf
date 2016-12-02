@@ -6,6 +6,7 @@ import {LoginComponent} from "./com.zippyttech.auth/user/login/login.component";
 import {RecoverComponent} from "./com.zippyttech.auth/user/recover/recover.component";
 import {RecoverPasswordComponent} from "./com.zippyttech.auth/user/recoverPassword/recoverpassword.component";
 import {AclComponent} from "./com.zippyttech.auth/acl/acl.component";
+import {ProfileComponent} from "./com.zippyttech.auth/user/profile/profile.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,14 @@ const routes: Routes = [
     path: 'auth/acl',
     component: AclComponent
   },
+  {
+    path: 'user/profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'auth/permission',
+    component: AclComponent
+  },
 ];
 
 @NgModule({
@@ -41,4 +50,4 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routedComponents = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent,AclComponent];
+export const routedComponents = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent,AclComponent,ProfileComponent];
