@@ -30,7 +30,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         super(http);
         //let url="https://club-golf.herokuapp.com";
         //let url="http://pescadorj:8080";
-        let url = "http://vertedero.aguaseo.com:8080";
+        let url = "https://dev.aguaseo.com:8080";
         //let url="http://192.168.1.124:8080";
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
@@ -151,7 +151,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'visible': this.myglobal.existsPermission(['MEN_DASHBOARD']),
                 'icon': 'fa fa-dollar',
                 'title': 'Dashboard',
-                'routerLink': 'Dashboard'
+                'routerLink': '/dashboard'
             });
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_ACL','MEN_PERMISOS','MEN_ROLES']),
@@ -163,7 +163,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'visible': this.myglobal.existsPermission(["MEN_ACL"]),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
-                        'routerLink': 'Acl'
+                        'routerLink': '/auth/acl'
                     },
                     {
                         'visible': this.myglobal.existsPermission(["MEN_PERMISOS"]),
