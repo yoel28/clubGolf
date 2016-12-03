@@ -6,7 +6,7 @@ import {LoginComponent} from "./com.zippyttech.auth/user/login/login.component";
 import {RecoverComponent} from "./com.zippyttech.auth/user/recover/recover.component";
 import {RecoverPasswordComponent} from "./com.zippyttech.auth/user/recoverPassword/recoverpassword.component";
 
-const routes: Routes = [
+const routesDefault: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
@@ -29,11 +29,13 @@ const routes: Routes = [
     component: RecoverPasswordComponent
   },
 ];
-
+const routesApp:Routes=[];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routesDefault.concat(routesApp))],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
 
-export const routedComponents = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent];
+export const componentsDefault = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent];
+export const componentsApp = [];
+
