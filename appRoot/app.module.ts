@@ -6,10 +6,11 @@ import {AngularFireModule} from 'angularfire2';
 import {FirebaseModule} from 'ng2-firebase/core';
 import './rxjs-extensions';
 
-import {AppRoutingModule, routedComponents} from './app-routing.module';
+import {AppRoutingModule, componentsApp,componentsDefault} from './app-routing.module';
 import {globalService} from "./com.zippyttech.utils/globalService";
 import {AppComponent} from "./com.zippyttech.base/app/app.component";
 import {LocationStrategy,HashLocationStrategy} from "@angular/common";
+import {directivesApp, directivesDefault} from "./app.directives";
 
 const myFirebaseConfig = {
     apiKey: 'AIzaSyB-zakSU1icljHu4o7oENkAC4korzIF5OI',
@@ -29,7 +30,10 @@ const myFirebaseConfig = {
     ],
     declarations: [
         AppComponent,
-        routedComponents
+        componentsApp,
+        componentsDefault,
+        directivesApp,
+        directivesDefault
     ],
     providers: [
         globalService,
