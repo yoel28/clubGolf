@@ -1,23 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import { Router }           from '@angular/router-deprecated';
+import {Component, OnInit, NgModule} from '@angular/core';
+import { Router }           from '@angular/router';
 import { Http } from '@angular/http';
-import {ToastsManager} from "ng2-toastr/ng2-toastr";
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {SmDropdown} from "../../com.zippyttech.utils/directive/smDropDown";
 
 declare var SystemJS:any;
+@NgModule({
+    imports:[SmDropdown]
+})
 @Component({
     selector: 'acl',
     templateUrl: SystemJS.map.app+'/com.zippyttech.auth/acl/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/acl/style.css'],
-    directives: [SmDropdown]
 })
 export class AclComponent extends RestController implements OnInit{
 
     public dataSelect:any={};
 
-    constructor(public router: Router,public http: Http,public toastr: ToastsManager,public myglobal:globalService) {
+    constructor(public router: Router,public http: Http,public myglobal:globalService) {
         super(http);
     }
     ngOnInit(){
@@ -25,7 +26,7 @@ export class AclComponent extends RestController implements OnInit{
     }
     //advertencia
     public modalIn:boolean=true;
-    loadPage(event){
+    loadPage(event:Event){
         event.preventDefault();
         this.modalIn=false;
         this.loadPermissions();
@@ -33,7 +34,7 @@ export class AclComponent extends RestController implements OnInit{
     }
     onDashboard(event){
         event.preventDefault();
-        let link = ['Dashboard', {}];
+        let link = ['/dashboard', {}];
         this.router.navigate(link);
     }
 
@@ -152,7 +153,6 @@ export class AclComponent extends RestController implements OnInit{
         let successCallback= response => {
             let index = this.dataRoles.list.findIndex(obj => obj.id == this.role.id);
             this.dataRoles.list[index].permissions = this.role.permissions;
-            this.toastr.success('Guardado con éxito')
         }
         this.httputils.doPost('/role/'+this.role.id+'/permissions/',body,successCallback,this.error)
     }

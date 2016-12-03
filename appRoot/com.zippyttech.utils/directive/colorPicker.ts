@@ -7,7 +7,7 @@ declare var jQuery:any;
     inputs:['hex'],
     outputs:['color']
 })
-export class ColorPicker {
+export class ColorPicker implements OnInit{
     public hide:any;
     public hex:FormControl;
     public color:any;

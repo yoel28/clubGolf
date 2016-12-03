@@ -1,16 +1,18 @@
-import {Component, OnInit,AfterViewInit} from '@angular/core';
-import {MPermission} from "./mPermission";
-import {BaseView} from "../../com.zippyttech.ui/view/base/baseView";
+import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
+import {BaseViewComponent} from "../../com.zippyttech.ui/view/base/baseView.component";
 import {globalService} from "../../com.zippyttech.utils/globalService";
+import {RuleModel} from "./rule.model";
 
 declare var SystemJS:any;
+@NgModule({
+    imports:[BaseViewComponent]
+})
 @Component({
-    selector: 'permission',
+    selector: 'rule',
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
-    directives: [BaseView],
 })
-export class Permission implements OnInit,AfterViewInit{
+export class RuleComponent implements OnInit,AfterViewInit{
 
     public instance:any={};
     public paramsTable:any={};
@@ -18,11 +20,13 @@ export class Permission implements OnInit,AfterViewInit{
     public viewOptions:any={};
 
     constructor(public myglobal:globalService) {}
+
     ngOnInit(){
         this.initModel();
         this.initViewOptions();
         this.loadParamsTable();
     }
+
     ngAfterViewInit():any {
         this.instance = {
             'model':this.model,
@@ -30,17 +34,20 @@ export class Permission implements OnInit,AfterViewInit{
             'paramsTable':this.paramsTable
         };
     }
+
     initModel() {
-        this.model= new MPermission(this.myglobal);
+        this.model= new RuleModel(this.myglobal);
     }
+
     initViewOptions() {
-        this.viewOptions["title"] = 'Permisos';
+        this.viewOptions["title"] = 'Reglas';
     }
+
     loadParamsTable(){
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
-            'message': '¿ Esta seguro de eliminar el permiso : ',
-            'keyAction':'code'
+            'message': '¿ Esta seguro de eliminar la regla: ',
+            'keyAction':'name'
         };
     }
 }

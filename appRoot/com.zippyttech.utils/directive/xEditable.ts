@@ -1,18 +1,17 @@
-import {ElementRef, Directive, EventEmitter, OnInit} from "@angular/core";
+import {ElementRef,  EventEmitter, OnInit, Component} from "@angular/core";
 import {Http} from "@angular/http";
-import {ToastsManager} from "ng2-toastr/ng2-toastr";
 import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
 import {globalService} from "../globalService";
 
 declare var jQuery:any;
 declare var moment:any;
 
-@Directive({
+@Component({
     selector: "[x-editable]",
     inputs: ['data', 'rules', 'field', 'function', 'endpoint','disabled'],
     outputs: ['success']
 })
-export class XEditable implements OnInit {
+export class XEditableDirective implements OnInit {
     public success:any;
     public data:any = {};
     public rules:any = {};
@@ -22,9 +21,9 @@ export class XEditable implements OnInit {
     public httputils:HttpUtils;
     public disabled:boolean;
 
-    constructor(public el:ElementRef, public http:Http,public myglobal:globalService, public toastr?:ToastsManager) {
+    constructor(public el:ElementRef, public http:Http,public myglobal:globalService) {
         this.success = new EventEmitter();
-        this.httputils = new HttpUtils(http, toastr);
+        this.httputils = new HttpUtils(http);
     }
 
     ngOnInit() {

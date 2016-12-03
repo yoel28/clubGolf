@@ -13,9 +13,9 @@ declare var SystemJS:any;
 })
 export class RecoverPasswordComponent extends RestController implements OnInit  {
 
-    form:FormGroup;
-    id:string;
-    token:string;
+    public form:FormGroup;
+    public id:string;
+    public token:string;
     public pathElements=StaticValues.pathElements;
     public msg=StaticValues.msg;
 
@@ -23,7 +23,6 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
         super(http);
     }
     ngOnInit():void{
-        let that=this;
         this.id=this.routeActive.snapshot.params['id'];
         this.token=this.routeActive.snapshot.params['token'];
         this.setEndpoint('/users/' + this.id + "?access_token=" + this.token);

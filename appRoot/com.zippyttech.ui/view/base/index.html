@@ -1,0 +1,70 @@
+<div *ngIf="!model.permissions.warning || !modalIn">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        {{viewOptions.title | translate }}<tooltip [code]="model.prefix+'_1'"></tooltip>
+                    </h3>
+                    <div class="pull-right" *ngIf="viewOptions['buttons']">
+                        <button *ngFor="let buttom of getViewOptionsButtons()"
+                                class="{{buttom.class}}" type="button" data-toggle="modal"
+                                [attr.data-target]="'#'+buttom.modal">
+                            <i class="{{buttom.icon}}"></i>
+                            {{buttom.title | translate}}
+                        </button>
+                        <tooltip [code]="model.prefix+'_2'"></tooltip>
+                    </div>
+                </div>
+                <div *ngIf="model.permissions.list" class="box-body">
+                    <div *ngIf="dataList && dataList.count>0">
+                        <tables [dataList]="dataList" [model]="model" [params]="paramsTable" [where]="where"></tables>
+                    </div>
+                    <div *ngIf="dataList && dataList.count == 0">
+                        <div class="alert alert-warning alert-dismissable">
+                            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                            <strong><i class="fa fa-warning"></i></strong>&nbsp;{{msg.notFound | translate}}
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!model.permissions.list">
+                    <div class="btn-red padding-error">
+                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip [code]="model.prefix+'_3'"></tooltip></strong></h5>
+                        {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_LIST
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div *ngIf="model.permissions.add">
+        <save [params]="model.paramsSave" [rules]="model.rulesSave" (save)="setLoadData($event)"></save>
+    </div>
+    <div *ngIf="model.permissions.filter">
+        <filter [params]="model.paramsSearch" [rules]="model.rules" (whereFilter)="loadWhere($event)"></filter>
+    </div>
+</div>
+
+
+<div *ngIf="model.permissions.warning && modalIn" class="modal fade" [class.in]="modalIn" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" [style.display]="modalIn?'block':'none'">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-red text-center">
+                <h4 class="modal-title">
+                    <i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate | uppercase}}<tooltip [code]="model.prefix+'_4'"></tooltip></strong></h4>
+            </div>
+            <div class="modal-body">
+                {{msg.warningBody | translate}}
+            </div>
+            <div class="modal-footer">
+                <button (click)="onDashboard($event)" type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">
+                    &nbsp;{{msg.warningButtonExit | translate}}
+                </button>
+
+                <button (click)="loadPage($event,true)"  data-dismiss="modal" type="button" class="btn btn-red fa fa-check">
+                    &nbsp;{{msg.warningButtonYes | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
