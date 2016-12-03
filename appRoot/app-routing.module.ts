@@ -50,7 +50,5 @@ const routesApp:Routes=[];
 })
 export class AppRoutingModule { }
 
-export const componentsDefault = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent];
+export const componentsDefault = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent,AclComponent,ProfileComponent];
 export const componentsApp = [];
-
-export const routedComponents = [DashboardComponent,LoginComponent,RecoverComponent,RecoverPasswordComponent,AclComponent,ProfileComponent];
