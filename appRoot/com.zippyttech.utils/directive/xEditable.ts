@@ -1,4 +1,4 @@
-import {ElementRef,  EventEmitter, OnInit, Component} from "@angular/core";
+import {ElementRef, EventEmitter, OnInit, Directive} from "@angular/core";
 import {Http} from "@angular/http";
 import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
 import {globalService} from "../globalService";
@@ -6,12 +6,12 @@ import {globalService} from "../globalService";
 declare var jQuery:any;
 declare var moment:any;
 
-@Component({
+@Directive({
     selector: "[x-editable]",
     inputs: ['data', 'rules', 'field', 'function', 'endpoint','disabled'],
     outputs: ['success']
 })
-export class XEditableDirective implements OnInit {
+export class XEditable implements OnInit {
     public success:any;
     public data:any = {};
     public rules:any = {};
