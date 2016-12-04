@@ -23,40 +23,49 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     public menuType:FormControl;
     public menuItems:FormControl;
 
-    public saveUrl: string;
     public activeMenuId: string;
 
     constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef) {
         super(http);
-        //let url="https://club-golf.herokuapp.com";
-        //let url="http://pescadorj:8080";
-        let url = "https://dev.aguaseo.com:8080";
-        //let url="http://192.168.1.124:8080";
+
+        let that = this;
+        let url = "http://vertedero.aguaseo.com:8080";
+
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
-        let that = this;
+
         router.events.subscribe((event: any) => {
             if (event instanceof RoutesRecognized) {
-                let isPublic = that.isPublic(event.state.root.children[0].component['name']);
-                if (isPublic && !localStorage.getItem('bearer')) {
-                    that.myglobal.init=true;
-                }
-                else if (isPublic && localStorage.getItem('bearer')) {
+                let componentName =  event.state.root.children[0].component['name'];
+                let isPublic = that.isPublic(componentName);
+
+                if (isPublic && that.myglobal.dataSesion.valid) {
                     let link = ['/dashboard', {}];
                     that.router.navigate(link);
                 }
-                else if (!isPublic && !localStorage.getItem('bearer')) {
-                    that.saveUrl = event.url;
-                    let link = ['/auth/login', {}];
-                    that.router.navigate(link);
+                else if (!isPublic && !that.myglobal.dataSesion.valid) {
+                    let link:any;
+                    if(localStorage.getItem('bearer')){
+                        if(componentName!='LoadComponent')
+                        {
+                            that.myglobal.saveUrl = event.url;
+                            link = ['/auth/load', {}];
+                            that.router.navigate(link);
+                        }
+                    }
+                    else{
+                        that.myglobal.saveUrl = event.url;
+                        link = ['/auth/login', {}];
+                        that.router.navigate(link);
+                    }
                 }
-                else if (that.saveUrl) {
-                    let link = [that.saveUrl, {}];
-                    that.saveUrl = null;
+                else if (that.myglobal.saveUrl && !isPublic) {
+                    let link = [that.myglobal.saveUrl, {}];
+                    that.myglobal.saveUrl = null;
                     that.router.navigate(link);
                 }
 
-                if (that.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE') && (that.myglobal.init && localStorage.getItem('bearer'))) {
+                if (that.myglobal.dataSesion.valid && that.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE')) {
                     localStorage.setItem('VERSION_CACHE', that.myglobal.getParams('VERSION_CACHE'));
                     location.reload(true);
                 }
@@ -78,7 +87,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.cdRef.detectChanges();
     }
     @HostListener('window:resize') onResize() {
-        console.log("preuba");
+        //TODO:Cambiar menu
     }
 
     public urlPublic = ['LoginComponent', 'ActivateComponent', 'RecoverComponent', 'RecoverPasswordComponent'];
@@ -98,7 +107,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         event.preventDefault();
         let that = this;
         let successCallback = (response: any) => {
-            this.myglobal.init= false;
+            this.myglobal.dataSesionInit();
             localStorage.removeItem('bearer');
             contentHeaders.delete('Authorization');
             this.menuItems.setValue([]);
