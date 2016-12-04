@@ -6,7 +6,7 @@ import {AngularFireModule} from 'angularfire2';
 import {FirebaseModule} from 'ng2-firebase/core';
 import './rxjs-extensions';
 
-import {AppRoutingModule, componentsApp,componentsDefault} from './app-routing.module';
+import {AppRoutingModule, componentsApp, componentsDefault, componentsView} from './app-routing.module';
 import {globalService} from "./com.zippyttech.utils/globalService";
 import {AppComponent} from "./com.zippyttech.base/app/app.component";
 import {LocationStrategy,HashLocationStrategy} from "@angular/common";
@@ -32,6 +32,7 @@ const myFirebaseConfig = {
         AppComponent,
         componentsApp,
         componentsDefault,
+        componentsView,
         directivesApp,
         directivesDefault
     ],
