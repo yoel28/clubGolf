@@ -24,11 +24,11 @@ export class XCropit implements OnInit{
             'margin-top': '7px',
             'width': '150px',
             'height': '150px',
-        })
-        that.find('.cropit-preview-image-container').css({'cursor': 'move'})
-        that.find('.image-size-label').css({'margin-top': '10px'})
-        that.find('input, .export').css({'display':'block'})
-        that.find('button').css({'margin-top':'10px'})
+        });
+        that.find('.cropit-preview-image-container').css({'cursor': 'move'});
+        that.find('.image-size-label').css({'margin-top': '10px'});
+        that.find('input, .export').css({'display':'block'});
+        that.find('button').css({'margin-top':'10px'});
 
         that.cropit({
             onImageLoaded:function () {
