@@ -1,4 +1,4 @@
-import {ElementRef, Directive, EventEmitter} from "@angular/core";
+import {ElementRef, Directive, EventEmitter, OnInit} from "@angular/core";
 import {FormControl} from "@angular/forms";
 
 declare var jQuery:any;
