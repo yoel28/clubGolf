@@ -1,7 +1,7 @@
 import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
 import { Router }           from '@angular/router';
 import { Http} from '@angular/http';
-import {XEditableDirective} from "../../../com.zippyttech.utils/directive/xEditable";
+import {XEditable} from "../../../com.zippyttech.utils/directive/xEditable";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
@@ -10,7 +10,7 @@ import {ImageEditComponent} from "../../../com.zippyttech.ui/components/imageEdi
 
 declare var SystemJS:any;
 @NgModule({
-    imports:[XEditableDirective,ImageEditComponent]
+    imports:[XEditable,ImageEditComponent]
 })
 @Component({
     selector: 'user-profile',
