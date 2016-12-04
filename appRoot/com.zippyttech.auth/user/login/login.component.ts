@@ -49,11 +49,9 @@ export class LoginComponent extends RestController implements OnInit{
         }
         let successCallback = (response:any) => {
             that.submitForm = false;
-            that.myglobal.init=false;
             localStorage.setItem('bearer', response.json().access_token);
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
-            that.myglobal.initSession();
-            let link = ['/dashboard', {}];
+            let link = ['/auth/load', {}];
             that.router.navigate(link);
         };
         this.httputils.doPost(this.endpoint, body, successCallback, errorLogin);
