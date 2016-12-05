@@ -15,6 +15,7 @@ import {TooltipComponent} from "./com.zippyttech.ui/components/tooltips/tooltips
 import {TablesComponent} from "./com.zippyttech.ui/components/tables/tables.component";
 import {SearchComponent} from "./com.zippyttech.ui/components/search/search.component";
 import {FilterComponent} from "./com.zippyttech.ui/components/filter/filter.component";
+import {SaveComponent} from "./com.zippyttech.ui/components/save/save.component";
 
 const routesDefault: Routes = [
     {
@@ -83,7 +84,8 @@ export const componentsView = [
     TooltipComponent,
     TablesComponent,
     SearchComponent,
-    FilterComponent
+    FilterComponent,
+    SaveComponent
 ]
 export const componentsApp = [];
 export const componentsPublic = [
