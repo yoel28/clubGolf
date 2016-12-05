@@ -1,12 +1,8 @@
-import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
-import {BaseViewComponent} from "../../com.zippyttech.ui/view/base/baseView.component";
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RuleModel} from "./rule.model";
 
 declare var SystemJS:any;
-@NgModule({
-    imports:[BaseViewComponent]
-})
 @Component({
     selector: 'rule',
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',

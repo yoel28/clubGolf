@@ -204,25 +204,25 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'visible': this.myglobal.existsPermission(['MEN_EVENT']),
                         'icon': 'fa fa-user',
                         'title': 'Eventos',
-                        'routerLink': 'Event'
+                        'routerLink': '/business/event'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_INFO']),
                         'icon': 'fa fa-user',
                         'title': 'Información',
-                        'routerLink': 'Info'
+                        'routerLink': '/business/info'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_PARAM']),
                         'icon': 'fa fa-user',
                         'title': 'Parametros',
-                        'routerLink': 'Param'
+                        'routerLink': '/business/param'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_RULE']),
                         'icon': 'fa fa-user',
                         'title': 'Reglas',
-                        'routerLink': 'Rule'
+                        'routerLink': '/business/rule'
                     },
                 ]
             });

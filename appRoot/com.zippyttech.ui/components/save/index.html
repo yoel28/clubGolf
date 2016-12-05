@@ -31,7 +31,7 @@
                                                                        [readonly]="rules[key].readOnly"
                                                                 >
 
-                                                                <input *ngIf="rules[key].type == 'color'" color-picker class="form-control" [hex]="data[key]" readonly>
+                                                                <input *ngIf="rules[key].type == 'color'" color-picker class="form-control" [hexControl]="data[key]" readonly>
 
                                                                 <textarea *ngIf="rules[key].type == 'textarea'" formControlName="{{key}}" class="form-control" rows="5"
                                                                           formControlName="{{key}}"

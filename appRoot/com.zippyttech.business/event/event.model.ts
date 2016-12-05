@@ -28,8 +28,8 @@ export class EventModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'code',
             'icon': 'fa fa-key',
-            'title': 'Codigo',
-            'placeholder': 'Codigo',
+            'title': 'Código',
+            'placeholder': 'Código',
         }
         this.rules['actionType']={
             'type': 'select',
@@ -40,19 +40,19 @@ export class EventModel extends ModelBase{
             'source': [],
             'key': 'actionType',
             'title': 'Tipo de acción',
-            'placeholder': 'Selecccione un tipo de acccion',
+            'placeholder': 'Selecccione un tipo de accción',
         }
         this.rules['way']={
-                'type': 'select',
-                'required':true,
-                'update':this.permissions.update,
-                'search':this.permissions.filter,
-                'visible':this.permissions.visible,
-                'source': [],
-                'key': 'way',
-                'title': 'Canal',
-                'placeholder': 'Selecccione un canal',
-            }
+            'type': 'select',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'source': [],
+            'key': 'way',
+            'title': 'Canal',
+            'placeholder': 'Selecccione un canal',
+        }
         this.rules['over']={
             'type': 'select',
             'required':true,
@@ -90,20 +90,30 @@ export class EventModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'target',
             'icon': 'fa fa-key',
-            'title': 'Objectivo',
-            'placeholder': 'Objetivo',
-        }
+            'title': 'Target',
+            'placeholder': 'Destino donde se enviara el mensaje',
+        };
+        this.rules['trigger']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'trigger',
+            'icon': 'fa fa-key',
+            'title': 'Trigger',
+            'placeholder': 'Trigger',
+        };
         this.rules['title']={
             'type': 'text',
-            'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'title',
             'icon': 'fa fa-key',
-            'title': 'Titulo',
-            'placeholder': 'Titulo',
+            'title': 'Asunto',
+            'placeholder': 'Asunto',
         }
+
         this.rules['icon']={
             'type': 'text',
             'required':false,

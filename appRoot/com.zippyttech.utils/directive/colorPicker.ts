@@ -4,39 +4,40 @@ import {FormControl} from "@angular/forms";
 declare var jQuery:any;
 @Directive({
     selector: "[color-picker]",
-    inputs:['hex'],
+    inputs:['hexControl','hexString'],
     outputs:['color']
 })
 export class ColorPicker implements OnInit{
     public hide:any;
-    public hex:FormControl;
+    public hexControl:FormControl;
+    public hexString:String;
     public color:any;
 
     constructor(public element:ElementRef) {
-        this.hex = new FormControl('');
+        this.hexControl = new FormControl('');
         this.color = new EventEmitter();
     }
     ngOnInit(){
         let that = this;
-
         jQuery(this.element.nativeElement).ColorPicker({
-            color: that.hex.value,
+            color: that.hexControl.value || this.hexString,
             onShow: function (colpkr) {
                 jQuery(colpkr).fadeIn(500);
                 return false;
             },
             onHide: function (colpkr) {
-                that.color.emit(that.hex.value);
+                that.color.emit(that.hexControl.value || that.hexString);
                 jQuery(colpkr).fadeOut(500);
                 return false;
             },
             onChange: function (hsb, hex, rgb) {
-                that.hex.setValue(hex);
-                jQuery(that.element.nativeElement).css('backgroundColor', '#' + that.hex.value);
-                jQuery(that.element.nativeElement).val('#'+that.hex.value);
+                that.hexControl.setValue(hex);
+                that.hexString=hex;
+                jQuery(that.element.nativeElement).css('backgroundColor', '#' + (that.hexControl.value || this.hexString));
+                jQuery(that.element.nativeElement).val('#'+(that.hexControl.value || this.hexString));
             }
         })
-        jQuery(that.element.nativeElement).css('backgroundColor', '#' + that.hex.value);
-        jQuery(that.element.nativeElement).val('#'+that.hex.value);
+        jQuery(that.element.nativeElement).css('backgroundColor', '#' + (that.hexControl.value || this.hexString));
+        jQuery(that.element.nativeElement).val('#'+(that.hexControl.value || this.hexString));
     }
 }

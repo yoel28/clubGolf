@@ -17,6 +17,10 @@ import {SearchComponent} from "./com.zippyttech.ui/components/search/search.comp
 import {FilterComponent} from "./com.zippyttech.ui/components/filter/filter.component";
 import {SaveComponent} from "./com.zippyttech.ui/components/save/save.component";
 import {RoleComponent} from "./com.zippyttech.auth/role/role.component";
+import {EventComponent} from "./com.zippyttech.business/event/event.component";
+import {InfoComponent} from "./com.zippyttech.business/info/info.component";
+import {RuleComponent} from "./com.zippyttech.business/rule/rule.component";
+import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 
 const routesDefault: Routes = [
     {
@@ -64,6 +68,22 @@ const routesDefault: Routes = [
         path: 'auth/role',
         component: RoleComponent
     },
+    {
+        path: 'business/event',
+        component: EventComponent
+    },
+    {
+        path: 'business/info',
+        component: InfoComponent
+    },
+    {
+        path: 'business/rule',
+        component: RuleComponent
+    },
+    {
+        path: 'business/param',
+        component: ParamComponent
+    },
 ];
 const routesApp: Routes = [];
 @NgModule({
@@ -82,7 +102,11 @@ export const componentsDefault = [
     ProfileComponent,
     LoadComponent,
     PermissionComponent,
-    RoleComponent
+    RoleComponent,
+    EventComponent,
+    InfoComponent,
+    RuleComponent,
+    ParamComponent
 ];
 export const componentsView = [
     ImageEditComponent,
