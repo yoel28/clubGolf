@@ -16,6 +16,7 @@ import {TablesComponent} from "./com.zippyttech.ui/components/tables/tables.comp
 import {SearchComponent} from "./com.zippyttech.ui/components/search/search.component";
 import {FilterComponent} from "./com.zippyttech.ui/components/filter/filter.component";
 import {SaveComponent} from "./com.zippyttech.ui/components/save/save.component";
+import {RoleComponent} from "./com.zippyttech.auth/role/role.component";
 
 const routesDefault: Routes = [
     {
@@ -59,6 +60,10 @@ const routesDefault: Routes = [
         path: 'auth/load',
         component: LoadComponent
     },
+    {
+        path: 'auth/role',
+        component: RoleComponent
+    },
 ];
 const routesApp: Routes = [];
 @NgModule({
@@ -76,7 +81,8 @@ export const componentsDefault = [
     AclComponent,
     ProfileComponent,
     LoadComponent,
-    PermissionComponent
+    PermissionComponent,
+    RoleComponent
 ];
 export const componentsView = [
     ImageEditComponent,

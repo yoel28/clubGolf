@@ -16,7 +16,7 @@ export class RoleModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'reference',
-            'title': 'ROLE_',
+            'title': 'ROLE',
             'prefix':'ROLE_',
             'placeholder': 'Nombre del perfil',
         };
