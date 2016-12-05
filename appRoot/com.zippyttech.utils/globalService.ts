@@ -74,6 +74,9 @@ export class globalService extends RestController{
             Object.assign(that.user, response.json());
             that.dataSesion.value.token.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
+            let data = that.user.username.split('/');
+            that.user.username=data[1];
+            that.user.companyName=data[0];
             that.loadUser();
         };
         this.httputils.doGet('/validate',successCallback,this.error);
@@ -86,7 +89,7 @@ export class globalService extends RestController{
             that.dataSesion.setValue(that.dataSesion.value);
 
         };
-        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"]]');
+        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["op":"eq","field":"company.name","value":"'+this.user.company+'"]]');
         this.httputils.doGet('/users?where='+where, successCallback,this.error);
     };
     loadMyPermissions():any{
@@ -133,11 +136,11 @@ export class globalService extends RestController{
     }
 
 
-    getParams(key:string):string{
+    getParams(code:string):string{
         let that = this;
         let valor="";
         Object.keys(this.params || {}).forEach(index=>{
-            if(that.params[index].key==key){
+            if(that.params[index].code==code){
                 valor=that.params[index].value;
                 return;
             }
