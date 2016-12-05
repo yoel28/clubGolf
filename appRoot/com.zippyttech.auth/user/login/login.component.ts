@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
-import {Router}           from '@angular/router';
+import {Router, ActivatedRoute}           from '@angular/router';
 import {Http} from '@angular/http';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
@@ -20,29 +20,36 @@ export class LoginComponent extends RestController implements OnInit{
     public submitForm:boolean = false;
     public msg=StaticValues.msg;
     public pathElements = StaticValues.pathElements;
+    public company:string;
     
     form:FormGroup;
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire) {
+    constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
         super(http);
         this.af.auth.subscribe(auth => console.log(auth));
         this.setEndpoint("/login");
     }
     ngOnInit(){
         this.initForm();
+        this.company=this.routeActive.snapshot.params['company'];
+        if(this.company){
+            (<FormControl>this.form.controls['company']).setValue(this.company);
+        }
     }
 
     initForm() {
         this.form = new FormGroup({
             username:new FormControl ("", Validators.compose([Validators.required])),
-            password: new FormControl ("", Validators.compose([Validators.required]))
+            password: new FormControl ("", Validators.compose([Validators.required])),
+            company: new FormControl ("", Validators.compose([Validators.required]))
         });
     }
 
     login(event:Event) {
         event.preventDefault();
         let that=this;
-        let body = JSON.stringify(this.form.value);
+        let body = this.form.value;
+        body['username'] = body['company']+'/'+body['username'];
         this.submitForm = true;
         let errorLogin = (error:any)=> {
             that.submitForm = false;
@@ -54,7 +61,7 @@ export class LoginComponent extends RestController implements OnInit{
             let link = ['/auth/load', {}];
             that.router.navigate(link);
         };
-        this.httputils.doPost(this.endpoint, body, successCallback, errorLogin);
+        this.httputils.doPost(this.endpoint, JSON.stringify(body), successCallback, errorLogin);
     }
     onRecover(event:Event){
         if(event)
