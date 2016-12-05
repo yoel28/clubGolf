@@ -30,7 +30,7 @@ System.config({
 
     // other libraries
     'rxjs':                      'npm:rxjs',
-    'ng2-translate':             'npm:ng2-translate/bundles/ng2-translate.js',
+    'ng2-translate':             'npm:ng2-translate/bundles/ng2-translate.umd.js',
     'angularfire2':              'npm:angularfire2/bundles/angularfire2.umd.js',
     'firebase':                  'npm:firebase/firebase.js',
     'ng2-firebase/core':         'npm:ng2-firebase/core.js'

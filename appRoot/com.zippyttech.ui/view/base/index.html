@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">
-                        {{viewOptions.title | translate }}<tooltip [code]="model.prefix+'_1'"></tooltip>
+                        {{viewOptions.title | translate }}<tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
                     </h3>
                     <div class="pull-right" *ngIf="viewOptions['buttons']">
                         <button *ngFor="let buttom of getViewOptionsButtons()"
@@ -13,12 +13,12 @@
                             <i class="{{buttom.icon}}"></i>
                             {{buttom.title | translate}}
                         </button>
-                        <tooltip [code]="model.prefix+'_2'"></tooltip>
+                        <tooltip-view [code]="model.prefix+'_2'"></tooltip-view>
                     </div>
                 </div>
                 <div *ngIf="model.permissions.list" class="box-body">
                     <div *ngIf="dataList && dataList.count>0">
-                        <tables [dataList]="dataList" [model]="model" [params]="paramsTable" [where]="where"></tables>
+                        <tables-view [dataList]="dataList" [model]="model" [params]="paramsTable" [where]="where"></tables-view>
                     </div>
                     <div *ngIf="dataList && dataList.count == 0">
                         <div class="alert alert-warning alert-dismissable">
@@ -29,7 +29,7 @@
                 </div>
                 <div *ngIf="!model.permissions.list">
                     <div class="btn-red padding-error">
-                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip [code]="model.prefix+'_3'"></tooltip></strong></h5>
+                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
                         {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_LIST
                     </div>
                 </div>
@@ -37,10 +37,10 @@
         </section>
     </div>
     <div *ngIf="model.permissions.add">
-        <save [params]="model.paramsSave" [rules]="model.rulesSave" (save)="setLoadData($event)"></save>
+        <save-view [params]="model.paramsSave" [rules]="model.rulesSave" (save)="setLoadData($event)"></save-view>
     </div>
     <div *ngIf="model.permissions.filter">
-        <filter [params]="model.paramsSearch" [rules]="model.rules" (whereFilter)="loadWhere($event)"></filter>
+        <filter-view [params]="model.paramsSearch" [rules]="model.rules" (whereFilter)="loadWhere($event)"></filter-view>
     </div>
 </div>
 
@@ -51,7 +51,7 @@
         <div class="modal-content">
             <div class="modal-header btn-red text-center">
                 <h4 class="modal-title">
-                    <i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate | uppercase}}<tooltip [code]="model.prefix+'_4'"></tooltip></strong></h4>
+                    <i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate | uppercase}}<tooltip-view [code]="model.prefix+'_4'"></tooltip-view></strong></h4>
             </div>
             <div class="modal-body">
                 {{msg.warningBody | translate}}

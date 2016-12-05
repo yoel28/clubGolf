@@ -1,19 +1,12 @@
-import {Component, EventEmitter, OnInit, AfterViewInit, NgModule} from "@angular/core";
+import {Component, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
 import {Http} from "@angular/http";
 
-import {XCropit} from "../../../com.zippyttech.utils/directive/xCropit";
-import {XFile} from "../../../com.zippyttech.utils/directive/xFile";
-import {ColorPicker} from "../../../com.zippyttech.utils/directive/colorPicker";
-import {DatePicker} from "../../../com.zippyttech.utils/directive/datePicker";
-import {SmDropdown} from "../../../com.zippyttech.utils/directive/smDropDown";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+
 declare var SystemJS:any;
-@NgModule({
-    imports:[XCropit,XFile,ColorPicker,DatePicker,SmDropdown],
-})
 @Component({
     selector: 'save-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/save/index.html',
@@ -33,10 +26,10 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     public save:any;
     public getInstance:any;
 
-    form:FormGroup;
-    data:any = {};
-    keys:any = {};
-    public baseWeight=1;
+    public form:FormGroup;
+    public data:any = {};
+    public keys:any = {};
+
     public delete=false;
 
 
@@ -47,10 +40,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         this.getInstance = new EventEmitter();
     }
     ngOnInit(){
-        this.baseWeight = parseFloat(this.myglobal.getParams('BASE_WEIGHT_INDICADOR') || '1');
-        this.baseWeight = this.baseWeight >0?this.baseWeight:1;
         this.initForm();
-
     }
     ngAfterViewInit(){
         this.getInstance.emit(this);
@@ -139,7 +129,6 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         let successCallback= response => {
             that.resetForm();
             that.save.emit(response.json());
-            that.toastr.success('Guardado con éxito','Notificación')
         };
         this.setEndpoint(this.params.endpoint);
         let body = this.form.value;
@@ -155,7 +144,6 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
             {
                 body[key] = that.rules[key].prefix + body[key];
             }
-
         });
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
@@ -188,7 +176,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     }
     //accion al seleccion un parametro del search
     getDataSearch(data){
-        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail,'balance':data.balance || null,'minBalance':data.minBalance || null};
+        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail};
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
@@ -221,8 +209,6 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         let that = this;
         let successCallback= response => {
             let val = response.json()[data.refreshField.field];
-            if(data.refreshField.field=='weight')
-                val = val / this.baseWeight;
             that.data[data.key].setValue(val);
         }
         this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
@@ -258,7 +244,6 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     }
     loadDate(data,key){
         this.data[key].setValue(data);
-
     }
 }
 

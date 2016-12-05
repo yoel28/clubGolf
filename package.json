@@ -54,7 +54,7 @@
     "ng2-select": "1.0.3",
     "ng2-toastr": "^0.2.0",
     "ng2-toasty": "^1.8.0",
-    "ng2-translate": "2.2.2",
+    "ng2-translate": "^4.0.1",
     "ng2-uploader": "^0.5.2",
     "pdfkit": "^0.7.2",
     "reflect-metadata": "^0.1.8",

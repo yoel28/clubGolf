@@ -1,19 +1,11 @@
-import {Component, EventEmitter, OnInit, NgModule} from "@angular/core";
+import {Component, EventEmitter, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
-import {SearchComponent} from "../search/search.component";
-import {SaveComponent} from "../save/save.component";
-import {TooltipComponent} from "../tooltips/tooltips.component";
-import {XEditable} from "../../../com.zippyttech.utils/directive/xEditable";
-import {ColorPicker} from "../../../com.zippyttech.utils/directive/colorPicker";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 
 declare var SystemJS:any;
 declare var moment:any;
-@NgModule({
-    imports:[XEditable,ColorPicker,SearchComponent,SaveComponent,TooltipComponent]
-})
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',

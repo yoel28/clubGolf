@@ -1,17 +1,12 @@
-import {Component, EventEmitter, OnInit, NgModule} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {FormGroup, FormControl} from "@angular/forms";
 import {Http} from "@angular/http";
 
 import {isNumeric} from "rxjs/util/isNumeric";
-import {SmDropdown} from "../../../com.zippyttech.utils/directive/smDropDown";
-import {DateRangePicker} from "../../../com.zippyttech.utils/directive/dateRangePicker";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 
 declare var SystemJS:any;
-@NgModule({
-    imports:[SmDropdown,DateRangePicker]
-})
 @Component({
     selector: 'filter-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/filter/index.html',

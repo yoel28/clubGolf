@@ -9,14 +9,10 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 
 declare var SystemJS:any;
-@NgModule({
-    imports: [FilterComponent,TablesComponent,SaveComponent,TooltipComponent],
-})
 @Component({
     selector: 'base-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/view/base/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
-    //providers: [TranslateService],
     inputs:['instance'],
 })
 export class BaseViewComponent extends ControllerBase implements OnInit {

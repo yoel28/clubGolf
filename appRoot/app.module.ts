@@ -1,9 +1,10 @@
-import {NgModule, enableProdMode} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {HttpModule, Http} from '@angular/http';
 import {AngularFireModule} from 'angularfire2';
 import {FirebaseModule} from 'ng2-firebase/core';
+import {TranslateLoader,TranslateStaticLoader,TranslateModule} from 'ng2-translate';
 import './rxjs-extensions';
 
 import {AppRoutingModule, componentsApp, componentsDefault, componentsView} from './app-routing.module';
@@ -26,7 +27,12 @@ const myFirebaseConfig = {
         ReactiveFormsModule,
         AppRoutingModule,
         HttpModule,
-        AngularFireModule.initializeApp(myFirebaseConfig)
+        AngularFireModule.initializeApp(myFirebaseConfig),
+        TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+            deps: [Http]
+        })
     ],
     declarations: [
         AppComponent,

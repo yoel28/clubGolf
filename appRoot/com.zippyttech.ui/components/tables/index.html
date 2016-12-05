@@ -4,7 +4,7 @@
             <th *ngFor="let key of keyVisible()" >
                 {{model.rules[key].title}}
             </th>
-            <th *ngIf="params.actions">&nbsp;<tooltip [code]="model.prefix+'_5'"></tooltip></th>
+            <th *ngIf="params.actions">&nbsp;<tooltip-view [code]="model.prefix+'_5'"></tooltip-view></th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@
                                  >
                                      <i class="fa fa-minus text-red"></i>
                                  </button>
-                                 <tooltip [code]="model.prefix+'_6'"></tooltip>
+                                 <tooltip-view [code]="model.prefix+'_6'"></tooltip-view>
                              </span>
                              <span *ngIf="model.rules[key].reference">
 
@@ -79,13 +79,13 @@
                                          title="Liberar">
                                      <i class="fa fa-minus text-red"></i>
                                  </button>
-                                 <tooltip [code]="model.prefix+'_7'"></tooltip>
+                                 <tooltip-view [code]="model.prefix+'_7'"></tooltip-view>
                              </span>
                          </label>
                      </a>
                 </span>
                 <span *ngIf="getDisabledField(key,data)">
-                    <label class="label label-orange">N/A</label><tooltip [code]="model.prefix+'_8'"></tooltip>
+                    <label class="label label-orange">N/A</label><tooltip-view [code]="model.prefix+'_8'"></tooltip-view>
                 </span>
 
             </td>
@@ -162,7 +162,7 @@
                     <button (click)="loadData(val)" [class.btn-green]="val==((offset/max)+1)" *ngFor="let val of dataList.page" type="button" class="btn btn-default">
                         {{val}}
                     </button>
-                    <tooltip [code]="model.prefix+'_9'"></tooltip>
+                    <tooltip-view [code]="model.prefix+'_9'"></tooltip-view>
                 </div>
             </td>
         </tr>
@@ -179,7 +179,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel"><i
-                            class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle}}&nbsp;<tooltip [code]="model.prefix+'_10'"></tooltip></strong></h4>
+                            class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle}}&nbsp;<tooltip-view [code]="model.prefix+'_10'"></tooltip-view></strong></h4>
                 </div>
                 <div class="modal-body">
                     {{params.actions.delete.message}} <strong>'{{dataSelect[params.actions.delete.keyAction]}}'</strong> ?
@@ -196,16 +196,16 @@
 </div>
 
 <div *ngFor="let key of getKeys(modelSave)">
-    <save [rules]="modelSave[key].rulesSave" [params]="modelSave[key].paramsSave" (save)="getDataSave($event,key)"> </save>
+    <save-view [rules]="modelSave[key].rulesSave" [params]="modelSave[key].paramsSave" (save)="getDataSave($event,key)"> </save-view>
 </div>
 
 <div *ngIf="searchTable && searchTable.idModal">
-    <search [params]="searchTable" (result)="getDataSearch($event)"></search>
+    <search-view [params]="searchTable" (result)="getDataSearch($event)"></search-view>
 </div>
 
 <div *ngIf="modelReference && modelReference.paramsSave">
-    <save [rules]="modelReference.rulesSave" [params]="modelReference.paramsSave" (save)="setDataFieldReference($event)"> </save>
+    <save-view [rules]="modelReference.rulesSave" [params]="modelReference.paramsSave" (save)="setDataFieldReference($event)"> </save-view>
 </div>
 <div *ngIf="modelReference && modelReference.paramsSearch">
-    <search [params]="modelReference.paramsSearch" (result)="setDataFieldReference($event)"></search>
+    <search-view [params]="modelReference.paramsSearch" (result)="setDataFieldReference($event)"></search-view>
 </div>
