@@ -4,6 +4,7 @@ import {XCropit} from "./com.zippyttech.utils/directive/xCropit";
 import {XFile} from "./com.zippyttech.utils/directive/xFile";
 import {DatePicker} from "./com.zippyttech.utils/directive/datePicker";
 import {SmDropdown} from "./com.zippyttech.utils/directive/smDropDown";
+import {DateRangePicker} from "./com.zippyttech.utils/directive/dateRangePicker";
 
 export const directivesDefault = [
     ColorPicker,
@@ -11,6 +12,7 @@ export const directivesDefault = [
     XCropit,
     XFile,
     DatePicker,
-    SmDropdown
+    SmDropdown,
+    DateRangePicker,
 ];
 export const directivesApp = [];
