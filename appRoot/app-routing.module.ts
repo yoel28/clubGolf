@@ -68,4 +68,12 @@ export const componentsDefault = [
 export const componentsView=[
   ImageEditComponent
 ]
-export const componentsApp = [];
+export const componentsApp = [
+
+];
+export const componentsPublic = [
+    'LoginComponent',
+    'ActivateComponent',
+    'RecoverComponent',
+    'RecoverPasswordComponent'
+];
