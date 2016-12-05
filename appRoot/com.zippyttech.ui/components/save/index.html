@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form role="form" [ngFormModel]="form"  [class.col-lg-5]="search.object" *ngIf="keys && keys.length > 0">
+                            <form role="form" [formGroup]="form"  [class.col-lg-5]="search.object" *ngIf="keys && keys.length > 0">
                                 <div  *ngFor="let key of keys">
                                     <div *ngIf="rules[key]">
                                         <div *ngIf="!rules[key].object || (rules[key].object && rules[key].permissions.list)" class="col-lg-12">
@@ -24,8 +24,8 @@
                                                                 <label *ngIf="rules[key].required" class="text-red">&nbsp;*</label>
                                                                 </span>
 
-                                                                <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'" ngControl="{{key}}" class="form-control"
-                                                                       [(ngModel)]="data[key].value"
+                                                                <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'" formControlName="{{key}}" class="form-control"
+                                                                       formControlName="{{key}}"
                                                                        placeholder="{{rules[key].placeholder}}"
                                                                        type="{{rules[key].type}}" [attr.aria-describedby]="key"
                                                                        [readonly]="rules[key].readOnly"
@@ -33,18 +33,18 @@
 
                                                                 <input *ngIf="rules[key].type == 'color'" color-picker class="form-control" [hex]="data[key]" readonly>
 
-                                                                <textarea *ngIf="rules[key].type == 'textarea'" ngControl="{{key}}" class="form-control" rows="5"
-                                                                          [(ngModel)]="data[key].value"
+                                                                <textarea *ngIf="rules[key].type == 'textarea'" formControlName="{{key}}" class="form-control" rows="5"
+                                                                          formControlName="{{key}}"
                                                                           placeholder="{{rules[key].placeholder}}"
                                                                           [readonly]="rules[key].readOnly">
 
                                                                 </textarea>
 
-                                                                <input *ngIf="rules[key].type == 'date'" datepicker
+                                                                <input *ngIf="rules[key].type == 'date'" date-picker
                                                                        [format]="rules[key].format" (fecha)="loadDate($event,key)"
                                                                        [attr.value]="rules[key].title" type="text" class="form-control">
 
-                                                                <select sm-dropdown *ngIf="rules[key].type == 'select' || rules[key].type == 'boolean'" [(ngModel)]="data[key].value" (ngModelChange)="setValueSelect($event,key)" class="ui fluid search selection dropdown">
+                                                                <select sm-dropdown *ngIf="rules[key].type == 'select' || rules[key].type == 'boolean'" formControlName="{{key}}" class="ui fluid search selection dropdown">
                                                                     <option value="-1">{{rules[key].placeholder || 'Seleccione una opción'}}</option>
                                                                     <option *ngFor="let n of rules[key].source"  [attr.value]="n.id || n.value"
                                                                             [selected]="data[key].value==n.id || data[key].value==n.value">
