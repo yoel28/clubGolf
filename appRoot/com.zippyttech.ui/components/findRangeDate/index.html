@@ -10,7 +10,7 @@
     </div>
     <div class="col-lg-5">
         Rango
-        <div daterangepicker [params]="paramsDate" class="form-control rango" (fecha)="assignDate($event)">
+        <div date-range-picker [params]="paramsDate" class="form-control rango" (fecha)="assignDate($event)">
             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
             <span *ngIf="control.value.start && control.value.end">
                 {{(control.value.start || 'Inicio') +' - '+ (control.value.end || 'Fin') }}
