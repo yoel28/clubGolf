@@ -1,6 +1,6 @@
 system-config.js*
-app/**/*.js
-app/**/*.map
+appRoot/**/*.js
+appRoot/**/*.map
 node_modules
 jspm_packages
 bower_components
@@ -13,4 +13,3 @@ yarn.lock
 aot/
 dist/
 .idea/
-index.html
