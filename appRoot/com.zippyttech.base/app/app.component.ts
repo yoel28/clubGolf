@@ -200,7 +200,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ACCOUNT']),
-                        'icon': 'fa fa-factory',
+                        'icon': 'fa fa-building',
                         'title': 'Cuentas',
                         'routerLink': '/auth/account'
                     },
