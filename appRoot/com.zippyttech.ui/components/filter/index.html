@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12 margin-bottom">
-                        <form role="form" [ngFormModel]="form"  [class.col-lg-5]="search.object">
+                        <form role="form" [formGroup]="form"  [class.col-lg-5]="search.object">
                             <div *ngFor="let key of keys">
                                 <div *ngIf="rules[key].search">
                                     <div class="col-lg-12">
@@ -21,13 +21,11 @@
                                                         <div *ngIf="rules[key].type=='text' || rules[key].type=='number' || rules[key].type=='time' || rules[key].type=='textarea' " class="row">
                                                             <i class="{{rules[key].icon || 'fa fa-list'}}"></i>
                                                             <input  *ngIf="rules[key].type!='time'"
-                                                                    ngControl="{{key}}" class="form-control"
-                                                                    [(ngModel)]="data[key].value"
+                                                                    formControlName="{{key}}" class="form-control"
                                                                     placeholder="{{rules[key].placeholder}}"
                                                                     type="{{rules[key].type}}">
                                                             <input  *ngIf="rules[key].type=='time'"
-                                                                    ngControl="{{key}}" class="form-control"
-                                                                    [(ngModel)]="data[key].value"
+                                                                    formControlName="{{key}}" class="form-control"
                                                                     placeholder="{{rules[key].placeholder}}"
                                                                     type="number">
 
@@ -38,7 +36,7 @@
                                                         </div>
 
                                                         <div *ngIf="rules[key].type=='date'" class="row">
-                                                            <div daterangepicker [params]="paramsDate" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" (fecha)="assignDate($event,key)">
+                                                            <div date-range-picker [params]="paramsDate" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" (fecha)="assignDate($event,key)">
                                                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                                                 <span *ngIf="data[key].value && data[key].value.start && data[key].value.end">{{(data[key].value.start || 'Inicio') +' - '+ (data[key].value.end || 'Fin') }}</span>
                                                                 <span *ngIf="!data[key].value.start">{{rules[key].title}}</span> <b class="caret"></b>
@@ -46,7 +44,7 @@
                                                         </div>
 
                                                         <div *ngIf="rules[key].type=='select' || rules[key].type=='boolean'" class="row">
-                                                            <select [(ngModel)]="data[key].value"  (ngModelChange)="setValueSelect($event,key)"  sm-dropdown class="ui fluid search selection dropdown">
+                                                            <select formControlName="{{key}}" sm-dropdown class="ui fluid search selection dropdown">
                                                                 <option value="-1">{{rules[key].placeholder || 'Seleccione una opción'}}</option>
                                                                 <option *ngFor="let n of rules[key].source"  [attr.value]="n.id || n.value" >{{n.text}}</option>
                                                             </select>
@@ -63,9 +61,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
-                                                <select [(ngModel)]="data[key+'Cond'].value"
-                                                        (ngModelChange)="setCondicion($event,key)" sm-dropdown
-                                                        class="ui fluid search selection dropdown">
+                                                <select formControlName="{{key+'Cond'}}" sm-dropdown class="ui fluid search selection dropdown">
                                                     <option *ngFor="let n of cond[rules[key].object?'object':rules[key].type]"
                                                             [attr.value]="n.id">{{n.text}}
                                                     </option>
