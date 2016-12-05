@@ -33,7 +33,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         super(http);
 
         let that = this;
-        let url = "https://dev.aguaseo.com:8080";
+        let url = "http://pescadorj:8080";
 
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
@@ -169,28 +169,40 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'routerLink': '/dashboard'
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_ACL','MEN_PERMISOS','MEN_ROLES']),
+                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(["MEN_ACL"]),
+                        'visible': this.myglobal.existsPermission(['MEN_USERS']),
+                        'icon': 'fa fa-user',
+                        'title': 'ACL',
+                        'routerLink': '/auth/user'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_ACL']),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
                         'routerLink': '/auth/acl'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(["MEN_PERMISOS"]),
+                        'visible': this.myglobal.existsPermission(['MEN_PERM']),
                         'icon': 'fa fa-user',
                         'title': 'Permisos',
                         'routerLink': '/auth/permission'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(["MEN_ROLES"]),
+                        'visible': this.myglobal.existsPermission(['MEN_ROLE']),
                         'icon': 'fa fa-user',
                         'title': 'Roles',
                         'routerLink': '/auth/role'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_ACCOUNT']),
+                        'icon': 'fa fa-factory',
+                        'title': 'Cuentas',
+                        'routerLink': '/auth/account'
                     },
                 ]
             });
