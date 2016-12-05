@@ -14,7 +14,7 @@
                 <div class="login-box-body">
                     <form role="form" [formGroup]="form" (submit)="login($event)">
                         <fieldset>
-                            <div class="form-group input-icon right" *ngIf="!company">
+                            <div class="form-group input-icon right" *ngIf="!context.company">
                                 <i class="fa fa-industry text-white"></i>
                                 <input formControlName="company" class="form-control input-control"
                                        placeholder="Compañia" type="text">
