@@ -10,6 +10,7 @@ import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
+import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -25,6 +26,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     public menuItems:FormControl;
 
     public activeMenuId: string;
+
+    public info:any;
 
     constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef) {
         super(http);
@@ -77,6 +80,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     ngOnInit():void{
         this.menuType=new FormControl(null);
         this.menuItems=new FormControl([]);
+    }
+    initModels(){
+        this.info = new InfoModel(this.myglobal);
+        this.info.rules['code'].readOnly=true;
+        this.info.paramsSave.updateField=true;
     }
     public ngAfterViewInit() {
 
@@ -140,6 +148,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if(!this.menuType.value)
         {
             this.loadMenu();
+            this.initModels();
             this.menuType.setValue({
                 'list':this.myglobal.getParams('MENU_LIST')=='1'?true:false,
                 'modal':this.myglobal.getParams('MENU_MODAL')=='1'?true:false,
@@ -239,5 +248,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         });
         data.unshift({'icon': 'fa fa-gears', 'title': 'General', 'key': 'General', 'treeview': datatemp});
         return data;
+    }
+
+    setInstance(instance, prefix) {
+        if (!this.myglobal.objectInstance[prefix])
+            this.myglobal.objectInstance[prefix] = {};
+        this.myglobal.objectInstance[prefix] = instance;
     }
 }
