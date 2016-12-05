@@ -20,7 +20,7 @@ export class LoginComponent extends RestController implements OnInit{
     public submitForm:boolean = false;
     public msg=StaticValues.msg;
     public pathElements = StaticValues.pathElements;
-    public company:string;
+    public context:any={'company':null,'public':{}};
     
     form:FormGroup;
 
@@ -31,10 +31,21 @@ export class LoginComponent extends RestController implements OnInit{
     }
     ngOnInit(){
         this.initForm();
-        this.company=this.routeActive.snapshot.params['company'];
-        if(this.company){
-            (<FormControl>this.form.controls['company']).setValue(this.company);
+        this.context.company=this.routeActive.snapshot.params['company'];
+        if(this.context.company){
+            this.loadContextPublic();
+            (<FormControl>this.form.controls['company']).setValue(this.context.company);
         }
+    }
+    loadContextPublic(){
+        let that = this;
+        let successCallback= response => {
+            Object.assign(that.context.public, response.json());
+            that.pathElements.logo = that.context.public.logo || that.pathElements.logo;
+            that.pathElements.logoBlanco = that.context.public.logo || that.pathElements.logo;
+            that.pathElements.isotipo = that.context.public.miniLogo || that.pathElements.isotipo;
+        };
+        this.httputils.doGet(localStorage.getItem('url')+'/context/'+this.context.company,successCallback,this.error,true);
     }
 
     initForm() {
@@ -48,7 +59,7 @@ export class LoginComponent extends RestController implements OnInit{
     login(event:Event) {
         event.preventDefault();
         let that=this;
-        let body = this.form.value;
+        let body = Object.assign({},this.form.value);
         body['username'] = body['company']+'/'+body['username'];
         this.submitForm = true;
         let errorLogin = (error:any)=> {
@@ -70,7 +81,6 @@ export class LoginComponent extends RestController implements OnInit{
         let link = ['/auth/recover', {}];
         this.router.navigate(link);
     }
-
     loginSocial(event:Event,social) {
         if(event)
             event.preventDefault();
