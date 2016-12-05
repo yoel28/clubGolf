@@ -9,6 +9,7 @@ import {Http} from "@angular/http";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {FormControl} from "@angular/forms";
+import {componentsPublic} from "../../app-routing.module";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -29,7 +30,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         super(http);
 
         let that = this;
-        let url = "http://vertedero.aguaseo.com:8080";
+        let url = "https://dev.aguaseo.com:8080";
 
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
@@ -81,22 +82,17 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     }
     ngDoCheck(){
-
+        this.cdRef.detectChanges();
     }
     ngAfterContentChecked(){
-        this.cdRef.detectChanges();
+
     }
     @HostListener('window:resize') onResize() {
         //TODO:Cambiar menu
     }
 
-    public urlPublic = ['LoginComponent', 'ActivateComponent', 'RecoverComponent', 'RecoverPasswordComponent'];
-
     public isPublic(component: string) {
-        let index = this.urlPublic.indexOf(component);
-        if (index > -1)
-            return true;
-        return false;
+        return componentsPublic.indexOf(component)>-1?true:false;
     }
 
     public validToken(): boolean {
@@ -111,6 +107,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             localStorage.removeItem('bearer');
             contentHeaders.delete('Authorization');
             this.menuItems.setValue([]);
+            this.menuType.setValue(null);
             this.activeMenuId = "";
             let link = ['/auth/login', {}];
             this.router.navigate(link);
@@ -154,7 +151,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         }
     }
     loadMenu() {
-        if (this.menuItems.value.length == 0) {
+        if (this.menuItems.value && this.menuItems.value.length == 0) {
 
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_DASHBOARD']),
@@ -236,11 +233,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         let datatemp = [];
         menu.forEach(obj=> {
             if (obj.treeview)
-                data.push(obj)
+                data.push(obj);
             else
-                datatemp.push(obj)
-        })
-        data.unshift({'icon': 'fa fa-gears', 'title': 'General', 'key': 'General', 'treeview': datatemp})
+                datatemp.push(obj);
+        });
+        data.unshift({'icon': 'fa fa-gears', 'title': 'General', 'key': 'General', 'treeview': datatemp});
         return data;
     }
 }
