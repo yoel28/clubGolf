@@ -21,6 +21,7 @@ import {EventComponent} from "./com.zippyttech.business/event/event.component";
 import {InfoComponent} from "./com.zippyttech.business/info/info.component";
 import {RuleComponent} from "./com.zippyttech.business/rule/rule.component";
 import {ParamComponent} from "./com.zippyttech.business/param/param.component";
+import {AccountComponent} from "./com.zippyttech.auth/account/account.component";
 
 const routesDefault: Routes = [
     {
@@ -55,6 +56,10 @@ const routesDefault: Routes = [
     {
         path: 'user/profile',
         component: ProfileComponent
+    },
+    {
+        path: 'user/account',
+        component: AccountComponent
     },
     {
         path: 'auth/permission',
@@ -110,7 +115,8 @@ export const componentsDefault = [
     EventComponent,
     InfoComponent,
     RuleComponent,
-    ParamComponent
+    ParamComponent,
+    AccountComponent
 ];
 export const componentsView = [
     ImageEditComponent,
