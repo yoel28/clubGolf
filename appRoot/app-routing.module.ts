@@ -37,6 +37,10 @@ const routesDefault: Routes = [
         component: LoginComponent,
     },
     {
+        path: 'auth/login/:company',
+        component: LoginComponent,
+    },
+    {
         path: 'auth/recover',
         component: RecoverComponent
     },
