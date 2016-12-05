@@ -14,10 +14,11 @@ import {LocationStrategy,HashLocationStrategy} from "@angular/common";
 import {directivesApp, directivesDefault} from "./app.directives";
 
 const myFirebaseConfig = {
-    apiKey: 'AIzaSyB-zakSU1icljHu4o7oENkAC4korzIF5OI',
-    authDomain: 'ipanama-366c4.firebaseapp.com',
-    databaseURL: "https://ipanama-366c4.firebaseio.com",
-    storageBucket: "ipanama-366c4.appspot.com"
+    apiKey: "AIzaSyD7yBfAAGV9pSCHqkqJXGW2g6R70209Kl4",
+    authDomain: "club-de-golf-80558.firebaseapp.com",
+    databaseURL: "https://club-de-golf-80558.firebaseio.com",
+    storageBucket: "club-de-golf-80558.appspot.com",
+    messagingSenderId: "409370883490"
 };
 
 @NgModule({
