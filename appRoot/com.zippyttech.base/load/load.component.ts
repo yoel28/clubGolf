@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
@@ -10,24 +10,36 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.base/load/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.base/load/style.css']
 })
-export class LoadComponent implements OnInit{
+export class LoadComponent implements OnInit,OnDestroy{
+
+    public subscribe:any;
 
     constructor(public router: Router,public myglobal:globalService) {}
     ngOnInit():void{
         let that=this;
-        this.myglobal.dataSesion.valueChanges.subscribe(
+        this.subscribe = this.myglobal.dataSesion.valueChanges.subscribe(
             (value:string) => {
-                if(that.myglobal.dataSesion.valid)
-                {
-                    let link = [ that.myglobal.saveUrl || '/dashboard', {}];
-                    that.myglobal.saveUrl=null;
-                    that.router.navigate(link);
-                }
+                that.onLoadPage();
             }
         );
         if(localStorage.getItem('bearer')){
-            this.myglobal.initSession();
+            if(this.myglobal.dataSesion.valid)
+                this.onLoadPage();
+            else
+                this.myglobal.initSession();
         }
+    }
+    public onLoadPage(){
+        if(this.myglobal.dataSesion.valid)
+        {
+            let link = [ this.myglobal.saveUrl || '/dashboard', {}];
+            this.myglobal.saveUrl=null;
+            this.router.navigate(link);
+            this.subscribe.unsubscribe();
+        }
+    }
+    ngOnDestroy():void {
+        this.subscribe.unsubscribe();
     }
 
 }
