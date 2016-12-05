@@ -4,7 +4,7 @@ declare var jQuery:any;
 declare var moment:any;
 
 @Directive({
-    selector: "[daterangepicker]",
+    selector: "[date-range-picker]",
     inputs:['params'],
     outputs:['fecha']
 })
