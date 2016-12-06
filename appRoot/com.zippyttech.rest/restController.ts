@@ -207,7 +207,7 @@ export class RestController implements OnInit {
         return (this.httputils.onUpdate(this.endpoint + data.id, body, data, this.error));
     }
 
-    onPatchValue(field, data, value?) {
+    onPatchValue(field, data, value=null) {
         let json = {};
         json[field] = value;
         let body = JSON.stringify(json);
