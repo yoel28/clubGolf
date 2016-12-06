@@ -6,7 +6,7 @@ import {LoginComponent} from "./com.zippyttech.auth/login/login.component";
 import {RecoverComponent} from "./com.zippyttech.auth/recover/recover.component";
 import {RecoverPasswordComponent} from "./com.zippyttech.auth/recoverPassword/recoverpassword.component";
 import {AclComponent} from "./com.zippyttech.access/acl/acl.component";
-import {ProfileComponent} from "./com.zippyttech.auth/profile/profile.component";
+import {ProfileComponent} from "./com.zippyttech.access/user/profile/profile.component";
 import {ImageEditComponent} from "./com.zippyttech.ui/components/imageEdit/imageEdit.component";
 import {LoadComponent} from "./com.zippyttech.init/load/load.component";
 import {PermissionComponent} from "./com.zippyttech.access/permission/permission.component";
@@ -22,6 +22,7 @@ import {InfoComponent} from "./com.zippyttech.business/info/info.component";
 import {RuleComponent} from "./com.zippyttech.business/rule/rule.component";
 import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 import {AccountComponent} from "./com.zippyttech.access/account/account.component";
+import {UserComponent} from "./com.zippyttech.access/user/user.component";
 
 const routesDefault: Routes = [
 
@@ -38,9 +39,9 @@ const routesDefault: Routes = [
     { path: 'access/role', component: RoleComponent},
     { path: 'access/permission', component: PermissionComponent},
     { path: 'access/acl', component: AclComponent},
-    { path: 'access/users', component: AclComponent},
+    { path: 'access/user', component: UserComponent},
+    { path: 'access/user/profile', component: ProfileComponent},
 
-    { path: 'user/profile', component: ProfileComponent},
 
     { path: 'business/event', component: EventComponent},
     { path: 'business/info', component: InfoComponent},
@@ -69,7 +70,8 @@ export const componentsDefault = [
     InfoComponent,
     RuleComponent,
     ParamComponent,
-    AccountComponent
+    AccountComponent,
+    UserComponent
 ];
 export const componentsView = [
     ImageEditComponent,
