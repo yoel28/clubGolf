@@ -174,6 +174,12 @@ export abstract class ModelBase{
                 callback(response,data);
         }));
     }
+    public loadDataModel(successCallback){
+        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
+    }
+    public error(error){
+        console.log(error);
+    }
 
     public extendRulesObjectInRules(rules){
         let that = this;
