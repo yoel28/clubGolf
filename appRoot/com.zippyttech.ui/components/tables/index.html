@@ -13,13 +13,50 @@
 
                 <span *ngIf="!getDisabledField(key,data)">
 
+
                     <i *ngIf="model.rules[key].icon" class="{{data[key]}}">&nbsp;</i>
 
-                    <a *ngIf="!model.rules[key].object &&  model.rules[key].type !='boolean' && model.rules[key].type !='color'" x-editable  [disabled]="!model.rules[key].update"  [endpoint]="params.endpoint" [function]="onEditable" [data]="data" [rules]="model.rules" [field]="key"></a>
+                    <a *ngIf=" !model.rules[key].object &&
+                                model.rules[key].type == 'text' ||
+                                model.rules[key].type == 'number' ||
+                                model.rules[key].type == 'select' ||
+                                model.rules[key].type == 'password'"
+                       x-editable  [disabled]="!model.rules[key].update"  [endpoint]="params.endpoint" [function]="onEditable" [data]="data" [rules]="model.rules" [field]="key">
+                    </a>
+
+                    <div *ngIf="model.rules[key].type=='image'">
+                        <img [attr.id]="'img'+data.id+'_'+key"
+                             [attr.src]="data[key] || model.rules[key].default"
+                             width="50" height="50"
+                             data-toggle="modal" [attr.data-target]="'#'+data.id+'_'+key"
+                             class="image-editor"
+                             [attr.title]="model.rules[key].update?msg.imageEdit:''"
+                        >
+
+                        <div [attr.id]="data.id+'_'+key" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                           <div class="modal-dialog" role="document">
+                               <div class="modal-header btn-red text-center">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">
+                                        <i class="fa fa-image"></i>&nbsp;
+                                        <strong>{{msg.imageEditor}}</strong>
+                                    </h4>
+                                </div>
+                                <div class="modal-content">
+                                    <image-edit-view *ngIf="model.rules[key].update"
+                                                     [image]="data[key]"
+                                                     [default]="model.rules[key].default"
+                                                     (out)="onPatchValue(key,data, $event)"
+                                    ></image-edit-view>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+
 
                     <input *ngIf="model.rules[key].type == 'color' && model.rules[key].update" color-picker readonly [style.background-color]="'#'+data[key]" [attr.value]="'#'+data[key]" [hexString]="data[key]" (color)="onPatch(key,data,$event)">
-
                     <label *ngIf="model.rules[key].type == 'color' && !model.rules[key].update" class="form-control">{{'#'+data[key]}}</label>
+
 
                     <button  *ngIf="model.rules[key].type =='boolean'" class="{{getBooleandData(key,data).class}}" (click)="onPatch(key,data)" [disabled]="getBooleandData(key,data).disabled">
                         {{getBooleandData(key,data).text}}
@@ -51,7 +88,6 @@
                                  >
                                      <i class="fa fa-minus text-red"></i>
                                  </button>
-                                 <tooltip-view [code]="model.prefix+'_6'"></tooltip-view>
                              </span>
                              <span *ngIf="model.rules[key].reference">
 
@@ -79,13 +115,12 @@
                                          title="Liberar">
                                      <i class="fa fa-minus text-red"></i>
                                  </button>
-                                 <tooltip-view [code]="model.prefix+'_7'"></tooltip-view>
                              </span>
                          </label>
                      </a>
                 </span>
                 <span *ngIf="getDisabledField(key,data)">
-                    <label class="label label-orange">N/A</label><tooltip-view [code]="model.prefix+'_8'"></tooltip-view>
+                    <label class="label label-orange">N/A</label>
                 </span>
 
             </td>
