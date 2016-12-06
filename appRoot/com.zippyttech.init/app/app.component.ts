@@ -131,7 +131,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     onProfile(event?:Event):void {
         if(event)
             event.preventDefault();
-        let link = ['/auth/profile', {}];
+        let link = ['/access/user/profile', {}];
         this.router.navigate(link);
 
     }
