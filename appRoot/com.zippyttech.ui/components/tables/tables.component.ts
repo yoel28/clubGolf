@@ -66,9 +66,17 @@ export class TablesComponent extends RestController implements OnInit {
     loadSearchTable(event,key,data)
     {
         event.preventDefault();
+        this.searchTableData=data;
+
+        if(this.model.rules[key].multiple){//TODO:Falta completar el comportamiento
+            this.model.rules[key].paramsSearch.multiple=true;
+            this.model.rules[key].paramsSearch.valuesData=[];
+            this.model.rules[key].paramsSearch.valuesData = data[key];
+        }
+
         this.searchTable =  Object.assign({},this.model.rules[key].paramsSearch);
         this.searchTable.field =  key;
-        this.searchTableData=data;
+
     }
 
     public modelSave:any={};
