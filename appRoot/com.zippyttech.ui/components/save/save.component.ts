@@ -141,7 +141,8 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
                 body[key]=parseFloat(body[key]);
             }
             if(that.rules[key].type == 'boolean' && body[key]!=""){
-                body[key]=body[key]=='true'?true:false;
+                if(typeof body[key] === 'string')
+                    body[key]=body[key]=='true'?true:false;
             }
             if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
             {
