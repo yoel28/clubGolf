@@ -10,7 +10,8 @@ export class UserModel extends ModelBase{
 
     constructor(public myglobal:globalService){
         super('USER','/users/',myglobal);
-        this.initModel();
+        this.initModel(false);
+        this.loadData();
     }
     modelExternal() {
         this.role= new RoleModel(this.myglobal);
@@ -81,7 +82,12 @@ export class UserModel extends ModelBase{
             'placeholder': 'Imagen',
         };
 
-        this.rules['role']=this.role.ruleObject;
+        this.rules['roles']=this.role.ruleObject;
+        this.rules['roles'].type= 'checklist';
+        this.rules['roles'].mode= 'popup';
+        this.rules['roles'].showbuttons=true;
+        this.rules['roles'].source=[];
+
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         delete this.rules['detail'];
@@ -108,6 +114,18 @@ export class UserModel extends ModelBase{
 
         delete this.rulesSave.role;
         delete this.rulesSave.enabled;
+    }
+    loadData()
+    {
+        let that = this;
+        let successCallback= response => {
+            let roles =  response.json();
+            roles.list.forEach(obj=> {
+                that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
+            });
+            that.completed = true;
+        }
+        this.role.loadDataModel(successCallback)
     }
 
 }
