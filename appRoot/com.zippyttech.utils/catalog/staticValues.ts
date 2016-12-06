@@ -132,6 +132,8 @@ export class StaticValues {
         msg.profile="Perfil";
         msg.save="Guardar";
         msg.update="Actualizar";
+        msg.imageEditor="Editor de imagenes";
+        msg.imageEdit="Editar imagen";
 
         return msg;
 
