@@ -24,7 +24,8 @@ import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 import {AccountComponent} from "./com.zippyttech.access/account/account.component";
 import {UserComponent} from "./com.zippyttech.access/user/user.component";
 import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
-import {TypeProductComponent} from "./com.zippyttech.club/typeProduct/typeProduct.component";
+import {ProductTypeComponent} from "./com.zippyttech.club/productType/productType.component";
+import {ProductComponent} from "./com.zippyttech.club/product/product.component";
 
 const routesDefault: Routes = [
 
@@ -51,7 +52,8 @@ const routesDefault: Routes = [
     { path: 'business/param', component: ParamComponent},
 
 
-    { path: 'club/type/product', component: TypeProductComponent},
+    { path: 'club/type/product', component: ProductTypeComponent},
+    { path: 'club/product', component: ProductComponent},
 
 
 ];
@@ -91,7 +93,8 @@ export const componentsView = [
     SearchMultipleComponent
 ]
 export const componentsApp = [
-    TypeProductComponent
+    ProductTypeComponent,
+    ProductComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
