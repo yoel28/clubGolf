@@ -9,15 +9,15 @@ export class ParamModel extends ModelBase{
     }
     modelExternal() {}
     initRules(){
-        this.rules['key']={
+        this.rules['code']={
             'type': 'text',
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'key',
-            'title': 'Clave',
-            'placeholder': 'Clave',
+            'key': 'code',
+            'title': 'Código',
+            'placeholder': 'Código',
         };
 
         this.rules['value']={
