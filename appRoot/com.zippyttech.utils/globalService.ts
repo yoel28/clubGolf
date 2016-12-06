@@ -76,7 +76,7 @@ export class globalService extends RestController{
             that.dataSesion.setValue(that.dataSesion.value);
             let data = that.user.username.split('/');
             that.user.username=data[1];
-            that.user.companyName=data[0];
+            that.user.account=data[0];
             that.loadUser();
         };
         this.httputils.doGet('/validate',successCallback,this.error);
@@ -89,7 +89,7 @@ export class globalService extends RestController{
             that.dataSesion.setValue(that.dataSesion.value);
 
         };
-        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["op":"eq","field":"company.name","value":"'+this.user.company+'"]]');
+        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
         this.httputils.doGet('/users?where='+where, successCallback,this.error);
     };
     loadMyPermissions():any{
