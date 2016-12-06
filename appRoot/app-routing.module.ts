@@ -24,6 +24,7 @@ import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 import {AccountComponent} from "./com.zippyttech.access/account/account.component";
 import {UserComponent} from "./com.zippyttech.access/user/user.component";
 import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
+import {TypeProductComponent} from "./com.zippyttech.club/typeProduct/typeProduct.component";
 
 const routesDefault: Routes = [
 
@@ -48,6 +49,11 @@ const routesDefault: Routes = [
     { path: 'business/info', component: InfoComponent},
     { path: 'business/rule', component: RuleComponent},
     { path: 'business/param', component: ParamComponent},
+
+
+    { path: 'club/type/product', component: TypeProductComponent},
+
+
 ];
 const routesApp: Routes = [];
 @NgModule({
@@ -84,7 +90,9 @@ export const componentsView = [
     SaveComponent,
     SearchMultipleComponent
 ]
-export const componentsApp = [];
+export const componentsApp = [
+    TypeProductComponent
+];
 export const componentsPublic = [
     'LoginComponent',
     'ActivateComponent',
