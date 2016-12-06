@@ -26,6 +26,7 @@ import {UserComponent} from "./com.zippyttech.access/user/user.component";
 import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
 import {ProductTypeComponent} from "./com.zippyttech.club/productType/productType.component";
 import {ProductComponent} from "./com.zippyttech.club/product/product.component";
+import {StatusComponent} from "./com.zippyttech.club/state/state.component";
 
 const routesDefault: Routes = [
 
@@ -54,6 +55,7 @@ const routesDefault: Routes = [
 
     { path: 'club/type/product', component: ProductTypeComponent},
     { path: 'club/product', component: ProductComponent},
+    { path: 'club/status', component: StatusComponent},
 
 
 ];
@@ -94,7 +96,8 @@ export const componentsView = [
 ]
 export const componentsApp = [
     ProductTypeComponent,
-    ProductComponent
+    ProductComponent,
+    StatusComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
