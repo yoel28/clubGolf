@@ -14,10 +14,11 @@
                 <span *ngIf="!getDisabledField(key,data)">
 
 
-                    <i *ngIf="model.rules[key].icon" class="{{data[key]}}">&nbsp;</i>
+                    <i *ngIf="model.rules[key].type == 'icon'" class="{{data[key]}}">&nbsp;</i>
 
                     <a *ngIf=" !model.rules[key].object &&
                                 model.rules[key].type == 'text' ||
+                                model.rules[key].type == 'textarea' ||
                                 model.rules[key].type == 'number' ||
                                 model.rules[key].type == 'select' ||
                                 model.rules[key].type == 'password'"
@@ -27,7 +28,7 @@
                     <div *ngIf="model.rules[key].type=='image'">
                         <img [attr.id]="'img'+data.id+'_'+key"
                              [attr.src]="data[key] || model.rules[key].default"
-                             width="50" height="50"
+                             width="30" height="30"
                              data-toggle="modal" [attr.data-target]="'#'+data.id+'_'+key"
                              class="image-editor"
                              [attr.title]="model.rules[key].update?msg.imageEdit:''"
