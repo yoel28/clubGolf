@@ -23,6 +23,7 @@ import {RuleComponent} from "./com.zippyttech.business/rule/rule.component";
 import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 import {AccountComponent} from "./com.zippyttech.access/account/account.component";
 import {UserComponent} from "./com.zippyttech.access/user/user.component";
+import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
 
 const routesDefault: Routes = [
 
@@ -80,7 +81,8 @@ export const componentsView = [
     TablesComponent,
     SearchComponent,
     FilterComponent,
-    SaveComponent
+    SaveComponent,
+    SearchMultipleComponent
 ]
 export const componentsApp = [];
 export const componentsPublic = [
