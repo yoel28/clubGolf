@@ -246,7 +246,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'key': 'Club',
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
+                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS']),
                         'icon': 'fa fa-list',
                         'title': 'Tipo de producto',
                         'routerLink': '/club/type/product'
@@ -256,6 +256,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Producto',
                         'routerLink': '/club/product'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_STATUS']),
+                        'icon': 'fa fa-list',
+                        'title': 'Estados',
+                        'routerLink': '/club/status'
                     }
                 ]
             });
