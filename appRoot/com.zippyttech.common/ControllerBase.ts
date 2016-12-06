@@ -127,7 +127,7 @@ export abstract class ControllerBase extends RestController {
     public onDashboard(event){
         if(event)
             event.preventDefault();
-        let link = ['Dashboard', {}];
+        let link = ['init/dashboard', {}];
         this.router.navigate(link);
     }
     

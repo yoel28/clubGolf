@@ -1,18 +1,15 @@
-import {Component, OnInit, NgModule} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router }           from '@angular/router';
 import { Http } from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {globalService} from "../../com.zippyttech.utils/globalService";
-import {SmDropdown} from "../../com.zippyttech.utils/directive/smDropDown";
 
 declare var SystemJS:any;
-@NgModule({
-    imports:[SmDropdown]
-})
+
 @Component({
     selector: 'acl',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.auth/acl/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/acl/style.css'],
+    templateUrl: SystemJS.map.app+'/com.zippyttech.access/acl/index.html',
+    styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/acl/style.css'],
 })
 export class AclComponent extends RestController implements OnInit{
 
@@ -34,7 +31,7 @@ export class AclComponent extends RestController implements OnInit{
     }
     onDashboard(event){
         event.preventDefault();
-        let link = ['/dashboard', {}];
+        let link = ['/init/dashboard', {}];
         this.router.navigate(link);
     }
 

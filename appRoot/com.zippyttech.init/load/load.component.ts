@@ -7,8 +7,8 @@ declare var SystemJS:any;
 
 @Component({
     selector: 'load-page',
-    templateUrl: SystemJS.map.app+'com.zippyttech.base/load/index.html',
-    styleUrls: [ SystemJS.map.app+'com.zippyttech.base/load/style.css']
+    templateUrl: SystemJS.map.app+'com.zippyttech.init/load/index.html',
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.init/load/style.css']
 })
 export class LoadComponent implements OnInit,OnDestroy{
 
@@ -32,7 +32,7 @@ export class LoadComponent implements OnInit,OnDestroy{
     public onLoadPage(){
         if(this.myglobal.dataSesion.valid)
         {
-            let link = [ this.myglobal.saveUrl || '/dashboard', {}];
+            let link = [ this.myglobal.saveUrl || '/init/dashboard', {}];
             this.myglobal.saveUrl=null;
             this.router.navigate(link);
             this.subscribe.unsubscribe();

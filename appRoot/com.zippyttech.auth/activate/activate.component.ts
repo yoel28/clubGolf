@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute}           from '@angular/router';
 import {Http} from '@angular/http';
-import {RestController} from "../../../com.zippyttech.rest/restController";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {RestController} from "../../com.zippyttech.rest/restController";
+import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+
 
 declare var SystemJS:any;
 @Component({
     selector: 'user-activate',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.auth/user/activate/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/user/style.css']
+    templateUrl: SystemJS.map.app+'/com.zippyttech.auth/activate/index.html',
+    styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/style.css']
 })
 export class ActivateComponent extends RestController implements OnInit{
     public activate={'status':false,'response':false};

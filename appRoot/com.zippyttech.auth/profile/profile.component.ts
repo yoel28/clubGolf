@@ -1,21 +1,17 @@
 import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
 import { Router }           from '@angular/router';
 import { Http} from '@angular/http';
-import {XEditable} from "../../../com.zippyttech.utils/directive/xEditable";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
-import {UserModel} from "../user.model";
-import {ImageEditComponent} from "../../../com.zippyttech.ui/components/imageEdit/imageEdit.component";
+import {globalService} from "../../com.zippyttech.utils/globalService";
+import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {ControllerBase} from "../../com.zippyttech.common/ControllerBase";
+import {UserModel} from "../../com.zippyttech.access/user/user.model";
 
 declare var SystemJS:any;
-@NgModule({
-    imports:[XEditable,ImageEditComponent]
-})
+
 @Component({
     selector: 'user-profile',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.auth/user/profile/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/user/profile/style.css'],
+    templateUrl: SystemJS.map.app+'/com.zippyttech.auth/profile/index.html',
+    styleUrls: [ SystemJS.map.app+'/com.zippyttech.auth/profile/style.css'],
 })
 export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit{
     

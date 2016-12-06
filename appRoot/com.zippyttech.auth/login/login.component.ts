@@ -2,18 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
 import {Router, ActivatedRoute}           from '@angular/router';
 import {Http} from '@angular/http';
-import {RestController} from "../../../com.zippyttech.rest/restController";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {contentHeaders} from "../../../com.zippyttech.rest/headers";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {RestController} from "../../com.zippyttech.rest/restController";
+import {globalService} from "../../com.zippyttech.utils/globalService";
+import {contentHeaders} from "../../com.zippyttech.rest/headers";
+import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 
 declare var SystemJS:any;
 
 @Component({
     selector: 'user-login',
-    templateUrl: SystemJS.map.app+'com.zippyttech.auth/user/login/index.html',
-    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/user/style.css']
+    templateUrl: SystemJS.map.app+'com.zippyttech.auth/login/index.html',
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css']
 })
 export class LoginComponent extends RestController implements OnInit{
 
@@ -26,7 +26,7 @@ export class LoginComponent extends RestController implements OnInit{
 
     constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
         super(http);
-        this.af.auth.subscribe(auth => console.log(auth));
+        //this.af.auth.subscribe(auth => console.log(auth));
         this.setEndpoint("/login");
     }
     ngOnInit(){
@@ -69,7 +69,7 @@ export class LoginComponent extends RestController implements OnInit{
             that.submitForm = false;
             localStorage.setItem('bearer', response.json().access_token);
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
-            let link = ['/auth/load', {}];
+            let link = ['/init/load', {}];
             that.router.navigate(link);
         };
         this.httputils.doPost(this.endpoint, JSON.stringify(body), successCallback, errorLogin);

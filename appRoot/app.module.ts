@@ -9,7 +9,7 @@ import './rxjs-extensions';
 
 import {AppRoutingModule, componentsApp, componentsDefault, componentsView} from './app-routing.module';
 import {globalService} from "./com.zippyttech.utils/globalService";
-import {AppComponent} from "./com.zippyttech.base/app/app.component";
+import {AppComponent} from "./com.zippyttech.init/app/app.component";
 import {LocationStrategy,HashLocationStrategy} from "@angular/common";
 import {directivesApp, directivesDefault} from "./app.directives";
 

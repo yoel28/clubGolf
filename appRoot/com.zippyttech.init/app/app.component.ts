@@ -16,8 +16,8 @@ declare var jQuery:any;
 declare var SystemJS:any;
 @Component({
     selector: 'my-app',
-    templateUrl: SystemJS.map.app+'com.zippyttech.base/app/index.html',
-    styleUrls: [ SystemJS.map.app+'com.zippyttech.base/app/style.css'],
+    templateUrl: SystemJS.map.app+'com.zippyttech.init/app/index.html',
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.init/app/style.css'],
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
     public pathElement = StaticValues.pathElements;
@@ -44,7 +44,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 let isPublic = that.isPublic(componentName);
 
                 if (isPublic && that.myglobal.dataSesion.valid) {
-                    let link = ['/dashboard', {}];
+                    let link = ['/init/dashboard', {}];
                     that.router.navigate(link);
                 }
                 else if (!isPublic && !that.myglobal.dataSesion.valid) {
@@ -53,7 +53,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         if(componentName!='LoadComponent')
                         {
                             that.myglobal.saveUrl = event.url;
-                            link = ['/auth/load', {}];
+                            link = ['/init/load', {}];
                             that.router.navigate(link);
                         }
                     }
@@ -131,7 +131,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     onProfile(event?:Event):void {
         if(event)
             event.preventDefault();
-        let link = ['/user/profile', {}];
+        let link = ['/auth/profile', {}];
         this.router.navigate(link);
 
     }
@@ -166,7 +166,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'visible': this.myglobal.existsPermission(['MEN_DASHBOARD']),
                 'icon': 'fa fa-dollar',
                 'title': 'Dashboard',
-                'routerLink': '/dashboard'
+                'routerLink': '/init/dashboard'
             });
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT']),
@@ -178,31 +178,31 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'visible': this.myglobal.existsPermission(['MEN_USERS']),
                         'icon': 'fa fa-user',
                         'title': 'Usuarios',
-                        'routerLink': '/auth/user'
+                        'routerLink': '/access/user'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ACL']),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
-                        'routerLink': '/auth/acl'
+                        'routerLink': '/access/acl'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_PERM']),
                         'icon': 'fa fa-user',
                         'title': 'Permisos',
-                        'routerLink': '/auth/permission'
+                        'routerLink': '/access/permission'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ROLE']),
                         'icon': 'fa fa-user',
                         'title': 'Roles',
-                        'routerLink': '/auth/role'
+                        'routerLink': '/access/role'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ACCOUNT']),
                         'icon': 'fa fa-building',
                         'title': 'Cuentas',
-                        'routerLink': '/auth/account'
+                        'routerLink': '/access/account'
                     },
                 ]
             });
