@@ -62,7 +62,7 @@
                         {{getBooleandData(key,data).text}}
                     </button>
 
-                    <a *ngIf="model.rules[key].object">
+                    <a *ngIf="model.rules[key].object && key!='roles'">
                          {{data[model.rules[key].keyDisplay]}}
                          <label *ngIf="model.permissions.update && (data.enabled==true || data.enabled==null)">
                              <span *ngIf="!model.rules[key].reference">
@@ -73,7 +73,6 @@
                                  >
                                      <i class="fa fa-plus text-green"></i>
                                  </button>
-
 
                                  <button *ngIf="model.rules[key].paramsSearch && model.rules[key].permissions.search" type="button" class="btn btn-box-tool"
                                          (click)="loadSearchTable($event,key,data)" title="Buscar"
@@ -118,6 +117,14 @@
                              </span>
                          </label>
                      </a>
+
+                    <a  x-editable *ngIf="key=='roles'"
+                        [disabled]="!model.permissions.update && !model.model.rules[key].permissions.list"
+                        [endpoint]="'/users/'+data.id+'/roles'"
+                        [function]="onEditableRole" [data]="data" [rules]="model.rules"
+                        field="roles">
+
+                    </a>
                 </span>
                 <span *ngIf="getDisabledField(key,data)">
                     <label class="label label-orange">N/A</label>
@@ -234,9 +241,14 @@
     <save-view [rules]="modelSave[key].rulesSave" [params]="modelSave[key].paramsSave" (save)="getDataSave($event,key)"> </save-view>
 </div>
 
-<div *ngIf="searchTable && searchTable.idModal">
+<div *ngIf="searchTable && !searchTable.multiple && searchTable.idModal">
     <search-view [params]="searchTable" (result)="getDataSearch($event)"></search-view>
 </div>
+
+<div *ngIf="searchTable && searchTable.multiple && searchTable.idModal">
+    <search-multiple-view [params]="searchTable" (result)="getDataSearch($event)"></search-multiple-view>
+</div>
+
 
 <div *ngIf="modelReference && modelReference.paramsSave">
     <save-view [rules]="modelReference.rulesSave" [params]="modelReference.paramsSave" (save)="setDataFieldReference($event)"> </save-view>
