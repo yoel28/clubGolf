@@ -34,6 +34,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
         let that = this;
         let url = "http://pescadorj:8080";
+        //let url = "https://club-golf.herokuapp.com";
 
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
@@ -236,6 +237,20 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Reglas',
                         'routerLink': '/business/rule'
                     },
+                ]
+            });
+            this.menuItems.value.push({
+                'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
+                'icon': 'fa fa-gears',
+                'title': 'Club',
+                'key': 'Club',
+                'treeview': [
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
+                        'icon': 'fa fa-list',
+                        'title': 'Tipo de producto',
+                        'routerLink': '/club/type/product'
+                    }
                 ]
             });
         }
