@@ -36,7 +36,7 @@ export class RoleModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="Roles";
         this.ruleObject.placeholder="Ingrese un rol";
-        this.ruleObject.key="role";
+        this.ruleObject.key="roles";
         this.ruleObject.keyDisplay="roleAuthority";
         this.ruleObject.code="roleId";
     }
