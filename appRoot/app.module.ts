@@ -12,7 +12,7 @@ import {globalService} from "./com.zippyttech.utils/globalService";
 import {AppComponent} from "./com.zippyttech.init/app/app.component";
 import {LocationStrategy,HashLocationStrategy} from "@angular/common";
 import {directivesApp, directivesDefault} from "./app.directives";
-|import {QRCodeModule} from "angular2-qrcode/angular2-qrcode";
+import {QRCodeModule} from "angular2-qrcode/angular2-qrcode";
 
 const myFirebaseConfig = {
     apiKey: "AIzaSyD7yBfAAGV9pSCHqkqJXGW2g6R70209Kl4",
