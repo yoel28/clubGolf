@@ -266,6 +266,20 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     }
                 ]
             });
+            this.menuItems.value.push({
+                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
+                'icon': 'fa fa-gears',
+                'title': 'Golf',
+                'key': 'Golf',
+                'treeview': [
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
+                        'icon': 'fa fa-list',
+                        'title': 'Generar salida',
+                        'routerLink': '/club/process/generate/output'
+                    },
+                ]
+            });
         }
     }
     menuItemsVisible(menu) {
