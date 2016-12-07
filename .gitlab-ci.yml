@@ -50,9 +50,9 @@ deploy_job_3:
     - cp -rf ./node_modules /home/ubuntu/
     - find ./ -type f -name '*.ts' -delete
     - cd /var/www/
-    - tar -cf html.tar html/
-    - rm -rf /var/www/html/*
-    - cp -rf /tmp/build/* /var/www/html/
+    - sudo tar -cf html.tar html/
+    - sudo rm -rf /var/www/html/*
+    - sudo cp -rf /tmp/build/* /var/www/html/
   when: on_success 
   tags:
     - dev_club
@@ -62,17 +62,17 @@ deploy_job_3:
 reset_job_4:
   stage: reset
   script:
-    - rm -rf /tmp/build
-    - rm -rf /var/www/html/build
-    - rm -rf /var/www/html/typings
-    - rm -rf /var/www/html/.git
-    - rm -f /var/www/html/.gitignore
-    - rm -f /var/www/html/.gitlab-ci.yml
-    - rm -f /var/www/html/bs-config.json
-    - rm -f /var/www/html/package.json
-    - rm -f /var/www/html/tsconfig.json
-    - rm -f /var/www/html/typings.json
-    - chown ubuntu.ubuntu -R /var/www/html/
+    - sudo rm -rf /tmp/build
+    - sudo rm -rf /var/www/html/build
+    - sudo rm -rf /var/www/html/typings
+    - sudo rm -rf /var/www/html/.git
+    - sudo rm -f /var/www/html/.gitignore
+    - sudo rm -f /var/www/html/.gitlab-ci.yml
+    - sudo rm -f /var/www/html/bs-config.json
+    - sudo rm -f /var/www/html/package.json
+    - sudo rm -f /var/www/html/tsconfig.json
+    - sudo rm -f /var/www/html/typings.json
+    - sudo chown ubuntu.ubuntu -R /var/www/html/
   when: on_success
   tags:
     - dev_club
@@ -83,8 +83,8 @@ clean_job_:
   stage: clean
   script:
     - rm -rf /tmp/build
-    - rm -rf /var/www/html/*
-    - tar -xf /var/www/html.tar -C /var/www/
+    - sudo rm -rf /var/www/html/*
+    - sudo tar -xf /var/www/html.tar -C /var/www/
   when: on_failure
   tags:
     - dev_club
