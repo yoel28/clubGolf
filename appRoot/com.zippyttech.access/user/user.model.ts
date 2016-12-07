@@ -81,6 +81,22 @@ export class UserModel extends ModelBase{
             'title': 'Imagen',
             'placeholder': 'Imagen',
         };
+        this.rules["accountLocked"] = {
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'search':this.permissions.filter,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':false,'text': 'Verificado', 'class': 'btn btn-sm btn-green'},
+                {'value':true, 'text': 'Sin verificar', 'class': 'btn btn-sm btn-red'},
+            ],
+            "key": "accountLocked",
+            "title": "Cuenta",
+            "placeholder": "",
+        };
+
+
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
@@ -111,9 +127,10 @@ export class UserModel extends ModelBase{
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
-
-        delete this.rulesSave.role;
+        delete this.rulesSave.roles;
         delete this.rulesSave.enabled;
+        delete this.rulesSave.image;
+        delete this.rulesSave.accountLocked;
     }
     loadData()
     {
