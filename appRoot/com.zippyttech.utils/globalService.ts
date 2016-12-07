@@ -12,6 +12,8 @@ export class globalService extends RestController{
     rules:any={};
     permissions:any=[];
 
+    public qrPublic:any;
+
     public dataSesion = new FormControl(
         null,
         Validators.compose([
