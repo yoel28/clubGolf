@@ -241,13 +241,13 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
+                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS']),
                 'icon': 'fa fa-gears',
                 'title': 'Club',
                 'key': 'Club',
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS']),
+                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
                         'icon': 'fa fa-list',
                         'title': 'Tipo de producto',
                         'routerLink': '/club/type/product'
