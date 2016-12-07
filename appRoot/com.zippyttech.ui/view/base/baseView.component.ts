@@ -1,10 +1,6 @@
-import {Component, OnInit, NgModule} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router}           from '@angular/router';
 import {Http} from '@angular/http';
-import {FilterComponent} from "../../components/filter/filter.component";
-import {TablesComponent} from "../../components/tables/tables.component";
-import {SaveComponent} from "../../components/save/save.component";
-import {TooltipComponent} from "../../components/tooltips/tooltips.component";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 
