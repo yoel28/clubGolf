@@ -121,7 +121,7 @@
 
                                             <ul class="list-inline pull-right">
                                                 <li>
-                                                    <button href="#step1" data-toggle="tab" aria-controls="step1" role="tab" (click)="openQR($event)" type="button" class="btn btn-default prev-step">Volver</button>
+                                                    <button (click)="openQR($event)" type="button" class="btn btn-default prev-step">Volver</button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="btn btn-primary next-step">Continuar</button>
@@ -130,24 +130,14 @@
                                         </div>
                                         <div class="tab-pane" role="tabpanel" id="step3">
                                             <h3>Lista de productos</h3>
-                                            <p>This is step 3</p>
-
-
+                                            <p>Ingrese el código</p>
 
                                             <ul class="list-inline pull-right">
                                                 <li>
-                                                    <button type="button" class="btn btn-default prev-step">Previous
-                                                    </button>
+                                                    <button type="button" class="btn btn-default prev-step">Volver</button>
                                                 </li>
                                                 <li>
-                                                    <button type="button" class="btn btn-default next-step">Skip
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-info-full next-step">Save and
-                                                        continue
-                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-info-full next-step">Continuar</button>
                                                 </li>
                                             </ul>
                                         </div>
