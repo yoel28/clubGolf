@@ -107,6 +107,8 @@ export class ProductTypeModel extends ModelBase{
         };
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
+
+        this.rules['detail'].required=true;
     }
     initPermissions() {}
     initParamsSearch() {
