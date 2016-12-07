@@ -96,7 +96,8 @@ export class StaticValues {
             'logoBlanco':       'assets/img/clubGolf/logo.png',
             'robot':            'assets/img/default/zippy/robot.png',
             'warning':          'assets/img/default/warning.png',
-            'company':          'assets/img/default/varios/company.png'
+            'company':          'assets/img/default/varios/company.png',
+            'qr':               'assets/img/clubGolf/qr.jpg'
         }
     }
 
