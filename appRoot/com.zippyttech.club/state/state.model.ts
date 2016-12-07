@@ -7,7 +7,7 @@ export class StateModel extends ModelBase{
     public pathElements=StaticValues.pathElements;
 
     constructor(public myglobal:globalService){
-        super('STATE','/state/',myglobal);
+        super('STATE','/states/',myglobal);
         this.initModel();
     }
     modelExternal() {}
