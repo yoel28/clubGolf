@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "gulp copy-jit && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "only-run": "gulp copy-jit && concurrently \"npm run tsc\" ",
     "lite": "lite-server",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
