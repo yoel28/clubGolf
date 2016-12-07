@@ -147,6 +147,7 @@ export class AccountModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.miniLogo;
+        delete this.rulesSave.logo;
     }
 
 }
