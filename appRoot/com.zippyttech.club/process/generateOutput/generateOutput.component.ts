@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, HostListener} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
@@ -38,14 +38,30 @@ export class GenerateOutputComponent implements OnInit,AfterViewInit{
             'paramsTable':this.paramsTable
         };
     }
-    openQr(){
-        var printContents = document.getElementById("reporte").innerHTML;
-        var popupWin = window.open('', '_blank');
-        popupWin.document.open();
-        popupWin.document.write('<body>' + printContents + '</body>');
-        popupWin.document.head.innerHTML = (document.head.innerHTML);
-        popupWin.document.close();
+    openQR(event){
+        if(event)
+            event.preventDefault();
+        var contents = document.getElementById("myqr").innerHTML;
+        if(!this.myglobal.qrPublic || (this.myglobal.qrPublic && !this.myglobal.qrPublic.window)){
+            this.myglobal.qrPublic = window.open('', '_blank');
+            this.myglobal.qrPublic.document.open();
+        }
+        if(this.myglobal.qrPublic.document.body)
+            this.myglobal.qrPublic.document.body.innerHTML = '';
+        this.myglobal.qrPublic.document.write('<body>' + contents + '</body>');
+        this.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
     }
+    closeQR(event?){
+        if(event)
+            event.preventDefault();
+        if(this.myglobal.qrPublic && this.myglobal.qrPublic.window) {
+            this.myglobal.qrPublic.document.body.innerHTML = '';
+            this.myglobal.qrPublic.document.write('<body>Por favor espere</body>');
+            this.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
+        }
+    }
+
+
 
     initModel() {
 
