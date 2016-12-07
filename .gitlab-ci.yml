@@ -1,0 +1,91 @@
+before_script:
+  - pwd
+  - echo $CI_BUILD_REF_NAME
+after_script:
+    - echo 'after'
+
+stages:
+    - pre_install
+    - build
+    - deploy
+    - reset
+    - clean
+
+pre_install_job_1:
+  stage: pre_install
+  script:
+    - mkdir -p /tmp/build
+    - mkdir -p /home/ubuntu/node_modules/
+    - cp -rf /home/ubuntu/node_modules /tmp/build/
+    - cp -rf ./* /tmp/build
+    - cd /tmp/build
+    - npm install
+  when: on_success
+  tags:
+    - vertederodev
+  only :
+    - dev
+
+build_job_2:
+  stage: build
+  script:
+    - cd /tmp/build
+    - export epoch=$(date +%s)
+    - sed -i -e 's;\=\"\(http\)s\?://[a-zA-Z0-9.]\+\([:][0-9]\+\)\?\"\;;\=\"http://34.193.253.232:8080\"\;;g' appRoot/com.zippyttech.init/app/app.component.ts
+    - sed -i -e "s;appRoot;${epoch};g" ./system-config.ts
+    - mv appRoot ${epoch}
+    - npm run tsc -w
+  when: on_success
+  tags:
+    - vertederodev
+  only :
+    - dev
+
+deploy_job_3:
+  stage: deploy
+  script:
+    - cd /tmp/build
+    - cp -rf build/* ./
+    - cp -rf ./node_modules /home/ubuntu/
+    - find ./ -type f -name '*.ts' -delete
+    - cd /var/www/
+    - tar -cf html.tar html/
+    - rm -rf /var/www/html/*
+    - cp -rf /tmp/build/* /var/www/html/
+  when: on_success 
+  tags:
+    - vertederodev
+  only :
+    - dev
+
+reset_job_4:
+  stage: reset
+  script:
+    - rm -rf /tmp/build
+    - rm -rf /var/www/html/build
+    - rm -rf /var/www/html/typings
+    - rm -rf /var/www/html/.git
+    - rm -f /var/www/html/.gitignore
+    - rm -f /var/www/html/.gitlab-ci.yml
+    - rm -f /var/www/html/bs-config.json
+    - rm -f /var/www/html/package.json
+    - rm -f /var/www/html/tsconfig.json
+    - rm -f /var/www/html/typings.json
+    - chown ubuntu.ubuntu -R /var/www/html/
+  when: on_success
+  tags:
+    - vertederodev
+  only :
+    - dev
+
+clean_job_:
+  stage: clean
+  script:
+    - rm -rf /tmp/build
+    - rm -rf /var/www/html/*
+    - tar -xf /var/www/html.tar -C /var/www/
+  when: on_failure
+  tags:
+    - vertederodev
+  only :
+    - dev
