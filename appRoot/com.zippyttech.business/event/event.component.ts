@@ -1,7 +1,8 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 import {EventModel} from "./event.model";
 import {globalService} from "../../com.zippyttech.utils/globalService";
+import {BaseViewInstance} from "../../com.zippyttech.ui/view/base/baseView.instance";
 
 declare var SystemJS:any;
 
@@ -10,33 +11,14 @@ declare var SystemJS:any;
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
 })
-export class EventComponent implements OnInit,AfterViewInit{
+export class EventComponent extends BaseViewInstance{
 
-    public instance:any={};
-    public paramsTable:any={};
-    public model:any;
-    public viewOptions:any={};
-
-    constructor(public myglobal:globalService,public http:Http) {}
-
-    ngOnInit(){
-        this.initModel();
-        this.initViewOptions();
-        this.loadParamsTable();
+    constructor(public myglobal:globalService,public http:Http) {
+        super();
     }
-
-    ngAfterViewInit():any {
-        this.instance = {
-            'model':this.model,
-            'viewOptions':this.viewOptions,
-            'paramsTable':this.paramsTable
-        };
-    }
-
     initModel() {
         this.model= new EventModel(this.myglobal,this.http);
     }
-
     initViewOptions() {
         this.viewOptions["title"] = 'Eventos';
     }

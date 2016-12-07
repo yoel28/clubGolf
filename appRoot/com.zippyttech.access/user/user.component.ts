@@ -1,6 +1,7 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserModel} from "./user.model";
 import {globalService} from "../../com.zippyttech.utils/globalService";
+import {BaseViewInstance} from "../../com.zippyttech.ui/view/base/baseView.instance";
 
 declare var SystemJS:any;
 @Component({
@@ -8,29 +9,11 @@ declare var SystemJS:any;
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
 })
-export class UserComponent implements OnInit,AfterViewInit{
+export class UserComponent extends BaseViewInstance{
 
-    public instance:any={};
-    public paramsTable:any={};
-    public model:any;
-    public viewOptions:any={};
-
-    constructor(public myglobal:globalService) {}
-
-    ngOnInit(){
-        this.initModel();
-        this.initViewOptions();
-        this.loadParamsTable();
+    constructor(public myglobal:globalService) {
+       super();
     }
-
-    ngAfterViewInit():any {
-        this.instance = {
-            'model':this.model,
-            'viewOptions':this.viewOptions,
-            'paramsTable':this.paramsTable
-        };
-    }
-
     initModel():any {
         this.model= new UserModel(this.myglobal);
     }
@@ -38,7 +21,6 @@ export class UserComponent implements OnInit,AfterViewInit{
     initViewOptions() {
         this.viewOptions["title"] = 'Usuarios';
     }
-
     loadParamsTable(){
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
