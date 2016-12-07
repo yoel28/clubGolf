@@ -74,23 +74,10 @@
 
                                                     <div class="row padding-bottom-4" *ngIf="rules[key].type=='image'">
                                                         <div class="col-lg-10 col-lg-offset-1">
-                                                            <div x-cropit id="image-cropper" (saveImagen)="changeImage($event,key)">
-                                                                <div class="cropit-preview center-block"></div>
-                                                                <div class="col-lg-12" style="margin-top: 10pt;">
-                                                                    <div class="col-lg-6">
-                                                                        <input type="range" class="cropit-image-zoom-input" />
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <input x-file type="file" class="cropit-image-input" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12">
-                                                                    <div class="center-block">
-                                                                        <button class="btn btn-success fa fa-rotate-left rotate-ccw"></button>
-                                                                        <button class="btn btn-success fa fa-rotate-right rotate-cw"></button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <image-edit-view [default]="rules[key].default"
+                                                                             (out)="saveImage($event,key)"
+                                                            >
+                                                            </image-edit-view>
                                                         </div>
                                                     </div>
                                                 </div>
