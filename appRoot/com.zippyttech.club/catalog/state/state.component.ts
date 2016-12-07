@@ -1,14 +1,14 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {globalService} from "../../com.zippyttech.utils/globalService";
-import {ProductTypeModel} from "./productType.model";
+import {StateModel} from "./state.model";
+import {globalService} from "../../../com.zippyttech.utils/globalService";
 
 declare var SystemJS:any;
 @Component({
-    selector: 'type-product',
+    selector: 'status',
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
 })
-export class ProductTypeComponent implements OnInit,AfterViewInit{
+export class StatusComponent implements OnInit,AfterViewInit{
 
     public instance:any={};
     public paramsTable:any={};
@@ -32,18 +32,18 @@ export class ProductTypeComponent implements OnInit,AfterViewInit{
     }
 
     initModel() {
-        this.model= new ProductTypeModel(this.myglobal);
+        this.model= new StateModel(this.myglobal);
     }
 
     initViewOptions() {
-        this.viewOptions["title"] = 'Tipo de producto';
+        this.viewOptions["title"] = 'Estados';
     }
 
     loadParamsTable(){
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
-            'message': '¿ Esta seguro de eliminar el tipo: ',
-            'keyAction':'title'
+            'message': '¿ Esta seguro de eliminar el estado : ',
+            'keyAction':'code'
         };
     }
 }

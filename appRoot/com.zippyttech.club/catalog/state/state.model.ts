@@ -1,6 +1,6 @@
-import {globalService} from "../../com.zippyttech.utils/globalService";
-import {ModelBase} from "../../com.zippyttech.common/modelBase";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {ModelBase} from "../../../com.zippyttech.common/modelBase";
+import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
 export class StateModel extends ModelBase{
     public rules={};
