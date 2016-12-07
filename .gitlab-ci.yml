@@ -47,7 +47,6 @@ deploy_job_3:
   stage: deploy
   script:
     - cd /tmp/build
-    - cp -rf build/* ./
     - cp -rf ./node_modules /home/ubuntu/
     - find ./ -type f -name '*.ts' -delete
     - cd /var/www/
