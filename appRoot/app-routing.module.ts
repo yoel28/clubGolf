@@ -24,9 +24,9 @@ import {ParamComponent} from "./com.zippyttech.business/param/param.component";
 import {AccountComponent} from "./com.zippyttech.access/account/account.component";
 import {UserComponent} from "./com.zippyttech.access/user/user.component";
 import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
-import {ProductTypeComponent} from "./com.zippyttech.club/productType/productType.component";
-import {ProductComponent} from "./com.zippyttech.club/product/product.component";
-import {StatusComponent} from "./com.zippyttech.club/state/state.component";
+import {ProductTypeComponent} from "./com.zippyttech.club/catalog/productType/productType.component";
+import {ProductComponent} from "./com.zippyttech.club/catalog/product/product.component";
+import {StatusComponent} from "./com.zippyttech.club/catalog/state/state.component";
 
 const routesDefault: Routes = [
 
@@ -53,9 +53,9 @@ const routesDefault: Routes = [
     { path: 'business/param', component: ParamComponent},
 
 
-    { path: 'club/type/product', component: ProductTypeComponent},
-    { path: 'club/product', component: ProductComponent},
-    { path: 'club/status', component: StatusComponent},
+    { path: 'club/catalog/type/product', component: ProductTypeComponent},
+    { path: 'club/catalog/product', component: ProductComponent},
+    { path: 'club/catalog/status', component: StatusComponent},
 
 
 ];
