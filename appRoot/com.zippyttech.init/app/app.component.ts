@@ -33,7 +33,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         super(http);
 
         let that = this;
-        let url = "http://pescadorj:8080";
+        let url = "http://34.193.253.232:8080";
+        //let url = "http://pescadorj:8080";
         //let url = "https://club-golf.herokuapp.com";
 
         localStorage.setItem('urlAPI', url + '/api');

@@ -33,7 +33,9 @@ System.config({
     'ng2-translate':             'npm:ng2-translate/bundles/ng2-translate.umd.js',
     'angularfire2':              'npm:angularfire2/bundles/angularfire2.umd.js',
     'firebase':                  'npm:firebase/firebase.js',
-    'ng2-firebase/core':         'npm:ng2-firebase/core.js'
+    'ng2-firebase/core':         'npm:ng2-firebase/core.js',
+    'angular2-qrcode':           'npm:angular2-qrcode',
+    'qrcode-generator':          'npm:qrcode-generator/qrcode.js'
 
   },
   // packages tells the System loader how to load when no filename and/or no extension
