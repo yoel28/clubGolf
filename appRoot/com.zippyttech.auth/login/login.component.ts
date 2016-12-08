@@ -26,7 +26,11 @@ export class LoginComponent extends RestController implements OnInit{
 
     constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
         super(http);
-        //this.af.auth.subscribe(auth => console.log(auth));
+        this.af.auth.subscribe(
+            auth =>{
+                console.log(auth)
+            }
+        );
         this.setEndpoint("/login");
     }
     ngOnInit(){
