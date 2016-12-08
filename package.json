@@ -55,6 +55,7 @@
     "ng2-toasty": "^2.1.0",
     "ng2-translate": "^4.2.0",
     "pdfkit": "^0.8.0",
+    "qcode-decoder": "^0.1.0",
     "reflect-metadata": "^0.1.8",
     "rollup": "^0.36.4",
     "rollup-plugin-commonjs": "^5.0.5",
