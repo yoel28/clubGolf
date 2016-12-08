@@ -50,15 +50,21 @@
                                 <form role="form">
                                     <div class="tab-content">
                                         <div class="tab-pane active" role="tabpanel" id="step1">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <h3><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando al usuario</h3>
                                                 <p><img [attr.src]="pathElements.qr"></p>
                                                 <p>Por favor indique al cliente que escanee el siguiente código</p>
                                                 <p><button (click)="openQR($event)"><i class="glyphicon glyphicon-open-file"></i>&nbsp;Abrir en otra pestaña</button></p>
                                             </div>
-                                            <div class="col-lg-6" id="myqr">
+                                            <div class="col-lg-4">
+                                                <h2>Leer por camara</h2>
+                                                <video autoplay width="300" height="300" poster="assets/img/clubGolf/webcam.png"></video>
+                                                <button (click)="_start(event)">Start</button>
+                                                <button (click)="_stop(event)" >Stop</button>
+                                            </div>
+                                            <div class="col-lg-4" id="myqr">
                                                 <div id="qr" class="row text-center">
-                                                    <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400"></qr-code>
+                                                    <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="300"></qr-code>
                                                 </div>
                                             </div>
                                             <!--<ul class="list-inline pull-right">-->
