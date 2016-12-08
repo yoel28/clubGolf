@@ -3,6 +3,7 @@ import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
 declare var SystemJS:any;
+declare var QCodeDecoder:any;
 @Component({
     moduleId:module.id,
     selector: 'generate-output',
@@ -37,6 +38,11 @@ export class GenerateOutputComponent implements OnInit,AfterViewInit{
             'viewOptions':this.viewOptions,
             'paramsTable':this.paramsTable
         };
+
+        if (!(this.qr.isCanvasSupported() && this.qr.hasGetUserMedia())) {
+            alert('Your browser doesn\'t match the required specs.');
+            throw new Error('Canvas and getUserMedia are required');
+        }
     }
     openQR(event){
         if(event)
@@ -61,7 +67,24 @@ export class GenerateOutputComponent implements OnInit,AfterViewInit{
         }
     }
 
+    public qr = new QCodeDecoder();
+    _stop(event)
+    {
+        if(event)
+            event.preventDefault();
+        this.qr.stop();
+    }
+    _start(event){
+        if(event)
+            event.preventDefault();
+        this.qr.decodeFromCamera(document.querySelector('video'), this.resultHandler);
+    }
+    resultHandler (err, result) {
+        if (err)
+            return console.log(err.message);
 
+        alert(result);
+    }
 
     initModel() {
 
