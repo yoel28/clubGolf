@@ -1,4 +1,4 @@
-<div [class.wrapper]="myglobal.dataSesion.valid">
+<div [class.wrapper]="myglobal.dataSesion.valid" class="full">
     <div *ngIf="myglobal.dataSesion.valid">
         {{this.loadPage()}}
         <header class="main-header">
@@ -7,8 +7,8 @@
                     <img [attr.src]="pathElement.isotipo" class="img-responsive">
                 </span>
                 <span class="logo-lg">
-                    <img [attr.src]="pathElement.logoBlanco"
-                         class="img-responsive col-lg-10 col-md-10 col-sm-10 col-xs-6">
+                    <img [attr.src]="pathElement.miniLogo"
+                         class="img-responsive col-lg-5 col-md-5 col-sm-5 col-xs-5">
                 </span>
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
