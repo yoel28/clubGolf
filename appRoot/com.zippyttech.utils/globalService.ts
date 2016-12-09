@@ -14,6 +14,8 @@ export class globalService extends RestController{
 
     public qrPublic:any;
 
+    public channelWebsocket:any={};
+
     public dataSesion = new FormControl(
         null,
         Validators.compose([
