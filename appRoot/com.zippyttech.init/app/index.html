@@ -8,7 +8,7 @@
                 </span>
                 <span class="logo-lg">
                     <img [attr.src]="pathElement.miniLogo"
-                         class="img-responsive col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                         class="img-responsive col-lg-5 col-md-5 col-sm-5 col-xs-4">
                 </span>
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
@@ -35,11 +35,10 @@
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" (click)='onProfile($event)'
-                                           class="btn btn-default btn-flat">Perfil</a>
+                                        <button (click)='onProfile($event)' class="btn btn-success text-white">Perfil</button>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" (click)='logout($event)' class="btn btn-default btn-flat">Salir</a>
+                                        <button (click)='logout($event)' class="btn btn-success">Salir</button>
                                     </div>
                                 </li>
                             </ul>
