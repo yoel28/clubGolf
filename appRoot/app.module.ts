@@ -12,6 +12,7 @@ import {AppComponent} from "./com.zippyttech.init/app/app.component";
 import {LocationStrategy,HashLocationStrategy} from "@angular/common";
 import {directivesApp, directivesDefault} from "./app.directives";
 import {QRCodeModule} from "angular2-qrcode/angular2-qrcode";
+import {WebSocket} from "./com.zippyttech.utils/websocket";
 
 const myFirebaseConfig = {
     apiKey: "AIzaSyD7yBfAAGV9pSCHqkqJXGW2g6R70209Kl4",
@@ -46,6 +47,7 @@ const myFirebaseConfig = {
     ],
     providers: [
         globalService,
+        WebSocket,
         {provide:LocationStrategy,useClass: HashLocationStrategy}
     ],
     bootstrap: [AppComponent]
