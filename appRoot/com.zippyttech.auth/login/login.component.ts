@@ -26,12 +26,30 @@ export class LoginComponent extends RestController implements OnInit{
 
     constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
         super(http);
+        let that = this;
         this.af.auth.subscribe(
-            auth =>{
-                console.log(auth)
+            (response:any)=>{
+                if(that.context.company)
+                    that.loginFirebase(response.auth.kd);
+            },
+            error=>{
+                console.log(error.message);
             }
         );
         this.setEndpoint("/login");
+    }
+    loginFirebase(token){
+        let that = this;
+        let json={};
+        json['token']=token;
+        json['TokenFCM']='';
+        let successCallback= response => {
+            localStorage.setItem('bearer', response.json().tokenValue);
+            contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
+            let link = ['/init/load', {}];
+            that.router.navigate(link);
+        };
+        return this.httputils.doPost(localStorage.getItem('url')+'/tokens/'+this.context.company+'/firebaseToken',JSON.stringify(json),successCallback,this.error,true)
     }
     ngOnInit(){
         this.initForm();
@@ -102,9 +120,10 @@ export class LoginComponent extends RestController implements OnInit{
                 break;
         }
 
+        let that=this;
         this.af.auth.login({
             provider: auth,
             method: AuthMethods.Popup,
-        });
+        })
     }
 }
