@@ -177,6 +177,10 @@ export abstract class ModelBase{
     public loadDataModel(successCallback){
         return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
     }
+    public loadDataModelWhere(successCallback,where=[]){
+        let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
+        return this.myglobal.httputils.doGet(this.endpoint+_where,successCallback,this.error);
+    }
     public error(error){
         console.log(error);
     }
