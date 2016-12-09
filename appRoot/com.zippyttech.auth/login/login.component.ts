@@ -54,6 +54,8 @@ export class LoginComponent extends RestController implements OnInit{
     ngOnInit(){
         this.initForm();
         this.context.company=this.routeActive.snapshot.params['company'];
+        if(!this.context.company)
+            this.context.company='zippyttech';
         if(this.context.company){
             this.loadContextPublic();
             (<FormControl>this.form.controls['company']).setValue(this.context.company);
