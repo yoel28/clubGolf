@@ -44,7 +44,7 @@
                                     </h4>
                                 </div>
                                 <div class="modal-content">
-                                    <image-edit-view *ngIf="model.rules[key].update"
+                                    <image-edit-view
                                                      [image]="data[key]"
                                                      [default]="model.rules[key].default"
                                                      (out)="onPatchValue(key,data, $event)"
@@ -120,7 +120,7 @@
                      </a>
 
                     <a  x-editable *ngIf="key=='roles'"
-                        [disabled]="!model.permissions.update && !model.model.rules[key].permissions.list"
+                        [disabled]="!model.permissions.update && !model.rules[key].permissions.list"
                         [endpoint]="'/users/'+data.id+'/roles'"
                         [function]="onEditableRole" [data]="data" [rules]="model.rules"
                         field="roles">
