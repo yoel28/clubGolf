@@ -7,7 +7,7 @@
                         <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
                             <div class="row">
                                 <div class="{{classCol(6,6,6,12)}} text-center margin-top-5">
-                                    <h2>
+                                    <h2 hidden>
                                         <i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando al usuario
                                         <button (click)="openQR($event)" class="btn btn-success"
                                                 title="Abrir en otra pestaña">
@@ -28,33 +28,63 @@
                             </div>
                             <div class="row margin-top-5">
                                 <div class="{{classCol(6,6,6,12)}}">
-                                    <div class="margin-top-5">
+                                    <div class="margin-top-5 row">
                                         <a [routerLink]="['/access/user']">
-                                            <img width="60" [attr.src]="pathElements.btnUsuario">
-                                            <strong>Usuarios</strong>
+                                            <div class="{{classCol(3,4,5,5)}}">
+                                                <img class="img-responsive" [attr.src]="pathElements.btnUsuario">
+                                            </div>
+                                            <div class="{{classCol(9,8,7,7)}}">
+                                                <strong>Usuarios</strong><br>
+                                                Abre App-Menú-CDG
+                                            </div>
                                         </a>
                                     </div>
-                                    <div class="margin-top-5">
-                                        <img width="60" [attr.src]="pathElements.btnFamilia">
-                                        <strong>Familia</strong>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnFamilia">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Familia</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
                                     </div>
-                                    <div class="margin-top-5">
-                                        <img width="60" [attr.src]="pathElements.btnToallas">
-                                        <strong>Toallas</strong>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnToallas">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Toallas</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="{{classCol(6,6,6,12)}}">
-                                    <div class="margin-top-5">
-                                        <img width="60" [attr.src]="pathElements.btnInvitados">
-                                        <strong>Invitados</strong>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnInvitados">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Invitados</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
                                     </div>
-                                    <div class="margin-top-5">
-                                        <img width="60" [attr.src]="pathElements.btnCarrito">
-                                        <strong>Carros de Golf</strong>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnCarrito">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Carros de Golf</strong><br>
+                                            Escanea el servicio
+                                        </div>
                                     </div>
-                                    <div class="margin-top-5">
-                                        <img width="60" [attr.src]="pathElements.btnServicios">
-                                        <strong>Servicios</strong>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnServicios">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Servicios</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -93,27 +123,27 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>Fecha</td>
+                                            <td width="50%" class="border-right">Fecha</td>
                                             <td>{{getFecha}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Hora</td>
+                                            <td  class="border-right">Hora</td>
                                             <td>{{getHora}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Numero de operación</td>
+                                            <td  class="border-right">Numero de operación</td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Usuario</td>
+                                            <td  class="border-right">Usuario</td>
                                             <td>{{dataClient.sponsorName}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Despachador</td>
+                                            <td  class="border-right">Despachador</td>
                                             <td>{{myglobal.user.username}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Invitado</td>
+                                            <td  class="border-right">Invitado</td>
                                             <td>{{dataClient.guestName || 'N/A'}}</td>
                                         </tr>
                                         </tbody>
@@ -125,60 +155,40 @@
                                         <div class="form-group input-icon right">
                                             <i class="fa fa-qrcode text-white"></i>
                                             <input formControlName="code" class="form-control input-control"
-                                                   placeholder="Escaner producto" type="text">
+                                                   placeholder="ESCANEAR PRODUCTO" type="text">
                                         </div>
                                     </form>
                                     <button class="btn  btn-green btn-block" (click)="saveProduct($event)">
-                                        <i class="fa fa-save"></i>&nbsp;Terminar
+                                        TERMINAR
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="{{classCol(8,8,10,10)}}{{classOffset(2,2,1,1)}} margin-top-5">
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">CODIGO DE BARRAS</th>
+                                        <th class="text-center border-right">CODIGO DE BARRAS</th>
                                         <th class="text-center">PRODUCTO</th>
                                     </tr>
                                     </thead>
-                                    <tbody *ngIf="getObjectKeys(listProduct).length>0">
-                                    <tr *ngFor="let code of getObjectKeys(listProduct)">
-                                        <td>
-                                            <button class="btn btn-box-tool" title="Eliminar"
-                                                    (click)="deleteKeyProduc(code)">
-                                                <i class="fa fa-trash fa-2x text-white"></i>
-                                            </button>
-                                            &nbsp;{{code}}
-                                        </td>
-                                        <td *ngIf="listProduct[code].id">{{listProduct[code].productTypeTitle}}</td>
-                                        <td *ngIf="listProduct[code].wait"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando
-                                            respuesta
-                                        </td>
-                                        <td *ngIf="listProduct[code].error"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                        <tr *ngFor="let code of getObjectKeys(listProduct)">
+                                            <td class="border-right text-right">
+                                                {{code}}
+                                            </td>
+                                            <td *ngIf="listProduct[code].id" class="text-right">{{listProduct[code].productTypeTitle}}</td>
+                                            <td *ngIf="listProduct[code].wait" class="text-right"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando
+                                                respuesta
+                                            </td>
+                                            <td *ngIf="listProduct[code].error" class="text-right"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right border-right">Total de Items</td>
+                                            <td class="text-right">{{getObjectKeys(listProduct).length}}</td>
+                                        </tr>
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td>Total de Items</td>
-                                        <td>{{getObjectKeys(listProduct).length}}</td>
-                                    </tr>
-                                    </tfoot>
                                 </table>
                             </div>
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button (click)="openQR($event);step=1" type="button"
-                                            class="btn btn-default prev-step">Volver
-                                    </button>
-                                </li>
-                                <li>
-                                    <button (click)="saveProduct($event)" type="button"
-                                            class="btn btn-success next-step">
-                                        <i class="fa fa-save"></i>&nbsp;Terminar
-                                    </button>
-                                </li>
-                            </ul>
                         </div>
                         <div class="tab-pane" [class.active]="step==3" role="tabpanel" id="step3">
                             <h1>Operacion guardada.</h1>

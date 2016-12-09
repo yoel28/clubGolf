@@ -176,3 +176,6 @@ span.round-tab:hover {
     background-color: #488c6c;
     color: white;
 }
+.border-right{
+    border-right: solid 4px;
+}
