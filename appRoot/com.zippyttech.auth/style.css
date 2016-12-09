@@ -33,3 +33,6 @@ div, table, section, div.modal-dialog > div.modal-content {
     background-color: rgba(0,84,37,0.8);
     color: white;
 }
+.padding-top{
+    padding: 5px 0px;
+}
