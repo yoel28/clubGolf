@@ -1,98 +1,98 @@
-<div [class.wrapper]="myglobal.dataSesion.valid" class="full">
-    <div *ngIf="myglobal.dataSesion.valid">
-        {{this.loadPage()}}
-        <header class="main-header">
-            <a href="#" [routerLink]="['/init/dashboard']" class="logo">
+<div *ngIf="myglobal.dataSesion.valid">
+    {{this.loadPage()}}
+    <header class="main-header">
+        <a href="#" [routerLink]="['/init/dashboard']" class="logo">
                 <span class="logo-mini">
                     <img [attr.src]="pathElement.isotipo" class="img-responsive">
                 </span>
-                <span class="logo-lg">
+            <span class="logo-lg">
                     <img [attr.src]="pathElement.miniLogo"
                          class="img-responsive col-lg-5 col-md-5 col-sm-5 col-xs-4">
                 </span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle" data-toggle="offcanvas"
+               role="button">
+                <span class="sr-only">Toggle navigation</span>
             </a>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle" data-toggle="offcanvas"
-                   role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-                <a *ngIf="menuType.value && menuType.value.modal" type="button"
-                   class="btn btn-blue glyphicon glyphicon-th"
-                   style="font-size: x-large" data-toggle="modal" data-target="#myMenu">
-                </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img [attr.src]="myglobal.user.image || pathElement.robot" class="user-image"
+            <a *ngIf="menuType.value && menuType.value.modal" type="button"
+               class="btn btn-blue glyphicon glyphicon-th"
+               style="font-size: x-large" data-toggle="modal" data-target="#myMenu">
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img [attr.src]="myglobal.user.image || pathElement.robot" class="user-image"
+                                 alt="User Image">
+                            <span class="hidden-xs">{{myglobal.user.username}}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header">
+                                <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle"
                                      alt="User Image">
-                                <span class="hidden-xs">{{myglobal.user.username}}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="user-header">
-                                    <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle"
-                                         alt="User Image">
-                                </li>
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <button (click)='onProfile($event)' class="btn btn-success text-white">Perfil</button>
-                                    </div>
-                                    <div class="pull-right">
-                                        <button (click)='logout($event)' class="btn btn-success">Salir</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <aside *ngIf="menuType.value && menuType.value.list" class="main-sidebar">
-            <section class="sidebar">
-                <div class="user-panel cursor-pointer" (click)='onProfile()'>
-                    <div class="pull-left image">
-                        <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle">
-                    </div>
-                    <div class="pull-left info">
-                        <p>{{myglobal.user.name}}</p>
-                        <i class="fa fa-building text-success"></i> {{myglobal.user.companyName}}
-                    </div>
-                </div>
-                <ul class="sidebar-menu">
-                    <li class="header"><i class="fa fa-circle text-success"></i> {{myglobal.user.email}}</li>
-                    <li *ngFor="let item of menuItemsVisible(menuItems.value)"
-                        [class.treeview]="item.treeview"
-                        [class.active]="item.key && activeMenuId==item.key"
-                    >
-                        <a *ngIf="item.routerLink" href="#" [routerLink]="[item.routerLink]">
-                            <i class="{{item.icon}}"></i>
-                            <span>{{item.title}}</span>
-                        </a>
-                        <a *ngIf="item.key" (click)="activeMenu($event,item.key)">
-                            <i class="{{item.icon}}"></i>
-                            <span>{{item.title}}</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul *ngIf="item.treeview" class="treeview-menu">
-                            <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
-                                <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
-                                    <i class="{{subItem.icon}}"></i>
-                                    <span>{{subItem.title}}</span>
-                                </a>
-                                <a *ngIf="subItem.modal" (click)="subItem.function($event,myglobal)" data-toggle="modal"
-                                   [attr.data-target]="subItem.modalId">
-                                    <i class="{{subItem.icon}}"></i> <span>{{subItem.title}}</span>
-                                </a>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <button (click)='onProfile($event)' class="btn btn-success text-white">Perfil</button>
+                                </div>
+                                <div class="pull-right">
+                                    <button (click)='logout($event)' class="btn btn-success">Salir</button>
+                                </div>
                             </li>
                         </ul>
                     </li>
                 </ul>
-            </section>
-        </aside>
-    </div>
+            </div>
+        </nav>
+    </header>
+    <aside *ngIf="menuType.value && menuType.value.list" class="main-sidebar">
+        <section class="sidebar">
+            <div class="user-panel cursor-pointer" (click)='onProfile()'>
+                <div class="pull-left image">
+                    <img [attr.src]="myglobal.user.image || pathElement.robot" class="img-circle">
+                </div>
+                <div class="pull-left info">
+                    <p>{{myglobal.user.name}}</p>
+                    <i class="fa fa-building text-success"></i> {{myglobal.user.companyName}}
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="header"><i class="fa fa-circle text-success"></i> {{myglobal.user.email}}</li>
+                <li *ngFor="let item of menuItemsVisible(menuItems.value)"
+                    [class.treeview]="item.treeview"
+                    [class.active]="item.key && activeMenuId==item.key"
+                >
+                    <a *ngIf="item.routerLink" href="#" [routerLink]="[item.routerLink]">
+                        <i class="{{item.icon}}"></i>
+                        <span>{{item.title}}</span>
+                    </a>
+                    <a *ngIf="item.key" (click)="activeMenu($event,item.key)">
+                        <i class="{{item.icon}}"></i>
+                        <span>{{item.title}}</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul *ngIf="item.treeview" class="treeview-menu">
+                        <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
+                            <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
+                                <i class="{{subItem.icon}}"></i>
+                                <span>{{subItem.title}}</span>
+                            </a>
+                            <a *ngIf="subItem.modal" (click)="subItem.function($event,myglobal)" data-toggle="modal"
+                               [attr.data-target]="subItem.modalId">
+                                <i class="{{subItem.icon}}"></i> <span>{{subItem.title}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+</div>
+<div [class.content-wrapper]="myglobal.dataSesion.valid" >
     <router-outlet></router-outlet>
 </div>
-<div *ngIf="myglobal.dataSesion.valid">
+<div *ngIf="myglobal.dataSesion.valid" class="subir-top">
     <div class="main-footer-container noprint">
         <footer class="main-footer">
             <div class="pull-right hidden-xs">

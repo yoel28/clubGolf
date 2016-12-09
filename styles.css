@@ -100,11 +100,13 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
 }
 .image-editor:hover {opacity: 0.7;}
 
-html,body { height: 100%; margin: 0px; padding: 0px; }
-.full {height: 100% }
-
 .img-responsive img{
     display: block;
     max-width: 100%;
     height: auto;
+}
+.content-wrapper{
+    background-image: url('assets/img/clubGolf/BolaGolf.png'), url('assets/img/clubGolf/RobotTransparent.png');
+    background-position: left bottom, right bottom;
+    background-repeat: no-repeat, no-repeat;
 }
