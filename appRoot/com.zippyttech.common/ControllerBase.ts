@@ -164,4 +164,10 @@ export abstract class ControllerBase extends RestController {
         popupWin.document.head.innerHTML = (document.head.innerHTML);
         popupWin.document.close();
     }
+    public get getFecha(){
+        return moment().format('DD/MM/YYYY');
+    }
+    public get getHora(){
+        return moment().format('LT');
+    }
 }
