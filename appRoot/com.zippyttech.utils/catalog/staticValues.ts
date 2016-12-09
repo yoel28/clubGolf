@@ -98,7 +98,15 @@ export class StaticValues {
             'warning':          'assets/img/default/warning.png',
             'company':          'assets/img/default/varios/company.png',
             'qr':               'assets/img/clubGolf/qr.jpg',
-            'miniLogo':         'assets/img/clubGolf/miniLogo.png'
+            'miniLogo':         'assets/img/clubGolf/miniLogo.png',
+
+
+            'btnCarrito':         'assets/img/clubGolf/botones/carrito.png',
+            'btnFamilia':         'assets/img/clubGolf/botones/familia.png',
+            'btnInvitados':       'assets/img/clubGolf/botones/invitados.png',
+            'btnServicios':       'assets/img/clubGolf/botones/servicios.png',
+            'btnToallas':         'assets/img/clubGolf/botones/toallas.png',
+            'btnUsuario':         'assets/img/clubGolf/botones/usuario.png',
         }
     }
 
