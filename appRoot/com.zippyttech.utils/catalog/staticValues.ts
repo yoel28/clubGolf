@@ -97,7 +97,8 @@ export class StaticValues {
             'robot':            'assets/img/default/zippy/robot.png',
             'warning':          'assets/img/default/warning.png',
             'company':          'assets/img/default/varios/company.png',
-            'qr':               'assets/img/clubGolf/qr.jpg'
+            'qr':               'assets/img/clubGolf/qr.jpg',
+            'miniLogo':         'assets/img/clubGolf/miniLogo.png'
         }
     }
 
