@@ -22,7 +22,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         super('NOPREFIX','/NOENDPOINT/',router, http, myglobal);
     }
     ngOnInit(){
-        this.initModel();
+        super.ngOnInit();
         this.initParams();
         this.initViewOptions();
         this.loadParamsTable();
