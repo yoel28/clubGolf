@@ -178,7 +178,7 @@ export abstract class ModelBase{
         return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
     }
     public onSave(body,successCallback){
-        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error)
+        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
     public loadDataModelWhere(successCallback,where=[]){
         let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
