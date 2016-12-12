@@ -202,7 +202,7 @@ export class RestController implements OnInit {
         else
             body = JSON.stringify(data);
 
-        this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
+        return this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
     }
 
     onPatch(field, data, value?) {
