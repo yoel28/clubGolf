@@ -145,6 +145,7 @@ export class StaticValues {
         msg.update="Actualizar";
         msg.imageEditor="Editor de imagenes";
         msg.imageEdit="Editar imagen";
+        msg.getProducts="Recepción de productos";
 
         return msg;
 
