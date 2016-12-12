@@ -3,7 +3,7 @@
     <header class="main-header">
         <a href="#" [routerLink]="['/init/dashboard']" class="logo">
                 <span class="logo-mini">
-                    <img [attr.src]="pathElement.isotipo" class="img-responsive">
+                    <img [attr.src]="pathElement.miniLogo" class="img-responsive">
                 </span>
             <span class="logo-lg">
                     <img [attr.src]="pathElement.miniLogo"
@@ -91,6 +91,7 @@
 </div>
 <div [class.content-wrapper]="myglobal.dataSesion.valid" >
     <router-outlet></router-outlet>
+    <ng2-toasty [position]="'top-right'"></ng2-toasty>
 </div>
 <div *ngIf="myglobal.dataSesion.valid" class="subir-top">
     <div class="main-footer-container noprint">
