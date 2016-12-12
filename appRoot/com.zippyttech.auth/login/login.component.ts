@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
 import {Router, ActivatedRoute}           from '@angular/router';
 import {Http} from '@angular/http';
@@ -15,7 +15,7 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.auth/login/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css']
 })
-export class LoginComponent extends RestController implements OnInit{
+export class LoginComponent extends RestController implements OnInit,OnDestroy{
 
     public submitForm:boolean = false;
     public msg=StaticValues.msg;
@@ -23,19 +23,11 @@ export class LoginComponent extends RestController implements OnInit{
     public context:any={'company':null,'public':{}};
     
     form:FormGroup;
+    public subcribe;
 
     constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
         super(http);
         let that = this;
-        this.af.auth.subscribe(
-            (response:any)=>{
-                if(that.context.company)
-                    that.loginFirebase(response.auth.kd);
-            },
-            error=>{
-                console.log(error.message);
-            }
-        );
         this.setEndpoint("/login");
     }
     loginFirebase(token){
@@ -54,6 +46,8 @@ export class LoginComponent extends RestController implements OnInit{
     ngOnInit(){
         this.initForm();
         this.context.company=this.routeActive.snapshot.params['company'];
+        if(!this.context.company)
+            this.context.company='zippyttech';
         if(this.context.company){
             this.loadContextPublic();
             (<FormControl>this.form.controls['company']).setValue(this.context.company);
@@ -103,11 +97,27 @@ export class LoginComponent extends RestController implements OnInit{
         let link = ['/auth/recover', {}];
         this.router.navigate(link);
     }
+    ngOnDestroy(){
+        if(this.subcribe)
+            this.subcribe.unsubscribe();
+        this.subcribe = null;
+    }
     loginSocial(event:Event,social) {
         if(event)
             event.preventDefault();
 
         let auth;
+        let that=this;
+        this.subcribe=this.af.auth.subscribe(
+            (response:any)=>{
+                if(that.context.company)
+                    if(response && response.auth && !localStorage.getItem('bearer'))
+                        that.loginFirebase(response.auth.kd);
+            },
+            error=>{
+                console.log(error.message);
+            }
+        );
         switch (social){
             case 'fb':
                 auth=AuthProviders.Facebook;
@@ -119,11 +129,9 @@ export class LoginComponent extends RestController implements OnInit{
                 auth=AuthProviders.Google;
                 break;
         }
-
-        let that=this;
         this.af.auth.login({
             provider: auth,
             method: AuthMethods.Popup,
-        })
+        });
     }
 }
