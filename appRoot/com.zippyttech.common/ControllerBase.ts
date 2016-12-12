@@ -3,13 +3,14 @@ import { Router }           from '@angular/router';
 import {RestController} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../com.zippyttech.utils/globalService";
+import {OnInit} from "@angular/core";
 
 declare var humanizeDuration:any;
 declare var moment:any;
 declare var jQuery:any;
 declare var Table2Excel:any;
 
-export abstract class ControllerBase extends RestController {
+export abstract class ControllerBase extends RestController implements OnInit {
     
     public formatDateId:any = {};
     public prefix = "DEFAULT";
@@ -25,6 +26,9 @@ export abstract class ControllerBase extends RestController {
         this.setEndpoint(endpoint);
         this.prefix = prefix;
         this.initLang();
+    }
+    ngOnInit():void{
+        this.initModel();
     }
     public initLang() {
         var userLang = navigator.language.split('-')[0];
@@ -176,4 +180,5 @@ export abstract class ControllerBase extends RestController {
     public classOffset(lg=0,md=0,sm=0,xs=0){
         return ' col-lg-offset-'+lg+' col-md-offset-'+md+' col-sm-offset-'+sm+' col-xs-offset-'+xs;
     }
+
 }
