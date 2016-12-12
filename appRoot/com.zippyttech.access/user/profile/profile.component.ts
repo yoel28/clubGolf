@@ -23,7 +23,7 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     }
     ngOnInit():any
     {
-        this.initModel();
+        super.ngOnInit();
         this.loadPage();
     }
     initModel():any{
