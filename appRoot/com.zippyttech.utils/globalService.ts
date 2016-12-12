@@ -9,7 +9,6 @@ export class globalService extends RestController{
     user:any={};
     params:any={};
     help:any={};
-    rules:any={};
     permissions:any=[];
 
     public qrPublic:any;
@@ -25,8 +24,7 @@ export class globalService extends RestController{
                         c.value.user.status  &&
                         c.value.permissions.status &&
                         c.value.params.status &&
-                        c.value.help.status &&
-                        c.value.rules.status
+                        c.value.help.status
                     )
                     {return null;}
                 }
@@ -52,7 +50,6 @@ export class globalService extends RestController{
         this.loadMyPermissions();
         this.loadParams();
         this.loadTooltips();
-        this.loadRules();
     }
     dataSesionInit():void{
         this.dataSesion.setValue({
@@ -61,7 +58,6 @@ export class globalService extends RestController{
             'permissions':  {'status':false,'title':'Consultando  permisos'},
             'params':       {'status':false,'title':'Consultando  parametros'},
             'help':         {'status':false,'title':'Consultando  ayudas'},
-            'rules':        {'status':false,'title':'Consultando  reglas'}
         });
     }
     error = (err:any):void => {
@@ -114,15 +110,6 @@ export class globalService extends RestController{
         };
         this.httputils.doGet('/params?max=1000',successCallback,this.error);
     }
-    loadRules():void{
-        let that = this;
-        let successCallback= (response:any) => {
-            Object.assign(that.rules,response.json().list);
-            that.dataSesion.value.rules.status=true;
-            that.dataSesion.setValue(that.dataSesion.value);
-        };
-        this.httputils.doGet('/rules?max=1000',successCallback,this.error);
-    }
     loadTooltips():void{
         let that = this;
         let successCallback= (response:any) => {
@@ -152,17 +139,6 @@ export class globalService extends RestController{
         return valor;
     }
 
-    getRule(key:string):string{
-        let that = this;
-        let valor="";
-        Object.keys(this.rules || {}).forEach(index=>{
-            if(that.rules[index].key==key){
-                valor=that.rules[index].value;
-                return;
-            }
-        });
-        return valor;
-    }
     getTooltip(code:string):any{
         let that = this;
         let valor={};
