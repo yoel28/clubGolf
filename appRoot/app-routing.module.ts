@@ -28,6 +28,8 @@ import {ProductTypeComponent} from "./com.zippyttech.club/catalog/productType/pr
 import {ProductComponent} from "./com.zippyttech.club/catalog/product/product.component";
 import {StatusComponent} from "./com.zippyttech.club/catalog/state/state.component";
 import {GenerateOutputComponent} from "./com.zippyttech.club/process/generateOutput/generateOutput.component";
+import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.component";
+import {ToastyModule} from "ng2-toasty";
 
 const routesDefault: Routes = [
 
@@ -59,14 +61,18 @@ const routesDefault: Routes = [
     { path: 'club/catalog/status', component: StatusComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
+    { path: 'club/process/getback', component:  GetbackComponent},
 
 
 
 ];
 const routesApp: Routes = [];
 @NgModule({
-    imports: [RouterModule.forRoot(routesDefault.concat(routesApp))],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(routesDefault.concat(routesApp)),
+        ToastyModule.forRoot()
+    ],
+    exports: [RouterModule,ToastyModule]
 })
 export class AppRoutingModule {
 }
@@ -102,7 +108,8 @@ export const componentsApp = [
     ProductTypeComponent,
     ProductComponent,
     StatusComponent,
-    GenerateOutputComponent
+    GenerateOutputComponent,
+    GetbackComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
