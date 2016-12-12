@@ -12,6 +12,16 @@ export class StateModel extends ModelBase{
     }
     modelExternal() {}
     initRules(){
+        this.rules['title']={
+            'type': 'text',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'title',
+            'title': 'Título',
+            'placeholder': 'Título',
+        };
         this.rules['code']={
             'type': 'text',
             'required':true,
@@ -29,8 +39,8 @@ export class StateModel extends ModelBase{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Activo', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Inactivo', 'class': 'btn btn-sm btn-red'},
+                {'value':true,'text': 'Bloquear', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'N/A', 'class': 'btn btn-sm btn-yellow'},
             ],
             "key": "productDisabling",
             "title": "Producto",
@@ -42,8 +52,8 @@ export class StateModel extends ModelBase{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Activo', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Inactivo', 'class': 'btn btn-sm btn-red'},
+                {'value':true,'text': 'Bloquear', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'N/A', 'class': 'btn btn-sm btn-yellow'},
             ],
             "key": "userDisabling",
             "title": "Usuario",
@@ -55,11 +65,24 @@ export class StateModel extends ModelBase{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Activo', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Inactivo', 'class': 'btn btn-sm btn-red'},
+                {'value':true,'text': 'Bloquear', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'N/A', 'class': 'btn btn-sm btn-yellow'},
             ],
             "key": "qrDisabling",
             "title": "QR",
+        };
+        this.rules["billAdd"] = {
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':true,'text': 'Cobrar', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'N/A', 'class': 'btn btn-sm btn-yellow'},
+            ],
+            "key": "billAdd",
+            "title": "Cobrar",
         };
         
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
@@ -74,7 +97,7 @@ export class StateModel extends ModelBase{
     }
     initRuleObject() {
         this.ruleObject.title="Estado";
-        this.ruleObject.placeholder="Ingrese codigo del estado";
+        this.ruleObject.placeholder="Código del estado";
         this.ruleObject.key="status";
         this.ruleObject.keyDisplay = "statusCode";
         this.ruleObject.code = "statusId";
