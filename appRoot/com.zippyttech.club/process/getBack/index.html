@@ -1,0 +1,141 @@
+<section class="content container" *ngIf="model.completed">
+    <div class="background-grandient {{classCol(10,10,11,12)}}">
+        <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
+            <form role="form">
+                <div class="tab-content">
+                    <h1 class="text-center">{{msg.getProducts}}</h1>
+                    <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
+                        <div class="row margin-top-5">
+                            <div class="{{classCol(12,12,12,12)}} margin-top-5">
+                                <table class="table color-golf">
+                                    <thead>
+                                    <tr>
+                                        <th width="10%" class="text-center border-right">DETALLE POR PRODUCTO</th>
+                                        <th class="text-center">CODIGO DE BARRAS</th>
+                                        <th class="text-center">PRODUCTO</th>
+                                        <th class="text-center">ENTREGADO</th>
+                                        <th class="text-center">ESTADO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let code of getObjectKeys(listProduct)">
+                                        <td class="border-right text-right">
+                                            <span *ngIf="!listProduct[code].available && listProduct[code].id">
+                                                <a class="text-white" x-editable (success)="setValues(code,'detail',$event)"  [data]="listProduct[code]" [rules]="model.rules" field="detail">{{model.rules['detail'].placeholder}}</a>
+                                            </span>
+                                        </td>
+
+                                        <td class="text-left">
+                                            <i class="fa fa-trash fa-lg cursor-pointer" (click)="deleteKeyProduc(code)" [attr.title]="msg.delete"></i>
+                                            &nbsp;{{code}}
+                                        </td>
+
+                                        <td class="text-right border-right">
+                                            <span *ngIf="listProduct[code].id">
+                                                {{listProduct[code].productTypeTitle}}
+                                            </span>
+                                            <span *ngIf="listProduct[code].wait">
+                                                <i class="fa fa-spinner fa-spin"></i>&nbsp;Por favor espere
+                                            </span>
+                                            <span *ngIf="listProduct[code].error">
+                                                <i class="fa fa-warning  text-red"></i>&nbsp;{{listProduct[code].error}}
+                                            </span>
+                                        </td>
+
+                                        <td class="border-right text-left border-right">
+                                            <span *ngIf="listProduct[code].error">
+                                                <i class="fa fa-list"></i>
+                                                &nbsp;N/A
+                                            </span>
+                                            <span *ngIf="listProduct[code].available">
+                                                <i class="fa fa-close"></i>
+                                                &nbsp;Producto no a salido
+                                            </span>
+                                            <span *ngIf="listProduct[code].byClient && !listProduct[code].available" (click)="changeClient(code)" class="cursor-pointer">
+                                                <i class="fa fa-user"></i>
+                                                &nbsp;Cliente
+                                            </span>
+                                            <span *ngIf="!listProduct[code].byClient && !listProduct[code].available && listProduct[code].id" (click)="changeClient(code)" class="cursor-pointer">
+                                                <i class="fa fa-user-md"></i>
+                                                &nbsp;Empleado
+                                            </span>
+
+                                        </td>
+                                        <td class="border-right text-right">
+                                            <span *ngIf="!listProduct[code].available && listProduct[code].id" class="text-black">
+                                                <a class="text-white" x-editable (success)="setValues(code,'state',$event)" [data]="listProduct[code]" [rules]="model.rules" field="state">{{model.rules['state'].placeholder}}</a>
+                                            </span>
+                                            <span *ngIf="listProduct[code].available || !listProduct[code].id">
+                                               N/A
+                                            </span>
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right border-right">Total de Items</td>
+                                        <td class="text-right">{{getObjectKeys(listProduct).length}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="{{classCol(6,6,6,12)}}">
+                                <table class="table color-golf">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" class="text-center"><strong>OPERACIÓN</strong></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td width="50%" class="border-right">Fecha</td>
+                                            <td>{{getFecha}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="border-right">Hora</td>
+                                            <td>{{getHora}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="border-right">Operador</td>
+                                            <td>{{myglobal.user.username}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="{{classCol(6,6,6,12)}} ">
+                                <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
+                                    <div class="form-group input-icon right">
+                                        <i class="fa fa-qrcode text-white"></i>
+                                        <input formControlName="code" class="form-control input-control"
+                                               placeholder="ESCANEAR PRODUCTO" type="text">
+                                    </div>
+                                </form>
+                                <button class="btn  btn-green btn-block" (click)="saveProduct($event)" [disabled]="!form.valid">
+                                    TERMINAR
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" [class.active]="step==2" role="tabpanel" id="step2">
+                        <h1>Operacion guardada.</h1>
+
+                        <ul class="list-inline pull-right">
+                            <li>
+                                <button (click)="step=1" type="button"
+                                        class="btn btn-primary next-step">Iniciar
+                                </button>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
