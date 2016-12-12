@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {RestController} from "../com.zippyttech.rest/restController";
 import {contentHeaders} from "../com.zippyttech.rest/headers";
 import {FormControl, Validators} from "@angular/forms";
+import {ToastyConfig, ToastyService, ToastOptions, ToastData} from "ng2-toasty";
 
 @Injectable()
 export class globalService extends RestController{
@@ -36,8 +37,35 @@ export class globalService extends RestController{
 
     objectInstance:any={};//lista de instancias creadas
     
-    constructor(public http:Http) {
+    constructor(public http:Http,private toastyService:ToastyService, private toastyConfig: ToastyConfig) {
         super(http);
+        this.existLocalStorage();
+
+    }
+    addToast() {
+         var toastOptions:ToastOptions = {
+            title: '<a href="https://google.com">My title</a>',
+            msg: "The message",
+            showClose: true,
+            timeout: 5000,
+            theme: 'default',
+            onAdd: (toast:ToastData) => {
+                console.log('Toast ' + toast.id + ' has been added!');
+            },
+            onRemove: function(toast:ToastData) {
+                console.log('Toast ' + toast.id + ' has been removed!');
+            }
+        };
+
+
+        this.toastyService.info(toastOptions);
+        this.toastyService.success(toastOptions);
+        this.toastyService.wait(toastOptions);
+        this.toastyService.error(toastOptions);
+        this.toastyService.warning(toastOptions);
+    }
+
+    existLocalStorage(){
         if (typeof(Storage) !== "undefined") {
             console.log("habemus localstorage")
         } else {
