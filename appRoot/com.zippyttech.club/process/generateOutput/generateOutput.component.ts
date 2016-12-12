@@ -15,7 +15,7 @@ declare var moment:any;
     moduleId:module.id,
     selector: 'generate-output',
     templateUrl:'index.html',
-    styleUrls: ['style.css'],
+    styleUrls: ['../style.css'],
 })
 export class GenerateOutputComponent extends ControllerBase implements OnInit {
 
@@ -47,8 +47,8 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit {
     }
 
     ngOnInit(){
+        super.ngOnInit();
         this.initForm();
-        this.initModel();
         this.initViewOptions();
         this.loadWebSocket();
     }
