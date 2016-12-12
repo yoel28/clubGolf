@@ -195,8 +195,13 @@ export class RestController implements OnInit {
         this.httputils.onDelete(this.endpoint + id, id, this.dataList.list, this.error);
     }
 
-    onSave(data:FormGroup) {
-        let body = JSON.stringify(data.value);
+    onSave(data:FormGroup|Object) {
+        let body:any;
+        if(data instanceof FormGroup)
+            body = JSON.stringify(data.value);
+        else
+            body = JSON.stringify(data);
+
         this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
     }
 
