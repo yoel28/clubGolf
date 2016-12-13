@@ -24,6 +24,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     ngOnInit(){
         super.ngOnInit();
         this.initParams();
+        this.initRest();
         this.initViewOptions();
         this.loadParamsTable();
         this.loadPage();
@@ -34,6 +35,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     initParams(){
         this.prefix = this.model.prefix;
         this.setEndpoint(this.model.endpoint);
+    }
+    initRest(){
+        this.setWhere(this.instance.rest.where);//TODO:Falta cargar todos las demas variables y hacer parametros dinamicos
     }
     initViewOptions() {
         this.viewOptions["title"] = this.instance.viewOptions.title;
@@ -58,17 +62,24 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         this.paramsTable.endpoint=this.endpoint;
         this.paramsTable.actions={};
 
-        if(this.instance.paramsTable && this.instance.paramsTable.actions && this.instance.paramsTable.actions.delete )
+        if(this.instance.paramsTable && this.instance.paramsTable.actions )
         {
-            this.paramsTable.actions.delete = {
-                "icon": "fa fa-trash",
-                "exp": "",
-                'title': 'Eliminar',
-                'idModal': this.prefix+'_'+this.configId+'_DEL',
-                'permission': this.model.permissions.delete,
-                'message': this.instance.paramsTable.actions.delete.message,
-                'keyAction':this.instance.paramsTable.actions.delete.keyAction
-            };
+            if(this.instance.paramsTable.actions.delete){
+                this.paramsTable.actions.delete = {
+                    "icon": "fa fa-trash",
+                    "exp": "",
+                    'title': 'Eliminar',
+                    'idModal': this.prefix+'_'+this.configId+'_DEL',
+                    'permission': this.model.permissions.delete,
+                    'message': this.instance.paramsTable.actions.delete.message,
+                    'keyAction':this.instance.paramsTable.actions.delete.keyAction
+                };
+            }
+
+            if(this.instance.paramsTable.actions.viewHistory){
+                this.paramsTable.actions.viewHistory = this.instance.paramsTable.actions.viewHistory;
+            }
+
         }
         
     }
