@@ -39,21 +39,21 @@ export class PermissionModel extends ModelBase{
             'title': 'Modulo',
             'placeholder': 'Modulo',
         };
-        this.rules['controlador']={
+        this.rules['controller']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'controlador',
+            'key': 'controller',
             'title': 'Controlador',
             'placeholder': 'Controlador',
         };
-        this.rules['accion']={
+        this.rules['action']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'accion',
+            'key': 'action',
             'title': 'Acción',
             'placeholder': 'Acción',
         };
