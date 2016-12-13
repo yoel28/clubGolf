@@ -9,6 +9,17 @@ export class RuleModel extends ModelBase{
     }
     modelExternal() {}
     initRules(){
+        this.rules['code']={
+            'type':'text',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key':'code',
+            'icon': 'fa fa-key',
+            'title':'Código',
+            'placeholder':'Código',
+        };
         this.rules['rule']={
             'type':'text',
             'required':true,
