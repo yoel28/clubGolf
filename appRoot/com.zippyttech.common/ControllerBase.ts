@@ -180,5 +180,8 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classOffset(lg=0,md=0,sm=0,xs=0){
         return ' col-lg-offset-'+lg+' col-md-offset-'+md+' col-sm-offset-'+sm+' col-xs-offset-'+xs;
     }
+    public setWhere(where:Object):void{
+        this.where = "&where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
+    }
 
 }
