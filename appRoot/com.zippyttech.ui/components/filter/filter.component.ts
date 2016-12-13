@@ -324,7 +324,7 @@ export class FilterComponent extends RestController implements OnInit{
         this.searchId={};
         this.keys.forEach(key=>{
             if(this.form.controls[key]){
-                (<FormControl>this.form.controls[key]).value=null;
+                (<FormControl>this.form.controls[key]).setValue(null);
                 (<FormControl>this.form.controls[key]).setErrors(null);
             }
         })
