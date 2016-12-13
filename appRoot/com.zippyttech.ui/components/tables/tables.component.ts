@@ -166,6 +166,37 @@ export class TablesComponent extends RestController implements OnInit {
 
     }
 
+    public formatDateId={};
+    public dateHmanizer = StaticValues.dateHmanizer;
+    public formatDate(date, format, force = false, id = null) {
+        if (date) {
+            if (id && this.formatDateId[id])
+                force = this.formatDateId[id].value;
+            if (this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
+                var diff = moment().valueOf() - moment(date).valueOf();
+                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                    if (diff < 1800000)//menor a 30min
+                        return 'Hace ' + this.dateHmanizer(diff, {units: ['m', 's']})
+                    if (diff < 3600000) //menor a 1hora
+                        return 'Hace ' + this.dateHmanizer(diff, {units: ['m']})
+                    return 'Hace ' + this.dateHmanizer(diff, {units: ['h', 'm']})
+                }
+            }
+            return moment(date).format(format);
+        }
+        return "-";
+    }
+    public changeFormatDate(id) {
+        if (!this.formatDateId[id])
+            this.formatDateId[id] = {'value': false};
+        this.formatDateId[id].value = !this.formatDateId[id].value;
+    }
+
+    public viewChangeDate(date) {
+        //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
+        var diff = moment().valueOf() - moment(date).valueOf();
+        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+    }
 
 
 
