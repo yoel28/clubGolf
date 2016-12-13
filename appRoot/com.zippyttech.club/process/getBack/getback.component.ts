@@ -23,6 +23,8 @@ export class GetbackComponent extends ControllerBase {
     public product:any;
     public msg=StaticValues.msg;
 
+    public stateDefault=null;
+
     constructor(public router: Router, public http:Http, public myglobal:globalService) {
         super('GETBACK','/getback/',router,http,myglobal);
 
@@ -57,10 +59,14 @@ export class GetbackComponent extends ControllerBase {
         let successCallback= response => {
             let data=response.json();
             if(data.count==1){
-                that.listProduct[code]=data.list[0];
+                that.listProduct[code]={};
+                that.listProduct[code].available=data.list[0].available;
+                that.listProduct[code].id=data.list[0].id;
+                that.listProduct[code].code=data.list[0].code;
+                that.listProduct[code].title=data.list[0].productTypeTitle;
                 that.listProduct[code].byClient=false;
                 that.listProduct[code].detail=null;
-                that.listProduct[code].state=null;
+                that.listProduct[code].state=that.stateDefault;
                 that.listProduct[code].mustComment=false;
             }
             else
