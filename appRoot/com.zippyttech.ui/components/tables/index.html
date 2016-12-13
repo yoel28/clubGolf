@@ -168,8 +168,7 @@
                                 <span class="{{params.actions[key].icon}}"></span>
                                 &nbsp;{{params.actions[key].title}}
                             </a>
-                            <a *ngIf="key == 'viewHistory'"
-                               (click)="onPrint(params.actions[key].element)">
+                            <a *ngIf="key == 'viewHistory'" [attr.href]="params.actions[key].path+data.id">
                                 <span class="{{params.actions[key].icon}}"></span>
                                 &nbsp;{{params.actions[key].title}}
                             </a>
