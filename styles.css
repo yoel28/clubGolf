@@ -111,3 +111,6 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     background-repeat: no-repeat, no-repeat;
     background-size: 15% ,25%;
 }
+.focus-error{
+    border-bottom: 1px solid red !important;
+}
