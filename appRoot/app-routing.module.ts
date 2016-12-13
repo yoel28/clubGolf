@@ -63,6 +63,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/status', component: StatusComponent},
     { path: 'club/catalog/qr', component: QrcodeComponent},
     { path: 'club/catalog/trade', component: TradeComponent},
+    { path: 'club/catalog/trade/:userId', component: TradeComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
