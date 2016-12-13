@@ -110,9 +110,9 @@ export class StateModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="Estado";
         this.ruleObject.placeholder="Código del estado";
-        this.ruleObject.key="status";
-        this.ruleObject.keyDisplay = "statusCode";
-        this.ruleObject.code = "statusId";
+        this.ruleObject.key="state";
+        this.ruleObject.keyDisplay = "stateTitle";
+        this.ruleObject.code = "stateId";
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
