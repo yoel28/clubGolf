@@ -126,6 +126,11 @@
                         field="roles">
 
                     </a>
+
+                    <span *ngIf="model.rules[key].type =='date'" >
+                        {{formatDate(data[key],'DD/MM/YYYY',false,data.id)}}
+                        <i *ngIf="viewChangeDate(data[key])" class="fa fa-exchange btn" (click)="changeFormatDate(data.id)"></i>
+                    </span>
                 </span>
                 <span *ngIf="getDisabledField(key,data)">
                     <label class="label label-orange">N/A</label>
@@ -159,6 +164,11 @@
                                 {{data.enabled?params.actions[key].titleTrue:params.actions[key].titleFalse}}
                             </a>
                             <a *ngIf="key == 'print'"
+                               (click)="onPrint(params.actions[key].element)">
+                                <span class="{{params.actions[key].icon}}"></span>
+                                &nbsp;{{params.actions[key].title}}
+                            </a>
+                            <a *ngIf="key == 'viewHistory'"
                                (click)="onPrint(params.actions[key].element)">
                                 <span class="{{params.actions[key].icon}}"></span>
                                 &nbsp;{{params.actions[key].title}}
