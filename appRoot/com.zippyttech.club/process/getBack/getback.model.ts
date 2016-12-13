@@ -49,6 +49,7 @@ export class GetbackModel extends ModelBase{
         this.rules['state'].type= 'select';
         this.rules['state'].mode= 'popup';
         this.rules['state'].source=[];
+        this.rules['state'].data={};
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
 
@@ -81,6 +82,8 @@ export class GetbackModel extends ModelBase{
             let data =  response.json();
             data.list.forEach(obj=> {
                 that.rules['state'].source.push({'value': obj.id, 'text': obj.code + ' ('+obj.title+')' });
+                that.rules['state'].data[obj.id]=obj;
+
             });
             that.completed = true;
         }

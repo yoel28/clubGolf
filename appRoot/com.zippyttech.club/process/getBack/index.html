@@ -7,6 +7,7 @@
                     <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
                         <div class="row margin-top-5">
                             <div class="{{classCol(12,12,12,12)}} margin-top-5">
+                                <span>{{msg.fieldRequired}}</span>
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>
@@ -14,14 +15,23 @@
                                         <th class="text-center">CODIGO DE BARRAS</th>
                                         <th class="text-center">PRODUCTO</th>
                                         <th class="text-center">ENTREGADO</th>
-                                        <th class="text-center">ESTADO</th>
+                                        <th class="text-center">ESTADO&nbsp;(*)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr *ngFor="let code of getObjectKeys(listProduct)">
                                         <td class="border-right text-right">
                                             <span *ngIf="!listProduct[code].available && listProduct[code].id">
-                                                <a class="text-white" x-editable (success)="setValues(code,'detail',$event)"  [data]="listProduct[code]" [rules]="model.rules" field="detail">{{model.rules['detail'].placeholder}}</a>
+                                                <a href="#" [class.text-white]="listProduct[code].detail"
+                                                            [class.text-black]="!listProduct[code].detail"
+                                                            [class.focus-error]="!listProduct[code].detail && listProduct[code].mustComment"
+                                                            title="{{(!listProduct[code].detail && listProduct[code].mustComment)?'Campo obligatorio':null}}"
+                                                            x-editable (success)="setValues(code,'detail',$event)"
+                                                            [data]="listProduct[code]"
+                                                            [rules]="model.rules"
+                                                            field="detail">
+                                                    {{model.rules['detail'].placeholder}}
+                                                </a>
                                             </span>
                                         </td>
 
@@ -38,7 +48,7 @@
                                                 <i class="fa fa-spinner fa-spin"></i>&nbsp;Por favor espere
                                             </span>
                                             <span *ngIf="listProduct[code].error">
-                                                <i class="fa fa-warning  text-red"></i>&nbsp;{{listProduct[code].error}}
+                                                <i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}
                                             </span>
                                         </td>
 
@@ -51,22 +61,19 @@
                                                 <i class="fa fa-close"></i>
                                                 &nbsp;Producto no a salido
                                             </span>
-                                            <span *ngIf="listProduct[code].byClient && !listProduct[code].available" (click)="changeClient(code)" class="cursor-pointer">
+                                            <span *ngIf="listProduct[code].byClient && !listProduct[code].available" (click)="changeClient(code)" class="cursor-pointer" [attr.title]="msg.clickChange">
                                                 <i class="fa fa-user"></i>
                                                 &nbsp;Cliente
                                             </span>
-                                            <span *ngIf="!listProduct[code].byClient && !listProduct[code].available && listProduct[code].id" (click)="changeClient(code)" class="cursor-pointer">
+                                            <span *ngIf="!listProduct[code].byClient && !listProduct[code].available && listProduct[code].id" (click)="changeClient(code)" [attr.title]="msg.clickChange" class="cursor-pointer">
                                                 <i class="fa fa-user-md"></i>
                                                 &nbsp;Empleado
                                             </span>
 
                                         </td>
                                         <td class="border-right text-right">
-                                            <span *ngIf="!listProduct[code].available && listProduct[code].id" class="text-black">
-                                                <a class="text-white" x-editable (success)="setValues(code,'state',$event)" [data]="listProduct[code]" [rules]="model.rules" field="state">{{model.rules['state'].placeholder}}</a>
-                                            </span>
-                                            <span *ngIf="listProduct[code].available || !listProduct[code].id">
-                                               N/A
+                                            <span *ngIf="!listProduct[code].available && listProduct[code].id">
+                                                <a href="#" [class.text-white]="listProduct[code].state" [class.text-black]="!listProduct[code].state" [class.focus-error]="!listProduct[code].state" title="{{!listProduct[code].state?'Campo obligatorio':null}}"  x-editable (success)="setValues(code,'state',$event)" [data]="listProduct[code]" [rules]="model.rules" field="state">{{model.rules['state'].placeholder}}</a>
                                             </span>
                                         </td>
 

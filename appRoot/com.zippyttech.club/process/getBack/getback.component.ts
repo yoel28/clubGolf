@@ -61,6 +61,7 @@ export class GetbackComponent extends ControllerBase {
                 that.listProduct[code].byClient=false;
                 that.listProduct[code].detail=null;
                 that.listProduct[code].state=null;
+                that.listProduct[code].mustComment=false;
             }
             else
                 that.listProduct[code]={'error':'Codigo no registrado'};
@@ -92,7 +93,7 @@ export class GetbackComponent extends ControllerBase {
                             if(c.value[key].id){
                                 if(!c.value[key].available){
                                     prodV++;
-                                    if(c.value[key].state==null)
+                                    if(c.value[key].state==null || (c.value[key].mustComment && !c.value[key].detail))
                                     {
                                         prodV=0;
                                         return;
@@ -144,6 +145,11 @@ export class GetbackComponent extends ControllerBase {
         if(this.listProduct[key])
         {
             this.listProduct[key][field]=value;
+            if(field == 'state')
+            {
+                this.listProduct[key].mustComment=this.model.rules['state'].data[value].mustComment;
+            }
+
             this.form.controls['data'].setValue(this.listProduct);
         }
 
