@@ -84,7 +84,19 @@ export class StateModel extends ModelBase{
             "key": "billAdd",
             "title": "Cobrar",
         };
-        
+        this.rules["mustComment"] = {
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':true,'text': 'Obligatorio', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'Opcional', 'class': 'btn btn-sm btn-yellow'},
+            ],
+            "key": "mustComment",
+            "title": "Comentario",
+        };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}
