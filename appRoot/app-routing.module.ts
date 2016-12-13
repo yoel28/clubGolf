@@ -30,6 +30,8 @@ import {StatusComponent} from "./com.zippyttech.club/catalog/state/state.compone
 import {GenerateOutputComponent} from "./com.zippyttech.club/process/generateOutput/generateOutput.component";
 import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.component";
 import {ToastyModule} from "ng2-toasty";
+import {QrcodeComponent} from "./com.zippyttech.club/catalog/qrcode/qrcode.component";
+import {TradeComponent} from "./com.zippyttech.club/catalog/trade/trade.component";
 
 const routesDefault: Routes = [
 
@@ -59,6 +61,8 @@ const routesDefault: Routes = [
     { path: 'club/catalog/type/product', component: ProductTypeComponent},
     { path: 'club/catalog/product', component: ProductComponent},
     { path: 'club/catalog/status', component: StatusComponent},
+    { path: 'club/catalog/qr', component: QrcodeComponent},
+    { path: 'club/catalog/trade', component: TradeComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
@@ -109,7 +113,9 @@ export const componentsApp = [
     ProductComponent,
     StatusComponent,
     GenerateOutputComponent,
-    GetbackComponent
+    GetbackComponent,
+    QrcodeComponent,
+    TradeComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
