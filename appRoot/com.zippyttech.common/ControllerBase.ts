@@ -4,6 +4,7 @@ import {RestController} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../com.zippyttech.utils/globalService";
 import {OnInit} from "@angular/core";
+import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
 
 declare var humanizeDuration:any;
 declare var moment:any;
@@ -20,7 +21,10 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public model:any={};
     public msg:any =  StaticValues.msg;
     public dataSelect:any = {};
-    
+
+    public classCol=StaticFunction.classCol;
+    public classOffset=StaticFunction.classOffset;
+
     constructor(prefix, endpoint,public router: Router, public http:Http, public myglobal:globalService) {
         super(http);
         this.setEndpoint(endpoint);
@@ -173,12 +177,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
     }
     public get getHora(){
         return moment().format('LT');
-    }
-    public classCol(lg=12,md=12,sm=12,xs=12){
-        return ' col-lg-'+lg+' col-md-'+md+'	col-sm-'+sm+' col-xs-'+xs;
-    }
-    public classOffset(lg=0,md=0,sm=0,xs=0){
-        return ' col-lg-offset-'+lg+' col-md-offset-'+md+' col-sm-offset-'+sm+' col-xs-offset-'+xs;
     }
     public setWhere(where:Object):void{
         this.where = "&where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
