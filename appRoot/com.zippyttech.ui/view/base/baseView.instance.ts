@@ -7,7 +7,7 @@ export abstract class BaseViewInstance  implements OnInit {
     public model:any;
     public viewOptions:any={};
     public rest:any={
-        'where':{},
+        'where':[],
         'max':15,
         'offset':0,
     };
