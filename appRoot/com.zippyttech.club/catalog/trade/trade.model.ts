@@ -5,6 +5,7 @@ import {QrcodeModel} from "../qrcode/qrcode.model";
 import {StateModel} from "../state/state.model";
 import {ProductModel} from "../product/product.model";
 import {ProductTypeModel} from "../productType/productType.model";
+import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 
 export class TradeModel extends ModelBase{
     public rules={};
@@ -13,6 +14,8 @@ export class TradeModel extends ModelBase{
     public state:any;
     public product:any;
     public productType:any;
+    public sponsor:any;
+    public guest:any;
 
     constructor(public myglobal:globalService){
         super('TRADE','/trades/',myglobal);
@@ -24,24 +27,56 @@ export class TradeModel extends ModelBase{
         this.product = new ProductModel(this.myglobal);
         this.productType = new ProductTypeModel(this.myglobal);
 
+        this.sponsor = new UserModel(this.myglobal);
+        this.guest = new UserModel(this.myglobal);
     }
     initRules(){
-        this.rules['qrCode']=Object.assign({},this.qr.ruleObject);
-        this.rules['state']=Object.assign({},this.state.ruleObject);
-        this.rules["received"] = {
-            'required':true,
+        this.rules['id']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'id',
+            'title': 'Operación',
+            'placeholder': 'Operación',
+        };
+
+        this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
+        this.rules['sponsor'].key='sponsor';
+        this.rules['sponsor'].title='Patrocinador';
+        this.rules['sponsor'].keyDisplay='sponsorName';
+        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].paramsSearch.field='s.id';
+
+        this.rules['guest'] = Object.assign({},this.guest.ruleObject);
+        this.rules['guest'].key='guest';
+        this.rules['guest'].title='Invitado';
+        this.rules['guest'].keyDisplay='guestName';
+        this.rules['guest'].placeholder='Invitado';
+        this.rules['guest'].paramsSearch.field='g.id';
+
+        this.rules['product']=Object.assign({},this.product.ruleObject);
+        this.rules['product'].title="Cod. Producto";
+
+        this.rules['title']={
+            'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'icon': 'fa fa-list',
-            "type": "boolean",
-            'source': [
-                {'value':true,'text': 'SI', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'NO', 'class': 'btn btn-sm btn-red'},
-            ],
-            "key": "received",
-            "title": "Recibido",
-            "placeholder": "Recibido",
+            'key': 'title',
+            'title': 'Producto',
+            'placeholder': 'Producto',
+        };
+
+        this.rules['dateCreated']={
+            'type': 'date',
+            'required':true,
+            'format':StaticValues.formatDatePickerDDMMYYYY,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'dateCreated',
+            'title': 'Fecha del pedido',
+            'placeholder': 'Fecha del pedido',
         };
         this.rules['receivedDate']={
             'type': 'date',
@@ -51,20 +86,60 @@ export class TradeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'receivedDate',
-            'title': 'Fecha',
-            'placeholder': 'Fecha',
+            'title': 'Fecha de entrega',
+            'placeholder': 'Fecha de entrega',
         };
-        this.rules['product']=Object.assign({},this.product.ruleObject);
 
-        this.rules['title']={
+        this.rules['timeUse']={
+            'type': 'eval',
+            'visible':this.permissions.visible,
+            'eval':'this.formatTime(moment(data.receivedDate).valueOf() - moment(data.dateCreated).valueOf())',
+            'title': 'Tiempo de uso',
+            'placeholder': 'Tiempo de uso',
+        };
+        this.rules["byClient"] = {
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':true,'text': 'SI', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'NO', 'class': 'btn btn-sm btn-red'},
+            ],
+            "key": "byClient",
+            "title": "Entrego Cliente",
+            "placeholder": "Entrego Cliente",
+        };
+        this.rules['state']=Object.assign({},this.state.ruleObject);
+        this.rules['comment']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'title',
-            'title': 'Titulo',
-            'placeholder': 'Titulo',
+            'key': 'comment',
+            'title': 'Descripción',
+            'placeholder': 'Descripción',
         };
+        this.rules['usernameCreator']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'usernameCreator',
+            'title': 'Operador entrega',
+            'placeholder': 'Operador entrega',
+        };
+        this.rules['usernameUpdater']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'usernameUpdater',
+            'title': 'Operador recepción',
+            'placeholder': 'Operador recepción',
+        };
+
         this.rules['productTypePrice']={
             'type': 'number',
             'double':true,
@@ -73,8 +148,8 @@ export class TradeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'productTypePrice',
-            'title': 'Precio',
-            'placeholder': 'Precio',
+            'title': 'Costo',
+            'placeholder': 'Costo',
         };
     }
     initPermissions() {}
@@ -96,5 +171,8 @@ export class TradeModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.title;
+        delete this.rulesSave.id;
+        delete this.rulesSave.sponsor;
+        delete this.rulesSave.guest;
     }
 }
