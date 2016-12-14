@@ -147,6 +147,11 @@
                         <i *ngIf="viewChangeDate(data[key])" class="fa fa-exchange btn"
                            (click)="changeFormatDate(data.id)"></i>
                     </span>
+
+                    <span *ngIf="model.rules[key].type =='eval'">
+                        {{getTypeEval(key,data)}}
+                    </span>
+
                 </span>
                 <span *ngIf="getDisabledField(key,data)">
                     <label class="label label-orange">N/A</label>
