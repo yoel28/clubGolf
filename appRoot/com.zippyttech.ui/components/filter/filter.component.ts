@@ -194,7 +194,7 @@ export class FilterComponent extends RestController implements OnInit{
     }
     //Cargar data
     assignDate(data,key){
-        this.data[key].updateValue(data);
+        this.data[key].setValue(data);
     }
     
     // public search=
@@ -343,9 +343,9 @@ export class FilterComponent extends RestController implements OnInit{
         return Object.keys(this.searchId);
     }
     setValueSelect(data,key){
-        this.data[key].updateValue(data);
+        this.data[key].setValue(data);
         if(data=='-1')
-            this.data[key].updateValue(null);
+            this.data[key].setValue(null);
 
     }
 }
