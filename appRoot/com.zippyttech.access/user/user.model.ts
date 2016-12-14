@@ -43,6 +43,7 @@ export class UserModel extends ModelBase{
             'type': 'text',
             'email':true,
             'required':true,
+            'setEqual':'username',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -64,7 +65,6 @@ export class UserModel extends ModelBase{
             'type': 'password',
             'required':true,
             'update':this.permissions.update,
-            'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'password',
             'showbuttons':true,
@@ -93,7 +93,7 @@ export class UserModel extends ModelBase{
             ],
             "key": "accountLocked",
             "title": "Cuenta",
-            "placeholder": "",
+            "placeholder": "¿Cuenta verificada?",
         };
 
 
@@ -103,6 +103,9 @@ export class UserModel extends ModelBase{
         this.rules['roles'].mode= 'popup';
         this.rules['roles'].showbuttons=true;
         this.rules['roles'].source=[];
+        this.rules['roles'].search=false;
+
+
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
@@ -131,6 +134,7 @@ export class UserModel extends ModelBase{
         delete this.rulesSave.enabled;
         delete this.rulesSave.image;
         delete this.rulesSave.accountLocked;
+        delete this.rulesSave.username;
     }
     loadData()
     {
