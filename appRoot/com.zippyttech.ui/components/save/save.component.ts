@@ -150,6 +150,9 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
             {
                 body[key] = that.rules[key].prefix + body[key];
             }
+            if(that.rules[key].setEqual){
+                body[that.rules[key].setEqual] = body[key];
+            }
         });
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
