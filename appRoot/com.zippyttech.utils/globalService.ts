@@ -155,12 +155,12 @@ export class globalService extends RestController{
     }
 
 
-    getParams(code:string):string{
+    getParams(title:string):string{
         let that = this;
         let valor="";
         Object.keys(this.params || {}).forEach(index=>{
-            if(that.params[index].code==code){
-                valor=that.params[index].value;
+            if(that.params[index].title==title){
+                valor=that.params[index].detail;
                 return;
             }
         });
