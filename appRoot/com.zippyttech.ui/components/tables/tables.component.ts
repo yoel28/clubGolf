@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -32,6 +33,8 @@ export class TablesComponent extends RestController implements OnInit {
 
     public getInstance:any;
     public msg=StaticValues.msg;
+
+    public formatTime=StaticFunction.formatTime;
 
     constructor(public http:Http,public myglobal:globalService) {
         super(http);
@@ -196,6 +199,10 @@ export class TablesComponent extends RestController implements OnInit {
         //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
         var diff = moment().valueOf() - moment(date).valueOf();
         return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+    }
+    public getTypeEval(key,data){
+        if(this.model.rules[key])
+            return eval(this.model.rules[key].eval);
     }
 
 
