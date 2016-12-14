@@ -5,6 +5,7 @@ import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 declare var SystemJS:any;
 @Component({
@@ -32,7 +33,8 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
 
     public delete=false;
 
-
+    public classCol=StaticFunction.classCol;
+    public classOffset=StaticFunction.classOffset;
 
     constructor(public http:Http, public myglobal:globalService) {
         super(http);
