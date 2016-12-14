@@ -35,7 +35,6 @@ export class LoadComponent implements OnInit,OnDestroy{
             let link = [ this.myglobal.saveUrl || '/init/dashboard', {}];
             this.myglobal.saveUrl=null;
             this.router.navigate(link);
-            this.subscribe.unsubscribe();
         }
     }
     ngOnDestroy():void {
