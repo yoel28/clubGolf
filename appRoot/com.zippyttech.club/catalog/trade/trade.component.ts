@@ -39,7 +39,7 @@ export class TradeComponent extends BaseViewInstance{
     }
 
     initViewOptions() {
-        this.viewOptions["title"] = 'Operaciones';
+        this.viewOptions["title"] = 'Lista';
     }
 
     loadParamsTable(){
