@@ -174,5 +174,6 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.id;
         delete this.rulesSave.sponsor;
         delete this.rulesSave.guest;
+        delete this.rulesSave.timeUse;
     }
 }
