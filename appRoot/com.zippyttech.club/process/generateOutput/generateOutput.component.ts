@@ -11,6 +11,7 @@ import {ProductModel} from "../../catalog/product/product.model";
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
 declare var moment:any;
+
 @Component({
     moduleId:module.id,
     selector: 'generate-output',
@@ -164,13 +165,14 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
     }
     ngOnDestroy():void{
-        if(this.ws.client){
+        if(this.ws.client && this.ws.client.connected){
             this.ws.client.disconnect(function() {});
             this.ws.status.setValue(false);
         }
+        // if(this.ws.threat)
+        //     clearTimeout(this.ws.threat);
         if(this.subscribe)
             this.subscribe.unsubscribe();
-
     }
 
 }
