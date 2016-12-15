@@ -115,7 +115,7 @@
                         Principal</h4>
                 </div>
                 <div class="modal-body menu-modal">
-                    <div *ngFor="let item of menuItemsTreeview(menuItems)"
+                    <div *ngFor="let item of menuItemsTreeview(menuItems.value)"
                          [class.treeview]="item.treeview">
                         <a *ngIf="item.routerLink" data-dismiss="modal" class="a-menu-modal" href="#"
                            [routerLink]="[item.routerLink]">
