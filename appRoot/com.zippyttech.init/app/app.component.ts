@@ -241,7 +241,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR','MEN_TRADE']),
+                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
                 'icon': 'fa fa-gears',
                 'title': 'Catalogo',
                 'key': 'Catalogo',
@@ -269,18 +269,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'QR Codigos',
                         'routerLink': '/club/catalog/qr'
-                    },
-                    {
-                        'visible': this.myglobal.existsPermission(['MEN_TRADE']),
-                        'icon': 'fa fa-list',
-                        'title': 'Operaciones',
-                        'routerLink': '/club/catalog/trade'
                     }
-
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK']),
+                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
                 'title': 'Golf',
                 'key': 'Golf',
@@ -297,6 +290,13 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Generar entrada',
                         'routerLink': '/club/process/getback'
                     },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_TRADE']),
+                        'icon': 'fa fa-list',
+                        'title': 'Operaciones',
+                        'routerLink': '/club/catalog/trade'
+                    }
+
                 ]
             });
         }
