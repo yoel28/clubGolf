@@ -14,16 +14,26 @@
                                         <th width="10%" class="text-center border-right">DETALLE POR PRODUCTO</th>
                                         <th class="text-center">CODIGO DE BARRAS</th>
                                         <th class="text-center">PRODUCTO</th>
-                                        <th class="text-center">ENTREGADO</th>
+                                        <th class="text-center">
+                                            ENTREGADO<br/>
+                                            <span *ngIf="byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="msg.clickChange">
+                                                <i class="fa fa-user"></i>
+                                                &nbsp;Cliente
+                                            </span>
+                                            <span *ngIf="!byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="msg.clickChange">
+                                                <i class="fa fa-user-md"></i>
+                                                &nbsp;Empleado
+                                            </span>
+                                        </th>
                                         <th class="text-center">
                                             ESTADO<br/>
                                                 <a  x-editable
                                                     (success)="stateDefault=$event"
+                                                    [data]="{'state':stateDefault}"
                                                     [rules]="model.rules"
                                                     field="state"
-                                                    class="cursor-pointer text-white"
-                                                >
-                                                    Sin estado
+                                                    class="cursor-pointer text-white">
+
                                                 </a>
                                         </th>
                                     </tr>
