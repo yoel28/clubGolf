@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
@@ -17,7 +17,7 @@ declare var moment:any;
     templateUrl:'index.html',
     styleUrls: ['../style.css'],
 })
-export class GenerateOutputComponent extends ControllerBase implements OnInit {
+export class GenerateOutputComponent extends ControllerBase implements OnInit,OnDestroy {
 
     public instance:any={};
 
@@ -161,6 +161,15 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit {
         this.httputils.onSave('/trades',JSON.stringify(body),null).then(response=>{
             that.step=3;
         })
+
+    }
+    ngOnDestroy():void{
+        if(this.ws.client){
+            this.ws.client.disconnect(function() {});
+            this.ws.status.setValue(false);
+        }
+        if(this.subscribe)
+            this.subscribe.unsubscribe();
 
     }
 
