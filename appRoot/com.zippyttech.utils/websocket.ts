@@ -10,21 +10,41 @@ declare var Stomp:any;
 export class WebSocket {
 
     public client:any;
-    constructor(public myglobal:globalService){}
+    public forceClose=false;
+    public status:FormControl;
+
+    constructor(public myglobal:globalService){
+        this.status = new FormControl(false);
+    }
 
     onSocket(channel) {
-        let that = this;
-        let ws = new SockJS(localStorage.getItem('url') + "/stomp");
-        if (!that.myglobal.channelWebsocket[channel])
-            that.myglobal.channelWebsocket[channel] = new FormControl(null);
-        that.client = Stomp.over(ws);
-        that.client.connect({}, function () {
-            that.client.subscribe(channel, function (message) {
-                that.myglobal.channelWebsocket[channel].setValue(JSON.parse(message.body));
-            });
-        });
+        if (!this.myglobal.channelWebsocket[channel])
+            this.myglobal.channelWebsocket[channel] = new FormControl(null);
+        this.onConnect(channel);
     }
     onMessage(value){
         this.client.send("/app/message", {priority: 9}, value);
+    }
+    onConnect(channel){
+        let that = this;
+        let ws = new SockJS(localStorage.getItem('url') + "/stomp");
+        this.client = Stomp.over(ws);
+        that.client.connect({},
+            function () {
+                that.status.setValue(true);
+                that.client.subscribe(channel, function (message) {
+                    that.myglobal.channelWebsocket[channel].setValue(JSON.parse(message.body));
+                });
+            },
+            function(error) {
+                that.status.setValue(false);
+                setTimeout(
+                    function(){
+                        if(!that.forceClose)
+                            that.onConnect(channel);
+                    }, 15000
+                );
+            }
+        );
     }
 }
