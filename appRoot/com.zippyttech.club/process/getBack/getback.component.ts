@@ -23,7 +23,8 @@ export class GetbackComponent extends ControllerBase {
     public product:any;
     public msg=StaticValues.msg;
 
-    public stateDefault=null;
+    public stateDefault=parseFloat(this.myglobal.getParams('TRADE_CODE_DEFAULT'));
+    public byClientDefault=this.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
     constructor(public router: Router, public http:Http, public myglobal:globalService) {
         super('GETBACK','/getback/',router,http,myglobal);
@@ -64,7 +65,7 @@ export class GetbackComponent extends ControllerBase {
                 that.listProduct[code].id=data.list[0].id;
                 that.listProduct[code].code=data.list[0].code;
                 that.listProduct[code].title=data.list[0].productTypeTitle;
-                that.listProduct[code].byClient=false;
+                that.listProduct[code].byClient=that.byClientDefault;
                 that.listProduct[code].detail=null;
                 that.listProduct[code].state=that.stateDefault;
                 that.listProduct[code].mustComment=false;
@@ -123,6 +124,9 @@ export class GetbackComponent extends ControllerBase {
             this.form.controls['data'].setValue(this.listProduct);
         }
 
+    }
+    changeClientDefault(){
+        this.byClientDefault=!this.byClientDefault;
     }
     saveProduct(event){
         event.preventDefault();
