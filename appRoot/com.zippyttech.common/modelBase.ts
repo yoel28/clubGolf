@@ -15,6 +15,7 @@ export abstract class ModelBase{
 
     public configId = moment().valueOf();
     private rulesDefault:any = {};
+    public rules={};
 
     constructor(prefix,endpoint,public myglobal:globalService){
         this.prefix = prefix;
