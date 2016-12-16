@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
@@ -39,9 +39,11 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         'token':localStorage.getItem('bearer'),
         'channel':'operator'
     };
+    public channelWS:string;
 
     constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http) {
         super('NA','',router,http,myglobal);
+        this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){
         this.product = new ProductModel(this.myglobal);
@@ -63,11 +65,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     }
     loadWebSocket(){
         let that=this;
-        let channel = '/'+this.dataQr.channel+'/'+this.dataQr.token;
-        this.ws.onSocket(channel);
-        if(this.myglobal.channelWebsocket[channel])
+        this.ws.onSocket(this.channelWS);
+        if(this.ws.webSocket[this.channelWS].data)
         {
-            this.subscribe = this.myglobal.channelWebsocket[channel].valueChanges.subscribe(
+            this.subscribe = this.ws.webSocket[this.channelWS].data.valueChanges.subscribe(
                 (value:any) => {
                     if(value.id){
                         that.listProduct={};
@@ -165,14 +166,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
     }
     ngOnDestroy():void{
-        if(this.ws.client && this.ws.client.connected){
-            this.ws.client.disconnect(function() {});
-            this.ws.status.setValue(false);
-        }
-        // if(this.ws.threat)
-        //     clearTimeout(this.ws.threat);
+        this.ws.closeWebsocket(this.channelWS);
         if(this.subscribe)
             this.subscribe.unsubscribe();
+        this.subscribe=null;
     }
 
 }
