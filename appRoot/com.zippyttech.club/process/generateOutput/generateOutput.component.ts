@@ -171,5 +171,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             this.subscribe.unsubscribe();
         this.subscribe=null;
     }
+    reconectWS(event){
+        if(event)
+            event.preventDefault();
+        this.ws.onSocket(this.channelWS);
+    }
 
 }
