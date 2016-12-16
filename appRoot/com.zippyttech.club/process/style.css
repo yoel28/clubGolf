@@ -174,3 +174,11 @@ span.round-tab:hover {
 .border-right{
     border-right: solid 4px;
 }
+.center-load{
+    top: 43%;
+    position: absolute;
+    left: 42%;
+}
+.opacity-qr{
+    opacity: 0.1 !important;
+}
