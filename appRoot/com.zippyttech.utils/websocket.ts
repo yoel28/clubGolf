@@ -66,9 +66,9 @@ export class WebSocket {
                     },
                     function(error) {
                         that.webSocket[channel].status.setValue('error');
-                        if(that.webSocket[channel].reconnect==0){
-                            that.webSocket[channel].reconnect++;
-                            setTimeout(function() {that.onConnect(channel)}, 15000);
+                        that.webSocket[channel].reconnect++;
+                        if(that.webSocket[channel].reconnect<=5){
+                            setTimeout(function() {that.onConnect(channel)}, 1000);
                         }
                     }
                 );
