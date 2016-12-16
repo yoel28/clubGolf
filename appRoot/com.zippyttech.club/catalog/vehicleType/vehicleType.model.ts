@@ -1,0 +1,49 @@
+import {ModelBase} from "../../../com.zippyttech.common/modelBase";
+import {globalService} from "../../../com.zippyttech.utils/globalService";
+
+
+export class VehicleTypeModel extends ModelBase{
+
+    constructor(public myglobal:globalService){
+        super('VEHTYP','/vehicle/type/',myglobal);
+        this.initModel();
+    }
+    modelExternal() {}
+    initRules() {
+        this.rules['title'] = {
+            'type': 'text',
+            'icon': 'fa fa-font',
+            'required': true,
+            'maxLength': '100',
+            'update': this.permissions.update,
+            'search': this.permissions.filter,
+            'visible': this.permissions.visible,
+            'key': 'title',
+            'title': 'Título',
+            'placeholder': 'Título',
+        };
+        this.rules = Object.assign({},this.rules,this.getRulesDefault());
+    }
+    initPermissions() {}
+    initParamsSearch() {
+        this.paramsSearch.title="Buscar tipo de vehículo";
+        this.paramsSearch.placeholder="Ingrese el tipo de vehículo";
+    }
+    initParamsSave() {
+        this.paramsSave.title="Agregar tipo de vehículo"
+    }
+    initRuleObject() {
+        this.ruleObject.title="Tipo de vehículo";
+        this.ruleObject.placeholder="Ingrese el tipo de vehículo";
+        this.ruleObject.key="vehicleType";
+        this.ruleObject.code="vehicleTypeId";
+        this.ruleObject.keyDisplay = "vehicleTypeTitle";
+
+    }
+    initRulesSave() {
+        this.rulesSave = Object.assign({},this.rules);
+        delete this.rulesSave.enabled;
+    }
+
+}
+
