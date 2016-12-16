@@ -15,7 +15,7 @@
                                     <div *ngIf="rules[key]">
                                         <div *ngIf="!rules[key].object || (rules[key].object && rules[key].permissions.list)" >
                                             <div class="form-group input-icon right" *ngIf="!rules[key].hidden">
-                                                <div class="{{classCol(12,12,12,12)}}">
+                                                <div class="{{!rules[key].object?classCol(12,12,12,12):''}}">
                                                     <div class="row" *ngIf="rules[key].type!='image'">
                                                         <div [class.col-lg-12]="!rules[key].object" class="{{(rules[key].object || rules[key].refreshField)?classCol(10,10,10,10):''}}" >
                                                             <div class="input-group input-icon right form-group">
