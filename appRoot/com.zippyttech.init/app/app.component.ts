@@ -275,8 +275,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
-                'title': 'Golf',
-                'key': 'Golf',
+                'title': 'operaciones',
+                'key': 'Operaciones',
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
@@ -293,7 +293,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     {
                         'visible': this.myglobal.existsPermission(['MEN_TRADE']),
                         'icon': 'fa fa-list',
-                        'title': 'Operaciones',
+                        'title': 'Lista de Op.',
                         'routerLink': '/club/catalog/trade'
                     }
 
