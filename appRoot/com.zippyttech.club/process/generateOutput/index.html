@@ -14,12 +14,17 @@
                                             <i class="glyphicon glyphicon-qrcode"></i>
                                         </button>
                                     </h2>
-                                    <h2 class="text-left">
-                                        <span *ngIf="ws.status.value"><i class="fa fa-circle text-green"></i>&nbsp;Online</span>
-                                        <span *ngIf="!ws.status.value"><i class="fa fa-circle text-red"></i>&nbsp;Offline</span>
-                                    </h2>
                                     <div class="text-center img-responsive">
-                                        <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400"></qr-code>
+                                        <div [class.opacity-qr]="ws.webSocket[channelWS].status.value != 'connect'">
+                                            <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
+                                        </div>
+                                        <div class="center-load" *ngIf="ws.webSocket[channelWS].status.value != 'connect'">
+                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="ws.webSocket[channelWS].reconnect<=5"></i><br/>
+                                            <button *ngIf="ws.webSocket[channelWS].reconnect > 5" class="btn btn-blue" (click)="reconectWS($event)">
+                                                <i class="fa fa-qrcode"></i>
+                                                &nbsp;Reintentar
+                                            </button>
+                                        </div>
                                     </div>
                                     <div>
 
