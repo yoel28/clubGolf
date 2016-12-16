@@ -32,6 +32,11 @@ import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.co
 import {ToastyModule} from "ng2-toasty";
 import {QrcodeComponent} from "./com.zippyttech.club/catalog/qrcode/qrcode.component";
 import {TradeComponent} from "./com.zippyttech.club/catalog/trade/trade.component";
+import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
+import {VehicleTypeComponent} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.component";
+import {ModelComponent} from "./com.zippyttech.club/catalog/model/model.component";
+import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.component";
+import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 
 const routesDefault: Routes = [
 
@@ -64,6 +69,12 @@ const routesDefault: Routes = [
     { path: 'club/catalog/qr', component: QrcodeComponent},
     { path: 'club/catalog/trade', component: TradeComponent},
     { path: 'club/catalog/trade/:userId', component: TradeComponent},
+
+    { path: 'club/catalog/vehicle', component: VehicleComponent},
+    { path: 'club/catalog/vehicle/model', component: ModelComponent},
+    { path: 'club/catalog/vehicle/brand', component: BrandComponent},
+    { path: 'club/catalog/vehicle/type', component: VehicleTypeComponent},
+    { path: 'club/catalog/tag', component: TagComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
@@ -116,7 +127,12 @@ export const componentsApp = [
     GenerateOutputComponent,
     GetbackComponent,
     QrcodeComponent,
-    TradeComponent
+    TradeComponent,
+    VehicleComponent,
+    ModelComponent,
+    BrandComponent,
+    VehicleTypeComponent,
+    TagComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
