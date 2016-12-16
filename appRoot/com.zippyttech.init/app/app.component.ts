@@ -299,6 +299,47 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
                 ]
             });
+
+            this.menuItems.value.push({
+                'visible': this.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYPE','MEN_MODEL','MEN_BRAND']),
+                'icon': 'fa fa-car',
+                'title': 'Vehículos',
+                'key': 'vehicle',
+                'treeview': [
+
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_TAG']),
+                        'icon': 'fa fa-list',
+                        'title': 'Tag',
+                        'routerLink': '/club/catalog/tag'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_VEH']),
+                        'icon': 'fa fa-list',
+                        'title': 'Vehículos',
+                        'routerLink': '/club/catalog/vehicle'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_VEH_TYPE']),
+                        'icon': 'fa fa-list',
+                        'title': 'Tipos de veh.',
+                        'routerLink': '/club/catalog/vehicle/type'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_MODEL']),
+                        'icon': 'fa fa-list',
+                        'title': 'Modelo de veh.',
+                        'routerLink': '/club/catalog/vehicle/model'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_BRAND']),
+                        'icon': 'fa fa-list',
+                        'title': 'Marcad de veh.',
+                        'routerLink': '/club/catalog/vehicle/brand'
+                    }
+
+                ]
+            });
         }
     }
     menuItemsVisible(menu) {
