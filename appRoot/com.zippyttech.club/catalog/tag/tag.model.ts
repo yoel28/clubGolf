@@ -40,6 +40,8 @@ export class TagModel extends ModelBase{
         };
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
+        this.rules['vehicle'].paramsSearch.where="&where="+encodeURI("[['op':'isNull','field':'tag.id']]");
+
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
