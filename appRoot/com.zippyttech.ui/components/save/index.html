@@ -1,6 +1,6 @@
 <div *ngIf="params && keys.length > 0">
     <div class="modal fade" [attr.id]="params.idModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" [class.modal-lg]="search.object" >
+        <div class="modal-dialog" [class.modal-lg]="search.object">
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -10,30 +10,36 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="{{classCol(12,12,12,12)}}">
-                            <form role="form" [formGroup]="form"  class="{{search.object?classCol(5,5,5,5):''}}" *ngIf="keys && keys.length > 0">
-                                <div  *ngFor="let key of keys">
+                            <form role="form" [formGroup]="form" class="{{search.object?classCol(5,5,5,5):''}}" *ngIf="keys && keys.length > 0">
+                                <div *ngFor="let key of keys">
                                     <div *ngIf="rules[key]">
-                                        <div *ngIf="!rules[key].object || (rules[key].object && rules[key].permissions.list)" >
+                                        <div *ngIf="!rules[key].object || (rules[key].object && rules[key].permissions.search)">
                                             <div class="form-group input-icon right" *ngIf="!rules[key].hidden">
-                                                <div class="{{!rules[key].object?classCol(12,12,12,12):''}}">
+                                                <div>
                                                     <div class="row" *ngIf="rules[key].type!='image'">
-                                                        <div [class.col-lg-12]="!rules[key].object" class="{{(rules[key].object || rules[key].refreshField)?classCol(10,10,10,10):''}}" >
-                                                            <div class="input-group input-icon right form-group">
+                                                        <div class="{{(rules[key].object || rules[key].refreshField)?classCol(10,10,10,10):classCol(12,12,12,12)}}">
+                                                            <div class="input-group input-icon right">
                                                                 <i class="{{rules[key].icon}} z-index"></i>
                                                                 <span class="input-group-addon" [attr.id]="key">{{rules[key].title}}
                                                                 <label *ngIf="rules[key].required" class="text-red">&nbsp;*</label>
                                                                 </span>
 
-                                                                <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'" formControlName="{{key}}" class="form-control"
+                                                                <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'"
+                                                                       formControlName="{{key}}" class="form-control"
                                                                        formControlName="{{key}}"
                                                                        placeholder="{{rules[key].placeholder}}"
-                                                                       type="{{rules[key].type}}" [attr.aria-describedby]="key"
+                                                                       type="{{rules[key].type}}"
+                                                                       [attr.aria-describedby]="key"
                                                                        [readonly]="rules[key].readOnly"
                                                                 >
 
-                                                                <input *ngIf="rules[key].type == 'color'" color-picker class="form-control" [hexControl]="data[key]" readonly>
+                                                                <input *ngIf="rules[key].type == 'color'" color-picker
+                                                                       class="form-control" [hexControl]="data[key]"
+                                                                       readonly>
 
-                                                                <textarea *ngIf="rules[key].type == 'textarea'" formControlName="{{key}}" class="form-control" rows="5"
+                                                                <textarea *ngIf="rules[key].type == 'textarea'"
+                                                                          formControlName="{{key}}" class="form-control"
+                                                                          rows="5"
                                                                           formControlName="{{key}}"
                                                                           placeholder="{{rules[key].placeholder}}"
                                                                           [readonly]="rules[key].readOnly">
@@ -41,31 +47,43 @@
                                                                 </textarea>
 
                                                                 <input *ngIf="rules[key].type == 'date'" date-picker
-                                                                       [format]="rules[key].format" (fecha)="loadDate($event,key)"
-                                                                       [attr.value]="rules[key].title" type="text" class="form-control">
+                                                                       [format]="rules[key].format"
+                                                                       (fecha)="loadDate($event,key)"
+                                                                       [attr.value]="rules[key].title" type="text"
+                                                                       class="form-control">
 
-                                                                <select sm-dropdown *ngIf="rules[key].type == 'select' || rules[key].type == 'boolean'" formControlName="{{key}}" class="ui fluid search selection dropdown">
-                                                                    <option value="-1">{{rules[key].placeholder || 'Seleccione una opción'}}</option>
-                                                                    <option *ngFor="let n of rules[key].source"  [attr.value]="n.id || n.value"
+                                                                <select sm-dropdown
+                                                                        *ngIf="rules[key].type == 'select' || rules[key].type == 'boolean'"
+                                                                        formControlName="{{key}}"
+                                                                        class="ui fluid search selection dropdown">
+                                                                    <option value="-1">{{rules[key].placeholder ||
+                                                                        'Seleccione una opción'}}
+                                                                    </option>
+                                                                    <option *ngFor="let n of rules[key].source"
+                                                                            [attr.value]="n.id || n.value"
                                                                             [selected]="data[key].value==n.id || data[key].value==n.value">
-                                                                            <i *ngIf="rules[key].icon" class="{{n.id || n.value}}">&nbsp;</i>
-                                                                                {{n.text}}
+                                                                        <i *ngIf="rules[key].icon"
+                                                                           class="{{n.id || n.value}}">&nbsp;</i>
+                                                                        {{n.text}}
                                                                     </option>
                                                                 </select>
 
-                                                                <div [hidden]="data[key].valid ||data[key].pristine" class="alert alert-danger">
+                                                                <div [hidden]="data[key].valid ||data[key].pristine"
+                                                                     class="alert alert-danger">
                                                                     <div *ngFor="let error of getKeys(data[key].errors || {})">
                                                                         {{msg[error] || 'El campo contiene errores'}}
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div *ngIf="rules[key].object || rules[key].refreshField" class="{{classCol(2,2,2,2)}} padding-top-4">
+                                                        <div *ngIf="rules[key].object || rules[key].refreshField"
+                                                             class="{{classCol(2,2,2,2)}} padding-top-4">
                                                             <button *ngIf="rules[key].object" tabindex="-1"
                                                                     class="btn btn-box-tool fa fa-search text-blue"
                                                                     (click)="getLoadSearch($event,rules[key])">
                                                             </button>
-                                                            <button *ngIf="rules[key].refreshField && !rules[key].readOnly" tabindex="-1"
+                                                            <button *ngIf="rules[key].refreshField && !rules[key].readOnly"
+                                                                    tabindex="-1"
                                                                     class="btn btn-box-tool fa {{rules[key].refreshField.icon}} text-blue"
                                                                     (click)="refreshField($event,rules[key])">
                                                             </button>
@@ -83,8 +101,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div *ngIf="rules[key].object && !rules[key].permissions.list" class="{{classCol(12,12,12,12)}}">
-                                            {{msg.notAuthorized || 'Acceso no autorizado'}}&nbsp;activar el permiso {{model.rules[key].prefix}}_SEARCH
+                                        <div *ngIf="rules[key].object && !rules[key].permissions.search" class="{{classCol(12,12,12,12)}}">
+                                            {{msg.notAuthorized || 'Acceso no autorizado'}}&nbsp;activar el permiso
+                                            {{model.rules[key].prefix}}_SEARCH
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +115,7 @@
                                         <div class="input-group input-group-sm">
                                             <input #find type="text" class="form-control" tabindex="-1"
                                                    placeholder="{{ search.placeholder}}" value="{{findControl}}">
-                                                <span class="input-group-btn">
+                                            <span class="input-group-btn">
                                                     <button (click)="getSearch($event,find.value)" type="button"
                                                             class="btn btn-info btn-flat">
                                                         <i class="fa fa-search"></i>
@@ -112,7 +131,8 @@
                                 <div *ngIf="dataList.count" class="col-lg-12">
                                     <table class="table table-hover">
                                         <tbody>
-                                        <tr *ngFor="let data of dataList.list" (click)="getDataSearch(data)" title="Seleccionar" class="cursor-pointer">
+                                        <tr *ngFor="let data of dataList.list" (click)="getDataSearch(data)"
+                                            title="Seleccionar" class="cursor-pointer">
                                             <td>
                                                 <img [src]=" data.image || search.paramsSearch.imageGuest "
                                                      style="display: inline-block" class="img-responsive img-search">
@@ -129,26 +149,29 @@
                                     </table>
                                 </div>
                                 <div *ngIf="!dataList.count" class="col-lg-12">
-                                    {{dataList.count==0?"No se ha encontrado ningún resultado":"Ingrese valor para buscar"}}
+                                    {{dataList.count==0?"No se ha encontrado ningún resultado":"Ingrese valor para
+                                    buscar"}}
                                 </div>
                                 <div class="col-lg-12">
                                     <div *ngIf="dataList.page && dataList.page.length > 1 && dataList.count > 0"
                                          class="btn-group pull-right">
-                                        <button (click)="loadData(val)" [class.btn-green]="val==((offset/max)+1)" *ngFor="let val of dataList.page"
+                                        <button (click)="loadData(val)" [class.btn-green]="val==((offset/max)+1)"
+                                                *ngFor="let val of dataList.page"
                                                 type="button" class="btn btn-default">
                                             {{val}}
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="{{classCol(12,12,12,12)}}">
                                 {{msg.fieldRequired}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button *ngIf="delete && id >= 0" (click)="loadDelete($event)" data-dismiss="modal" type="button" class="btn btn-success">
+                    <button *ngIf="delete && id >= 0" (click)="loadDelete($event)" data-dismiss="modal" type="button"
+                            class="btn btn-success">
                         <i class="fa fa-trash"></i>
                         &nbsp;Eliminar
                     </button>
