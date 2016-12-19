@@ -12,6 +12,7 @@ export class VehicleModel extends ModelBase{
     public brand:any;
     public model:any;
     public user:any;
+    public tag:any;
 
     constructor(public myglobal:globalService){
         super('VEH','/vehicles/',myglobal);
@@ -63,9 +64,6 @@ export class VehicleModel extends ModelBase{
             'title': 'Color',
             'placeholder': 'Color del vehículo',
         };
-
-        this.rules['brand'] = this.brand.ruleObject;
-        this.rules['brand'].required=false;
 
         this.rules['model'] = this.model.ruleObject;
         this.rules['model'].required=false;
