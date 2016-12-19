@@ -39,8 +39,8 @@ export class VehicleModel extends ModelBase{
             'placeholder': 'Placa del vehículo',
         };
 
-        this.rules['owner'] = this.user.ruleObject;
-        this.rules['owner'].required=true;
+        this.rules['user'] = this.user.ruleObject;
+        this.rules['user'].required=true;
 
         this.rules['year'] = {
             'type': 'number',
