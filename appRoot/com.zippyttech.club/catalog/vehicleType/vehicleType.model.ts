@@ -5,7 +5,7 @@ import {globalService} from "../../../com.zippyttech.utils/globalService";
 export class VehicleTypeModel extends ModelBase{
 
     constructor(public myglobal:globalService){
-        super('VEHTYP','/vehicle/type/',myglobal);
+        super('VEHTYPE','/type/vehicles/',myglobal);
         this.initModel();
     }
     modelExternal() {}
@@ -23,6 +23,7 @@ export class VehicleTypeModel extends ModelBase{
             'placeholder': 'Título',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['detail'].required=true;
     }
     initPermissions() {}
     initParamsSearch() {
