@@ -119,7 +119,7 @@ export const componentsView = [
     FilterComponent,
     SaveComponent,
     SearchMultipleComponent
-]
+];
 export const componentsApp = [
     ProductTypeComponent,
     ProductComponent,

@@ -7,7 +7,7 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
@@ -42,8 +42,8 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     };
     public channelWS:string;
 
-    constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http,public toastyService:ToastyService) {
-        super('NA','',router,http,myglobal,toastyService);
+    constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super('NA','',router,http,myglobal,toastyService,toastyConfig);
         this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){

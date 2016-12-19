@@ -2,7 +2,7 @@ import {Http} from '@angular/http';
 import {HttpUtils} from "./http-utils";
 import {OnInit} from "@angular/core";
 import {FormGroup} from "@angular/forms";
-import {ToastyService, ToastOptions, ToastData} from "ng2-toasty";
+import {ToastyService, ToastOptions, ToastData, ToastyConfig} from "ng2-toasty";
 
 export class RestController implements OnInit {
 
@@ -16,7 +16,7 @@ export class RestController implements OnInit {
     page:any = [];
     where:string = "";
 
-    constructor(public http:Http,public toastyService:ToastyService) {
+    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
         this.httputils = new HttpUtils(http);
     }
     ngOnInit() {
@@ -44,6 +44,7 @@ export class RestController implements OnInit {
 
         switch (type){
             case 'info':
+                this.toastyConfig.position='top-right';
                 this.toastyService.info(toastOptions);
                 break;
             case 'success':
@@ -53,6 +54,7 @@ export class RestController implements OnInit {
                 this.toastyService.wait(toastOptions);
                 break;
             case 'error':
+                this.toastyConfig.position='bottom-center';
                 this.toastyService.error(toastOptions);
                 break;
             case 'warning':

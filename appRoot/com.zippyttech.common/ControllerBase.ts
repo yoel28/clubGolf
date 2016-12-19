@@ -5,7 +5,7 @@ import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../com.zippyttech.utils/globalService";
 import {OnInit} from "@angular/core";
 import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var humanizeDuration:any;
 declare var moment:any;
@@ -26,8 +26,8 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(prefix, endpoint,public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(prefix, endpoint,public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.setEndpoint(endpoint);
         this.prefix = prefix;
         this.initLang();

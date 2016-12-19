@@ -8,7 +8,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -42,8 +42,8 @@ export class AccordionComponent extends RestController implements OnInit,AfterVi
     public formatTime = StaticFunction.formatTime;
 
 
-    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.getInstance = new EventEmitter();
     }
 

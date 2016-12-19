@@ -5,7 +5,7 @@ import {Http} from "@angular/http";
 import {isNumeric} from "rxjs/util/isNumeric";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -116,8 +116,8 @@ export class FilterComponent extends RestController implements OnInit{
     data:any = {};
     keys:any = {};
 
-    constructor(public http: Http,public myglobal:globalService,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(public http: Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.whereFilter = new EventEmitter();
     }
     ngOnInit() {

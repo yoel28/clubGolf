@@ -3,7 +3,7 @@ import { Router }           from '@angular/router';
 import { Http } from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {globalService} from "../../com.zippyttech.utils/globalService";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 
@@ -16,8 +16,8 @@ export class AclComponent extends RestController implements OnInit{
 
     public dataSelect:any={};
 
-    constructor(public router: Router,public http: Http,public myglobal:globalService,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(public router: Router,public http: Http,public myglobal:globalService,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
     }
     ngOnInit(){
 

@@ -7,7 +7,7 @@ import {Http} from "@angular/http";
 import {Validators, FormGroup, FormControl} from "@angular/forms";
 import {ProductModel} from "../../catalog/product/product.model";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -27,8 +27,8 @@ export class GetbackComponent extends ControllerBase {
     public stateDefault=parseFloat(this.myglobal.getParams('TRADE_CODE_DEFAULT'));
     public byClientDefault=this.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
-    constructor(public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
-        super('GETBACK','/getback/',router,http,myglobal,toastyService);
+    constructor(public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super('GETBACK','/getback/',router,http,myglobal,toastyService,toastyConfig);
 
     }
     ngOnInit():void{

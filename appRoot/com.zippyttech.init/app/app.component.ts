@@ -11,7 +11,7 @@ import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
-import {ToastyService} from "ng2-toasty";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -30,8 +30,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info:any;
 
-    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
 
         let that = this;
         let url="https://cdg.zippyttech.com:8080/BETA";

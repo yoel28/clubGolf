@@ -37,8 +37,8 @@ export class globalService extends RestController{
 
     objectInstance:any={};//lista de instancias creadas
     
-    constructor(public http:Http,public toastyService:ToastyService) {
-        super(http,toastyService);
+    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.existLocalStorage();
 
     }
