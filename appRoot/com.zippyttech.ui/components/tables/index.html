@@ -77,6 +77,15 @@
                          <label *ngIf="model.permissions.update && (data.enabled==true || data.enabled==null)">
                              <span *ngIf="!model.rules[key].reference">
 
+                                 <button *ngIf="model.rules[key].multiple"
+                                         (click)="setViewListData($event,data,key)"
+                                         type="button" class="btn btn-box-tool"
+                                         title="Listar" data-toggle="modal"
+                                         data-target="#dataMultiple"
+                                 >
+                                     <i class="fa fa-list text-red"></i>
+                                 </button>
+
                                  <button *ngIf="model.rules[key].paramsSave && model.rules[key].permissions.add"
                                          type="button" class="btn btn-box-tool"
                                          (click)="loadSaveModal($event,key,data)" title="Asignar nuevo"
@@ -286,7 +295,7 @@
 </div>
 
 <div *ngIf="searchTable && searchTable.multiple && searchTable.idModal">
-    <search-multiple-view [params]="searchTable" (result)="getDataSearch($event)"></search-multiple-view>
+    <search-multiple-view [params]="searchTable" (result)="getDataSearchMultiple($event)"></search-multiple-view>
 </div>
 
 
@@ -296,4 +305,42 @@
 </div>
 <div *ngIf="modelReference && modelReference.paramsSearch">
     <search-view [params]="modelReference.paramsSearch" (result)="setDataFieldReference($event)"></search-view>
+</div>
+
+<div *ngIf="viewListData && viewListData.data">
+    <div class="modal fade" id="dataMultiple" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <strong>{{viewListData.title}}</strong>
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let key of getObjectKeys(viewListData.label)">
+                                    {{viewListData.label[key]}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of viewListData.data">
+                                <td *ngFor="let key of getObjectKeys(viewListData.label)">
+                                    {{data[key]}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{msg.warningButtonExit}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
