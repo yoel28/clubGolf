@@ -125,7 +125,7 @@ export class UserModel extends ModelBase{
         this.ruleObject.title="Usuario";
         this.ruleObject.placeholder="Ingrese el usuario";
         this.ruleObject.key="user";
-        this.ruleObject.keyDisplay="userEmail";
+        this.ruleObject.keyDisplay="userUsername";
         this.ruleObject.code="userId";
     }
     initRulesSave() {
