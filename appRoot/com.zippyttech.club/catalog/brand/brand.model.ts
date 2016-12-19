@@ -5,7 +5,7 @@ import {globalService} from "../../../com.zippyttech.utils/globalService";
 export class BrandModel extends ModelBase{
 
     constructor(public myglobal:globalService){
-        super('BRAND','/brand/',myglobal);
+        super('BRAND','/brands/',myglobal);
         this.initModel();
     }
     modelExternal() {}
@@ -22,7 +22,8 @@ export class BrandModel extends ModelBase{
             'title': 'Título',
             'placeholder': 'Título',
         };
-        this.rules = Object.assign({},this.rules,this.getRulesDefault())
+        this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['detail'].required=true;
     }
     initPermissions() {}
     initParamsSearch() {
@@ -37,7 +38,7 @@ export class BrandModel extends ModelBase{
         this.ruleObject.placeholder="Ingrese marca";
         this.ruleObject.key="brand";
         this.ruleObject.code="brandId";
-        this.ruleObject.keyDisplay = "brandCode";
+        this.ruleObject.keyDisplay = "brandTitle";
 
     }
     initRulesSave() {
