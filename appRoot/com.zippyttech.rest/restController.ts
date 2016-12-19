@@ -26,14 +26,14 @@ export class RestController implements OnInit {
         this.endpoint = endpoint;
     }
 
-    addToast(title,message,type='info',time=5000) {
+    addToast(title,message,type='info',time=10000) {
 
         var toastOptions:ToastOptions = {
             title: title,
             msg: message,
             showClose: true,
             timeout: time,
-            theme: 'default',
+            theme: 'bootstrap',
             onAdd: (toast:ToastData) => {
                 console.log('Toast ' + toast.id + ' has been added!');
             },
@@ -77,6 +77,11 @@ export class RestController implements OnInit {
                 }
                 else if (err.json().message) {
                     that.addToast('error',err.json().message,'error');
+                }
+                else if(err.json().errors){
+                    err.json().errors.forEach(obj=> {
+                        that.addToast('error',obj.message,'error');
+                    })
                 }
                 else {
                     that.addToast('error',err.json(),'error');
