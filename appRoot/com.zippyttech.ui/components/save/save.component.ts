@@ -130,6 +130,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         event.preventDefault();
         let that = this;
         let successCallback= response => {
+            that.addToast('Notificacion','Guardado con éxito');
             that.resetForm();
             that.save.emit(response.json());
         };
