@@ -96,6 +96,10 @@ export class TablesComponent extends RestController implements OnInit {
     getDataSearch(data){
         this.onPatch(this.searchTable.field,this.searchTableData,data.id);
     }
+    getDataSearchMultiple(data){
+        this.onPatch(this.searchTable.field,this.searchTableData,data);
+    }
+
     actionPermissionKey() 
     {
         let data=[];
@@ -207,6 +211,24 @@ export class TablesComponent extends RestController implements OnInit {
             return eval(this.model.rules[key].eval);
     }
 
+    public viewListData={};
+    public setViewListData(event,data,key){
+        let that=this;
+        if(event)
+            event.preventDefault();
+        this.viewListData['title'] = this.model.rules[key].title;
+        this.viewListData['label']={};
+        if(data[key][0])
+            Object.keys(data[key][0]).forEach(subkey=>{
+                if(that.model.rules[key].rulesSave[subkey])
+                    that.viewListData['label'][subkey] = that.model.rules[key].rulesSave[subkey].title;
+            })
+        this.viewListData['data'] =  data[key];
+    }
+
+    public getObjectKeys(data){
+        return Object.keys(data || {});
+    }
 
 
 
