@@ -76,8 +76,9 @@ export class TablesComponent extends RestController implements OnInit {
             this.model.rules[key].paramsSearch.multiple=true;
             this.model.rules[key].paramsSearch.valuesData=[];
             this.model.rules[key].paramsSearch.valuesData = data[key];
+            if(this.model.rules[key].paramsSearch.eval)
+                eval(this.model.rules[key].paramsSearch.eval);
         }
-
         this.searchTable =  Object.assign({},this.model.rules[key].paramsSearch);
         this.searchTable.field =  key;
 
