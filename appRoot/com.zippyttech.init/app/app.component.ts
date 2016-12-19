@@ -11,6 +11,7 @@ import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
+import {ToastyService} from "ng2-toasty";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -29,11 +30,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info:any;
 
-    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef) {
-        super(http);
+    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService) {
+        super(http,toastyService);
 
         let that = this;
-        let url="https://cdg.zippyttech.com:8080";
+        let url="https://cdg.zippyttech.com:8080/BETA";
         //let url="http://pescadorj:8080";
         //let url="https://club-golf.herokuapp.com";
 
@@ -301,7 +302,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             });
 
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYPE','MEN_MODEL','MEN_BRAND']),
+                'visible': this.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYP','MEN_MODEL','MEN_BRAND']),
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
@@ -320,7 +321,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/club/catalog/vehicle'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_VEH_TYPE']),
+                        'visible': this.myglobal.existsPermission(['MEN_VEH_TYP']),
                         'icon': 'fa fa-list',
                         'title': 'Tipos de veh.',
                         'routerLink': '/club/catalog/vehicle/type'
@@ -334,7 +335,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     {
                         'visible': this.myglobal.existsPermission(['MEN_BRAND']),
                         'icon': 'fa fa-list',
-                        'title': 'Marcad de veh.',
+                        'title': 'Marcas de veh.',
                         'routerLink': '/club/catalog/vehicle/brand'
                     }
 

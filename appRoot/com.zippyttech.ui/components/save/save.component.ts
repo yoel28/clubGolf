@@ -6,6 +6,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
+import {ToastyService} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -36,8 +37,8 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(public http:Http, public myglobal:globalService) {
-        super(http);
+    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
+        super(http,toastyService);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
     }

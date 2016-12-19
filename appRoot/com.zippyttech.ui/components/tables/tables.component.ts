@@ -4,6 +4,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
+import {ToastyService} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -36,8 +37,8 @@ export class TablesComponent extends RestController implements OnInit {
 
     public formatTime=StaticFunction.formatTime;
 
-    constructor(public http:Http,public myglobal:globalService) {
-        super(http);
+    constructor(public http:Http,public myglobal:globalService,public toastyService:ToastyService) {
+        super(http,toastyService);
     }
 
     ngOnInit()

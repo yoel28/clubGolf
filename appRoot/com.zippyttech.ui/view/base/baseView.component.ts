@@ -3,6 +3,7 @@ import {Router}           from '@angular/router';
 import {Http} from '@angular/http';
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {ToastyService} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -18,8 +19,8 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     public dataSelect:any = {};
     public paramsTable:any={};
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService) {
-        super('NOPREFIX','/NOENDPOINT/',router, http, myglobal);
+    constructor(public router:Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
+        super('NOPREFIX','/NOENDPOINT/',router, http, myglobal,toastyService);
     }
     ngOnInit(){
         super.ngOnInit();

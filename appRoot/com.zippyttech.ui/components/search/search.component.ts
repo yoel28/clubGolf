@@ -1,6 +1,7 @@
 import { Component,EventEmitter } from '@angular/core';
 import { Http} from '@angular/http';
 import {RestController} from "../../../com.zippyttech.rest/restController";
+import {ToastyService} from "ng2-toasty";
 declare var SystemJS:any;
 @Component({
     selector: 'search-view',
@@ -24,8 +25,8 @@ export class SearchComponent extends RestController{
     public params:any={};
     public result:any;
 
-    constructor(public http:Http) {
-        super(http);
+    constructor(public http:Http,public toastyService:ToastyService) {
+        super(http,toastyService);
         this.result = new EventEmitter();
     }
     ngOnInit(){

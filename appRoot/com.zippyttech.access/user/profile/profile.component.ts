@@ -5,6 +5,7 @@ import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
+import {ToastyService} from "ng2-toasty";
 
 
 declare var SystemJS:any;
@@ -18,8 +19,8 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     
     public msg= StaticValues.msg;
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService) {
-        super('USER','/users/',router,http,myglobal);
+    constructor(public router:Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService) {
+        super('USER','/users/',router,http,myglobal,toastyService);
     }
     ngOnInit():any
     {

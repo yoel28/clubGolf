@@ -37,32 +37,10 @@ export class globalService extends RestController{
 
     objectInstance:any={};//lista de instancias creadas
     
-    constructor(public http:Http,private toastyService:ToastyService, private toastyConfig: ToastyConfig) {
-        super(http);
+    constructor(public http:Http,public toastyService:ToastyService) {
+        super(http,toastyService);
         this.existLocalStorage();
 
-    }
-    addToast() {
-         var toastOptions:ToastOptions = {
-            title: '<a href="https://google.com">My title</a>',
-            msg: "The message",
-            showClose: true,
-            timeout: 5000,
-            theme: 'default',
-            onAdd: (toast:ToastData) => {
-                console.log('Toast ' + toast.id + ' has been added!');
-            },
-            onRemove: function(toast:ToastData) {
-                console.log('Toast ' + toast.id + ' has been removed!');
-            }
-        };
-
-
-        this.toastyService.info(toastOptions);
-        this.toastyService.success(toastOptions);
-        this.toastyService.wait(toastOptions);
-        this.toastyService.error(toastOptions);
-        this.toastyService.warning(toastOptions);
     }
 
     existLocalStorage(){
@@ -90,10 +68,13 @@ export class globalService extends RestController{
     }
     error = (err:any):void => {
         if(localStorage.getItem('bearer')){
+            if(this.toastyService)
+                this.addToast('Ocurrio un error',err,'error',10000);
+
             this.dataSesionInit();
             localStorage.removeItem('bearer');
             contentHeaders.delete('Authorization');
-            window.location.reload();
+            window.location.href = "#/auth/login";
         }
     }
     loadValidToken():void{
