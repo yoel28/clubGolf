@@ -10,7 +10,10 @@ export class globalService extends RestController{
     params:any={};
     help:any={};
     rules:any={};
+
     permissions:any=[];
+
+    public visualData:any = {};
 
     public qrPublic:any;
 
@@ -45,6 +48,7 @@ export class globalService extends RestController{
         } else {
             console.log("no habemus localstorage")
         }
+        this.loadVisualData();
     }
     initSession():void{
         this.dataSesionInit();
@@ -132,6 +136,15 @@ export class globalService extends RestController{
         };
         this.httputils.doGet('/infos?max=1000',successCallback,this.error);
     }
+
+    loadVisualData():void{
+        let data:any =
+        {
+
+        };
+        this.visualData = Object.assign(data);
+    }
+
     existsPermission(keys:any):boolean{
         let index = this.permissions.findIndex((obj:any) => (keys.indexOf(obj.id) >= 0 || keys.indexOf(obj.code)>=0));
         if(index > -1)
