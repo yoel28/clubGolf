@@ -218,11 +218,27 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     refreshField(event,data){
         event.preventDefault();
         let that = this;
-        let successCallback= response => {
-            let val = response.json()[data.refreshField.field];
-            that.data[data.key].setValue(val);
+        if(data.refreshField.endpoint){
+            let successCallback= response => {
+                let val = response.json()[data.refreshField.field];
+                that.data[data.key].setValue(val);
+            }
+            this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
         }
-        this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
+        else{
+            that.data[data.key].setValue(eval(data.refreshField.eval));
+        }
+
+    }
+    makeTextRandon():string
+    {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < 20; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
     }
     setColor(data,key){
         this.data[key].setValue(data);
@@ -254,7 +270,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         return Object.keys(data || {});
     }
     loadDate(data,key){
-        this.data[key].setValue(data);
+        this.data[key].setValue(data.date);
     }
 }
 
