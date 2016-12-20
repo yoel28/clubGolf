@@ -12,7 +12,6 @@ import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
-import {AngularFire, AngularFireDatabase} from "angularfire2";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -31,7 +30,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info:any;
 
-    constructor(public afdb: AngularFireDatabase,public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
         super(http,toastyService,toastyConfig);
 
         let that = this;
@@ -117,7 +116,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         let successCallback = (response: any) => {
             this.myglobal.dataSesionInit();
             localStorage.removeItem('bearer');
-            //that.afdb.
             contentHeaders.delete('Authorization');
             this.menuItems.setValue([]);
             this.menuType.setValue(null);
@@ -377,5 +375,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if (!this.myglobal.objectInstance[prefix])
             this.myglobal.objectInstance[prefix] = {};
         this.myglobal.objectInstance[prefix] = instance;
+    }
+    goPage(event,url){
+        if(event)
+            event.preventDefault();
+        let link = [url, {}];
+        this.router.navigate(link);
     }
 }
