@@ -20,16 +20,13 @@ export class UserModel extends ModelBase{
     }
     initRules(){
 
-        this.rules['username']={
-            'type': 'text',
-            'required':true,
-            'protected':true,
-            'update':this.permissions.update,
+        this.rules['id']={
+            'type': 'number',
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'username',
-            'title': 'Alias',
-            'placeholder': 'Alias',
+            'key': 'id',
+            'title': 'ID',
+            'placeholder': 'ID',
         };
         this.rules['contractCode']={
             'type': 'text',
@@ -141,6 +138,7 @@ export class UserModel extends ModelBase{
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
+        delete this.rulesSave.id;
         delete this.rulesSave.roles;
         delete this.rulesSave.enabled;
         delete this.rulesSave.image;
