@@ -1,4 +1,4 @@
-<div *ngIf="params && keys.length > 0">
+<div *ngIf="params && keys.length > 0 && rules">
     <div class="modal fade" [attr.id]="params.idModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" [class.modal-lg]="search.object">
             <div class="modal-content">
@@ -101,9 +101,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div *ngIf="rules[key].object && !rules[key].permissions.search" class="{{classCol(12,12,12,12)}}">
+                                        <div *ngIf="rules && rules[key] && rules[key].object && !rules[key].permissions.search" class="{{classCol(12,12,12,12)}}">
                                             {{msg.notAuthorized || 'Acceso no autorizado'}}&nbsp;activar el permiso
-                                            {{model.rules[key].prefix}}_SEARCH
+                                            {{rules[key].prefix}}_SEARCH
                                         </div>
                                     </div>
                                 </div>
@@ -149,8 +149,7 @@
                                     </table>
                                 </div>
                                 <div *ngIf="!dataList.count" class="col-lg-12">
-                                    {{dataList.count==0?"No se ha encontrado ningún resultado":"Ingrese valor para
-                                    buscar"}}
+                                    {{dataList.count==0?"No se ha encontrado ningún resultado":"Ingrese valor para buscar"}}
                                 </div>
                                 <div class="col-lg-12">
                                     <div *ngIf="dataList.page && dataList.page.length > 1 && dataList.count > 0"
