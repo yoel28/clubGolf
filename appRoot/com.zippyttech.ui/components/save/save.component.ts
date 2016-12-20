@@ -208,6 +208,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         let that=this;
         this.search={};
         this.searchId={};
+        this.dataListMultiple={};
         this.delete=false;
         this.params.updateField=false;
         Object.keys(this.data).forEach(key=>{
