@@ -172,7 +172,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'routerLink': '/init/dashboard'
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT']),
+                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
@@ -184,7 +184,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/access/user'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_USER_TYPE']),
+                        'visible': this.myglobal.existsPermission(['MEN_US_TYPE']),
                         'icon': 'fa fa-user',
                         'title': 'Tipos de usuarios',
                         'routerLink': '/access/user/type'
