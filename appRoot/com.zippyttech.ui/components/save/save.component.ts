@@ -24,6 +24,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     public rules:any={};
     public id:string;
     public dataSelect:any={};
+    public dataListMultiple:any={};//arraay para opciones multiples
 
     public save:any;
     public getInstance:any;
@@ -155,6 +156,12 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
             if(that.rules[key].setEqual){
                 body[that.rules[key].setEqual] = body[key];
             }
+            if(that.rules[key].type=='list'){
+                body[key]=[];
+                that.dataListMultiple[key].data.forEach(obj=>{
+                    body[key].push(obj);
+                });
+            }
         });
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
@@ -271,6 +278,25 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     }
     loadDate(data,key){
         this.data[key].setValue(data.date);
+    }
+    addListMultiple(event,key){
+        if(!this.dataListMultiple[key])
+            this.dataListMultiple[key]={'view':false,'data':[]};
+        this.dataListMultiple[key].data.push(this.form.controls[key].value);
+        this.form.controls[key].setValue(null);
+    }
+    viewListMultiple(event,key){
+        if(event)
+            event.preventDefault();
+        this.dataListMultiple[key].view=!this.dataListMultiple[key].view;
+    }
+    deleteListMultiple(event,key,data){
+        if(event)
+            event.preventDefault();
+        let index = this.dataListMultiple[key].data.findIndex(obj => obj == data);
+        if(index!=-1)
+            this.dataListMultiple[key].data.splice(index,1);
+
     }
 }
 
