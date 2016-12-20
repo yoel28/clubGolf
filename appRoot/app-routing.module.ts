@@ -38,6 +38,7 @@ import {ModelComponent} from "./com.zippyttech.club/catalog/model/model.componen
 import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.component";
 import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
+import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
 
 const routesDefault: Routes = [
 
@@ -80,6 +81,8 @@ const routesDefault: Routes = [
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
+
+    { path: 'club/register/full', component:  RegisterFullComponent},
 
 
 
@@ -135,7 +138,8 @@ export const componentsApp = [
     BrandComponent,
     VehicleTypeComponent,
     TagComponent,
-    UserTypeComponent
+    UserTypeComponent,
+    RegisterFullComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
