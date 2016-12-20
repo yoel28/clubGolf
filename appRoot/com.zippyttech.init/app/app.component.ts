@@ -97,8 +97,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     ngAfterContentChecked(){
 
     }
-    @HostListener('window:resize') onResize() {
+
+    @HostListener('window:resize' , ['$event'])
+    onResize(event) {
         //TODO:Cambiar menu
+        this.myglobal.visualData.height = event.target.innerWidth;
     }
 
     public isPublic(component: string) {
