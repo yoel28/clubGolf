@@ -31,6 +31,15 @@ export class UserModel extends ModelBase{
             'title': 'Alias',
             'placeholder': 'Alias',
         };
+        this.rules['contractCode']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'contractCode',
+            'title': 'Contrato',
+            'placeholder': 'Contrato',
+        };
         this.rules['name']={
             'type': 'text',
             'required':true,
