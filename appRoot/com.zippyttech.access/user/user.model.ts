@@ -2,10 +2,11 @@ import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RoleModel} from "../role/role.model";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType.model";
 
 export class UserModel extends ModelBase{
-    public rules={};
     public role:any;
+    public type:any;
     public pathElements=StaticValues.pathElements;
 
     constructor(public myglobal:globalService){
@@ -15,6 +16,7 @@ export class UserModel extends ModelBase{
     }
     modelExternal() {
         this.role= new RoleModel(this.myglobal);
+        this.type= new UserTypeModel(this.myglobal);
     }
     initRules(){
 
@@ -95,7 +97,8 @@ export class UserModel extends ModelBase{
             "placeholder": "¿Cuenta verificada?",
         };
 
-
+        this.rules['userType']=this.type.ruleObject;
+        this.rules['userType'].required=true;
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
