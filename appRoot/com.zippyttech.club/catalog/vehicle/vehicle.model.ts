@@ -1,7 +1,6 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
-import {TagModel} from "../tag/tag.model";
 import {ModelModel} from "../model/model.model";
 import {BrandModel} from "../brand/brand.model";
 import {VehicleTypeModel} from "../vehicleType/vehicleType.model";
@@ -26,6 +25,22 @@ export class VehicleModel extends ModelBase{
 
     }
     initRules() {
+
+        this.rules['tagEpc'] = {
+            'type': 'text',
+            'icon': 'fa fa-font',
+            'maxLength': '35',
+            'update': this.permissions.update,
+            'search': this.permissions.filter,
+            'visible': this.permissions.visible,
+            'key': 'tagEpc',
+            'title': 'Tag',
+            'refreshField':{
+                'icon':'fa-refresh',
+                'eval':'this.makeTextRandon()'
+            },
+            'placeholder': 'Tag',
+        };
 
         this.rules['plate'] = {
             'type': 'text',
@@ -71,7 +86,7 @@ export class VehicleModel extends ModelBase{
         this.rules['vehicleType'] = this.vehicleType.ruleObject;
         this.rules['vehicleType'].required=false;
 
-        this.rules = Object.assign({},this.rules,this.getRulesDefault())
+        this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}
     initParamsSearch() {
@@ -93,6 +108,7 @@ export class VehicleModel extends ModelBase{
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
+        delete this.rules['tagEpc'];
         delete this.rulesSave.enabled;
         delete this.rulesSave.tag;
     }
