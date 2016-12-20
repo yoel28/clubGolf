@@ -1,0 +1,33 @@
+<div>
+    <section class="content">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    {{viewOptions.title | translate }}<tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
+                </h3>
+            </div>
+            <div *ngIf="model.permissions.add" class="box-body">
+                <div class="{{classCol(10,10,10,10)}}">
+                    <form-view [onlyRequired]="true" (getForm)="setForm($event,'user')" [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
+                    <button (click)="addVehicle($event)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                </div>
+                <div class="{{classCol(10,10,10,10)}}">
+                    <div *ngFor="let veh of formFull.vehicle">
+                        <form-view  [onlyRequired]="true"
+                                    (getForm)="setForm($event,'vehicle',veh.id)"
+                                    [params]="model.vehicle.paramsSave"
+                                    [rules]="model.vehicle.rulesSave">
+                        </form-view>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="!model.permissions.add">
+                <div class="btn-red padding-error">
+                    <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
+                    {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_SAVE
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
