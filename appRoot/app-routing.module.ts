@@ -37,6 +37,7 @@ import {VehicleTypeComponent} from "./com.zippyttech.club/catalog/vehicleType/ve
 import {ModelComponent} from "./com.zippyttech.club/catalog/model/model.component";
 import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.component";
 import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
+import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
 
 const routesDefault: Routes = [
 
@@ -55,6 +56,7 @@ const routesDefault: Routes = [
     { path: 'access/acl', component: AclComponent},
     { path: 'access/user', component: UserComponent},
     { path: 'access/user/profile', component: ProfileComponent},
+    { path: 'access/user/type', component: UserTypeComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -132,7 +134,8 @@ export const componentsApp = [
     ModelComponent,
     BrandComponent,
     VehicleTypeComponent,
-    TagComponent
+    TagComponent,
+    UserTypeComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
