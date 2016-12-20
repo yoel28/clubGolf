@@ -149,3 +149,7 @@
     </div>
 
 </div>
+
+<div *ngIf="myglobal.dataSesion.valid && myglobal.existsPermission(['REG_FULL_ADD'])" class="block-float">
+    <button (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue btn-outlined"><i class="fa fa-user-plus"></i></button>
+</div>
