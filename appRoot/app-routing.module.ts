@@ -39,6 +39,7 @@ import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.componen
 import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
 import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
+import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
 
 const routesDefault: Routes = [
 
@@ -123,7 +124,8 @@ export const componentsView = [
     SearchComponent,
     FilterComponent,
     SaveComponent,
-    SearchMultipleComponent
+    SearchMultipleComponent,
+    FormComponent
 ];
 export const componentsApp = [
     ProductTypeComponent,
