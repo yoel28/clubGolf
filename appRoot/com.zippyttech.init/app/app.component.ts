@@ -34,7 +34,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         super(http,toastyService,toastyConfig);
 
         let that = this;
-        let url="https://cdg.zippyttech.com:8080/BETA";
+        let url="https://cdg.zippyttech.com:8080";
         //let url="http://pescadorj:8080";
         //let url="https://club-golf.herokuapp.com";
 
