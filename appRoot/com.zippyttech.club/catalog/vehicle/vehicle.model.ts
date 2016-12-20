@@ -26,20 +26,20 @@ export class VehicleModel extends ModelBase{
     }
     initRules() {
 
-        this.rules['tagEpc'] = {
-            'type': 'text',
+        this.rules['tags'] = {
+            'type': 'list',
             'icon': 'fa fa-font',
             'maxLength': '35',
             'update': this.permissions.update,
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
-            'key': 'tagEpc',
+            'key': 'tags',
             'title': 'Tag',
             'refreshField':{
                 'icon':'fa-refresh',
                 'eval':'this.makeTextRandon()'
             },
-            'placeholder': 'Tag',
+            'placeholder': 'Tags',
         };
 
         this.rules['plate'] = {
