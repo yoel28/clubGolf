@@ -1,0 +1,15 @@
+.box-block{
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+.box-block.valid >.box-header {
+    background-color: #0d5628;
+    color: white;
+}
+.box-block.error >.box-header  {
+    background-color: red;
+    color: white;
+}
+.letra-grande{
+    font-weight: 900;
+    font-size: large;
+}

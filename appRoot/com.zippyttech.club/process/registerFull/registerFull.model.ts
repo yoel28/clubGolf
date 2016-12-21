@@ -24,6 +24,14 @@ export class RegisterFullModel extends ModelBase{
     initRules() {
         this.rules['user'] =  this.user.ruleObject;
         this.rules['vehicle'] =  this.vehicle.ruleObject;
+        delete this.rules['vehicle'].rulesSave['user'];
+        delete this.rules['vehicle'].rulesSave['year'];
+        delete this.rules['vehicle'].rulesSave['color'];
+        delete this.rules['vehicle'].rulesSave['model'];
+        delete this.rules['vehicle'].rulesSave['vehicleType'];
+        delete this.rules['vehicle'].rulesSave['detail'];
+
+
         this.rules['tags'] =  this.tags.ruleObject;
     }
     initPermissions() {}

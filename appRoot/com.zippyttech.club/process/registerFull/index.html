@@ -7,20 +7,56 @@
                 </h3>
             </div>
             <div *ngIf="model.permissions.add" class="box-body">
-                <div class="{{classCol(10,10,10,10)}}">
-                    <form-view [onlyRequired]="true" (getForm)="setForm($event,'user')" [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
-                    <button (click)="addVehicle($event)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
-                </div>
-                <div class="{{classCol(10,10,10,10)}}">
-                    <div *ngFor="let veh of formFull.vehicle">
-                        <form-view  [onlyRequired]="true"
-                                    (getForm)="setForm($event,'vehicle',veh.id)"
-                                    [params]="model.vehicle.paramsSave"
-                                    [rules]="model.vehicle.rulesSave">
-                        </form-view>
+                <div *ngIf="dataOk">
+                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}} text-center" >
+                        Guardado con exito<br/>
+                        <button class="btn btn-success" (click)="dataOk=false">Iniciar</button>
                     </div>
                 </div>
-
+                <div *ngIf="!dataOk">
+                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" >
+                        <div class="box box-block background-grandient">
+                            <div class="box-header">
+                                <h3 class="box-title letra-grande">Usuario</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <form-view [onlyRequired]="true" (getInstance)="user=$event" [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" style="margin-top:15px">
+                        <div *ngFor="let veh of vehicle;let i=index" class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
+                            <div class="box-header">
+                                <h3 class="box-title letra-grande">
+                                    Veh&iacute;culo&nbsp;
+                                    <span *ngIf="instanceVehicle[i] &&
+                                        instanceVehicle[i].form &&
+                                        instanceVehicle[i].form.controls &&
+                                        instanceVehicle[i].form.controls.plate &&
+                                        instanceVehicle[i].form.controls.plate.value">
+                                        {{instanceVehicle[i].form.controls.plate.value}}
+                                </span>
+                                </h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button (click)="deleteForm($event,i)" type="button" class="btn btn-box-tool text-white" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <form-view
+                                        (getInstance)="setForm($event,i)"
+                                        [params]="model.vehicle.paramsSave"
+                                        [rules]="model.vehicle.rulesSave">
+                                </form-view>
+                            </div>
+                        </div>
+                        <button (click)="addVehicle($event)" class="btn btn-blue"> <i class="fa fa-plus"></i>&nbsp;Agregar veh&iacute;culo</button>
+                        <button [disabled]="!isValidForm()" (click)="saveData($event)" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Guarda</button>
+                    </div>
+                </div>
             </div>
             <div *ngIf="!model.permissions.add">
                 <div class="btn-red padding-error">

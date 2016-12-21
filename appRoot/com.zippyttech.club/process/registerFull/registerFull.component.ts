@@ -24,10 +24,11 @@ export class RegisterFullComponent extends RestController implements OnInit{
     public classCol = StaticFunction.classCol;
     public classOffset = StaticFunction.classOffset;
 
-    public formFull={'user':null,'vehicle':[]};
+    public user:any;
+    public vehicle:any=[];
 
     constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig,public myglobal:globalService) {
-        super(http,toastyService,toastyConfig)
+        super(http,toastyService,toastyConfig);
     }
 
     ngOnInit(){
@@ -42,14 +43,53 @@ export class RegisterFullComponent extends RestController implements OnInit{
     initViewOptions() {
         this.viewOptions["title"] = 'Registro';
     }
-    setForm(form,key,index=-1){
-        if(index == -1)
-            this.formFull[key] = form;
-        if(index)
-            this.formFull[key][index]['data'] = form;
+    public instanceVehicle=[];
+    setForm(form,i){
+        this.instanceVehicle[i] = form;
     }
     addVehicle(event){
-        this.formFull.vehicle.push({'id':this.formFull.vehicle.length,'data':null})
+        this.vehicle.push(null)
+    }
+    deleteForm(event,i){
+        if(event)
+            event.preventDefault();
+        if(this.instanceVehicle[i])
+            this.instanceVehicle[i]=null;
+    }
+    saveData(event){
+        if(event)
+            event.preventDefault();
+        let that = this;
+        let data = Object.assign({},this.user.getFormValues());
+        data['vehicles']=[];
+        this.instanceVehicle.forEach(obj=>{
+            if(obj && obj.form){
+                data['vehicles'].push(obj.getFormValues());
+            }
+        });
+        let successCallback= response => {
+            that.addToast('Notificacion','Guardado con éxito');
+            that.resetForm();
+        };
+        this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,this.error);
+    }
+    public dataOk:boolean=false;
+    public resetForm(){
+        this.user = {};
+        this.vehicle = [];
+        this.dataOk = true;
+    }
+    isValidForm():boolean{
+        let valid=true;
+        if(this.user && this.user.form)
+            valid = this.user.form.valid;
 
+        this.instanceVehicle.forEach(obj=>{
+            if(obj && obj.form && !obj.form.valid){
+                valid=false;
+                return;
+            }
+        });
+        return valid;
     }
 }
