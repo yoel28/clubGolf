@@ -113,6 +113,15 @@
                              </span>
                              <span *ngIf="model.rules[key].reference">
 
+                                 <button *ngIf="model.rules[key].multiple"
+                                         (click)="setViewListData($event,data,key)"
+                                         type="button" class="btn btn-box-tool"
+                                         title="Listar" data-toggle="modal"
+                                         data-target="#dataMultiple"
+                                 >
+                                     <i class="fa fa-list text-red"></i>
+                                 </button>
+
                                  <button (click)="loadDataFieldReference(data,key)"
                                          *ngIf="model.permissions.update && model.rules[key].permissions.add"
                                          data-toggle="modal"
@@ -124,7 +133,7 @@
                                  </button>
 
                                   <button (click)="loadDataFieldReference(data,key)"
-                                          *ngIf="model.permissions.update && model.rules[key].permissions.search"
+                                          *ngIf="model.permissions.update && model.rules[key].permissions.search && !model.rules[key].pathLocal"
                                           data-toggle="modal"
                                           [attr.data-target]="'#'++model.rules[key].paramsSearch.idModal"
                                           type="button" class="btn btn-box-tool"
@@ -132,6 +141,15 @@
                                   >
                                       <i class="fa fa-search text-blue"></i>
                                   </button>
+
+
+                                 <button *ngIf="model.rules[key].paramsSearch && model.rules[key].permissions.search && model.rules[key].pathLocal"
+                                         type="button" class="btn btn-box-tool"
+                                         (click)="loadSearchTable($event,key,data)" title="Buscar"
+                                         data-toggle="modal"
+                                         [attr.data-target]="'#'+model.rules[key].paramsSearch.idModal">
+                                     <i class="fa fa-search text-blue"></i>
+                                 </button>
 
                                  <button *ngIf="model.permissions.update && !model.rules[key].required && data[model.rules[key].code]"
                                          (click)="loadDataFieldReference(data,key,true)"
