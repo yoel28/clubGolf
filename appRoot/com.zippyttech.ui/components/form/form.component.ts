@@ -49,10 +49,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     ngOnInit(){
         this.initForm();
+        this.getForm.emit(this.form);
     }
     ngAfterViewInit(){
         this.getInstance.emit(this);
-        this.getForm.emit(this.form);
         if(this.params.prefix && !this.myglobal.objectInstance[this.params.prefix])
         {
             this.myglobal.objectInstance[this.params.prefix]={};
@@ -133,7 +133,8 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
 
     public findControl:string="";
 
-    submitForm(event){
+    submitForm(event?){
+        if(event)
         event.preventDefault();
         let that = this;
         let successCallback= response => {
@@ -142,37 +143,45 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             that.save.emit(response.json());
         };
         this.setEndpoint(this.params.endpoint);
-        let body = this.form.value;
-
-        Object.keys(body).forEach((key:string)=>{
-            if(that.rules[key].object){
-                body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
-            }
-            if(that.rules[key].type == 'number' && body[key]!=""){
-                body[key]=parseFloat(body[key]);
-            }
-            if(that.rules[key].type == 'boolean' && body[key]!=""){
-                if(typeof body[key] === 'string')
-                    body[key]=body[key]=='true'?true:false;
-            }
-            if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
-            {
-                body[key] = that.rules[key].prefix + body[key];
-            }
-            if(that.rules[key].setEqual){
-                body[that.rules[key].setEqual] = body[key];
-            }
-            if(that.rules[key].type=='list'){
-                body[key]=[];
-                that.dataListMultiple[key].data.forEach(obj=>{
-                    body[key].push(obj);
-                });
-            }
-        });
+        let body = this.getFormValues();
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
+    }
+    public getFormValues(){
+        let that = this;
+        let body = this.form.value;
+        Object.keys(body).forEach((key:string)=>{
+            if(that.rules[key]){
+                if(that.rules[key].object){
+                    body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                }
+                if(that.rules[key].type == 'number' && body[key]!=""){
+                    body[key]=parseFloat(body[key]);
+                }
+                if(that.rules[key].type == 'boolean' && body[key]!=""){
+                    if(typeof body[key] === 'string')
+                        body[key]=body[key]=='true'?true:false;
+                }
+                if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
+                {
+                    body[key] = that.rules[key].prefix + body[key];
+                }
+                if(that.rules[key].setEqual){
+                    body[that.rules[key].setEqual] = body[key];
+                }
+                if(that.rules[key].type=='list'){
+                    body[key]=[];
+                    if(that.dataListMultiple[key]){
+                        that.dataListMultiple[key].data.forEach(obj=>{
+                            body[key].push(obj);
+                        });
+                    }
+                }
+            }
+        });
+        return body;
     }
     //objecto del search actual
     public search:any={};
