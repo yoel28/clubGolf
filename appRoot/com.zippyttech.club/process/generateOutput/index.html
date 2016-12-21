@@ -165,7 +165,7 @@
                                                    placeholder="ESCANEAR PRODUCTO" type="text">
                                         </div>
                                     </form>
-                                    <button class="btn  btn-green btn-block" (click)="saveProduct($event)">
+                                    <button class="btn btn-green btn-block" (click)="saveProduct($event)" [disabled]="disableSubmit()">
                                         TERMINAR
                                     </button>
                                 </div>
