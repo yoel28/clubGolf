@@ -17,7 +17,7 @@ export class RestController implements OnInit {
     where:string = "";
 
     constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        this.httputils = new HttpUtils(http);
+        this.httputils = new HttpUtils(http,toastyService,toastyConfig);
     }
     ngOnInit() {
     }
