@@ -11,7 +11,7 @@
                 </span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-            <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle" data-toggle="offcanvas"
+            <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle"  data-toggle="offcanvas"
                role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
@@ -46,7 +46,8 @@
             </div>
         </nav>
     </header>
-    <aside *ngIf="menuType.value && menuType.value.list" class="main-sidebar">
+
+    <aside class="main-sidebar" *ngIf="menuType.value && menuType.value.list">
         <section class="sidebar">
             <div class="user-panel cursor-pointer" (click)='onProfile()'>
                 <div class="pull-left image">
@@ -61,7 +62,7 @@
                 <li class="header"><i class="fa fa-circle text-success"></i> {{myglobal.user.email}}</li>
                 <li *ngFor="let item of menuItemsVisible(menuItems.value)"
                     [class.treeview]="item.treeview"
-                    [class.active]="item.key && activeMenuId==item.key"
+                    [class.active]="item.key && item.select"
                 >
                     <a *ngIf="item.routerLink" href="#" [routerLink]="[item.routerLink]">
                         <i class="{{item.icon}}"></i>
@@ -72,7 +73,8 @@
                         <span>{{item.title}}</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
-                    <ul *ngIf="item.treeview" class="treeview-menu">
+
+                    <ul [@visible] = 'item.select' *ngIf="item.treeview" class="treeview-menu">
                         <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
                             <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
                                 <i class="{{subItem.icon}}"></i>
