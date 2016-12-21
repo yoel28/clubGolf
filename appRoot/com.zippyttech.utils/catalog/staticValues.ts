@@ -108,6 +108,7 @@ export class StaticValues {
     public static get pathElements(){
         return{
             'isotipo':          'assets/img/default/zippy/isotipo.png',
+            'favicon':          'assets/img/default/zippy/favicon.png',
             'isotipo-blanco':   'assets/img/default/zippy/isotipo-blanco.png',
             'logo':             'assets/img/clubGolf/logo.png',
             'logoBlanco':       'assets/img/clubGolf/logo.png',
