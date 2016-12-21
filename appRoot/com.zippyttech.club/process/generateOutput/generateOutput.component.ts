@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
@@ -134,15 +134,25 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         let successCallback= response => {
             let data=response.json();
             if(data.count==1)
+            {
                 that.listProduct[code]=data.list[0];
-            else
-                that.listProduct[code]={'error':'Codigo no registrado'};
+                if(!that.listProduct[code].available){
+                    delete that.listProduct[code];
+                    that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                }
+            }
+            else{
+                delete that.listProduct[code];
+                that.addToast('Error','El codigo '+code+' no se encontro','error',15000);
+            }
+
         };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
         this.product.loadDataModelWhere(successCallback,where);
-
-
+    }
+    disableSubmit(){
+        return Object.keys(this.listProduct).length>0?false:true;
     }
     public get getDataQr(){
         return JSON.stringify(this.dataQr);
