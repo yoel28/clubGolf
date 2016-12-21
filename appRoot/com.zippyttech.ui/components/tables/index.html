@@ -15,9 +15,10 @@
             <td *ngFor="let key of keyVisible()">
 
                 <span *ngIf="!getDisabledField(key,data)">
-
-
+                    <i *ngIf="model.rules[key].iconVisible" class="{{model.rules[key].iconVisible}}">&nbsp;</i>
                     <i *ngIf="model.rules[key].type == 'icon'" class="{{data[key]}}">&nbsp;</i>
+
+
 
                     <a *ngIf=" !model.rules[key].object &&
                                 model.rules[key].type == 'text' ||
