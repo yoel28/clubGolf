@@ -70,9 +70,16 @@ export class GetbackComponent extends ControllerBase {
                 that.listProduct[code].detail=null;
                 that.listProduct[code].state=that.stateDefault;
                 that.listProduct[code].mustComment=false;
+
+                if(that.listProduct[code].available){
+                    delete that.listProduct[code];
+                    that.addToast('Error','Código '+code+' no a salido','warning',15000);
+                }
             }
-            else
-                that.listProduct[code]={'error':'Codigo no registrado'};
+            else{
+                delete that.listProduct[code];
+                that.addToast('Error','Código '+code+' no registrado','error',15000);
+            }
 
             that.form.controls['data'].setValue(that.listProduct);
         };
