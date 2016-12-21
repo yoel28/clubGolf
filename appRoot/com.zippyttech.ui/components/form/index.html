@@ -24,14 +24,16 @@
                                                    [readonly]="rules[key].readOnly"
                                             >
 
-                                            <input *ngIf="rules[key].type == 'list'"
-                                                   formControlName="{{key}}" class="form-control"
-                                                   formControlName="{{key}}"
-                                                   placeholder="{{rules[key].placeholder}}"
-                                                   type="text"
-                                                   [attr.aria-describedby]="key"
-                                                   [readonly]="rules[key].readOnly"
-                                            >
+                                            <div *ngIf="rules[key].type == 'list'">
+                                                <input tags-input data-role="tagsinput"
+                                                       placeholder="{{rules[key].placeholder}}"
+                                                       type="text"
+                                                       [attr.aria-describedby]="key"
+                                                       [readonly]="rules[key].readOnly"
+                                                       [control]="form.controls[key]"
+                                                       (instance)="rules[key].refreshField ?(rules[key].refreshField.instance=$event||null):null"
+                                                >
+                                            </div>
 
                                             <input *ngIf="rules[key].type == 'color'" color-picker
                                                    class="form-control" [hexControl]="data[key]"
@@ -83,21 +85,7 @@
                                                 (click)="getLoadSearch($event,rules[key])">
                                         </button>
 
-                                        <button *ngIf="rules[key].type == 'list'"
-                                                (click)="addListMultiple($event,key)"
-                                                [attr.title]="msg.add"
-                                                class="btn btn-box-tool text-blue fa fa-check"
-                                                [disabled]="!form.controls[key].value"
-                                        >
-                                        </button>
-
-                                        <button *ngIf="rules[key].type == 'list' && dataListMultiple[key] && dataListMultiple[key].data && dataListMultiple[key].data.length > 0"
-                                                (click)="viewListMultiple($event,key)"
-                                                title="{{dataListMultiple[key].view?'Ocultar':'Ver'}}"
-                                                class="btn btn-box-tool fa {{dataListMultiple[key].view?'fa-eye-slash text-red':'fa-eye text-blue'}}">
-                                        </button>
-
-                                        <button *ngIf="rules[key].refreshField && !rules[key].readOnly"
+                                        <button *ngIf="rules[key].refreshField "
                                                 tabindex="-1"
                                                 class="btn btn-box-tool fa {{rules[key].refreshField.icon}} text-blue"
                                                 (click)="refreshField($event,rules[key])">

@@ -151,7 +151,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     public getFormValues(){
         let that = this;
-        let body = this.form.value;
+        let body = Object.assign({},this.form.value);
         Object.keys(body).forEach((key:string)=>{
             if(that.rules[key]){
                 if(that.rules[key].object){
@@ -172,12 +172,11 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     body[that.rules[key].setEqual] = body[key];
                 }
                 if(that.rules[key].type=='list'){
-                    body[key]=[];
-                    if(that.dataListMultiple[key]){
-                        that.dataListMultiple[key].data.forEach(obj=>{
-                            body[key].push(obj);
-                        });
-                    }
+                    let data=[];
+                    body[key].forEach(obj=>{
+                        data.push(obj.value);
+                    });
+                    body[key]=data;
                 }
             }
         });
@@ -244,14 +243,17 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(data.refreshField.endpoint){
             let successCallback= response => {
                 let val = response.json()[data.refreshField.field];
-                that.data[data.key].setValue(val);
+                if(data.refreshField.callback)
+                    data.refreshField.callback(data,response.json(),that.data[data.key]);
+                else
+                    that.data[data.key].setValue(val);
             }
             this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
         }
         else{
-            that.data[data.key].setValue(eval(data.refreshField.eval));
+            if(that.rules[data.key].type=='list')
+                that.data[data.key].value.push(eval(data.refreshField.eval));
         }
-
     }
     makeTextRandon():string
     {
