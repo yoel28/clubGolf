@@ -15,7 +15,7 @@
                 </div>
                 <div *ngIf="!dataOk">
                     <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" >
-                        <div class="box box-block background-grandient">
+                        <div class="box box-block {{ (user && user.form && user.form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">Usuario</h3>
                                 <div class="box-tools pull-right">
