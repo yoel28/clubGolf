@@ -8,10 +8,12 @@ import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {QrcodeModel} from "../../catalog/qrcode/qrcode.model";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
 declare var moment:any;
+declare var jQuery:any;
 
 @Component({
     moduleId:module.id,
@@ -34,6 +36,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public dataClient:any={};
 
     public product:any;
+    public qr:QrcodeModel;
     public listProduct:any={};
 
     public dataQr={
@@ -48,6 +51,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     }
     public initModel(){
         this.product = new ProductModel(this.myglobal);
+        this.qr = new QrcodeModel(this.myglobal);
     }
 
     ngOnInit(){
@@ -186,6 +190,29 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         if(event)
             event.preventDefault();
         this.ws.onSocket(this.channelWS);
+    }
+    searchQr(event){
+        if(event)
+            event.preventDefault();
+        try {
+            let that=this;
+            let val = jQuery('#validQr').val();//TODO:exp Reg replac '
+            jQuery('#validQr').val('');
+            let data = JSON.parse(val);
+            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+
+            let successCallback = response => {
+                that.ws.webSocket[that.channelWS].data.setValue(response.json());
+            };
+            this.qr.loadDataModelWhere(successCallback,where,data.id)
+
+
+        }catch (e){
+            this.addToast('Error','QR invalido','error');
+        }
+
+
+
     }
 
 }
