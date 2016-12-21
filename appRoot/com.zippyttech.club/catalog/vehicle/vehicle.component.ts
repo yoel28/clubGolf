@@ -25,6 +25,18 @@ export class VehicleComponent extends BaseViewInstance{
         this.model.rules['tags'].multiple=true;
         this.model.rules['tags'].paramsSearch.where="&where="+encodeURI("[['OR':[['op':'isNull','field':'vehicle.id'],['op':'eq','field':'vehicle.id','value':data.id]]]]");
         this.model.rules['tags'].paramsSearch.eval='this.model.rules[key].paramsSearch.where = this.model.rules[key].paramsSearch.where.replace("data.id",data.id)';
+
+        //this.model.rules['tags'].required = true;
+        this.model.rules['tags'].reference = true;
+        this.model.rules['tags'].pathLocal=true;
+        this.model.rules['tags'].model = this.tag;
+
+
+        this.model.rules['tags'].callback = (value,dataSelect)=>{
+            if(value.vehicleId == dataSelect.id){
+                dataSelect.tags.push(value);
+            }
+        }
     }
 
     initViewOptions() {
