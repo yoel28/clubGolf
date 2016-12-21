@@ -181,9 +181,9 @@ export abstract class ModelBase{
     public onSave(body,successCallback){
         return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
-    public loadDataModelWhere(successCallback,where=[]){
+    public loadDataModelWhere(successCallback,where=[],id=''){
         let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
-        return this.myglobal.httputils.doGet(this.endpoint+_where,successCallback,this.error);
+        return this.myglobal.httputils.doGet(this.endpoint+id+_where,successCallback,this.error);
     }
     public error(error){
         console.log(error);
