@@ -108,7 +108,7 @@ export abstract class ModelBase{
                 },
             },
             'where': '',
-            'imageGuest': '/assets/img/truck-guest.png',
+            'imageGuest': StaticValues.pathElements.favicon,
             'field':'any'
         };
     }
