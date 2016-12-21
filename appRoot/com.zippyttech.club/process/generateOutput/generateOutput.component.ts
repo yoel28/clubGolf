@@ -143,7 +143,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             }
             else{
                 delete that.listProduct[code];
-                that.addToast('Error','El codigo '+code+' no se encontro','error',15000);
+                that.addToast('Error','Código '+code+' no registrado','error',15000);
             }
 
         };
