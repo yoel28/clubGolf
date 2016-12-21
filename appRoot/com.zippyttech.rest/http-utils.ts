@@ -1,10 +1,47 @@
 import {Http} from '@angular/http';
 import {contentHeaders} from './headers';
+import {ToastyConfig, ToastyService, ToastData, ToastOptions} from "ng2-toasty";
 
 export class HttpUtils {
-    public toastr:any;
 
-    constructor(public http:Http) {
+    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+    }
+
+    addToast(title,message,type='info',time=10000) {
+
+        var toastOptions:ToastOptions = {
+            title: title,
+            msg: message,
+            showClose: true,
+            timeout: time,
+            theme: 'bootstrap',
+            onAdd: (toast:ToastData) => {
+                console.log('Toast ' + toast.id + ' has been added!');
+            },
+            onRemove: function(toast:ToastData) {
+                console.log('Toast ' + toast.id + ' has been removed!');
+            }
+        };
+
+        switch (type){
+            case 'info':
+                this.toastyConfig.position='top-right';
+                this.toastyService.info(toastOptions);
+                break;
+            case 'success':
+                this.toastyService.success(toastOptions);
+                break;
+            case 'wait':
+                this.toastyService.wait(toastOptions);
+                break;
+            case 'error':
+                this.toastyConfig.position='bottom-center';
+                this.toastyService.error(toastOptions);
+                break;
+            case 'warning':
+                this.toastyService.warning(toastOptions);
+                break;
+        }
     }
 
     createEndpoint(endpoint:string,isAbosulte=false){
@@ -110,8 +147,8 @@ export class HttpUtils {
         let successCallback= response => {
             if(list != null)
                 list.unshift( response.json());
-            if(that.toastr)
-                that.toastr.success('Guardado con éxito','Notificación');
+            if (this.toastyService)
+                that.addToast('Notificacion','Guardado con éxito');
         };
         return this.doPost(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
     }
@@ -132,8 +169,8 @@ export class HttpUtils {
                 if(index!=-1)
                     list.splice(index,1);
             }
-            if(that.toastr)
-                that.toastr.success('Borrado con éxito','Notificación');
+            if (this.toastyService)
+                that.addToast('Notificacion','Borrado con éxito');
         };
         this.doDelete(endpoint,successCallback,errorCallback,isEndpointAbsolute);
     }
@@ -141,8 +178,8 @@ export class HttpUtils {
         let that = this;
         let successCallback= response => {
             Object.assign(data, response.json());
-            if(that.toastr)
-                that.toastr.success('Actualizado con éxito','Notificación');
+            if (this.toastyService)
+                that.addToast('Notificacion','Actualizado con éxito');
         };
        return this.doPut(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
     }
