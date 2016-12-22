@@ -197,6 +197,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         try {
             let that=this;
             let val = jQuery('#validQr').val();//TODO:exp Reg replac '
+            val = val.replace(/'/g, '"');
             jQuery('#validQr').val('');
             let data = JSON.parse(val);
             let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
