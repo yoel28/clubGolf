@@ -59,7 +59,9 @@ export class AnimationsManager{
         return [
             state("true", style(styleIn)),
             state("false", style(styleOut)),
-            transition("* <=> *", animate(timeAnimation/*, keyframes*/))
+            transition('true <=> false', animate(timeAnimation/*, keyframes*/)),
+            transition(':leave', [ style(styleIn),animate(timeAnimation/*, keyframes*/)]),
+            transition(':enter', [ style(styleOut),animate(timeAnimation/*, keyframes*/)])
         ]
     }
 
