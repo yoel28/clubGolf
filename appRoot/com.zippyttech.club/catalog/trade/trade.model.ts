@@ -31,6 +31,20 @@ export class TradeModel extends ModelBase{
         this.guest = new UserModel(this.myglobal);
     }
     initRules(){
+        this.rules['entregado']={
+            'type':'filter',
+            'search':this.permissions.filter,
+            'where': {
+                'Entregados': {'op': 'isNotNull', 'field': 'receivedDate'},
+                'No entregados': {'op': 'isNull', 'field': 'receivedDate'}
+            },
+            'source':[
+                {'value':'Entregados','text':'Entregados'},
+                {'value':'No entregados','text':'No entregados'}
+            ],
+            'placeholder':'¿Productos entregados?'
+        }
+
         this.rules['id']={
             'type': 'number',
             'search':this.permissions.filter,
@@ -172,5 +186,8 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.sponsor;
         delete this.rulesSave.guest;
         delete this.rulesSave.timeUse;
+        delete this.rulesSave.usernameCreator;
+        delete this.rulesSave.usernameUpdater;
+        delete this.rulesSave.entregado;
     }
 }
