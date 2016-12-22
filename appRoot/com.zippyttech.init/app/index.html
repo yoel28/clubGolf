@@ -3,7 +3,7 @@
     <header class="main-header">
         <a href="#" [routerLink]="['/init/dashboard']" class="logo">
                 <span class="logo-mini">
-                    <img [attr.src]="pathElement.isotipo" class="img-responsive">
+                    <img [attr.src]="pathElement.miniLogo" class="img-responsive">
                 </span>
             <span class="logo-lg">
                     <img [attr.src]="pathElement.miniLogo"
@@ -25,7 +25,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img [attr.src]="myglobal.user.image || pathElement.robot" class="user-image"
                                  alt="User Image">
-                            <span class="hidden-xs">{{myglobal.user.username}}</span>
+                            <span class="hidden-xs">{{myglobal.user.email}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
@@ -93,6 +93,7 @@
 </div>
 <div [class.content-wrapper]="myglobal.dataSesion.valid" >
     <router-outlet></router-outlet>
+    <ng2-toasty [position]="'top-right'"></ng2-toasty>
 </div>
 <div *ngIf="myglobal.dataSesion.valid" class="subir-top">
     <div class="main-footer-container noprint">
@@ -116,7 +117,7 @@
                         Principal</h4>
                 </div>
                 <div class="modal-body menu-modal">
-                    <div *ngFor="let item of menuItemsTreeview(menuItems)"
+                    <div *ngFor="let item of menuItemsTreeview(menuItems.value)"
                          [class.treeview]="item.treeview">
                         <a *ngIf="item.routerLink" data-dismiss="modal" class="a-menu-modal" href="#"
                            [routerLink]="[item.routerLink]">
@@ -149,4 +150,8 @@
         <save-view *ngIf="info" [rules]="info.rulesSave" [params]="info.paramsSave" (getInstance)="setInstance($event,info.prefix)" ></save-view>
     </div>
 
+</div>
+
+<div *ngIf="myglobal.dataSesion.valid && myglobal.existsPermission(['REG_FULL_ADD'])" class="block-float">
+    <button (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue btn-outlined"><i class="fa fa-user-plus"></i></button>
 </div>

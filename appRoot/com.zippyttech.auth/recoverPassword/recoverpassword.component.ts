@@ -4,6 +4,7 @@ import {Router, ActivatedRoute}           from '@angular/router';
 import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -19,8 +20,8 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
     public pathElements=StaticValues.pathElements;
     public msg=StaticValues.msg;
 
-    constructor(public router:Router, public http:Http,private routeActive: ActivatedRoute) {
-        super(http);
+    constructor(public router:Router, public http:Http,private routeActive: ActivatedRoute,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
     }
     ngOnInit():void{
         this.id=this.routeActive.snapshot.params['id'];

@@ -2,6 +2,7 @@ import { Component,EventEmitter } from '@angular/core';
 import { Http} from '@angular/http';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 declare var SystemJS:any;
 @Component({
     selector: 'search-multiple-view',
@@ -17,8 +18,8 @@ export class SearchMultipleComponent extends RestController{
 
     public msg = StaticValues.msg;
 
-    constructor(public http:Http) {
-        super(http);
+    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.result = new EventEmitter();
     }
     ngOnInit(){
@@ -33,7 +34,12 @@ export class SearchMultipleComponent extends RestController{
     getData(event){
         if(event)
             event.preventDefault();
-        this.result.emit(this.params.valuesData);
+        let data=[];
+        this.params.valuesData.forEach(obj=>{
+            data.push(obj.id)
+        });
+
+        this.result.emit(data);
     }
     addValue(event,id){
         if(event)
@@ -43,12 +49,15 @@ export class SearchMultipleComponent extends RestController{
     deleteValue(event,id){
         if(event)
             event.preventDefault();
-        let index = this.params.valuesData.indexOf(id);
+        let index = this.params.valuesData.findIndex((obj:any) =>obj.id == id );
         if(index>-1)
             this.params.valuesData.splice(index,1);
     }
     existValue(id){
-        return this.params.valuesData.indexOf(id)>-1?true:false;
+        let index = this.params.valuesData.findIndex((obj:any) =>obj.id == id );
+        if(index > -1)
+            return true;
+        return false;
     }
 }
 

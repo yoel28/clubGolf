@@ -109,4 +109,14 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     background-image: url('assets/img/clubGolf/BolaGolf.png'), url('assets/img/clubGolf/RobotTransparent.png');
     background-position: left bottom, right bottom;
     background-repeat: no-repeat, no-repeat;
+    background-size: 15% ,25%;
+}
+.focus-error{
+    border-bottom: 1px solid red !important;
+}
+.block-float{
+    position: fixed;
+    z-index: 2000;
+    bottom: 10%;
+    right: 1.5%;
 }

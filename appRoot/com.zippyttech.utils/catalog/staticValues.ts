@@ -58,6 +58,23 @@ export class StaticValues {
     {
         return {
             'format': 'dd/mm/yyyy',
+            'formatView':'DD/MM/YYYY, LT',
+            'startDate': '01/01/2016',
+            'startView': 2,
+            'minViewMode': 0,
+            'maxViewMode': 2,
+            'forceParse': false,
+            'language': "es",
+            'todayBtn': "linked",
+            'autoclose': true,
+            'todayHighlight': true,
+            'return': 'DD/MM/YYYY'
+        }
+    }
+    public static get formatDatePickerDDMMYYYYLT():any
+    {
+        return {
+            'format': 'dd/mm/yyyy, LT',
             'startDate': '01/01/2016',
             'startView': 2,
             'minViewMode': 0,
@@ -145,6 +162,9 @@ export class StaticValues {
         msg.update="Actualizar";
         msg.imageEditor="Editor de imagenes";
         msg.imageEdit="Editar imagen";
+        msg.getProducts="Recepción de productos";
+        msg.clickChange="Click para cambiar";
+        msg.add="Agregar";
 
         return msg;
 

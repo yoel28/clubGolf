@@ -2,6 +2,7 @@ import {Http} from '@angular/http';
 import {HttpUtils} from "./http-utils";
 import {OnInit} from "@angular/core";
 import {FormGroup} from "@angular/forms";
+import {ToastyService, ToastOptions, ToastData, ToastyConfig} from "ng2-toasty";
 
 export class RestController implements OnInit {
 
@@ -14,10 +15,9 @@ export class RestController implements OnInit {
     order = "";//asc o desc
     page:any = [];
     where:string = "";
-    toastr:any;
 
-    constructor(public http:Http) {
-        this.httputils = new HttpUtils(http);
+    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        this.httputils = new HttpUtils(http,toastyService,toastyConfig);
     }
     ngOnInit() {
     }
@@ -26,29 +26,69 @@ export class RestController implements OnInit {
         this.endpoint = endpoint;
     }
 
+    addToast(title,message,type='info',time=10000) {
+
+        var toastOptions:ToastOptions = {
+            title: title,
+            msg: message,
+            showClose: true,
+            timeout: time,
+            theme: 'bootstrap',
+            onAdd: (toast:ToastData) => {
+                console.log('Toast ' + toast.id + ' has been added!');
+            },
+            onRemove: function(toast:ToastData) {
+                console.log('Toast ' + toast.id + ' has been removed!');
+            }
+        };
+
+        switch (type){
+            case 'info':
+                this.toastyConfig.position='top-right';
+                this.toastyService.info(toastOptions);
+                break;
+            case 'success':
+                this.toastyService.success(toastOptions);
+                break;
+            case 'wait':
+                this.toastyService.wait(toastOptions);
+                break;
+            case 'error':
+                this.toastyConfig.position='bottom-center';
+                this.toastyService.error(toastOptions);
+                break;
+            case 'warning':
+                this.toastyService.warning(toastOptions);
+                break;
+        }
+    }
+
     error = err => {
         //this.sound(err.status);
         let that = this;
-        if (that.toastr) {
+        if (that.toastyService) {
             if (err.json()) {
                 if (err.json().message && err.json().message.error)
-                    that.toastr.error(err.json().message.error);
+                    that.addToast('error',err.json().message.error,'error');
                 else if (err.json()._embedded && err.json()._embedded.errors) {
-                    let msg = "";
                     err.json()._embedded.errors.forEach(obj=> {
-                        msg = msg + " " + obj.message;
+                        that.addToast('error',obj.message,'error');
                     })
-                    that.toastr.error(msg);
                 }
                 else if (err.json().message) {
-                    that.toastr.error(err.json().message);
+                    that.addToast('error',err.json().message,'error');
+                }
+                else if(err.json().errors){
+                    err.json().errors.forEach(obj=> {
+                        that.addToast('error',obj.message,'error');
+                    })
                 }
                 else {
-                    that.toastr.error(err.json());
+                    that.addToast('error',err.json(),'error');
                 }
             }
             else {
-                that.toastr.error(err);
+                that.addToast('error',err,'error');
             }
         }
         console.log(err);
@@ -195,9 +235,14 @@ export class RestController implements OnInit {
         this.httputils.onDelete(this.endpoint + id, id, this.dataList.list, this.error);
     }
 
-    onSave(data:FormGroup) {
-        let body = JSON.stringify(data.value);
-        this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
+    onSave(data:FormGroup|Object) {
+        let body:any;
+        if(data instanceof FormGroup)
+            body = JSON.stringify(data.value);
+        else
+            body = JSON.stringify(data);
+
+        return this.httputils.onSave(this.endpoint, body, this.dataList.list, this.error);
     }
 
     onPatch(field, data, value?) {
@@ -225,26 +270,28 @@ export class RestController implements OnInit {
 
     onEditable(field, data, value, endpoint) {
         let json = {};
+        let that = this;
         if (typeof data[field] === "number")
             value = parseFloat(value);
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            this.toastr.error(err.json().message);
+            that.addToast('error',err.json().message,'error');
         };
         return (this.httputils.onUpdate(endpoint + data.id, body, data, error));
     }
 
     onEditableRole(field, data, value, endpoint) {
         let json = {};
+        let that=this;
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            this.toastr.error(err.json().message);
+            that.addToast('error',err.json().message,'error');
         };
         let successCallback = response => {
-            if (this.toastr)
-                this.toastr.success('Guardado con éxito', 'Notificacion')
+            if (this.toastyService)
+                that.addToast('Notificacion','Guardado con éxito');
         }
         return (this.httputils.doPost(endpoint, body, successCallback, error));
     }

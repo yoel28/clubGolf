@@ -33,7 +33,7 @@
                             </td>
                             <td style="vertical-align: middle;">
 
-                                <button *ngIf="!existValue(data.id)" (click)="addValue($event,data.id)" type="button" class="btn btn-success btn-outlined" title="Agregar">
+                                <button *ngIf="!existValue(data.id)" (click)="addValue($event,data)" type="button" class="btn btn-success btn-outlined" title="Agregar">
                                     <i class="fa fa-check"></i>
                                 </button>
 
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outlined btn-red fa fa-close">
+                <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">
                     &nbsp;{{msg.warningButtonExit | translate}}
                 </button>
                 <button (click)="getData($event)"  data-dismiss="modal" type="button" class="btn btn-success fa fa-check">

@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
@@ -7,17 +7,19 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
 declare var moment:any;
+
 @Component({
     moduleId:module.id,
     selector: 'generate-output',
     templateUrl:'index.html',
-    styleUrls: ['style.css'],
+    styleUrls: ['../style.css'],
 })
-export class GenerateOutputComponent extends ControllerBase implements OnInit {
+export class GenerateOutputComponent extends ControllerBase implements OnInit,OnDestroy {
 
     public instance:any={};
 
@@ -38,17 +40,19 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit {
         'token':localStorage.getItem('bearer'),
         'channel':'operator'
     };
+    public channelWS:string;
 
-    constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http) {
-        super('NA','',router,http,myglobal);
+    constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super('NA','',router,http,myglobal,toastyService,toastyConfig);
+        this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){
         this.product = new ProductModel(this.myglobal);
     }
 
     ngOnInit(){
+        super.ngOnInit();
         this.initForm();
-        this.initModel();
         this.initViewOptions();
         this.loadWebSocket();
     }
@@ -62,11 +66,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit {
     }
     loadWebSocket(){
         let that=this;
-        let channel = '/'+this.dataQr.channel+'/'+this.dataQr.token;
-        this.ws.onSocket(channel);
-        if(this.myglobal.channelWebsocket[channel])
+        this.ws.onSocket(this.channelWS);
+        if(this.ws.webSocket[this.channelWS].data)
         {
-            this.subscribe = this.myglobal.channelWebsocket[channel].valueChanges.subscribe(
+            this.subscribe = this.ws.webSocket[this.channelWS].data.valueChanges.subscribe(
                 (value:any) => {
                     if(value.id){
                         that.listProduct={};
@@ -162,6 +165,17 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit {
             that.step=3;
         })
 
+    }
+    ngOnDestroy():void{
+        this.ws.closeWebsocket(this.channelWS);
+        if(this.subscribe)
+            this.subscribe.unsubscribe();
+        this.subscribe=null;
+    }
+    reconectWS(event){
+        if(event)
+            event.preventDefault();
+        this.ws.onSocket(this.channelWS);
     }
 
 }

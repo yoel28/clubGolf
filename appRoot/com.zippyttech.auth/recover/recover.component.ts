@@ -4,6 +4,7 @@ import {Router}           from '@angular/router';
 import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -18,8 +19,8 @@ export class RecoverComponent extends RestController {
     
     form:FormGroup;
 
-    constructor(public router:Router, public http:Http) {
-        super(http);
+    constructor(public router:Router, public http:Http,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.setEndpoint(localStorage.getItem('url')+'/users/recover/');
         this.initForm();
     }

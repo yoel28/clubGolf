@@ -5,6 +5,7 @@ import {Http} from "@angular/http";
 import {isNumeric} from "rxjs/util/isNumeric";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -105,7 +106,7 @@ export class FilterComponent extends RestController implements OnInit{
         ],
     };
     //foormato de fecha
-    public paramsDate={'format':"DD-MM-YYYY","minDate":"01-01-2016"}
+    public paramsDate={'format':"DD-MM-YYYY","minDate":"01-01-2016"};
     public date={};
     //Lista de id search
     public searchId:any={};
@@ -115,8 +116,8 @@ export class FilterComponent extends RestController implements OnInit{
     data:any = {};
     keys:any = {};
 
-    constructor(public http: Http,public myglobal:globalService) {
-        super(http);
+    constructor(public http: Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.whereFilter = new EventEmitter();
     }
     ngOnInit() {
@@ -194,7 +195,7 @@ export class FilterComponent extends RestController implements OnInit{
     }
     //Cargar data
     assignDate(data,key){
-        this.data[key].updateValue(data);
+        this.data[key].setValue(data);
     }
     
     // public search=
@@ -324,7 +325,7 @@ export class FilterComponent extends RestController implements OnInit{
         this.searchId={};
         this.keys.forEach(key=>{
             if(this.form.controls[key]){
-                (<FormControl>this.form.controls[key]).value=null;
+                (<FormControl>this.form.controls[key]).setValue(null);
                 (<FormControl>this.form.controls[key]).setErrors(null);
             }
         })
@@ -343,9 +344,9 @@ export class FilterComponent extends RestController implements OnInit{
         return Object.keys(this.searchId);
     }
     setValueSelect(data,key){
-        this.data[key].updateValue(data);
+        this.data[key].setValue(data);
         if(data=='-1')
-            this.data[key].updateValue(null);
+            this.data[key].setValue(null);
 
     }
 }

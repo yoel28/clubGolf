@@ -5,6 +5,8 @@ import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 @Component({
@@ -22,6 +24,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     public rules:any={};
     public id:string;
     public dataSelect:any={};
+    public dataListMultiple:any={};//arraay para opciones multiples
 
     public save:any;
     public getInstance:any;
@@ -32,10 +35,11 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
 
     public delete=false;
 
+    public classCol=StaticFunction.classCol;
+    public classOffset=StaticFunction.classOffset;
 
-
-    constructor(public http:Http, public myglobal:globalService) {
-        super(http);
+    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
     }
@@ -127,6 +131,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         event.preventDefault();
         let that = this;
         let successCallback= response => {
+            that.addToast('Notificacion','Guardado con éxito');
             that.resetForm();
             that.save.emit(response.json());
         };
@@ -147,6 +152,15 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
             if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
             {
                 body[key] = that.rules[key].prefix + body[key];
+            }
+            if(that.rules[key].setEqual){
+                body[that.rules[key].setEqual] = body[key];
+            }
+            if(that.rules[key].type=='list'){
+                body[key]=[];
+                that.dataListMultiple[key].data.forEach(obj=>{
+                    body[key].push(obj);
+                });
             }
         });
         if(this.params.updateField)
@@ -194,6 +208,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         let that=this;
         this.search={};
         this.searchId={};
+        this.dataListMultiple={};
         this.delete=false;
         this.params.updateField=false;
         Object.keys(this.data).forEach(key=>{
@@ -211,11 +226,27 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     refreshField(event,data){
         event.preventDefault();
         let that = this;
-        let successCallback= response => {
-            let val = response.json()[data.refreshField.field];
-            that.data[data.key].setValue(val);
+        if(data.refreshField.endpoint){
+            let successCallback= response => {
+                let val = response.json()[data.refreshField.field];
+                that.data[data.key].setValue(val);
+            }
+            this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
         }
-        this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
+        else{
+            that.data[data.key].setValue(eval(data.refreshField.eval));
+        }
+
+    }
+    makeTextRandon():string
+    {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < 20; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
     }
     setColor(data,key){
         this.data[key].setValue(data);
@@ -247,7 +278,26 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         return Object.keys(data || {});
     }
     loadDate(data,key){
-        this.data[key].setValue(data);
+        this.data[key].setValue(data.date);
+    }
+    addListMultiple(event,key){
+        if(!this.dataListMultiple[key])
+            this.dataListMultiple[key]={'view':false,'data':[]};
+        this.dataListMultiple[key].data.push(this.form.controls[key].value);
+        this.form.controls[key].setValue(null);
+    }
+    viewListMultiple(event,key){
+        if(event)
+            event.preventDefault();
+        this.dataListMultiple[key].view=!this.dataListMultiple[key].view;
+    }
+    deleteListMultiple(event,key,data){
+        if(event)
+            event.preventDefault();
+        let index = this.dataListMultiple[key].data.findIndex(obj => obj == data);
+        if(index!=-1)
+            this.dataListMultiple[key].data.splice(index,1);
+
     }
 }
 

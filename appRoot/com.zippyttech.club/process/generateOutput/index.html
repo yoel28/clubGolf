@@ -1,4 +1,4 @@
-<div class="">
+<div>
     <section class="content container">
         <div class="background-grandient {{classCol(10,10,11,12)}}">
             <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
@@ -15,7 +15,16 @@
                                         </button>
                                     </h2>
                                     <div class="text-center img-responsive">
-                                        <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400"></qr-code>
+                                        <div [class.opacity-qr]="ws.webSocket[channelWS].status.value != 'connect'">
+                                            <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
+                                        </div>
+                                        <div class="center-load" *ngIf="ws.webSocket[channelWS].status.value != 'connect'">
+                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="ws.webSocket[channelWS].reconnect<=5"></i><br/>
+                                            <button *ngIf="ws.webSocket[channelWS].reconnect > 5" class="btn btn-blue" (click)="reconectWS($event)">
+                                                <i class="fa fa-qrcode"></i>
+                                                &nbsp;Reintentar
+                                            </button>
+                                        </div>
                                     </div>
                                     <div>
 
@@ -29,7 +38,6 @@
                             <div class="row margin-top-5">
                                 <div class="{{classCol(6,6,6,12)}}">
                                     <div class="margin-top-5 row">
-                                        <a [routerLink]="['/access/user']">
                                             <div class="{{classCol(3,4,5,5)}}">
                                                 <img class="img-responsive" [attr.src]="pathElements.btnUsuario">
                                             </div>
@@ -37,7 +45,6 @@
                                                 <strong>Usuarios</strong><br>
                                                 Abre App-Menú-CDG
                                             </div>
-                                        </a>
                                     </div>
                                     <div class="margin-top-5 row">
                                         <div class="{{classCol(3,4,5,5)}}">
@@ -114,7 +121,7 @@
                         </div>
                         <div class="tab-pane" [class.active]="step==2" role="tabpanel" id="step2">
                             <div class="row margin-top-5">
-                                <div class="{{classCol(6,6,6,12)}}">
+                                <div class="{{classCol(6,6,6,12)}} table-responsive">
                                     <table class="table color-golf">
                                         <thead>
                                         <tr>
@@ -131,8 +138,8 @@
                                             <td>{{getHora}}</td>
                                         </tr>
                                         <tr>
-                                            <td  class="border-right">Numero de operación</td>
-                                            <td></td>
+                                            <td  class="border-right">Numero de contrato</td>
+                                            <td>{{dataClient.sponsorContractCode}}</td>
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Usuario</td>
@@ -163,7 +170,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="{{classCol(8,8,10,10)}}{{classOffset(2,2,1,1)}} margin-top-5">
+                            <div class="{{classCol(8,8,10,10)}}{{classOffset(2,2,1,1)}} margin-top-5 table-responsive">
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>

@@ -7,6 +7,7 @@ import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 
@@ -25,8 +26,8 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
     form:FormGroup;
     public subcribe;
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute) {
-        super(http);
+    constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
         let that = this;
         this.setEndpoint("/login");
     }

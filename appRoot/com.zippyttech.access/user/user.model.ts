@@ -2,10 +2,11 @@ import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RoleModel} from "../role/role.model";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType.model";
 
 export class UserModel extends ModelBase{
-    public rules={};
     public role:any;
+    public type:any;
     public pathElements=StaticValues.pathElements;
 
     constructor(public myglobal:globalService){
@@ -15,19 +16,26 @@ export class UserModel extends ModelBase{
     }
     modelExternal() {
         this.role= new RoleModel(this.myglobal);
+        this.type= new UserTypeModel(this.myglobal);
     }
     initRules(){
 
-        this.rules['username']={
+        this.rules['id']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'id',
+            'title': 'ID',
+            'placeholder': 'ID',
+        };
+        this.rules['contractCode']={
             'type': 'text',
-            'required':true,
-            'protected':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'username',
-            'title': 'Alias',
-            'placeholder': 'Alias',
+            'key': 'contractCode',
+            'title': 'Contrato',
+            'placeholder': 'Contrato',
         };
         this.rules['name']={
             'type': 'text',
@@ -43,6 +51,7 @@ export class UserModel extends ModelBase{
             'type': 'text',
             'email':true,
             'required':true,
+            'setEqual':'username',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -52,7 +61,6 @@ export class UserModel extends ModelBase{
         };
         this.rules['phone']={
             'type': 'text',
-            'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -64,7 +72,6 @@ export class UserModel extends ModelBase{
             'type': 'password',
             'required':true,
             'update':this.permissions.update,
-            'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'password',
             'showbuttons':true,
@@ -93,16 +100,20 @@ export class UserModel extends ModelBase{
             ],
             "key": "accountLocked",
             "title": "Cuenta",
-            "placeholder": "",
+            "placeholder": "¿Cuenta verificada?",
         };
 
-
+        this.rules['userType']=this.type.ruleObject;
+        this.rules['userType'].required=true;
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
         this.rules['roles'].mode= 'popup';
         this.rules['roles'].showbuttons=true;
         this.rules['roles'].source=[];
+        this.rules['roles'].search=false;
+
+
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
@@ -122,15 +133,17 @@ export class UserModel extends ModelBase{
         this.ruleObject.title="Usuario";
         this.ruleObject.placeholder="Ingrese el usuario";
         this.ruleObject.key="user";
-        this.ruleObject.keyDisplay="userUsername";
+        this.ruleObject.keyDisplay="userEmail";
         this.ruleObject.code="userId";
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
+        delete this.rulesSave.id;
         delete this.rulesSave.roles;
         delete this.rulesSave.enabled;
         delete this.rulesSave.image;
         delete this.rulesSave.accountLocked;
+        delete this.rulesSave.username;
     }
     loadData()
     {

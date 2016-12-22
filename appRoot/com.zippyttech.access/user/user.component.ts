@@ -27,5 +27,11 @@ export class UserComponent extends BaseViewInstance{
             'message': '¿ Esta seguro de eliminar el usuario : ',
             'keyAction':'username'
         };
+        this.paramsTable.actions.viewHistory = {
+            'title': 'Historial',
+            'icon':'fa fa-list',
+            'path':'#/club/catalog/trade/',
+            'permission':true //TODO:Crear permiso
+        };
     }
 }

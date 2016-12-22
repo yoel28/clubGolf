@@ -6,6 +6,11 @@ export abstract class BaseViewInstance  implements OnInit {
     public paramsTable:any={};
     public model:any;
     public viewOptions:any={};
+    public rest:any={
+        'where':[],
+        'max':15,
+        'offset':0,
+    };
 
     abstract initModel();
     abstract initViewOptions();
@@ -23,7 +28,8 @@ export abstract class BaseViewInstance  implements OnInit {
         this.instance = {
             'model':this.model,
             'viewOptions':this.viewOptions,
-            'paramsTable':this.paramsTable
+            'paramsTable':this.paramsTable,
+            'rest':this.rest
         };
     }
 

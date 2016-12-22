@@ -1,29 +1,55 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, HostBinding, trigger, state, style, transition, animate} from '@angular/core';
 import {Router}           from '@angular/router';
 import {Http} from '@angular/http';
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../animations/AnimationsManager";
+
 
 declare var SystemJS:any;
 @Component({
     selector: 'base-view',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.ui/view/base/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
-    inputs:['instance'],
+    templateUrl: SystemJS.map.app + '/com.zippyttech.ui/view/base/index.html',
+    styleUrls: [SystemJS.map.app + '/com.zippyttech.ui/view/base/style.css'],
+    inputs: ['instance'],
+    animations:[
+        trigger('visible', [
+            state('*',
+                style({
+                    opacity: 1,
+                    transform: 'translateX(0)'
+                })
+            ),
+            transition(':enter', [
+                style({
+                    opacity: 0,
+                    transform: 'translateX(-100%)'
+                }),
+                animate('0.2s ease-in')
+            ]),
+            transition(':leave', [
+                animate('0.5s ease-out', style({
+                    opacity: 0,
+                    transform: 'translateY(100%)'
+                }))
+            ])
+        ])
+    ]//AnimationsManager.getTriggers("d-slide_up",250)
 })
 export class BaseViewComponent extends ControllerBase implements OnInit {
-
     public instance:any;
 
     public dataSelect:any = {};
     public paramsTable:any={};
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService) {
-        super('NOPREFIX','/NOENDPOINT/',router, http, myglobal);
+    constructor(public router:Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super('NOPREFIX','/NOENDPOINT/',router, http, myglobal,toastyService,toastyConfig);
     }
     ngOnInit(){
-        this.initModel();
+        super.ngOnInit();
         this.initParams();
+        this.initRest();
         this.initViewOptions();
         this.loadParamsTable();
         this.loadPage();
@@ -34,6 +60,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     initParams(){
         this.prefix = this.model.prefix;
         this.setEndpoint(this.model.endpoint);
+    }
+    initRest(){
+        this.setWhere(this.instance.rest.where);//TODO:Falta cargar todos las demas variables y hacer parametros dinamicos
     }
     initViewOptions() {
         this.viewOptions["title"] = this.instance.viewOptions.title;
@@ -58,17 +87,24 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         this.paramsTable.endpoint=this.endpoint;
         this.paramsTable.actions={};
 
-        if(this.instance.paramsTable && this.instance.paramsTable.actions && this.instance.paramsTable.actions.delete )
+        if(this.instance.paramsTable && this.instance.paramsTable.actions )
         {
-            this.paramsTable.actions.delete = {
-                "icon": "fa fa-trash",
-                "exp": "",
-                'title': 'Eliminar',
-                'idModal': this.prefix+'_'+this.configId+'_DEL',
-                'permission': this.model.permissions.delete,
-                'message': this.instance.paramsTable.actions.delete.message,
-                'keyAction':this.instance.paramsTable.actions.delete.keyAction
-            };
+            if(this.instance.paramsTable.actions.delete){
+                this.paramsTable.actions.delete = {
+                    "icon": "fa fa-trash",
+                    "exp": "",
+                    'title': 'Eliminar',
+                    'idModal': this.prefix+'_'+this.configId+'_DEL',
+                    'permission': this.model.permissions.delete,
+                    'message': this.instance.paramsTable.actions.delete.message,
+                    'keyAction':this.instance.paramsTable.actions.delete.keyAction
+                };
+            }
+
+            if(this.instance.paramsTable.actions.viewHistory){
+                this.paramsTable.actions.viewHistory = this.instance.paramsTable.actions.viewHistory;
+            }
+
         }
         
     }

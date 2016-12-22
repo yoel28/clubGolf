@@ -11,6 +11,7 @@ import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var jQuery:any;
@@ -31,8 +32,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info:any;
 
-    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef) {
-        super(http);
+    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
 
         let that = this;
         let url="https://cdg.zippyttech.com:8080";
@@ -191,7 +192,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT']),
+                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
@@ -202,6 +203,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-user',
                         'title': 'Usuarios',
                         'routerLink': '/access/user'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_US_TYPE']),
+                        'icon': 'fa fa-user',
+                        'title': 'Tipos de usuarios',
+                        'routerLink': '/access/user/type'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ACL']),
@@ -263,7 +270,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS']),
+                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
                 'icon': 'fa fa-gears',
                 'title': 'Catalogo',
                 'key': 'Catalogo',
@@ -286,15 +293,21 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Estados',
                         'routerLink': '/club/catalog/status'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_QR']),
+                        'icon': 'fa fa-list',
+                        'title': 'QR Codigos',
+                        'routerLink': '/club/catalog/qr'
                     }
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
+                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
-                'title': 'Golf',
-                'key': 'Golf',
                 'select' : false,
+                'title': 'operaciones',
+                'key': 'Operaciones',
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
@@ -302,6 +315,60 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Generar salida',
                         'routerLink': '/club/process/generate/output'
                     },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_GETBACK']),
+                        'icon': 'fa fa-list',
+                        'title': 'Generar entrada',
+                        'routerLink': '/club/process/getback'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_TRADE']),
+                        'icon': 'fa fa-list',
+                        'title': 'Lista de Op.',
+                        'routerLink': '/club/catalog/trade'
+                    }
+
+                ]
+            });
+
+            this.menuItems.value.push({
+                'visible': this.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYP','MEN_MODEL','MEN_BRAND']),
+                'icon': 'fa fa-car',
+                'title': 'Vehículos',
+                'key': 'vehicle',
+                'treeview': [
+
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_TAG']),
+                        'icon': 'fa fa-list',
+                        'title': 'Tag',
+                        'routerLink': '/club/catalog/tag'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_VEH']),
+                        'icon': 'fa fa-list',
+                        'title': 'Vehículos',
+                        'routerLink': '/club/catalog/vehicle'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_VEH_TYP']),
+                        'icon': 'fa fa-list',
+                        'title': 'Tipos de veh.',
+                        'routerLink': '/club/catalog/vehicle/type'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_MODEL']),
+                        'icon': 'fa fa-list',
+                        'title': 'Modelo de veh.',
+                        'routerLink': '/club/catalog/vehicle/model'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_BRAND']),
+                        'icon': 'fa fa-list',
+                        'title': 'Marcas de veh.',
+                        'routerLink': '/club/catalog/vehicle/brand'
+                    }
+
                 ]
             });
         }
@@ -333,5 +400,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if (!this.myglobal.objectInstance[prefix])
             this.myglobal.objectInstance[prefix] = {};
         this.myglobal.objectInstance[prefix] = instance;
+    }
+    goPage(event,url){
+        if(event)
+            event.preventDefault();
+        let link = [url, {}];
+        this.router.navigate(link);
     }
 }

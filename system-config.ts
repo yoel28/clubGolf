@@ -34,7 +34,8 @@ System.config({
     'angularfire2':              'npm:angularfire2/bundles/angularfire2.umd.js',
     'firebase':                  'npm:firebase/firebase.js',
     'angular2-qrcode':           'npm:angular2-qrcode',
-    'qrcode-generator':          'npm:qrcode-generator/qrcode.js'
+    'qrcode-generator':          'npm:qrcode-generator/qrcode.js',
+    'ng2-toasty':                'npm:ng2-toasty/index.js'
 
   },
   // packages tells the System loader how to load when no filename and/or no extension

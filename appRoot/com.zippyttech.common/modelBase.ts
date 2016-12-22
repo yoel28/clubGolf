@@ -15,6 +15,7 @@ export abstract class ModelBase{
 
     public configId = moment().valueOf();
     private rulesDefault:any = {};
+    public rules={};
 
     constructor(prefix,endpoint,public myglobal:globalService){
         this.prefix = prefix;
@@ -176,6 +177,9 @@ export abstract class ModelBase{
     }
     public loadDataModel(successCallback){
         return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
+    }
+    public onSave(body,successCallback){
+        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
     public loadDataModelWhere(successCallback,where=[]){
         let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));

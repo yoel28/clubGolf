@@ -3,6 +3,8 @@ import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -33,8 +35,10 @@ export class TablesComponent extends RestController implements OnInit {
     public getInstance:any;
     public msg=StaticValues.msg;
 
-    constructor(public http:Http,public myglobal:globalService) {
-        super(http);
+    public formatTime=StaticFunction.formatTime;
+
+    constructor(public http:Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
+        super(http,toastyService,toastyConfig);
     }
 
     ngOnInit()
@@ -72,8 +76,9 @@ export class TablesComponent extends RestController implements OnInit {
             this.model.rules[key].paramsSearch.multiple=true;
             this.model.rules[key].paramsSearch.valuesData=[];
             this.model.rules[key].paramsSearch.valuesData = data[key];
+            if(this.model.rules[key].paramsSearch.eval)
+                eval(this.model.rules[key].paramsSearch.eval);
         }
-
         this.searchTable =  Object.assign({},this.model.rules[key].paramsSearch);
         this.searchTable.field =  key;
 
@@ -91,6 +96,10 @@ export class TablesComponent extends RestController implements OnInit {
     getDataSearch(data){
         this.onPatch(this.searchTable.field,this.searchTableData,data.id);
     }
+    getDataSearchMultiple(data){
+        this.onPatch(this.searchTable.field,this.searchTableData,data);
+    }
+
     actionPermissionKey() 
     {
         let data=[];
@@ -166,7 +175,60 @@ export class TablesComponent extends RestController implements OnInit {
 
     }
 
+    public formatDateId={};
+    public dateHmanizer = StaticValues.dateHmanizer;
+    public formatDate(date, format, force = false, id = null) {
+        if (date) {
+            if (id && this.formatDateId[id])
+                force = this.formatDateId[id].value;
+            if (this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
+                var diff = moment().valueOf() - moment(date).valueOf();
+                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                    if (diff < 1800000)//menor a 30min
+                        return 'Hace ' + this.dateHmanizer(diff, {units: ['m', 's']})
+                    if (diff < 3600000) //menor a 1hora
+                        return 'Hace ' + this.dateHmanizer(diff, {units: ['m']})
+                    return 'Hace ' + this.dateHmanizer(diff, {units: ['h', 'm']})
+                }
+            }
+            return moment(date).format(format);
+        }
+        return "-";
+    }
+    public changeFormatDate(id) {
+        if (!this.formatDateId[id])
+            this.formatDateId[id] = {'value': false};
+        this.formatDateId[id].value = !this.formatDateId[id].value;
+    }
 
+    public viewChangeDate(date) {
+        //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
+        var diff = moment().valueOf() - moment(date).valueOf();
+        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+    }
+    public getTypeEval(key,data){
+        if(this.model.rules[key])
+            return eval(this.model.rules[key].eval);
+    }
+
+    public viewListData={};
+    public setViewListData(event,data,key){
+        let that=this;
+        if(event)
+            event.preventDefault();
+        this.viewListData['title'] = this.model.rules[key].title;
+        this.viewListData['label']={};
+        if(data[key][0])
+            Object.keys(data[key][0]).forEach(subkey=>{
+                if(that.model.rules[key].rulesSave[subkey])
+                    that.viewListData['label'][subkey] = that.model.rules[key].rulesSave[subkey].title;
+            })
+        this.viewListData['data'] =  data[key];
+    }
+
+    public getObjectKeys(data){
+        return Object.keys(data || {});
+    }
 
 
 

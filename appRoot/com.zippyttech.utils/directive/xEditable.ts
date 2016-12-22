@@ -51,6 +51,7 @@ export class XEditable implements OnInit {
                         }
                     );
                 }
+                that.success.emit(newValue);
             }
         });
     }

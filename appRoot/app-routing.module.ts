@@ -28,6 +28,18 @@ import {ProductTypeComponent} from "./com.zippyttech.club/catalog/productType/pr
 import {ProductComponent} from "./com.zippyttech.club/catalog/product/product.component";
 import {StatusComponent} from "./com.zippyttech.club/catalog/state/state.component";
 import {GenerateOutputComponent} from "./com.zippyttech.club/process/generateOutput/generateOutput.component";
+import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.component";
+import {ToastyModule} from "ng2-toasty";
+import {QrcodeComponent} from "./com.zippyttech.club/catalog/qrcode/qrcode.component";
+import {TradeComponent} from "./com.zippyttech.club/catalog/trade/trade.component";
+import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
+import {VehicleTypeComponent} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.component";
+import {ModelComponent} from "./com.zippyttech.club/catalog/model/model.component";
+import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.component";
+import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
+import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
+import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
+import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
 
 const routesDefault: Routes = [
 
@@ -46,6 +58,7 @@ const routesDefault: Routes = [
     { path: 'access/acl', component: AclComponent},
     { path: 'access/user', component: UserComponent},
     { path: 'access/user/profile', component: ProfileComponent},
+    { path: 'access/user/type', component: UserTypeComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -57,16 +70,31 @@ const routesDefault: Routes = [
     { path: 'club/catalog/type/product', component: ProductTypeComponent},
     { path: 'club/catalog/product', component: ProductComponent},
     { path: 'club/catalog/status', component: StatusComponent},
+    { path: 'club/catalog/qr', component: QrcodeComponent},
+    { path: 'club/catalog/trade', component: TradeComponent},
+    { path: 'club/catalog/trade/:userId', component: TradeComponent},
+
+    { path: 'club/catalog/vehicle', component: VehicleComponent},
+    { path: 'club/catalog/vehicle/model', component: ModelComponent},
+    { path: 'club/catalog/vehicle/brand', component: BrandComponent},
+    { path: 'club/catalog/vehicle/type', component: VehicleTypeComponent},
+    { path: 'club/catalog/tag', component: TagComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
+    { path: 'club/process/getback', component:  GetbackComponent},
+
+    { path: 'club/register/full', component:  RegisterFullComponent},
 
 
 
 ];
 const routesApp: Routes = [];
 @NgModule({
-    imports: [RouterModule.forRoot(routesDefault.concat(routesApp))],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(routesDefault.concat(routesApp)),
+        ToastyModule.forRoot()
+    ],
+    exports: [RouterModule,ToastyModule]
 })
 export class AppRoutingModule {
 }
@@ -96,13 +124,24 @@ export const componentsView = [
     SearchComponent,
     FilterComponent,
     SaveComponent,
-    SearchMultipleComponent
-]
+    SearchMultipleComponent,
+    FormComponent
+];
 export const componentsApp = [
     ProductTypeComponent,
     ProductComponent,
     StatusComponent,
-    GenerateOutputComponent
+    GenerateOutputComponent,
+    GetbackComponent,
+    QrcodeComponent,
+    TradeComponent,
+    VehicleComponent,
+    ModelComponent,
+    BrandComponent,
+    VehicleTypeComponent,
+    TagComponent,
+    UserTypeComponent,
+    RegisterFullComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
