@@ -40,6 +40,15 @@ export class UserModel extends ModelBase{
             'title': 'Contrato',
             'placeholder': 'Contrato',
         };
+        this.rules['idCard']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'idCard',
+            'title': 'Cédula',
+            'placeholder': 'Cédula',
+        };
         this.rules['name']={
             'type': 'text',
             'required':true,
