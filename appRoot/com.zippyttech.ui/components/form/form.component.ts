@@ -81,7 +81,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                                     if(that.searchId[key].detail == c.value)
                                         return null;
                                 }
-                                return {object: {valid: true}};
+                                return that.rules[key].objectOrSave?null:{object: {valid: true}};
                             }
                             return null;
                         });
@@ -109,13 +109,12 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                             that.search=that.rules[key];
                             that.findControl = value;
                             that.dataList=[];
-                            that.setEndpoint(that.rules[key].paramsSearch.endpoint+value);
                             if( !that.searchId[key]){
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else if(that.searchId[key].detail != value){
                                 delete that.searchId[key];
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else{
                                 this.findControl="";
@@ -155,7 +154,19 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         Object.keys(body).forEach((key:string)=>{
             if(that.rules[key]){
                 if(that.rules[key].object){
-                    body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                    if(that.rules[key].object){
+                        if(!that.rules[key].objectOrSave){
+                            body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                        }
+                        else{
+                            if(that.searchId[key] && that.searchId[key].id){
+                                body[key]=that.searchId[key].id;
+                            }
+                            else if(!body[key] || body[key]=='')
+                                body[key]=null;
+                        }
+                    }
+
                 }
                 if(that.rules[key].type == 'number' && body[key]!=""){
                     body[key]=parseFloat(body[key]);
@@ -195,10 +206,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.getSearch(event,"");
     }
     //accion al dar click en el boton de buscar del formulario en el search
-    getSearch(event,value){
-        event.preventDefault();
+    getSearch(event=null,value){
+        let that=this;
+        if(event)
+            event.preventDefault();
         this.setEndpoint(this.search.paramsSearch.endpoint+value);
-        this.loadData();
+        this.loadData().then(response=>{
+            if(that.dataList && that.dataList.count && that.dataList.count==1)
+                that.getDataSearch(that.dataList.list[0]);
+        });
     }
     //accion al dar click en el boton de cerrar el formulario
     searchQuit(event){
