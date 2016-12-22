@@ -219,6 +219,8 @@ export class FilterComponent extends RestController implements OnInit{
                 that.form.controls[key].setValue(null);
             if(that.rules[key].type=='select' && that.form.value[key]=='-1')
                 that.form.controls[key].setValue(null);
+            if(that.rules[key].type=='filter' && that.form.value[key]=='-1')
+                that.form.controls[key].setValue(null);
 
             if ((this.form.value[key] && this.form.value[key] != "") || that.form.value[key + 'Cond'] == 'isNull')
             {
@@ -228,12 +230,17 @@ export class FilterComponent extends RestController implements OnInit{
                 whereTemp.op = that.form.value[key + 'Cond'];//condicion
                 whereTemp.field = that.rules[key].key || key;//columna
 
+                if(that.rules[key].type=='filter'){
+                    whereTemp = that.rules[key].where[this.form.value[key]];
+                }
+
+
                 if (that.rules[key].subType)//si existe un subtype lo agregamos
                 {
                     whereTemp.type = that.rules[key].subType;
                 }
 
-                if (whereTemp.op != 'isNull')// si es diferente de nulo, carge el value
+                if (whereTemp.op != 'isNull' && whereTemp.op != 'isNotNull')// si es diferente de nulo, carge el value
                 {
                     whereTemp.value = that.form.value[key];//valor
 
