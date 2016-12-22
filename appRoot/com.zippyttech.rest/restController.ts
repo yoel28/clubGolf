@@ -276,7 +276,7 @@ export class RestController implements OnInit {
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            that.addToast('error',err.json().message,'error');
+            that['myglobal'].error(err);
         };
         return (this.httputils.onUpdate(endpoint + data.id, body, data, error));
     }
