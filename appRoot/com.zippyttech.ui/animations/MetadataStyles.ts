@@ -22,6 +22,7 @@ export class MetadataStyles
             case "expand_right" :  style = state?{}:{width:'0'}; break;
             case "slide_up"     :  style = state?{}:{transform:'translateY(-100%)'}; break;
             case "slide_down"     :  style = state?{}:{transform:'translateY(+100%)'}; break;
+            case "turn_left"     :  style = state?{}:{'transform-origin':'left center', transform:'rotateY(-90deg)' }; break;
         }
         return style;
     }
