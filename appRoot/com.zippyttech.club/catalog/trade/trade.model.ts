@@ -122,24 +122,21 @@ export class TradeModel extends ModelBase{
             'placeholder': 'Descripción',
         };
         this.rules['usernameCreator']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
+            'type': 'eval',
             'visible':this.permissions.visible,
-            'key': 'usernameCreator',
+            'eval':'data.usernameCreator?data.usernameCreator.split("/")[1]:""',
             'title': 'Operador entrega',
             'placeholder': 'Operador entrega',
+
         };
         this.rules['usernameUpdater']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
+            'type': 'eval',
             'visible':this.permissions.visible,
-            'key': 'usernameUpdater',
+            'eval':'data.usernameUpdater?data.usernameUpdater.split("/")[1]:""',
             'title': 'Operador recepción',
             'placeholder': 'Operador recepción',
-        };
 
+        };
         this.rules['productTypePrice']={
             'type': 'number',
             'double':true,
