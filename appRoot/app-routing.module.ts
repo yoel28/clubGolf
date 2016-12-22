@@ -42,6 +42,7 @@ import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/
 import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
 import {UserStatusComponent} from "./com.zippyttech.club/catalog/userStatus/userStatus.component";
 import {CompanyComponent} from "./com.zippyttech.club/catalog/company/company.component";
+import {AntennaComponent} from "./com.zippyttech.club/catalog/antenna/antenna.component";
 
 const routesDefault: Routes = [
 
@@ -83,6 +84,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/vehicle/type', component: VehicleTypeComponent},
     { path: 'club/catalog/tag', component: TagComponent},
     { path: 'club/catalog/company', component: CompanyComponent},
+    { path: 'club/catalog/antenna', component: AntennaComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
@@ -147,7 +149,8 @@ export const componentsApp = [
     UserTypeComponent,
     RegisterFullComponent,
     UserStatusComponent,
-    CompanyComponent
+    CompanyComponent,
+    AntennaComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
