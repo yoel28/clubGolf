@@ -276,9 +276,12 @@ export class RestController implements OnInit {
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            that['myglobal'].error(err);
+            that['db']['myglobal'].error(err);
         };
-        return (this.httputils.onUpdate(endpoint + data.id, body, data, error));
+        let successCallback = response => {
+            that['db']['myglobal'].addToast('Notificacion','Guardado con éxito');
+        };
+        return (this.httputils.doPut(endpoint+data.id,body,successCallback,error));
     }
 
     onEditableRole(field, data, value, endpoint) {
@@ -287,12 +290,11 @@ export class RestController implements OnInit {
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            that.addToast('error',err.json().message,'error');
+            that['db']['myglobal'].error(err);
         };
         let successCallback = response => {
-            if (this.toastyService)
-                that.addToast('Notificacion','Guardado con éxito');
-        }
+            that['db']['myglobal'].addToast('Notificacion','Guardado con éxito');
+        };
         return (this.httputils.doPost(endpoint, body, successCallback, error));
     }
 
