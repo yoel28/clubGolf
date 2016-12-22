@@ -294,6 +294,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Antenas',
                         'routerLink': '/club/catalog/antenna'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_LOCATION']),
+                        'icon': 'fa fa-list',
+                        'title': 'Ubicaciones',
+                        'routerLink': '/club/catalog/location'
                     }
                 ]
             });
@@ -320,6 +326,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Lista de Op.',
                         'routerLink': '/club/catalog/trade'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_RECORD_IN_OUT']),
+                        'icon': 'fa fa-list',
+                        'title': 'Registro de acceso',
+                        'routerLink': '/club/process/record'
                     }
 
                 ]
