@@ -74,7 +74,7 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-                    <ul [@visible] = 'item.select' *ngIf="item.treeview" class="treeview-menu">
+                    <ul [@visible] = 'item.select?"true":"false"' *ngIf="item.treeview" class="treeview-menu">
                         <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
                             <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
                                 <i class="{{subItem.icon}}"></i>
