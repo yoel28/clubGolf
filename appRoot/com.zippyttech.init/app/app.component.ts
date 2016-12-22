@@ -282,6 +282,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'QR Codigos',
                         'routerLink': '/club/catalog/qr'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_COMPANY']),
+                        'icon': 'fa fa-list',
+                        'title': 'Empresas',
+                        'routerLink': '/club/catalog/company'
                     }
                 ]
             });
