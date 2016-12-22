@@ -17,12 +17,14 @@ export class MetadataStyles
 
         switch (effect)
         {
-            case "fade"         :  style = { opacity: state?'1':'0'}; break;
+            case "fade"         :  style = state?{}:{ opacity: '0'}; break;
             case "expand_down"  :  style = state?{}:{height:'0'}; break;
             case "expand_right" :  style = state?{}:{width:'0'}; break;
-            case "slide_up"     :  style = state?{}:{transform:'translateY(-100%)'}; break;
-            case "slide_down"     :  style = state?{}:{transform:'translateY(+100%)'}; break;
-            case "turn_left"     :  style = state?{}:{'transform-origin':'left center', transform:'rotateY(-90deg)' }; break;
+            case "slide_down"     :  style = state?{}:{transform:'translateY(-100%)'}; break;
+            case "slide_up"   :  style = state?{}:{transform:'translateY(+100%)'}; break;
+            case "slide_left"   :  style = state?{}:{transform:'translateX(-100%)'}; break;
+            case "slide_right"  :  style = state?{}:{transform:'translateX(+100%)'}; break;
+            case "turn_left"    :  style = state?{}:{'transform-origin':'left', transform:'rotateY(90deg)' }; break;
         }
         return style;
     }
