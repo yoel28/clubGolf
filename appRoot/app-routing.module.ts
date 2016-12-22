@@ -40,6 +40,7 @@ import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
 import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
 import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
+import {UserStatusComponent} from "./com.zippyttech.club/catalog/userStatus/userStatus.component";
 
 const routesDefault: Routes = [
 
@@ -59,6 +60,7 @@ const routesDefault: Routes = [
     { path: 'access/user', component: UserComponent},
     { path: 'access/user/profile', component: ProfileComponent},
     { path: 'access/user/type', component: UserTypeComponent},
+    { path: 'access/user/status', component: UserStatusComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -141,7 +143,8 @@ export const componentsApp = [
     VehicleTypeComponent,
     TagComponent,
     UserTypeComponent,
-    RegisterFullComponent
+    RegisterFullComponent,
+    UserStatusComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
