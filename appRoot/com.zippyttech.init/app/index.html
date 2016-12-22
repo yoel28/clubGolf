@@ -92,7 +92,9 @@
     </aside>
 </div>
 <div [class.content-wrapper]="myglobal.dataSesion.valid" >
+
     <router-outlet></router-outlet>
+
     <ng2-toasty [position]="'top-right'"></ng2-toasty>
 </div>
 <div *ngIf="myglobal.dataSesion.valid" class="subir-top">

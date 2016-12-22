@@ -20,7 +20,7 @@ declare var SystemJS:any;
     selector: 'my-app',
     templateUrl: SystemJS.map.app+'com.zippyttech.init/app/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/app/style.css'],
-    animations: AnimationsManager.getTriggers("d-fade|expand_down-fade-slide_down",150)
+    animations: AnimationsManager.getTriggers("d-fade|expand_down",150)
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
     public pathElement = StaticValues.pathElements;
@@ -336,6 +336,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
+                'select': false,
                 'treeview': [
 
                     {
