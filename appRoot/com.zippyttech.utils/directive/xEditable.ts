@@ -1,7 +1,6 @@
 import {ElementRef, EventEmitter, OnInit, Directive} from "@angular/core";
-import {Http} from "@angular/http";
 import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
-import {globalService} from "../globalService";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -21,9 +20,9 @@ export class XEditable implements OnInit {
     public httputils:HttpUtils;
     public disabled:boolean;
 
-    constructor(public el:ElementRef, public http:Http,public myglobal:globalService) {
+    constructor(public el:ElementRef, public db:DependenciesBase) {
         this.success = new EventEmitter();
-        this.httputils = new HttpUtils(http);
+        this.httputils = new HttpUtils(db.http,db.toastyService,db.toastyConfig);
     }
 
     ngOnInit() {
