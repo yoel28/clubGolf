@@ -1,40 +1,42 @@
-<div  class="main-container" *ngIf="!model.permissions.warning || !modalIn">
-    <div [@visible]='(dataList && dataList.list)?"true":"false"'>
-        <section class="content">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">
-                        {{viewOptions.title | translate }}<tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
-                    </h3>
-                    <div class="pull-right" *ngIf="viewOptions['buttons']">
-                        <button *ngFor="let buttom of getViewOptionsButtons()"
-                                class="{{buttom.class}}" type="button" data-toggle="modal"
-                                [attr.data-target]="'#'+buttom.modal">
-                            <i class="{{buttom.icon}}"></i>
-                            {{buttom.title | translate}}
-                        </button>
-                        <tooltip-view [code]="model.prefix+'_2'"></tooltip-view>
+<div *ngIf="!model.permissions.warning || !modalIn">
+    <div class="main-view-container">
+        <div [@visible]='(dataList && dataList.list)?"true":"false"'>
+            <section class="content">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            {{viewOptions.title | translate }}<tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
+                        </h3>
+                        <div class="pull-right" *ngIf="viewOptions['buttons']">
+                            <button *ngFor="let buttom of getViewOptionsButtons()"
+                                    class="{{buttom.class}}" type="button" data-toggle="modal"
+                                    [attr.data-target]="'#'+buttom.modal">
+                                <i class="{{buttom.icon}}"></i>
+                                {{buttom.title | translate}}
+                            </button>
+                            <tooltip-view [code]="model.prefix+'_2'"></tooltip-view>
+                        </div>
                     </div>
-                </div>
-                <div *ngIf="model.permissions.list" class="box-body">
-                    <div *ngIf="dataList && dataList.count>0">
-                        <tables-view [dataList]="dataList" [model]="model" [params]="paramsTable" [where]="where"></tables-view>
+                    <div *ngIf="model.permissions.list" class="box-body">
+                        <div *ngIf="dataList && dataList.count>0">
+                            <tables-view [dataList]="dataList" [model]="model" [params]="paramsTable" [where]="where"></tables-view>
+                        </div>
+                        <div *ngIf="dataList && dataList.count == 0">
+                            <div class="alert alert-warning alert-dismissable">
+                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                                <strong><i class="fa fa-warning"></i></strong>&nbsp;{{msg.notFound | translate}}
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf="dataList && dataList.count == 0">
-                        <div class="alert alert-warning alert-dismissable">
-                            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
-                            <strong><i class="fa fa-warning"></i></strong>&nbsp;{{msg.notFound | translate}}
+                    <div *ngIf="!model.permissions.list">
+                        <div class="btn-red padding-error">
+                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
+                            {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_LIST
                         </div>
                     </div>
                 </div>
-                <div *ngIf="!model.permissions.list">
-                    <div class="btn-red padding-error">
-                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
-                        {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_LIST
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
     <div *ngIf="model.permissions.add">
         <save-view [params]="model.paramsSave" [rules]="model.rulesSave" (save)="setLoadData($event)"></save-view>
