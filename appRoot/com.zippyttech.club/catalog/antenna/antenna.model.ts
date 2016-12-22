@@ -29,6 +29,20 @@ export class AntennaModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
+        this.rules['type']={
+            'type': 'select',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'source': [
+                {'value': 'entrada', 'text': 'entrada'},
+                {'value': 'salida', 'text': 'salida'},
+            ],
+            'key': 'type',
+            'title': 'Dirección',
+            'placeholder': 'Selecccione un la dirección',
+        };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}
