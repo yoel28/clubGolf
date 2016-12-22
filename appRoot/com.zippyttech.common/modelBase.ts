@@ -140,6 +140,7 @@ export abstract class ModelBase{
             "keyDisplay": "keyDefault",
             "title": "TipoDefault",
             'object': true,
+            'objectOrSave': false,
             'code': 'default',
             'prefix':'',
             "placeholder": "PlaceHolder default",
