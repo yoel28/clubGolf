@@ -190,6 +190,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/access/user/type'
                     },
                     {
+                        'visible': this.myglobal.existsPermission(['MEN_USER_STATUS']),
+                        'icon': 'fa fa-user',
+                        'title': 'Estatus de usuarios',
+                        'routerLink': '/access/user/status'
+                    },
+                    {
                         'visible': this.myglobal.existsPermission(['MEN_ACL']),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
