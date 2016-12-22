@@ -1,0 +1,5 @@
+.main-container
+{
+    transform-style: preserve-3d;
+    perspective: 3000px;
+}
