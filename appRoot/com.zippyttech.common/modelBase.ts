@@ -176,17 +176,14 @@ export abstract class ModelBase{
         }));
     }
     public loadDataModel(successCallback){
-        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
+        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.myglobal.error);
     }
     public onSave(body,successCallback){
-        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
+        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.myglobal.error);
     }
-    public loadDataModelWhere(successCallback,where=[],id=''){
+    public loadDataModelWhere(successCallback,where=[],id='',error=this.myglobal.error){
         let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
-        return this.myglobal.httputils.doGet(this.endpoint+id+_where,successCallback,this.error);
-    }
-    public error(error){
-        console.log(error);
+        return this.myglobal.httputils.doGet(this.endpoint+id+_where,successCallback,error);
     }
 
     public extendRulesObjectInRules(rules){
