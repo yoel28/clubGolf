@@ -13,29 +13,7 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app + '/com.zippyttech.ui/view/base/index.html',
     styleUrls: [SystemJS.map.app + '/com.zippyttech.ui/view/base/style.css'],
     inputs: ['instance'],
-    animations:[
-        trigger('visible', [
-            state('*',
-                style({
-                    opacity: 1,
-                    transform: 'translateX(0)'
-                })
-            ),
-            transition(':enter', [
-                style({
-                    opacity: 0,
-                    transform: 'translateX(-100%)'
-                }),
-                animate('0.2s ease-in')
-            ]),
-            transition(':leave', [
-                animate('0.5s ease-out', style({
-                    opacity: 0,
-                    transform: 'translateY(100%)'
-                }))
-            ])
-        ])
-    ]//AnimationsManager.getTriggers("d-slide_up",250)
+    animations: AnimationsManager.getTriggers("d-fade|slide_down",300)
 })
 export class BaseViewComponent extends ControllerBase implements OnInit {
     public instance:any;
