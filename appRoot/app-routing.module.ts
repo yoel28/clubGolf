@@ -89,7 +89,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/company', component: CompanyComponent},
     { path: 'club/catalog/antenna', component: AntennaComponent},
     { path: 'club/catalog/location', component: LocationComponent},
-    { path: 'club/catalog/record', component: LocationComponent},
+    { path: 'club/catalog/record', component: RecordComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
