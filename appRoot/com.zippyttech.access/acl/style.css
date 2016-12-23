@@ -90,3 +90,7 @@ tbody tr, thead tr {
     background-color: rgba(20, 31, 11, 0.53);
     color: white;
 }
+
+.modal-header{
+    border-radius: 0px !important;
+}
