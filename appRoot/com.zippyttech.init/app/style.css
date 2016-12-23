@@ -6,6 +6,10 @@
   background-color: #ecf0f5 !important;
 }
 
+.content-wrapper{
+  border-radius: 0px !important;
+}
+
 .main-footer-container{
   background-color: #222d32 !important;
 }
@@ -88,7 +92,7 @@
 }
 
 .modal-backdrop.modal-backdrop-fullscreen {
-  background: #ffffff;
+  background: #FFF;
 }
 
 .modal-backdrop.modal-backdrop-fullscreen.in {
@@ -131,7 +135,7 @@
 }
 
 .modal .modal-dialog .modal-content {
-  background: transparent;
+  background: #FFF;
 }
 
 .modal.in .modal-dialog {

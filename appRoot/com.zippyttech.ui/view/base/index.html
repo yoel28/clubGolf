@@ -37,6 +37,15 @@
                 </div>
             </section>
         </div>
+        <div class="preload" *ngIf='!(dataList && dataList.list)'>
+            <div id="screen">
+                <div id="course">
+                    <div id="hole"></div>
+                    <div id="flag"> <span></span> </div>
+                </div>
+                <div id="ball"></div>
+            </div>
+        </div>
     </div>
     <div *ngIf="model.permissions.add">
         <save-view [params]="model.paramsSave" [rules]="model.rulesSave" (save)="setLoadData($event)"></save-view>
@@ -51,7 +60,7 @@
      aria-labelledby="myModalLabel" [style.display]="modalIn?'block':'none'">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header btn-red text-center">
+            <div class="modal-header bg-red text-center">
                 <h4 class="modal-title">
                     <i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate | uppercase}}<tooltip-view [code]="model.prefix+'_4'"></tooltip-view></strong></h4>
             </div>
