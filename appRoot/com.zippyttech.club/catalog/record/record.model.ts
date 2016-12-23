@@ -37,6 +37,18 @@ export class RecordModel extends ModelBase{
         this.rules['user'].title='Cedula o Id socio';
         this.rules['user'].required=true;
 
+        this.rules['userName']={
+            'type': 'text',
+            'validators':[
+                '(that.searchId["user"] && that.searchId["user"].id)?false:true'
+            ],
+            'hiddenOnly':'(this.searchId["user"] && this.searchId["user"].id)?true:false',
+            'key': 'userName',
+            'icon': 'fa fa-user',
+            'title': 'Nombre',
+            'placeholder': 'Nombre de usuario',
+        };
+
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].title = 'Placa';
 
@@ -99,11 +111,11 @@ export class RecordModel extends ModelBase{
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
 
-        this.rules['user'].objectOrSave=true;
-        this.rules['vehicle'].objectOrSave=true;
-        this.rules['userType'].objectOrSave=true;
-        this.rules['company'].objectOrSave=true;
-        this.rules['location'].objectOrSave=true;
+        this.rules['user'].objectOrSave={};
+        this.rules['vehicle'].objectOrSave={};
+        this.rules['userType'].objectOrSave={};
+        this.rules['company'].objectOrSave={};
+        this.rules['location'].objectOrSave={};
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
