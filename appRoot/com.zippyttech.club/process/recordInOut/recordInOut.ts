@@ -24,19 +24,33 @@ export class RecordInOutComponent extends ControllerBase {
     initModel(){
         this.model = new RecordModel(this.db.myglobal);
 
-
-
         this.model=Object.assign({},this.model)
 
     }
     setForm(form){
         this.instanceForm=form
     }
-    saveForm(event){
+    saveForm(event,entering=true){
         if(event)
             event.preventDefault();
         let body = this.instanceForm.getFormValues();
-        console.log(body);
+        body['entering']=entering;
+
+        this.onSave(body);
+    }
+    formValid():boolean{
+        if(this.instanceForm && this.instanceForm.form && this.instanceForm.form.valid)
+        {
+            if(this.instanceForm.searchId['user'] && this.instanceForm.searchId['user'].id){
+                this.instanceForm.form.controls['userName'].setValue(null);
+                return true;
+            }
+            if(!this.instanceForm.searchId['user'] && this.instanceForm.form.controls['userName'].value)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
