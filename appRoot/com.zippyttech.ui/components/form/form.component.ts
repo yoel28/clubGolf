@@ -227,7 +227,8 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     //accion al seleccion un parametro del search
     getDataSearch(data){
-        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail};
+        this.searchView=false;
+        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail,'data':data};
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
