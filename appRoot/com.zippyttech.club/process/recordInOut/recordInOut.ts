@@ -39,18 +39,29 @@ export class RecordInOutComponent extends ControllerBase {
         this.onSave(body);
     }
     formValid():boolean{
-        if(this.instanceForm && this.instanceForm.form && this.instanceForm.form.valid)
-        {
+        let countError=0;
+        if(!(this.instanceForm && this.instanceForm.form && this.instanceForm.form.valid)){
+            countError++;
+        }
+
+        if(this.instanceForm && this.instanceForm.form){
             if(this.instanceForm.searchId['user'] && this.instanceForm.searchId['user'].id){
                 this.instanceForm.form.controls['userName'].setValue(null);
-                return true;
+                this.instanceForm.form.controls['userType'].setValue(null);
             }
-            if(!this.instanceForm.searchId['user'] && this.instanceForm.form.controls['userName'].value)
+
+            if(!this.instanceForm.searchId['user'])
             {
-                return true;
+                this.instanceForm.rules['userName'].required = true;
+                this.instanceForm.rules['userType'].required = true;
+
+                if(!this.instanceForm.form.controls['userName'].value)
+                    countError++;
+                if(!this.instanceForm.form.controls['userType'].value)
+                    countError++;
             }
         }
-        return false;
+        return countError==0?true:false;
     }
 
 }
