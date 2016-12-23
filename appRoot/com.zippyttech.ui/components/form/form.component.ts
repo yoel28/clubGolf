@@ -195,12 +195,14 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     //objecto del search actual
     public search:any={};
+    public searchView=false;
     //Lista de id search
     public searchId:any={};
     //Al hacer click en la lupa guarda los valores del objecto
     getLoadSearch(event,data){
         event.preventDefault();
         this.max=5;
+        this.searchView=true;
         this.findControl="";
         this.search=data;
         this.getSearch(event,"");
@@ -219,6 +221,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     //accion al dar click en el boton de cerrar el formulario
     searchQuit(event){
         event.preventDefault();
+        this.searchView=false;
         this.search={};
         this.dataList={};
     }
@@ -331,6 +334,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(index!=-1)
             this.dataListMultiple[key].data.splice(index,1);
 
+    }
+    hiddenFormControl(exp='false'){
+        return eval(exp);
     }
 }
 
