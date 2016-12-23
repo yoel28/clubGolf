@@ -59,14 +59,14 @@ export class TradeModel extends ModelBase{
         this.rules['sponsor'].title='Patrocinador';
         this.rules['sponsor'].keyDisplay='sponsorName';
         this.rules['sponsor'].placeholder='Patrocinador';
-        this.rules['sponsor'].paramsSearch.field='s.id';
+        this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest'] = Object.assign({},this.guest.ruleObject);
         this.rules['guest'].key='guest';
         this.rules['guest'].title='Invitado';
         this.rules['guest'].keyDisplay='guestName';
         this.rules['guest'].placeholder='Invitado';
-        this.rules['guest'].paramsSearch.field='g.id';
+        this.rules['guest'].paramsSearch.field='guest.id';
 
         this.rules['product']=Object.assign({},this.product.ruleObject);
         this.rules['product'].title="Cod. Producto";
