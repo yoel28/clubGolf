@@ -332,6 +332,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Registro de acceso',
                         'routerLink': '/club/process/record'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_RECORD_LIST']),
+                        'icon': 'fa fa-list',
+                        'title': 'Lista registro',
+                        'routerLink': '/club/catalog/record'
                     }
 
                 ]
