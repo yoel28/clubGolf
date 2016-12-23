@@ -13,7 +13,8 @@
                                     </form-view>
                                 </div>
                                 <div class="{{classCol(12,12,12,12)}}">
-                                    <button (click)="saveForm($event)" class="btn btn-blue"><i class="fa fa-save"></i>&nbsp;Guardar prueba</button>
+                                    <button [disabled]="!formValid()" (click)="saveForm($event)" class="btn btn-blue"><i class="fa fa-angle-double-up"></i>&nbsp;Entrada</button>
+                                    <button [disabled]="!formValid()" (click)="saveForm($event,false)" class="btn btn-green"><i class="fa fa-angle-double-down"></i>&nbsp;Salida</button>
                                 </div>
                             </div>
                             <div class="row margin-top-5">
