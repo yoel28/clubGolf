@@ -36,12 +36,10 @@ export class RecordModel extends ModelBase{
         this.rules['user'] = this.user.ruleObject;
         this.rules['user'].title='Cedula o Id socio';
         this.rules['user'].required=true;
+        this.rules['user'].keyDisplay='userName';
 
         this.rules['userName']={
             'type': 'text',
-            'validators':[
-                '(that.searchId["user"] && that.searchId["user"].id)?false:true'
-            ],
             'hiddenOnly':'(this.searchId["user"] && this.searchId["user"].id)?true:false',
             'key': 'userName',
             'icon': 'fa fa-user',
@@ -54,6 +52,9 @@ export class RecordModel extends ModelBase{
 
         this.rules['userType'] = this.userType.ruleObject;
         this.rules['userType'].title = 'Tipo';
+        this.rules['userType'].required = false;
+        this.rules['userType'].hiddenOnly='(this.searchId["user"] && this.searchId["user"].id)?true:false';
+
 
         this.rules['company'] = this.company.ruleObject;
         this.rules['company'].title = 'Empresa';
@@ -107,9 +108,15 @@ export class RecordModel extends ModelBase{
 
         this.rules['antennaIn'] = this.antennaIn.ruleObject;
         this.rules['antennaIn'].placeholder="Antena de entrada";
+        this.rules['antennaIn'].title="Ant. Entrada";
+        this.rules['antennaIn'].key="antennaInId";
+        this.rules['antennaIn'].keyDisplay="antennaInTitle";
 
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
+        this.rules['antennaOut'].title="Ant. Salida";
+        this.rules['antennaOut'].key="antennaOutId";
+        this.rules['antennaOut'].keyDisplay="antennaOutTitle";
 
         this.rules['user'].objectOrSave={};
         this.rules['vehicle'].objectOrSave={};
