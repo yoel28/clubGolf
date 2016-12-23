@@ -75,7 +75,7 @@ export class StaticValues {
     {
         return {
             'format': 'dd/mm/yyyy, LT',
-            'formatView': 'dd/mm/yyyy, LT',
+            'formatView': 'DD/MM/YYYY, LT',
             'startDate': '01/01/2016',
             'startView': 2,
             'minViewMode': 0,
