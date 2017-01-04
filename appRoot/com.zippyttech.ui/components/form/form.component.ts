@@ -81,7 +81,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                                     if(that.searchId[key].detail == c.value)
                                         return null;
                                 }
-                                return {object: {valid: true}};
+                                return that.rules[key].objectOrSave?null:{object: {valid: true}};
                             }
                             return null;
                         });
@@ -109,13 +109,12 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                             that.search=that.rules[key];
                             that.findControl = value;
                             that.dataList=[];
-                            that.setEndpoint(that.rules[key].paramsSearch.endpoint+value);
                             if( !that.searchId[key]){
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else if(that.searchId[key].detail != value){
                                 delete that.searchId[key];
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else{
                                 this.findControl="";
@@ -151,11 +150,23 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     public getFormValues(){
         let that = this;
-        let body = this.form.value;
+        let body = Object.assign({},this.form.value);
         Object.keys(body).forEach((key:string)=>{
             if(that.rules[key]){
                 if(that.rules[key].object){
-                    body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                    if(that.rules[key].object){
+                        if(!that.rules[key].objectOrSave){
+                            body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                        }
+                        else{
+                            if(that.searchId[key] && that.searchId[key].id){
+                                body[key]=that.searchId[key].id;
+                            }
+                            else if(!body[key] || body[key]=='')
+                                body[key]=null;
+                        }
+                    }
+
                 }
                 if(that.rules[key].type == 'number' && body[key]!=""){
                     body[key]=parseFloat(body[key]);
@@ -172,12 +183,11 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     body[that.rules[key].setEqual] = body[key];
                 }
                 if(that.rules[key].type=='list'){
-                    body[key]=[];
-                    if(that.dataListMultiple[key]){
-                        that.dataListMultiple[key].data.forEach(obj=>{
-                            body[key].push(obj);
-                        });
-                    }
+                    let data=[];
+                    body[key].forEach(obj=>{
+                        data.push(obj.value);
+                    });
+                    body[key]=data;
                 }
             }
         });
@@ -185,31 +195,40 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     //objecto del search actual
     public search:any={};
+    public searchView=false;
     //Lista de id search
     public searchId:any={};
     //Al hacer click en la lupa guarda los valores del objecto
     getLoadSearch(event,data){
         event.preventDefault();
         this.max=5;
+        this.searchView=true;
         this.findControl="";
         this.search=data;
         this.getSearch(event,"");
     }
     //accion al dar click en el boton de buscar del formulario en el search
-    getSearch(event,value){
-        event.preventDefault();
+    getSearch(event=null,value){
+        let that=this;
+        if(event)
+            event.preventDefault();
         this.setEndpoint(this.search.paramsSearch.endpoint+value);
-        this.loadData();
+        this.loadData().then(response=>{
+            if(that.dataList && that.dataList.count && that.dataList.count==1)
+                that.getDataSearch(that.dataList.list[0]);
+        });
     }
     //accion al dar click en el boton de cerrar el formulario
     searchQuit(event){
         event.preventDefault();
+        this.searchView=false;
         this.search={};
         this.dataList={};
     }
     //accion al seleccion un parametro del search
     getDataSearch(data){
-        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail};
+        this.searchView=false;
+        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail,'data':data};
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
@@ -244,14 +263,17 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(data.refreshField.endpoint){
             let successCallback= response => {
                 let val = response.json()[data.refreshField.field];
-                that.data[data.key].setValue(val);
+                if(data.refreshField.callback)
+                    data.refreshField.callback(data,response.json(),that.data[data.key]);
+                else
+                    that.data[data.key].setValue(val);
             }
             this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
         }
         else{
-            that.data[data.key].setValue(eval(data.refreshField.eval));
+            if(that.rules[data.key].type=='list')
+                that.data[data.key].value.push(eval(data.refreshField.eval));
         }
-
     }
     makeTextRandon():string
     {
@@ -313,6 +335,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(index!=-1)
             this.dataListMultiple[key].data.splice(index,1);
 
+    }
+    hiddenFormControl(exp='false'){
+        return eval(exp);
     }
 }
 

@@ -43,7 +43,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div *ngIf="rules[key].type=='select' || rules[key].type=='boolean'" class="row">
+                                                        <div *ngIf="rules[key].type=='select' || rules[key].type=='boolean' || rules[key].type=='filter'" class="row">
                                                             <select formControlName="{{key}}" sm-dropdown class="ui fluid search selection dropdown">
                                                                 <option value="-1">{{rules[key].placeholder || 'Seleccione una opción'}}</option>
                                                                 <option *ngFor="let n of rules[key].source"  [attr.value]="n.id || n.value" >{{n.text}}</option>
@@ -60,7 +60,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-4" *ngIf="cond[rules[key].object?'object':rules[key].type]">
                                                 <select formControlName="{{key+'Cond'}}" sm-dropdown class="ui fluid search selection dropdown">
                                                     <option *ngFor="let n of cond[rules[key].object?'object':rules[key].type]"
                                                             [attr.value]="n.id">{{n.text}}

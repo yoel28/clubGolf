@@ -149,7 +149,7 @@ export class HttpUtils {
         let successCallback= response => {
             if(list != null)
                 list.unshift( response.json());
-            if (this.toastyService)
+            if (that.toastyService)
                 that.addToast('Notificacion','Guardado con éxito');
         };
         return this.doPost(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
@@ -171,7 +171,7 @@ export class HttpUtils {
                 if(index!=-1)
                     list.splice(index,1);
             }
-            if (this.toastyService)
+            if (that.toastyService)
                 that.addToast('Notificacion','Borrado con éxito');
         };
         this.doDelete(endpoint,successCallback,errorCallback,isEndpointAbsolute);
@@ -180,7 +180,7 @@ export class HttpUtils {
         let that = this;
         let successCallback= response => {
             Object.assign(data, response.json());
-            if (this.toastyService)
+            if (that.toastyService)
                 that.addToast('Notificacion','Actualizado con éxito');
         };
        return this.doPut(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)

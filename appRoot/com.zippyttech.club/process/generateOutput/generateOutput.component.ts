@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
@@ -8,10 +8,12 @@ import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {QrcodeModel} from "../../catalog/qrcode/qrcode.model";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
 declare var moment:any;
+declare var jQuery:any;
 
 @Component({
     moduleId:module.id,
@@ -34,6 +36,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public dataClient:any={};
 
     public product:any;
+    public qr:QrcodeModel;
     public listProduct:any={};
 
     public dataQr={
@@ -48,6 +51,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     }
     public initModel(){
         this.product = new ProductModel(this.myglobal);
+        this.qr = new QrcodeModel(this.myglobal);
     }
 
     ngOnInit(){
@@ -134,15 +138,25 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         let successCallback= response => {
             let data=response.json();
             if(data.count==1)
+            {
                 that.listProduct[code]=data.list[0];
-            else
-                that.listProduct[code]={'error':'Codigo no registrado'};
+                if(!that.listProduct[code].available){
+                    delete that.listProduct[code];
+                    that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                }
+            }
+            else{
+                delete that.listProduct[code];
+                that.addToast('Error','Código '+code+' no registrado','error',15000);
+            }
+
         };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
         this.product.loadDataModelWhere(successCallback,where);
-
-
+    }
+    disableSubmit(){
+        return Object.keys(this.listProduct).length>0?false:true;
     }
     public get getDataQr(){
         return JSON.stringify(this.dataQr);
@@ -176,6 +190,30 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         if(event)
             event.preventDefault();
         this.ws.onSocket(this.channelWS);
+    }
+    searchQr(event){
+        if(event)
+            event.preventDefault();
+        try {
+            let that=this;
+            let val = jQuery('#validQr').val();//TODO:exp Reg replac '
+            val = val.replace(/'/g, '"');
+            jQuery('#validQr').val('');
+            let data = JSON.parse(val);
+            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+
+            let successCallback = response => {
+                that.ws.webSocket[that.channelWS].data.setValue(response.json());
+            };
+            this.qr.loadDataModelWhere(successCallback,where,data.id)
+
+
+        }catch (e){
+            this.addToast('Error','QR invalido','error');
+        }
+
+
+
     }
 
 }

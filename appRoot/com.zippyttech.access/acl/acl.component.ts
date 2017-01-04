@@ -145,6 +145,7 @@ export class AclComponent extends RestController implements OnInit{
     
     //Guardar Permisos
     savePermissions(){
+        let that =  this;
         let permissions=[];
         this.role.permissions.forEach(obj=>{
             permissions.push(obj.id);
@@ -153,6 +154,7 @@ export class AclComponent extends RestController implements OnInit{
         let successCallback= response => {
             let index = this.dataRoles.list.findIndex(obj => obj.id == this.role.id);
             this.dataRoles.list[index].permissions = this.role.permissions;
+            that.addToast('Notificación','Guardado con exito');
         }
         this.httputils.doPost('/role/'+this.role.id+'/permissions/',body,successCallback,this.error)
     }

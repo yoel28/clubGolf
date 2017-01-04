@@ -75,6 +75,7 @@ export class StaticValues {
     {
         return {
             'format': 'dd/mm/yyyy, LT',
+            'formatView': 'DD/MM/YYYY, LT',
             'startDate': '01/01/2016',
             'startView': 2,
             'minViewMode': 0,
@@ -108,6 +109,7 @@ export class StaticValues {
     public static get pathElements(){
         return{
             'isotipo':          'assets/img/default/zippy/isotipo.png',
+            'favicon':          'assets/img/default/zippy/favicon.png',
             'isotipo-blanco':   'assets/img/default/zippy/isotipo-blanco.png',
             'logo':             'assets/img/clubGolf/logo.png',
             'logoBlanco':       'assets/img/clubGolf/logo.png',

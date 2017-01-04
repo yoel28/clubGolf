@@ -108,7 +108,7 @@ export abstract class ModelBase{
                 },
             },
             'where': '',
-            'imageGuest': '/assets/img/truck-guest.png',
+            'imageGuest': StaticValues.pathElements.favicon,
             'field':'any'
         };
     }
@@ -140,6 +140,7 @@ export abstract class ModelBase{
             "keyDisplay": "keyDefault",
             "title": "TipoDefault",
             'object': true,
+            'objectOrSave': null,
             'code': 'default',
             'prefix':'',
             "placeholder": "PlaceHolder default",
@@ -176,17 +177,14 @@ export abstract class ModelBase{
         }));
     }
     public loadDataModel(successCallback){
-        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.error);
+        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.myglobal.error);
     }
     public onSave(body,successCallback){
-        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
+        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.myglobal.error);
     }
-    public loadDataModelWhere(successCallback,where=[]){
+    public loadDataModelWhere(successCallback,where=[],id='',error=this.myglobal.error){
         let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
-        return this.myglobal.httputils.doGet(this.endpoint+_where,successCallback,this.error);
-    }
-    public error(error){
-        console.log(error);
+        return this.myglobal.httputils.doGet(this.endpoint+id+_where,successCallback,error);
     }
 
     public extendRulesObjectInRules(rules){

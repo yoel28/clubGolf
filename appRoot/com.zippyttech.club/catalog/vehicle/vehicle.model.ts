@@ -30,6 +30,8 @@ export class VehicleModel extends ModelBase{
             'type': 'list',
             'icon': 'fa fa-font',
             'maxLength': '35',
+            'readOnly':true,
+            'value':[],
             'update': this.permissions.update,
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
@@ -37,7 +39,15 @@ export class VehicleModel extends ModelBase{
             'title': 'Tag',
             'refreshField':{
                 'icon':'fa-refresh',
-                'eval':'this.makeTextRandon()'
+                'endpoint':'/read/tags',
+                'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
+                'callback':function (rules,newData,control) {
+                    newData.forEach(obj=>{
+                       obj.tags.forEach(tag=>{
+                           rules.refreshField.instance.addValue({'id':obj.code,'value':tag,'title':obj.type+'('+obj.code+')'});
+                       })
+                    });
+                },
             },
             'placeholder': 'Tags',
         };

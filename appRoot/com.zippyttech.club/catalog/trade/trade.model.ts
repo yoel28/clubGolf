@@ -31,6 +31,20 @@ export class TradeModel extends ModelBase{
         this.guest = new UserModel(this.myglobal);
     }
     initRules(){
+        this.rules['entregado']={
+            'type':'filter',
+            'search':this.permissions.filter,
+            'where': {
+                'Entregados': {'op': 'isNotNull', 'field': 'receivedDate'},
+                'No entregados': {'op': 'isNull', 'field': 'receivedDate'}
+            },
+            'source':[
+                {'value':'Entregados','text':'Entregados'},
+                {'value':'No entregados','text':'No entregados'}
+            ],
+            'placeholder':'¿Productos entregados?'
+        }
+
         this.rules['id']={
             'type': 'number',
             'search':this.permissions.filter,
@@ -45,14 +59,14 @@ export class TradeModel extends ModelBase{
         this.rules['sponsor'].title='Patrocinador';
         this.rules['sponsor'].keyDisplay='sponsorName';
         this.rules['sponsor'].placeholder='Patrocinador';
-        this.rules['sponsor'].paramsSearch.field='s.id';
+        this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest'] = Object.assign({},this.guest.ruleObject);
         this.rules['guest'].key='guest';
         this.rules['guest'].title='Invitado';
         this.rules['guest'].keyDisplay='guestName';
         this.rules['guest'].placeholder='Invitado';
-        this.rules['guest'].paramsSearch.field='g.id';
+        this.rules['guest'].paramsSearch.field='guest.id';
 
         this.rules['product']=Object.assign({},this.product.ruleObject);
         this.rules['product'].title="Cod. Producto";
@@ -122,24 +136,21 @@ export class TradeModel extends ModelBase{
             'placeholder': 'Descripción',
         };
         this.rules['usernameCreator']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
+            'type': 'eval',
             'visible':this.permissions.visible,
-            'key': 'usernameCreator',
+            'eval':'data.usernameCreator?data.usernameCreator.split("/")[1]:""',
             'title': 'Operador entrega',
             'placeholder': 'Operador entrega',
+
         };
         this.rules['usernameUpdater']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
+            'type': 'eval',
             'visible':this.permissions.visible,
-            'key': 'usernameUpdater',
+            'eval':'data.usernameUpdater?data.usernameUpdater.split("/")[1]:""',
             'title': 'Operador recepción',
             'placeholder': 'Operador recepción',
-        };
 
+        };
         this.rules['productTypePrice']={
             'type': 'number',
             'double':true,
@@ -175,5 +186,8 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.sponsor;
         delete this.rulesSave.guest;
         delete this.rulesSave.timeUse;
+        delete this.rulesSave.usernameCreator;
+        delete this.rulesSave.usernameUpdater;
+        delete this.rulesSave.entregado;
     }
 }

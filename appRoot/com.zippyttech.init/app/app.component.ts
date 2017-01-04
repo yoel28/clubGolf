@@ -211,6 +211,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/access/user/type'
                     },
                     {
+                        'visible': this.myglobal.existsPermission(['MEN_USER_STATUS']),
+                        'icon': 'fa fa-user',
+                        'title': 'Estatus de usuarios',
+                        'routerLink': '/access/user/status'
+                    },
+                    {
                         'visible': this.myglobal.existsPermission(['MEN_ACL']),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
@@ -299,6 +305,24 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'QR Codigos',
                         'routerLink': '/club/catalog/qr'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_COMPANY']),
+                        'icon': 'fa fa-list',
+                        'title': 'Empresas',
+                        'routerLink': '/club/catalog/company'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_ANTENNA']),
+                        'icon': 'fa fa-list',
+                        'title': 'Antenas',
+                        'routerLink': '/club/catalog/antenna'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_LOCATION']),
+                        'icon': 'fa fa-list',
+                        'title': 'Ubicaciones',
+                        'routerLink': '/club/catalog/location'
                     }
                 ]
             });
@@ -326,6 +350,18 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Lista de Op.',
                         'routerLink': '/club/catalog/trade'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_RECORD_IN_OUT']),
+                        'icon': 'fa fa-list',
+                        'title': 'Registro de acceso',
+                        'routerLink': '/club/process/record'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_RECORD_LIST']),
+                        'icon': 'fa fa-list',
+                        'title': 'Lista registro',
+                        'routerLink': '/club/catalog/record'
                     }
 
                 ]

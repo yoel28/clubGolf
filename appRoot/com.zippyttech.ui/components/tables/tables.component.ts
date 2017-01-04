@@ -191,7 +191,7 @@ export class TablesComponent extends RestController implements OnInit {
                     return 'Hace ' + this.dateHmanizer(diff, {units: ['h', 'm']})
                 }
             }
-            return moment(date).format(format);
+            return moment(date).format(format || 'DD/MM/YYYY');
         }
         return "-";
     }

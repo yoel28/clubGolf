@@ -81,6 +81,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
         this.submitForm = true;
         let errorLogin = (error:any)=> {
             that.submitForm = false;
+            that.error(error);
         }
         let successCallback = (response:any) => {
             that.submitForm = false;

@@ -40,6 +40,12 @@ import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 import {UserTypeComponent} from "./com.zippyttech.club/catalog/userType/userType.component";
 import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
 import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
+import {UserStatusComponent} from "./com.zippyttech.club/catalog/userStatus/userStatus.component";
+import {CompanyComponent} from "./com.zippyttech.club/catalog/company/company.component";
+import {AntennaComponent} from "./com.zippyttech.club/catalog/antenna/antenna.component";
+import {LocationComponent} from "./com.zippyttech.club/catalog/location/location.component";
+import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/recordInOut";
+import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
 
 const routesDefault: Routes = [
 
@@ -59,6 +65,7 @@ const routesDefault: Routes = [
     { path: 'access/user', component: UserComponent},
     { path: 'access/user/profile', component: ProfileComponent},
     { path: 'access/user/type', component: UserTypeComponent},
+    { path: 'access/user/status', component: UserStatusComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -79,9 +86,14 @@ const routesDefault: Routes = [
     { path: 'club/catalog/vehicle/brand', component: BrandComponent},
     { path: 'club/catalog/vehicle/type', component: VehicleTypeComponent},
     { path: 'club/catalog/tag', component: TagComponent},
+    { path: 'club/catalog/company', component: CompanyComponent},
+    { path: 'club/catalog/antenna', component: AntennaComponent},
+    { path: 'club/catalog/location', component: LocationComponent},
+    { path: 'club/catalog/record', component: RecordComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
+    { path: 'club/process/record', component:  RecordInOutComponent},
 
     { path: 'club/register/full', component:  RegisterFullComponent},
 
@@ -141,7 +153,13 @@ export const componentsApp = [
     VehicleTypeComponent,
     TagComponent,
     UserTypeComponent,
-    RegisterFullComponent
+    RegisterFullComponent,
+    UserStatusComponent,
+    CompanyComponent,
+    AntennaComponent,
+    LocationComponent,
+    RecordInOutComponent,
+    RecordComponent
 ];
 export const componentsPublic = [
     'LoginComponent',

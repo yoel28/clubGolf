@@ -159,7 +159,7 @@ export class RestController implements OnInit {
             that.getLoadDataAll([], null, null, 0, 1000, null);
         else {
             this.getOffset(offset);
-            this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), this.dataList, this.max, this.error).then(
+            return this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), this.dataList, this.max, this.error).then(
                 response=> {
                     that.loadPager(that.dataList);
                 }, error=> {
@@ -276,9 +276,12 @@ export class RestController implements OnInit {
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            that.addToast('error',err.json().message,'error');
+            that['db']['myglobal'].error(err);
         };
-        return (this.httputils.onUpdate(endpoint + data.id, body, data, error));
+        let successCallback = response => {
+            that['db']['myglobal'].addToast('Notificacion','Guardado con éxito');
+        };
+        return (this.httputils.doPut(endpoint+data.id,body,successCallback,error));
     }
 
     onEditableRole(field, data, value, endpoint) {
@@ -287,12 +290,11 @@ export class RestController implements OnInit {
         json[field] = value;
         let body = JSON.stringify(json);
         let error = err => {
-            that.addToast('error',err.json().message,'error');
+            that['db']['myglobal'].error(err);
         };
         let successCallback = response => {
-            if (this.toastyService)
-                that.addToast('Notificacion','Guardado con éxito');
-        }
+            that['db']['myglobal'].addToast('Notificacion','Guardado con éxito');
+        };
         return (this.httputils.doPost(endpoint, body, successCallback, error));
     }
 

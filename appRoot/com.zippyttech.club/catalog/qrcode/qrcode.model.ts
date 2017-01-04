@@ -17,6 +17,15 @@ export class QrcodeModel extends ModelBase{
     }
     initRules(){
 
+        this.rules['id']={
+            'type': 'number',
+            'visible':this.permissions.visible,
+            'search':this.permissions.search,
+            'title': 'Código',
+            'iconVisible':'fa fa-qrcode',
+            'placeholder': 'Código',
+        };
+
         this.rules['email']={
             'type': 'text',
             'email': true,
@@ -33,12 +42,14 @@ export class QrcodeModel extends ModelBase{
         this.rules['sponsor'].keyDisplay='sponsorEmail';
         this.rules['sponsor'].key='sponsor';
         this.rules['sponsor'].required=false;
+        this.rules['sponsor'].placeholder='Patrocinador';
 
         this.rules['guest']=Object.assign({},this.user.ruleObject);
         this.rules['guest'].title='Invitado';
         this.rules['guest'].keyDisplay='guestEmail';
         this.rules['guest'].key='guest';
         this.rules['guest'].required=false;
+        this.rules['guest'].placeholder='Invitado';
 
 
 
@@ -100,5 +111,6 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.enabled;
         delete this.rulesSave.code;
         delete this.rulesSave.guest;
+        delete this.rulesSave.id;
     }
 }

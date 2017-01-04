@@ -1,14 +1,14 @@
 <div class="row">
     <div class="{{classCol(12,12,12,12)}}">
-        <form role="form" [formGroup]="form" class="{{search.object?classCol(5,5,5,5):''}}"
+        <form role="form" [formGroup]="form" class="{{ (search.object && searchView)?classCol(5,5,5,5):''}}"
               *ngIf="keys && keys.length > 0">
             <div *ngFor="let key of keys">
                 <div *ngIf="rules[key]">
                     <div *ngIf="!rules[key].object || (rules[key].object && rules[key].permissions.search)">
                         <div class="form-group input-icon right" *ngIf="!rules[key].hidden">
-                            <div>
+                            <div [hidden]="hiddenFormControl(rules[key].hiddenOnly)">
                                 <div class="row" *ngIf="rules[key].type!='image'">
-                                    <div class="{{(rules[key].object || rules[key].refreshField)?classCol(9,9,9,9):classCol(12,12,12,12)}}">
+                                    <div class="{{(rules[key].object || rules[key].refreshField)?classCol(10,10,10,10):classCol(12,12,12,12)}}">
                                         <div class="input-group input-icon right">
                                             <i class="{{rules[key].icon}} z-index"></i>
                                             <span class="input-group-addon" [attr.id]="key">{{rules[key].title}}
@@ -24,14 +24,16 @@
                                                    [readonly]="rules[key].readOnly"
                                             >
 
-                                            <input *ngIf="rules[key].type == 'list'"
-                                                   formControlName="{{key}}" class="form-control"
-                                                   formControlName="{{key}}"
-                                                   placeholder="{{rules[key].placeholder}}"
-                                                   type="text"
-                                                   [attr.aria-describedby]="key"
-                                                   [readonly]="rules[key].readOnly"
-                                            >
+                                            <div *ngIf="rules[key].type == 'list'">
+                                                <input tags-input data-role="tagsinput"
+                                                       placeholder="{{rules[key].placeholder}}"
+                                                       type="text"
+                                                       [attr.aria-describedby]="key"
+                                                       [readonly]="rules[key].readOnly"
+                                                       [control]="form.controls[key]"
+                                                       (instance)="rules[key].refreshField ?(rules[key].refreshField.instance=$event||null):null"
+                                                >
+                                            </div>
 
                                             <input *ngIf="rules[key].type == 'color'" color-picker
                                                    class="form-control" [hexControl]="data[key]"
@@ -77,27 +79,13 @@
                                         </div>
                                     </div>
                                     <div *ngIf="rules[key].object || rules[key].refreshField"
-                                         class="{{classCol(3,3,3,3)}} padding-top-4">
+                                         class="{{classCol(2,2,2,2)}} padding-top-4">
                                         <button *ngIf="rules[key].object" tabindex="-1"
                                                 class="btn btn-box-tool fa fa-search text-blue"
                                                 (click)="getLoadSearch($event,rules[key])">
                                         </button>
 
-                                        <button *ngIf="rules[key].type == 'list'"
-                                                (click)="addListMultiple($event,key)"
-                                                [attr.title]="msg.add"
-                                                class="btn btn-box-tool text-blue fa fa-check"
-                                                [disabled]="!form.controls[key].value"
-                                        >
-                                        </button>
-
-                                        <button *ngIf="rules[key].type == 'list' && dataListMultiple[key] && dataListMultiple[key].data && dataListMultiple[key].data.length > 0"
-                                                (click)="viewListMultiple($event,key)"
-                                                title="{{dataListMultiple[key].view?'Ocultar':'Ver'}}"
-                                                class="btn btn-box-tool fa {{dataListMultiple[key].view?'fa-eye-slash text-red':'fa-eye text-blue'}}">
-                                        </button>
-
-                                        <button *ngIf="rules[key].refreshField && !rules[key].readOnly"
+                                        <button *ngIf="rules[key].refreshField "
                                                 tabindex="-1"
                                                 class="btn btn-box-tool fa {{rules[key].refreshField.icon}} text-blue"
                                                 (click)="refreshField($event,rules[key])">
@@ -139,7 +127,7 @@
                 </div>
             </div>
         </form>
-        <div [class.col-lg-7]="search.object" *ngIf="search.object">
+        <div [class.col-lg-7]="(search.object && searchView)" *ngIf="(search.object && searchView)">
             <form role="form" (submit)="getSearch($event,find.value)">
                 <div class="col-lg-12 form-margin">
                     <strong>{{search.title}}</strong><br/>
@@ -166,7 +154,7 @@
                         title="Seleccionar" class="cursor-pointer">
                         <td>
                             <img [src]=" data.image || search.paramsSearch.imageGuest "
-                                 style="display: inline-block" class="img-responsive img-search">
+                                 style="display: inline-block;width: 32pt;" class="img-responsive img-search">
                         </td>
                         <td>
                             <strong>{{search.paramsSearch.label.title}} {{data.title}}</strong><br>

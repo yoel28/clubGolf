@@ -35,6 +35,7 @@
     "bootstrap-daterangepicker": "^2.1.24",
     "bootstrap-datetimepicker": "0.0.7",
     "bootstrap-fileinput": "^4.2.8",
+    "bootstrap-tagsinput": "^0.7.1",
     "colorpicker": "^2.0.0",
     "core-js": "^2.4.1",
     "cropit": "^0.5.1",

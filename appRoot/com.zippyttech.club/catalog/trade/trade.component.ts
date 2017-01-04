@@ -26,8 +26,8 @@ export class TradeComponent extends BaseViewInstance{
             this.rest.where.push
             ({
                 'or':[
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'s.id'},
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'g.id'}
+                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'sponsor.id'},
+                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'guest.id'}
                     ]
             });
         }
