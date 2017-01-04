@@ -67,29 +67,39 @@ export class RestController implements OnInit {
         //this.sound(err.status);
         let that = this;
         if (that.toastyService) {
-            if (err.json()) {
-                if (err.json().message && err.json().message.error)
-                    that.addToast('error',err.json().message.error,'error');
-                else if (err.json()._embedded && err.json()._embedded.errors) {
-                    err.json()._embedded.errors.forEach(obj=> {
-                        that.addToast('error',obj.message,'error');
-                    })
-                }
-                else if (err.json().message) {
-                    that.addToast('error',err.json().message,'error');
-                }
-                else if(err.json().errors){
-                    err.json().errors.forEach(obj=> {
-                        that.addToast('error',obj.message,'error');
-                    })
+            try {
+                if (err.json()) {
+                    if (err.json().message && err.json().message.error)
+                        that.addToast('error', err.json().message.error, 'error');
+                    else if (err.json()._embedded && err.json()._embedded.errors) {
+                        err.json()._embedded.errors.forEach(obj => {
+                            that.addToast('error', obj.message, 'error');
+                        })
+                    }
+                    else if (err.json().message) {
+                        that.addToast('error', err.json().message, 'error');
+                    }
+                    else if (err.json().errors) {
+                        err.json().errors.forEach(obj => {
+                            that.addToast('error', obj.message, 'error');
+                        })
+                    }
+                    else {
+                        that.addToast('error', err.json(), 'error');
+                    }
                 }
                 else {
-                    that.addToast('error',err.json(),'error');
+                    that.addToast('error',err,'error');
                 }
+            }catch (e){
+                if(err.statusText)
+                    that.addToast('error', err.statusText, 'error');
+                else if(err.status)
+                    that.addToast('error', err.status, 'error');
+                else
+                    that.addToast('error', e, 'error');
             }
-            else {
-                that.addToast('error',err,'error');
-            }
+
         }
         console.log(err);
 
