@@ -78,7 +78,7 @@
                          <label *ngIf="model.permissions.update && (data.enabled==true || data.enabled==null)">
                              <span *ngIf="!model.rules[key].reference">
 
-                                 <button *ngIf="model.rules[key].multiple"
+                                 <button *ngIf="model.rules[key].multiple && data[key] && data[key].length > 0"
                                          (click)="setViewListData($event,data,key)"
                                          type="button" class="btn btn-box-tool"
                                          title="Listar" data-toggle="modal"
@@ -114,7 +114,7 @@
                              </span>
                              <span *ngIf="model.rules[key].reference">
 
-                                 <button *ngIf="model.rules[key].multiple"
+                                 <button *ngIf="model.rules[key].multiple && data[key] && data[key].length > 0"
                                          (click)="setViewListData($event,data,key)"
                                          type="button" class="btn btn-box-tool"
                                          title="Listar" data-toggle="modal"
