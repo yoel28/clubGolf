@@ -172,6 +172,9 @@ export class StaticValues {
         msg.introValueFind="Ingrese valor para buscar";
         msg.findData="Buscando información, por favor espere";
         msg.close="Cerrar";
+        msg.selectOption="Seleccione una opción";
+        msg.notAuthorized="Acceso no autorizado";
+        msg.select="Seleccionar";
 
         return msg;
 
