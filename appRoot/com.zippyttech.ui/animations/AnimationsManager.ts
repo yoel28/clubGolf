@@ -16,7 +16,6 @@ export class AnimationsManager{
         let triggers: AnimationEntryMetadata[] = [];
         if (comand !== undefined) {
             let animationNames:string[] = comand.toLowerCase().split("-");
-            let defaultNames: string[] = ["visible","hover","clicked"];
             let defaultb: boolean = false;
             if(animationNames[0]==="d")
             {
@@ -26,7 +25,7 @@ export class AnimationsManager{
             animationNames.forEach((name, i) => {
                 triggers.push(
                     trigger(
-                        (defaultb && defaultNames[i])?defaultNames[i]:name,
+                        (defaultb)?("animation_"+i):name,
                         this.constructMetadata(name, (timeAnimations ? (timeAnimations[i]?timeAnimations[i]:timeAnimations) : 300))
                         )
                 );
