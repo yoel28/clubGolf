@@ -310,11 +310,11 @@
 </div>
 
 <div *ngIf="searchTable && !searchTable.multiple && searchTable.idModal">
-    <search-view [params]="searchTable" (result)="getDataSearch($event)"></search-view>
+    <search-view [params]="searchTable" (result)="getDataSearch($event)" (getInstance)="setInstanceSearch('unique',$event)"></search-view>
 </div>
 
 <div *ngIf="searchTable && searchTable.multiple && searchTable.idModal">
-    <search-multiple-view [params]="searchTable" (result)="getDataSearchMultiple($event)"></search-multiple-view>
+    <search-multiple-view [params]="searchTable" (result)="getDataSearchMultiple($event)" (getInstance)="setInstanceSearch('multiple',$event)"></search-multiple-view>
 </div>
 
 
@@ -323,7 +323,7 @@
                (save)="setDataFieldReference($event)"></save-view>
 </div>
 <div *ngIf="modelReference && modelReference.paramsSearch">
-    <search-view [params]="modelReference.paramsSearch" (result)="setDataFieldReference($event)"></search-view>
+    <search-view [params]="modelReference.paramsSearch" (result)="setDataFieldReference($event)" (getInstance)="setInstanceSearch('reference',$event)"></search-view>
 </div>
 
 <div *ngIf="viewListData && viewListData.data">
