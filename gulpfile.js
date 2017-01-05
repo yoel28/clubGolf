@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var del = require('del');
 var $ = require('gulp-load-plugins')({ lazy: true });
 var lite = require('lite-server');
+const image = require('gulp-image');
+
 
 var config = {
   build: './dist/build.js',
@@ -70,5 +72,14 @@ function log(msg) {
     $.util.log($.util.colors.blue(msg));
   }
 }
+
+//image
+gulp.task('image', function () {
+    gulp.src('./fixtures/*')
+        .pipe(image())
+        .pipe(gulp.dest('./dest'));
+});
+//
+
 
 module.exports = gulp;
