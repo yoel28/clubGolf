@@ -4,6 +4,7 @@ import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase"
 import {RecordModel} from "../../catalog/record/record.model";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {FormComponent} from "../../../com.zippyttech.ui/components/form/form.component";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 @Component({
@@ -11,6 +12,7 @@ declare var SystemJS:any;
     selector: 'record-in-out',
     templateUrl:'index.html',
     styleUrls: ['../style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class RecordInOutComponent extends ControllerBase {
     public record:any;

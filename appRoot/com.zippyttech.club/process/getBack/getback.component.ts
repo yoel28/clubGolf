@@ -8,6 +8,7 @@ import {Validators, FormGroup, FormControl} from "@angular/forms";
 import {ProductModel} from "../../catalog/product/product.model";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 @Component({
@@ -15,6 +16,7 @@ declare var SystemJS:any;
     selector: 'getback-product',
     templateUrl:'index.html',
     styleUrls: ['../style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class GetbackComponent extends ControllerBase {
 

@@ -12,6 +12,7 @@ import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -19,6 +20,7 @@ declare var SystemJS:any;
     selector: 'my-app',
     templateUrl: SystemJS.map.app+'com.zippyttech.init/app/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/app/style.css'],
+    animations: AnimationsManager.getTriggers("d-fade|expand_down",150)
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
     public pathElement = StaticValues.pathElements;
@@ -98,8 +100,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     ngAfterContentChecked(){
 
     }
-    @HostListener('window:resize') onResize() {
+
+    @HostListener('window:resize' , ['$event'])
+    onResize(event) {
         //TODO:Cambiar menu
+        this.myglobal.visualData.height = event.target.innerWidth;
     }
 
     public isPublic(component: string) {
@@ -140,12 +145,26 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     }
 
     activeMenu(event, id) {
+
+        this.menuItems.value.forEach((v)=>
+        {
+            if(this.activeMenuId === v.key && this.activeMenuId !== id)
+                v.select = false;
+
+            if(id === v.key)
+                v.select = !v.select;
+        });
+
         if(event)
             event.preventDefault();
-        if (this.activeMenuId == id)
+
+        if (this.activeMenuId == id) {
             this.activeMenuId = "";
-        else
+        }
+        else {
             this.activeMenuId = id;
+        }
+
     }
     loadPage() {
         if(!this.menuType.value)
@@ -170,12 +189,14 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-dollar',
                 'title': 'Dashboard',
                 'routerLink': '/init/dashboard'
+
             });
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_USERS']),
@@ -226,6 +247,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-gears',
                 'title': 'Configuración',
                 'key': 'Configuracion',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_EVENT']),
@@ -258,6 +280,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-gears',
                 'title': 'Catalogo',
                 'key': 'Catalogo',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
@@ -306,6 +329,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
+                'select' : false,
                 'title': 'operaciones',
                 'key': 'Operaciones',
                 'treeview': [
@@ -348,6 +372,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
+                'select': false,
                 'treeview': [
 
                     {
@@ -385,6 +410,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             });
         }
     }
+
     menuItemsVisible(menu) {
         let data = [];
         menu.forEach(obj=> {

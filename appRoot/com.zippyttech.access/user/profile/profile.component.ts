@@ -6,6 +6,7 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
 
 declare var SystemJS:any;
@@ -14,6 +15,7 @@ declare var SystemJS:any;
     selector: 'user-profile',
     templateUrl: SystemJS.map.app+'/com.zippyttech.access/user/profile/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/user/profile/style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit{
     

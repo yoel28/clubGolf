@@ -1,19 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, HostBinding, trigger, state, style, transition, animate} from '@angular/core';
 import {Router}           from '@angular/router';
 import {Http} from '@angular/http';
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../animations/AnimationsManager";
+
 
 declare var SystemJS:any;
 @Component({
     selector: 'base-view',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.ui/view/base/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
-    inputs:['instance'],
+    templateUrl: SystemJS.map.app + '/com.zippyttech.ui/view/base/index.html',
+    styleUrls: [SystemJS.map.app + '/com.zippyttech.ui/view/base/style.css'],
+    inputs: ['instance'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class BaseViewComponent extends ControllerBase implements OnInit {
-
     public instance:any;
 
     public dataSelect:any = {};

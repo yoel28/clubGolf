@@ -70,10 +70,23 @@ div ,table ,section ,div.modal-dialog > div.modal-content{
     -webkit-border-radius: 5px !important;
     -moz-border-radius: 5px !important;
     border-radius: 5px !important;
+    overflow: hidden;
 }
+
+.dm{
+    border-radius: 0px !important;
+}
+
+.modal-header
+{
+    border-radius: 0px !important;
+}
+
+
 .colorpicker, .colorpicker * {
     z-index: 9999;
 }
+
 body.no-menu .content-wrapper, body.no-menu .main-footer {
     margin-left: 0px !important;
 }
@@ -90,6 +103,14 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     padding-top: 9px;
     padding-bottom: 9px;
 }
+.btn{
+    border-radius: 3px !important;
+}
+
+.box-header div .btn{
+    border-radius: 0px !important;
+}
+
 .cursor-pointer{
     cursor: pointer;
 }

@@ -31,6 +31,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         this.setEndpoint(endpoint);
         this.prefix = prefix;
         this.initLang();
+
     }
     ngOnInit():void{
         this.initModel();
