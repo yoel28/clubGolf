@@ -1,12 +1,12 @@
-import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 
-export class AccountModel extends ModelBase{
-    public rules={};
+export class AccountModel extends ModelRoot{
     public pathElements=StaticValues.pathElements;
+
     constructor(public myglobal:globalService){
-        super('ACCOUNT','/accounts/',myglobal);
+        super('ACCOUNT','/accounts/',myglobal,false);
         this.initModel();
     }
     modelExternal() {}
@@ -151,3 +151,4 @@ export class AccountModel extends ModelBase{
     }
 
 }
+
