@@ -140,7 +140,7 @@ export class AccountModel extends ModelRoot{
         this.ruleObject.title="Cuentas";
         this.ruleObject.placeholder="Ingrese una cuenta";
         this.ruleObject.key="account";
-        this.ruleObject.keyDisplay="accountRuc";
+        this.ruleObject.keyDisplay="accountName";
         this.ruleObject.code="accountId";
     }
     initRulesSave() {
