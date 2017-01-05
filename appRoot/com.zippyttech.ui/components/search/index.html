@@ -1,10 +1,9 @@
 <div class="modal fade" id="{{params.idModal}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{params.title}}</h4>
+            <div class="modal-header text-center bg-green-club">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="myModalLabel">{{params.title}}</h3>
             </div>
             <div class="modal-body row">
                 <form role="form" (submit)="getSearch(search.value)">
@@ -12,7 +11,7 @@
                         <div class="input-group input-group-sm">
                             <input #search type="text" class="form-control" placeholder="{{params.placeholder}}">
                             <span class="input-group-btn">
-                                <button (click)="getSearch(search.value)" type="button" class="btn btn-info btn-flat">
+                                <button (click)="getSearch(search.value)" type="button" class="btn btn-green-club btn-flat">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -24,7 +23,7 @@
                         <tbody>
                         <tr *ngFor="let data of dataList.list">
                             <td>
-                                <img *ngIf="data.image" [src]="data.image" style="display: inline-block" class="img-responsive img-search">
+                                <img [src]="data.image || params.imageGuest" style="display: inline-block" class="img-responsive img-search">
                                 <i *ngIf="data.icon" class="i-search {{data.icon}}" ></i>
                             </td>
                             <td>
@@ -32,7 +31,7 @@
                                 <span *ngIf="data.detail">{{params.label.detail}} {{data.detail}}</span>
                             </td>
                             <td style="vertical-align: middle;">
-                                <button (click)="getData(data)" data-dismiss="modal" type="button" class="btn btn-success">
+                                <button (click)="getData(data)" data-dismiss="modal" type="button" class="btn btn-green-club">
                                     <i class="fa fa-check"></i>
                                 </button>
                             </td>
