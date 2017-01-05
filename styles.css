@@ -127,3 +127,12 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     font-weight: 900;
     font-size: x-large;
 }
+
+.btn-green-club, .bg-green-club{
+    background-color: #0d5628;
+    color: white;
+}
+.btn.btn-green-club:hover , .btn.btn-green-club:focus {
+    color: #eaeaea;
+    background-color: green;
+}
