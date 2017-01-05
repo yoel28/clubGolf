@@ -66,13 +66,18 @@ tbody{
     margin: 10pt;
 }
 
-div ,table ,section ,div.modal-dialog > div.modal-content{
+table ,div.modal-dialog > div.modal-content{
     -webkit-border-radius: 5px !important;
     -moz-border-radius: 5px !important;
     border-radius: 5px !important;
     overflow: hidden;
 }
+div ,section{
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
 
+}
 .dm{
     border-radius: 0px !important;
 }
