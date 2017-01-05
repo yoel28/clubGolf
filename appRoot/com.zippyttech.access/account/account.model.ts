@@ -130,8 +130,8 @@ export class AccountModel extends ModelRoot{
     initParamsSearch() {
         this.paramsSearch.title="Buscar cuenta";
         this.paramsSearch.placeholder="Ingrese la cuenta";
-        this.paramsSearch.label.title="Título: ";
-        this.paramsSearch.label.detail="Detalle: "
+        this.paramsSearch.label.title="Cuenta: ";
+        this.paramsSearch.label.detail="RUC: "
     }
     initParamsSave() {
         this.paramsSave.title="Agregar cuenta"
