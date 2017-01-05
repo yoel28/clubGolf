@@ -1,12 +1,8 @@
 import {Component, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
-import {Http} from "@angular/http";
 
 import {RestController} from "../../../com.zippyttech.rest/restController";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -20,10 +16,9 @@ declare var SystemJS:any;
 export class FormComponent extends RestController implements OnInit,AfterViewInit{
 
     public params:any={};
-    public msg:any = StaticValues.msg;
 
     public rules:any={};
-    public id:string;
+    public id:number;
     public dataSelect:any={};
     public dataListMultiple:any={};//arraay para opciones multiples
 
@@ -38,11 +33,8 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public delete=false;
     public onlyRequired=false;
 
-    public classCol=StaticFunction.classCol;
-    public classOffset=StaticFunction.classOffset;
-
-    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db.http,db.toastyService,db.toastyConfig);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();
@@ -53,10 +45,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     ngAfterViewInit(){
         this.getInstance.emit(this);
-        if(this.params.prefix && !this.myglobal.objectInstance[this.params.prefix])
+        if(this.params.prefix && !this.db.myglobal.objectInstance[this.params.prefix])
         {
-            this.myglobal.objectInstance[this.params.prefix]={};
-            this.myglobal.objectInstance[this.params.prefix]=this;
+            this.db.myglobal.objectInstance[this.params.prefix]={};
+            this.db.myglobal.objectInstance[this.params.prefix]=this;
         }
     }
 
@@ -253,10 +245,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
-    loadDelete(event){
-        this.setEndpoint(this.params.endpoint);
-        this.onDelete(event,this.id);
-    }
+
     refreshField(event,data){
         event.preventDefault();
         let that = this;
