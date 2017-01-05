@@ -35,14 +35,14 @@ export class UserStatusModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar estatus de usuario";
         this.paramsSearch.placeholder="Ingrese el estatus de usuario";
-        this.paramsSearch.label.title="Titulo: ";
-        this.paramsSearch.label.detail="Detalle: "
+        this.paramsSearch.label.title="Codigo: ";
+        this.paramsSearch.label.detail="Nombre: "
     }
     initParamsSave() {
         this.paramsSave.title="Agregar estatus de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Estatus de usuarios";
+        this.ruleObject.title="Estatus";
         this.ruleObject.placeholder="Ingrese el estatus de usuario";
         this.ruleObject.key="userStatus";
         this.ruleObject.keyDisplay="userStatusTitle";
