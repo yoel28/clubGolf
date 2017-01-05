@@ -21,19 +21,6 @@
     height: 200px;
 }
 
-#screen:before {
-    content: " ";
-    position: absolute;
-    border-bottom: solid 10px #00c797;
-    border-radius: 50% !important;
-    z-index: 10;
-    top: 181px;
-    left: 50%;
-    margin-left: -12px;
-    width: 24px;
-    height: 20px;
-}
-
 #course {
     position: absolute;
     background: #0d5628;
@@ -42,6 +29,7 @@
     width: 180px;
     height: 80px;
     border-radius: 0 0 180px 180px !important;
+    overflow: visible;
 }
 
 #hole {
@@ -64,6 +52,7 @@
     left: 65%;
     top: -55px;
     margin-left: 4px;
+    z-index: 10;
 }
 #flag:before {
     content: " ";
