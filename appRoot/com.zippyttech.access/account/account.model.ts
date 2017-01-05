@@ -137,7 +137,7 @@ export class AccountModel extends ModelRoot{
         this.paramsSave.title="Agregar cuenta"
     }
     initRuleObject() {
-        this.ruleObject.title="Cuentas";
+        this.ruleObject.title="Cuenta";
         this.ruleObject.placeholder="Ingrese una cuenta";
         this.ruleObject.key="account";
         this.ruleObject.keyDisplay="accountName";
