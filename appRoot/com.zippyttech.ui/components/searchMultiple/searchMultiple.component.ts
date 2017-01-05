@@ -1,4 +1,4 @@
-import { Component,EventEmitter } from '@angular/core';
+import {Component, EventEmitter, OnInit, DoCheck} from '@angular/core';
 import { Http} from '@angular/http';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
@@ -9,18 +9,20 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/searchMultiple/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/components/searchMultiple/style.css'],
     inputs:['params'],
-    outputs:['result'],
+    outputs:['result','getInstance'],
 })
-export class SearchMultipleComponent extends RestController{
+export class SearchMultipleComponent extends RestController implements OnInit,DoCheck{
 
     public params:any={};
     public result:any;
+    public getInstance:any;
 
     public msg = StaticValues.msg;
 
     constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
         super(http,toastyService,toastyConfig);
         this.result = new EventEmitter();
+        this.getInstance = new EventEmitter();
     }
     ngOnInit(){
         this.max = 5;
@@ -30,6 +32,9 @@ export class SearchMultipleComponent extends RestController{
         this.endpoint=this.params.endpoint+search;
         this.where = this.params.where || "";
         this.loadData();
+    }
+    ngDoCheck():void{
+        this.getInstance.emit(this);
     }
     getData(event){
         if(event)
