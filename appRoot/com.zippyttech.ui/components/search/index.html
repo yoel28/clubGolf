@@ -7,18 +7,22 @@
             </div>
             <div class="modal-body row">
                 <form role="form" (submit)="getSearch(search.value)">
-                    <div class="col-lg-10 col-lg-offset-1 form-margin">
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}} form-margin">
                         <div class="input-group input-group-sm">
                             <input #search type="text" class="form-control" placeholder="{{params.placeholder}}">
                             <span class="input-group-btn">
-                                <button (click)="getSearch(search.value)" type="button" class="btn btn-green-club btn-flat">
+                                <button (click)="getSearch(search.value)" type="button" class="btn btn-green-club" [attr.title]="db.msg.find">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
                         </div>
                     </div>
                 </form>
-                <div *ngIf="dataList.count" class="col-lg-10 col-lg-offset-1">
+                <div *ngIf="findData" class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    {{db.msg.findData}}
+                </div>
+                <div *ngIf="dataList.count" class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}">
                     <table class="table table-hover">
                         <tbody>
                         <tr *ngFor="let data of dataList.list">
@@ -39,10 +43,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div *ngIf="!dataList.count" class="col-lg-10 col-lg-offset-1">
-                    {{dataList.count==0?"No se ha encontrado ning&uacute;n resultado":"Ingrese valor para buscar"}}
+                <div *ngIf="!dataList.count && !findData" class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}">
+                    <span *ngIf="dataList.count==0">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;{{db.msg.notFound}}
+                    </span>
+                    <span *ngIf="dataList.count==null">
+                        <i class="fa fa-keyboard-o fa-lg"></i>&nbsp;{{db.msg.introValueFind}}
+                    </span>
                 </div>
-
             </div>
             <div class="modal-footer">
                     <div *ngIf="dataList.page && dataList.page.length > 1 && dataList.count > 0" class="btn-group pull-right">
