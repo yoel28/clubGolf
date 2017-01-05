@@ -168,6 +168,9 @@ export class StaticValues {
         msg.getProducts="Recepción de productos";
         msg.clickChange="Click para cambiar";
         msg.add="Agregar";
+        msg.find="Buscar";
+        msg.introValueFind="Ingrese valor para buscar";
+        msg.findData="Buscando información, por favor espere";
 
         return msg;
 
