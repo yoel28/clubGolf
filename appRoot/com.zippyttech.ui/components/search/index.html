@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center bg-green-club">
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" [attr.title]="db.msg.close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="myModalLabel">{{params.title}}</h3>
             </div>
             <div class="modal-body row">
