@@ -12,7 +12,7 @@ declare var SystemJS:any;
     selector: 'acl',
     templateUrl: SystemJS.map.app+'/com.zippyttech.access/acl/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/acl/style.css'],
-    animations: AnimationsManager.getTriggers("d-fade|slide_down-expand_right")
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class AclComponent extends RestController implements OnInit{
 
