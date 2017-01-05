@@ -35,6 +35,8 @@ export class ModelModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar modelo";
         this.paramsSearch.placeholder="Ingrese el modelo";
+        this.paramsSearch.label.title="Marca";
+        this.paramsSearch.label.detail="Modelo";
     }
     initParamsSave() {
         this.paramsSave.title="Agregar modelo"
