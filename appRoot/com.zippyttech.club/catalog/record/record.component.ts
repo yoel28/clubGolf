@@ -17,6 +17,14 @@ export class RecordComponent extends BaseViewInstance{
 
     initModel() {
         this.model= new RecordModel(this.myglobal);
+        (<RecordModel>this.model).rules['user'].title="Socio";
+
+        this.model.rules['userContractCode']={
+            'type': 'text',
+            'visible':true,
+            'key': 'userContractCode',
+            'title': 'Contrato',
+        };
     }
 
     initViewOptions() {
