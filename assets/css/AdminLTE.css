@@ -1703,6 +1703,7 @@ a:focus {
   clear: both;
 }
 .box-header {
+  border-radius: 0px !important;
   color: #000;
   display: block;
   padding: 10px;
