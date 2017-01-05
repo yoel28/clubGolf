@@ -21,7 +21,6 @@ export class RoleModel extends ModelBase{
             'placeholder': 'Nombre del perfil',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
-        delete this.rules['detail'];
     }
     initPermissions() {}
     initParamsSearch() {
