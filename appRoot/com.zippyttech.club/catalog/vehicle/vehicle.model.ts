@@ -13,8 +13,8 @@ export class VehicleModel extends ModelBase{
     public user:any;
     public tag:any;
 
-    constructor(public myglobal:globalService){
-        super('VEH','/vehicles/',myglobal);
+    constructor(public myglobal:globalService,useGlobal=true){
+        super('VEH','/vehicles/',myglobal,useGlobal);
         this.initModel();
     }
     modelExternal() {
