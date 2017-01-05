@@ -1,4 +1,4 @@
-<section class="content container" *ngIf="model.completed">
+<section  [@animation_0] = 'model.completed?"true":"false"' class="content container" *ngIf="model.completed">
     <div class="background-grandient {{classCol(10,10,11,12)}}">
         <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
             <form role="form">
@@ -181,3 +181,13 @@
         </div>
     </div>
 </section>
+
+<div *ngIf="!(model.completed)" class="preload">
+    <div id="screen">
+        <div id="course">
+            <div id="hole"></div>
+            <div id="flag"> <span></span> </div>
+        </div>
+        <div id="ball"></div>
+    </div>
+</div>
