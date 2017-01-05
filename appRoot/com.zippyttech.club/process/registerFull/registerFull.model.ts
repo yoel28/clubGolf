@@ -18,7 +18,7 @@ export class RegisterFullModel extends ModelBase{
     }
     modelExternal() {
         this.user = new UserModel(this.myglobal);
-        this.vehicle = new VehicleModel(this.myglobal);
+        this.vehicle = new VehicleModel(this.myglobal,false);
         this.tags = new TagModel(this.myglobal);
     }
     initRules() {
