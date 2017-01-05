@@ -25,11 +25,13 @@
     width: 100%;
     position: absolute;
 }
-div, table, section, div.modal-dialog > div.modal-content {
+
+div, table, section, .modal-dialog > .modal-content {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;
     border-radius: 0px !important;
 }
+
 .btn-green-a80{
     background-color: rgba(0,84,37,0.8);
     color: white;
