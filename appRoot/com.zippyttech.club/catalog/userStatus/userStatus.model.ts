@@ -42,8 +42,8 @@ export class UserStatusModel extends ModelBase{
         this.paramsSave.title="Agregar estatus de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Estatus de usuarios";
-        this.ruleObject.placeholder="Ingrese el estatus de usuario";
+        this.ruleObject.title="Estatus";
+        this.ruleObject.placeholder="Ingrese el estatus";
         this.ruleObject.key="userStatus";
         this.ruleObject.keyDisplay="userStatusTitle";
         this.ruleObject.code="userStatusId";
