@@ -9,14 +9,13 @@ import {CompanyModel} from "../company/company.model";
 import {UserTypeModel} from "../userType/userType.model";
 
 export class RecordModel extends ModelBase{
-    public vehicle:any;
-    public user:any;
-    public userType:any;
-    public account:any;
-    public antennaIn:any;
-    public antennaOut:any;
-    public location:any;
-    public company:any;
+    private vehicle:any;
+    private user:any;
+    private userType:any;
+    private antennaIn:any;
+    private antennaOut:any;
+    private location:any;
+    private company:any;
 
     constructor(public myglobal:globalService){
         super('RECORD','/records/',myglobal);
