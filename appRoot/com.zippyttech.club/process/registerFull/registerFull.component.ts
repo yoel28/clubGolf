@@ -8,6 +8,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {Http} from "@angular/http";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {FormGroup, Validators, FormControl} from "@angular/forms";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 @Component({
@@ -15,6 +16,7 @@ declare var SystemJS:any;
     selector: 'register-full',
     templateUrl:'index.html',
     styleUrls: ['style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class RegisterFullComponent extends RestController implements OnInit{
     public model:any;
