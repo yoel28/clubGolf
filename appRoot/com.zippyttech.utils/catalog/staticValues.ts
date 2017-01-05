@@ -171,6 +171,7 @@ export class StaticValues {
         msg.find="Buscar";
         msg.introValueFind="Ingrese valor para buscar";
         msg.findData="Buscando información, por favor espere";
+        msg.close="Cerrar";
 
         return msg;
 
