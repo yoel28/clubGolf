@@ -73,6 +73,10 @@ div ,table ,section ,div.modal-dialog > div.modal-content{
     overflow: hidden;
 }
 
+.dm{
+    border-radius: 0px !important;
+}
+
 .modal-header
 {
     border-radius: 0px !important;
