@@ -5,12 +5,14 @@ import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 @Component({
     selector: 'user-recover',
     templateUrl: SystemJS.map.app+'com.zippyttech.auth/recover/index.html',
-    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css']
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css'],
+    animations: AnimationsManager.getTriggers("d-expand_down",200)
 })
 export class RecoverComponent extends RestController {
 
