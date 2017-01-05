@@ -5532,9 +5532,9 @@ a.list-group-item.active > .badge,
 }
 .btn {
   outline: none !important;
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  border-radius: 0 !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 .btn.btn-square {
   -webkit-border-radius: 0 !important;
