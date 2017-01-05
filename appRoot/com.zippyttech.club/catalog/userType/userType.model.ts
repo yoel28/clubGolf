@@ -40,12 +40,14 @@ export class UserTypeModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar tipo de usuario";
         this.paramsSearch.placeholder="Ingrese el tipo de usuario";
+        this.paramsSearch.label.title="Codigo: ";
+        this.paramsSearch.label.detail="Nombre: "
     }
     initParamsSave() {
         this.paramsSave.title="Agregar tipo de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Tipo de usuario";
+        this.ruleObject.title="Tipo";
         this.ruleObject.placeholder="Ingrese el tipo de usuario";
         this.ruleObject.key="userType";
         this.ruleObject.code="userTypeId";
