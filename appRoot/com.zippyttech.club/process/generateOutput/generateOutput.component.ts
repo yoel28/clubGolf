@@ -9,6 +9,7 @@ import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {QrcodeModel} from "../../catalog/qrcode/qrcode.model";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
@@ -20,6 +21,7 @@ declare var jQuery:any;
     selector: 'generate-output',
     templateUrl:'index.html',
     styleUrls: ['../style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class GenerateOutputComponent extends ControllerBase implements OnInit,OnDestroy {
 
