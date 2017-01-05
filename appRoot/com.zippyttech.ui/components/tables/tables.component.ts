@@ -51,6 +51,11 @@ export class TablesComponent extends RestController implements OnInit {
     ngAfterViewInit() {
         this.getInstance.emit(this);
     }
+
+    private instanceSearch={};
+    setInstanceSearch(type,instance){
+        this.instanceSearch[type] =  instance;
+    }
     
     keyVisible()
     {
@@ -70,8 +75,8 @@ export class TablesComponent extends RestController implements OnInit {
     loadSearchTable(event,key,data)
     {
         event.preventDefault();
+        this.checkAllSearch();
         this.searchTableData=data;
-
         if(this.model.rules[key].multiple){//TODO:Falta completar el comportamiento
             this.model.rules[key].paramsSearch.multiple=true;
             this.model.rules[key].paramsSearch.valuesData=[];
@@ -82,6 +87,14 @@ export class TablesComponent extends RestController implements OnInit {
         this.searchTable =  Object.assign({},this.model.rules[key].paramsSearch);
         this.searchTable.field =  key;
 
+    }
+    private checkAllSearch(){
+        let that=this;
+        Object.keys(this.instanceSearch).forEach(key=>{
+            if(that.instanceSearch[key] && that.instanceSearch[key].dataList){
+                that.instanceSearch[key].dataList={}
+            }
+        })
     }
 
     public modelSave:any={};
@@ -147,6 +160,7 @@ export class TablesComponent extends RestController implements OnInit {
     }
 
     public loadDataFieldReference(data,key,setNull=false){
+        this.checkAllSearch();
         this.modelReference=Object.assign({},this.model.rules[key]);
         this.dataSelect = data;
         if(setNull)
