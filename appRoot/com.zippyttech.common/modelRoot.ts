@@ -114,7 +114,7 @@ export abstract class ModelRoot{
                 },
             },
             'where': '',
-            'imageGuest': StaticValues.pathElements.favicon,
+            'imageGuest': StaticValues.pathElements.isotipoMini,
             'field':'any'
         };
     }
