@@ -15,6 +15,7 @@ export class RestController implements OnInit {
     order = "";//asc o desc
     page:any = [];
     where:string = "";
+    findData:boolean=false;
 
     constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
         this.httputils = new HttpUtils(http,toastyService,toastyConfig);
@@ -66,6 +67,7 @@ export class RestController implements OnInit {
     error = err => {
         //this.sound(err.status);
         let that = this;
+        this.findData = false;
         if (that.toastyService) {
             try {
                 if (err.json()) {
@@ -164,6 +166,7 @@ export class RestController implements OnInit {
     }
 
     loadData(offset?) {
+        this.findData = true;
         let that = this;
         if (offset && offset == '#')
             that.getLoadDataAll([], null, null, 0, 1000, null);
@@ -172,6 +175,7 @@ export class RestController implements OnInit {
             return this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), this.dataList, this.max, this.error).then(
                 response=> {
                     that.loadPager(that.dataList);
+                    this.findData=false;
                 }, error=> {
                     console.log("error");
                 }
