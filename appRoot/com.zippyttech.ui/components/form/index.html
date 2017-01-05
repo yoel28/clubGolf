@@ -117,10 +117,8 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="rules && rules[key] && rules[key].object && !rules[key].permissions.search"
-                         class="{{db.classCol(12,12,12,12)}}">
-                        {{db.msg.notAuthorized}}&nbsp;activar el permiso
-                        {{rules[key].prefix}}_SEARCH
+                    <div *ngIf="rules && rules[key] && rules[key].object && !rules[key].permissions.search" class="{{db.classCol(12,12,12,12)}}">
+                        <i class="fa fa-warning text-red"></i>&nbsp;{{db.msg.notAuthorized}},&nbsp;activar el permiso <b>{{rules[key].prefix}}_SEARCH</b>
                     </div>
                 </div>
             </div>
