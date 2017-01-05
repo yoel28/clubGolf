@@ -136,3 +136,14 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     color: #eaeaea;
     background-color: green;
 }
+.btn-red-club, .bg-red-club{
+    background-color: #c73332;
+    color: white;
+}
+.btn.btn-red-club:hover , .btn.btn-red-club:focus {
+    color: #eaeaea;
+    background-color: red;
+}
+.input-icon i {
+    color: #2f6b2f !important;
+}
