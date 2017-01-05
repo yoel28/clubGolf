@@ -70,10 +70,19 @@ div ,table ,section ,div.modal-dialog > div.modal-content{
     -webkit-border-radius: 5px !important;
     -moz-border-radius: 5px !important;
     border-radius: 5px !important;
+    overflow: hidden;
 }
+
+.modal-header
+{
+    border-radius: 0px !important;
+}
+
+
 .colorpicker, .colorpicker * {
     z-index: 9999;
 }
+
 body.no-menu .content-wrapper, body.no-menu .main-footer {
     margin-left: 0px !important;
 }
