@@ -138,7 +138,7 @@ export class AccountModel extends ModelRoot{
     }
     initRuleObject() {
         this.ruleObject.title="Cuenta";
-        this.ruleObject.placeholder="Ingrese una cuenta";
+        this.ruleObject.placeholder="Ingrese la cuenta";
         this.ruleObject.key="account";
         this.ruleObject.keyDisplay="accountName";
         this.ruleObject.code="accountId";
