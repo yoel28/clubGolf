@@ -117,7 +117,8 @@ export abstract class ModelRoot{
             },
             'where': '',
             'imageGuest': StaticValues.pathElements.isotipoMini,
-            'field':'any'
+            'field':'any',
+            'count':0
         };
     }
     private loadParamsSearch(){
