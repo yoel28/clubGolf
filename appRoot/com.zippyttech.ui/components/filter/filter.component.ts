@@ -304,6 +304,10 @@ export class FilterComponent extends RestController implements OnInit{
                         if(that.searchId[key] && that.searchId[key].id)
                             whereTemp.value = that.searchId[key].id;
                     }
+
+                    if(that.rules[key].type == 'boolean'){
+                        whereTemp.value = whereTemp.value=='true'?true:false;
+                    }
                 }
 
                 if (that.rules[key].object) // si es un objecto y existe el id
