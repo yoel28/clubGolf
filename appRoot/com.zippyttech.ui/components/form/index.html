@@ -22,6 +22,7 @@
                                                    type="{{rules[key].type}}"
                                                    [attr.aria-describedby]="key"
                                                    [readonly]="rules[key].readOnly"
+                                                   [attr.accesskey]="key"
                                             >
 
                                             <div *ngIf="rules[key].type == 'list'">
@@ -78,13 +79,15 @@
                                     </div>
                                     <div *ngIf="rules[key].object || rules[key].refreshField"
                                          class="{{db.classCol(2,2,2,2)}} padding-top-4">
-                                        <button *ngIf="rules[key].object" tabindex="-1"
+                                        <button *ngIf="rules[key].object" tabindex="-1" type="button"
                                                 class="btn btn-box-tool fa fa-search text-blue" [attr.title]="db.msg.find"
                                                 (click)="getLoadSearch($event,rules[key])">
+                                                <span *ngIf="search && search.key ==  key" class="label label-green" [attr.title]="search.paramsSearch.count+' Coincidencia(s)'">({{search.paramsSearch.count}})</span>
                                         </button>
+                                        <span></span>
 
                                         <button *ngIf="rules[key].refreshField "
-                                                tabindex="-1"
+                                                tabindex="-1" type="button"
                                                 class="btn btn-box-tool fa {{rules[key].refreshField.icon}} text-blue"
                                                 (click)="refreshField($event,rules[key])">
                                         </button>
@@ -126,7 +129,7 @@
         <div class="{{(search.object && searchView)?db.classCol(7,7,7,7):''}}" *ngIf="(search.object && searchView)">
             <form role="form" (submit)="getSearch($event,find.value)">
                 <div class="col-lg-12 form-margin">
-                    <strong>{{search.title}}</strong><br/>
+                    <strong>{{search.title}}&nbsp;</strong> <label class="label label-green pull-right">{{search.paramsSearch.count+' Coincidencia(s)'}}</label><br/>
                     <div class="input-group input-group-sm">
                         <input #find type="text" class="form-control" tabindex="-1"
                                placeholder="{{ search.placeholder}}" value="{{findControl}}">
