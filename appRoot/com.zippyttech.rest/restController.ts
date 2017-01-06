@@ -336,6 +336,17 @@ export class RestController implements OnInit {
         this.where = where;
         this.loadData();
     }
+    changeOrder(sort){
+        if(sort ==  this.sort){
+            this.order = this.order=='asc'?'desc':'asc';
+        }
+        else
+        {
+            this.sort =  sort;
+            this.order = 'desc'
+        }
+        this.loadData();
+    }
 
 
 }
