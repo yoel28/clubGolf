@@ -48,6 +48,8 @@ export abstract class ModelRoot{
         this.loadParamsSave();
         this.loadParamsSearch();
 
+        this.addCustomField();
+
         this.completed=completed;
     }
 
@@ -207,5 +209,11 @@ export abstract class ModelRoot{
     }
     public capitalizeFirstLetter (data) {
         return data.charAt(0).toUpperCase() + data.slice(1);
+    }
+    public addCustomField(){
+        let that = this;
+        Object.keys(this.rules).forEach(key=>{
+            that.rules[key].check =  false;
+        })
     }
 }
