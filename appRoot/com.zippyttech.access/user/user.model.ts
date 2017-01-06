@@ -4,11 +4,13 @@ import {RoleModel} from "../role/role.model";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType.model";
 import {UserStatusModel} from "../../com.zippyttech.club/catalog/userStatus/userStatus.model";
+import {ContractModel} from "../../com.zippyttech.club/catalog/contract/contract.model";
 
 export class UserModel extends ModelBase{
-    public role:any;
-    public type:any;
-    public status:any;
+    private role:any;
+    private type:any;
+    private status:any;
+    private contract:any;
     public pathElements=StaticValues.pathElements;
 
     constructor(public myglobal:globalService){
@@ -20,6 +22,7 @@ export class UserModel extends ModelBase{
         this.role= new RoleModel(this.myglobal);
         this.type= new UserTypeModel(this.myglobal);
         this.status= new UserStatusModel(this.myglobal);
+        this.contract = new ContractModel(this.myglobal);
     }
     initRules(){
 
@@ -31,15 +34,7 @@ export class UserModel extends ModelBase{
             'title': 'ID',
             'placeholder': 'ID',
         };
-        this.rules['contractCode']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'contractCode',
-            'title': 'Contrato',
-            'placeholder': 'Contrato',
-        };
+
         this.rules['idCard']={
             'type': 'text',
             'update':this.permissions.update,
@@ -128,6 +123,9 @@ export class UserModel extends ModelBase{
 
         this.rules['userType']=this.type.ruleObject;
         this.rules['userType'].required=false;
+
+        this.rules['contract']=this.contract.ruleObject;
+        this.rules['contract'].required=false;
 
         this.rules['userStatus']=this.status.ruleObject;
         this.rules['userStatus'].required=false;
