@@ -18,6 +18,8 @@ export class globalService extends RestController{
 
     public channelWebsocket:any={};
 
+    public navigationStart:boolean=false;
+
     public dataSesion = new FormControl(
         null,
         Validators.compose([
