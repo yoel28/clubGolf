@@ -46,6 +46,7 @@ import {AntennaComponent} from "./com.zippyttech.club/catalog/antenna/antenna.co
 import {LocationComponent} from "./com.zippyttech.club/catalog/location/location.component";
 import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/recordInOut";
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
+import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
 
 const routesDefault: Routes = [
 
@@ -90,6 +91,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/antenna', component: AntennaComponent},
     { path: 'club/catalog/location', component: LocationComponent},
     { path: 'club/catalog/record', component: RecordComponent},
+    { path: 'club/catalog/contract', component: ContractComponent},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
@@ -159,7 +161,8 @@ export const componentsApp = [
     AntennaComponent,
     LocationComponent,
     RecordInOutComponent,
-    RecordComponent
+    RecordComponent,
+    ContractComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
