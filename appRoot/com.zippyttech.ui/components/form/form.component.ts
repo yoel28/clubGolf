@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, AfterViewInit, HostListener} from "@angular/core";
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
 
 import {RestController} from "../../../com.zippyttech.rest/restController";
@@ -97,9 +97,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 if(that.rules[key].object)
                 {
                     that.data[key].valueChanges.subscribe((value: string) => {
+                        that.findControl = value;
                         if(value && value.length > 0){
                             that.search=that.rules[key];
-                            that.findControl = value;
                             that.dataList=[];
                             if( !that.searchId[key]){
                                 that.getSearch(null,value);
@@ -113,6 +113,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                                 that.search = [];
                             }
                         }
+                        else {
+                            if(that.search && that.search.key == key)
+                                that.getSearch(null,'');
+                        }
                     });
                 }
             }
@@ -120,6 +124,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         });
         this.keys = Object.keys(this.data);
         this.form = new FormGroup(this.data);
+    }
+    @HostListener('keydown', ['$event'])
+    keyboardInput(event: any) {
+        if(event.code=="Enter"){
+            let key = event.path[0].accessKey;
+            if(key && this.rules[key] && this.rules[key].objectOrSave){
+                this.loadAndSetDataSearch(true);
+            }
+        }
     }
 
     public findControl:string="";
@@ -195,9 +208,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         event.preventDefault();
         this.max=5;
         this.searchView=true;
-        this.findControl="";
+        this.findControl=this.data[data.key].value;
         this.search=data;
-        this.getSearch(event,"");
+        this.getSearch(event,this.findControl);
     }
     //accion al dar click en el boton de buscar del formulario en el search
     getSearch(event=null,value){
@@ -206,9 +219,20 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             event.preventDefault();
         this.setEndpoint(this.search.paramsSearch.endpoint+value);
         this.loadData().then(response=>{
-            if(that.dataList && that.dataList.count && that.dataList.count==1)
-                that.getDataSearch(that.dataList.list[0]);
+            if(that.search && that.search.key){
+                this.search.paramsSearch.count = this.dataList.count;
+                if(that.rules[that.search.key] && !that.rules[that.search.key].objectOrSave){
+                    that.loadAndSetDataSearch();
+                }
+            }
         });
+    }
+    loadAndSetDataSearch(searchView=false){
+        if(this.dataList && this.dataList.count && this.dataList.count==1)//cuando existe un solo elemento se carga automatico
+            this.getDataSearch(this.dataList.list[0]);
+        else if(this.dataList && this.dataList.count && this.dataList.count > 1)
+            this.searchView = searchView;
+
     }
     //accion al dar click en el boton de cerrar el formulario
     searchQuit(event){
