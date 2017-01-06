@@ -172,3 +172,6 @@
 .modal-header{
     border-radius: 0px !important;
 }
+.header-tools .btn-box-tool{
+    font-size: 14px !important;
+}
