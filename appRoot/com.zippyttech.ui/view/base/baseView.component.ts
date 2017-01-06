@@ -99,6 +99,32 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         }
         data.check = !data.check;
     }
+    changePosition(event,key,action){
+        if(event){
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        let keys = this.getKeys(this.model.rules);
+        let index = keys.findIndex(obj=>obj==key);
+        if( (index > 0 && action=='up') ||  (index < this.getKeys(this.model.rules).length - 1) && action=='down' ){
+            let temp={};
+            let that=this;
+            if(action == 'up'){
+                keys[index]=keys[index-1];
+                keys[index-1]= key;
+            }
+            else if(action == 'down'){
+                keys[index]=keys[index+1];
+                keys[index+1]= key;
+            }
+            keys.forEach(obj=>{
+                temp[obj]=[];
+                temp[obj] = that.model.rules[obj];
+            })
+            that.model.rules={};
+            Object.assign(that.model.rules,temp);
+        }
+    }
 
 
 }
