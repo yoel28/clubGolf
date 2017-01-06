@@ -175,3 +175,16 @@
 .header-tools .btn-box-tool{
     font-size: 14px !important;
 }
+.submenu-config{
+    border: 1px solid #BDBBBB !important;
+}
+.header-tools ul.dropdown-menu.submenu-config {
+    min-width: 260px;
+}
+.check1{
+    background: rgba(13, 86, 40, 0.77) !important;
+    color: white !important;
+}
+.check{
+    background: rgba(0, 187, 0, 0.18);
+}
