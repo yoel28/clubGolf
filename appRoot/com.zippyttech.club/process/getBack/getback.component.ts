@@ -1,14 +1,11 @@
 import {Component} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {GetbackModel} from "./getback.model";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
-import {Router} from "@angular/router";
-import {Http} from "@angular/http";
 import {Validators, FormGroup, FormControl} from "@angular/forms";
 import {ProductModel} from "../../catalog/product/product.model";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -26,11 +23,11 @@ export class GetbackComponent extends ControllerBase {
     public product:any;
     public msg=StaticValues.msg;
 
-    public stateDefault=parseFloat(this.myglobal.getParams('TRADE_CODE_DEFAULT'));
-    public byClientDefault=this.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
+    public stateDefault=parseFloat(this.db.myglobal.getParams('TRADE_CODE_DEFAULT'));
+    public byClientDefault=this.db.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
-    constructor(public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super('GETBACK','/getback/',router,http,myglobal,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super('GETBACK','/getback/',db);
 
     }
     ngOnInit():void{
@@ -41,8 +38,8 @@ export class GetbackComponent extends ControllerBase {
 
 
     initModel() {
-        this.model= new GetbackModel(this.myglobal);
-        this.product = new ProductModel(this.myglobal);
+        this.model= new GetbackModel(this.db.myglobal);
+        this.product = new ProductModel(this.db.myglobal);
     }
 
     initViewOptions() {
