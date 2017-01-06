@@ -148,7 +148,7 @@ export class UserModel extends ModelBase{
         this.paramsSearch.title="Buscar usuario";
         this.paramsSearch.placeholder="Ingrese el usuario";
         this.paramsSearch.label.title="Alias: ";
-        this.paramsSearch.label.detail="Correo: "
+        this.paramsSearch.label.detail=""
     }
     initParamsSave() {
         this.paramsSave.title="Agregar usuario"
