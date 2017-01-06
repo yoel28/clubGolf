@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
-import {Router, RoutesRecognized} from "@angular/router";
+import {Router, RoutesRecognized, NavigationStart} from "@angular/router";
 import {Http} from "@angular/http";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
@@ -44,7 +44,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         localStorage.setItem('url', url);
 
         router.events.subscribe((event: any) => {
+            if(event instanceof NavigationStart){
+                that.myglobal.navigationStart= true;
+            }
             if (event instanceof RoutesRecognized) {
+                that.myglobal.navigationStart= false;
                 let componentName =  event.state.root.children[0].component['name'];
                 let isPublic = that.isPublic(componentName);
 
