@@ -2,8 +2,11 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th *ngFor="let key of keyVisible()">
-                {{model.rules[key].title}}
+            <th *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
+                <i *ngIf="sort==key && order == 'asc' && !findData" class="fa fa-caret-up text-blue"></i>
+                <i *ngIf="sort==key && order == 'desc' && !findData" class="fa fa-caret-down text-blue"></i>
+                <i *ngIf="sort==key && findData" class="fa fa-spinner fa-spin"></i>
+                &nbsp;{{model.rules[key].title}}
             </th>
             <th *ngIf="params.actions">&nbsp;
                 <tooltip-view [code]="model.prefix+'_5'"></tooltip-view>
@@ -12,7 +15,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let data of dataList.list">
-            <td *ngFor="let key of keyVisible()">
+            <td *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check">
 
                 <span *ngIf="!getDisabledField(key,data)">
                     <i *ngIf="model.rules[key].iconVisible" class="{{model.rules[key].iconVisible}}">&nbsp;</i>
