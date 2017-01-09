@@ -26,6 +26,7 @@ export class RecordInOutComponent extends ControllerBase {
     initModel(){
         this.model = new RecordModel(this.db.myglobal);
 
+        delete (<RecordModel>this.model).rulesSave['entering'];
         this.model=Object.assign({},this.model)
 
     }
@@ -41,29 +42,10 @@ export class RecordInOutComponent extends ControllerBase {
         this.onSave(body);
     }
     formValid():boolean{
-        let countError=0;
-        if(!(this.instanceForm && this.instanceForm.form && this.instanceForm.form.valid)){
-            countError++;
-        }
-
         if(this.instanceForm && this.instanceForm.form){
-            if(this.instanceForm.searchId['user'] && this.instanceForm.searchId['user'].id){
-                this.instanceForm.form.controls['userName'].setValue(null);
-                this.instanceForm.form.controls['userType'].setValue(null);
-            }
-
-            if(!this.instanceForm.searchId['user'])
-            {
-                this.instanceForm.rules['userName'].required = true;
-                this.instanceForm.rules['userType'].required = true;
-
-                if(!this.instanceForm.form.controls['userName'].value)
-                    countError++;
-                if(!this.instanceForm.form.controls['userType'].value)
-                    countError++;
-            }
+            return this.instanceForm.isValidForm();
         }
-        return countError==0?true:false;
+        return false;
     }
 
 }
