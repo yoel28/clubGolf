@@ -82,7 +82,12 @@
                                         <button *ngIf="rules[key].object" tabindex="-1" type="button"
                                                 class="btn btn-box-tool fa fa-search text-blue" [attr.title]="db.msg.find"
                                                 (click)="getLoadSearch($event,rules[key])">
-                                                <span *ngIf="search && search.key ==  key" class="label label-green" [attr.title]="search.paramsSearch.count+' Coincidencia(s)'">({{search.paramsSearch.count}})</span>
+                                                <span *ngIf="search && search.key ==  key && !findData" class="label label-green label-radius" [attr.title]="search.paramsSearch.count+' Coincidencia(s)'">
+                                                    {{search.paramsSearch.count}}
+                                                </span>
+                                                <!--<span *ngIf="search && search.key ==  key && findData"[attr.title]="db.msg.findData">-->
+                                                    <!--<i class="fa fa-spinner fa-spin"></i>-->
+                                                <!--</span>-->
                                         </button>
                                         <span></span>
 
