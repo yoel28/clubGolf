@@ -129,7 +129,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     keyboardInput(event: any) {
         if(event.code=="Enter" || event.code=="NumpadEnter"){
             let key = event.path[0].accessKey;
-            if(key && this.rules[key] && this.rules[key].objectOrSave){
+            if(key && this.rules[key] && this.rules[key].object){
                 this.loadAndSetDataSearch(true);
             }
         }
@@ -211,7 +211,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         event.preventDefault();
         this.max=5;
         this.searchView=true;
-        this.findControl=this.data[data.key].value;
+        this.findControl=this.data[data.key].value || '';
         this.search=data;
         this.getSearch(event,this.findControl);
     }
@@ -225,16 +225,20 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             if(that.search && that.search.key){
                 this.search.paramsSearch.count = this.dataList.count;
                 if(that.rules[that.search.key] && !that.rules[that.search.key].objectOrSave){
-                    that.loadAndSetDataSearch();
+                    that.loadAndSetDataSearch(this.searchView);
                 }
             }
         });
     }
     loadAndSetDataSearch(searchView=false){
         if(this.dataList && this.dataList.count && this.dataList.count==1)//cuando existe un solo elemento se carga automatico
+        {
             this.getDataSearch(this.dataList.list[0]);
-        else if(this.dataList && this.dataList.count && this.dataList.count > 1)
+        }
+
+        else if(this.dataList && this.dataList.count && this.dataList.count > 1){
             this.searchView = searchView;
+        }
 
     }
     //accion al dar click en el boton de cerrar el formulario
