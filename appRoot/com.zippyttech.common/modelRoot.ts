@@ -133,6 +133,8 @@ export abstract class ModelRoot{
             'permission': this.permissions.add,
             'idModal': this.prefix + '_' + this.configId + '_add',
             'endpoint': this.endpoint,
+            'customValidator':null,
+            'customActions':[],
         };
     }
 
