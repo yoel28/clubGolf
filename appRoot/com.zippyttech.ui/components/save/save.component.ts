@@ -4,6 +4,8 @@ import {FormComponent} from "../form/form.component";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
+declare var moment:any;
+declare var jQuery:any;
 @Component({
     selector: 'save-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/save/index.html',
@@ -19,6 +21,8 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     public instanceForm:FormComponent;
     public save:any;
     public getInstance:any;
+    public actions:any;
+    public configId = moment().valueOf();
 
     constructor(public db:DependenciesBase) {
         super(db.http,db.toastyService,db.toastyConfig);
@@ -40,8 +44,8 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         }
     }
 
-    submitForm(event){
-        event.preventDefault();
+    submitForm(event,addBody=null){
+
         let that = this;
         let successCallback= response => {
             that.addToast('Notificacion','Guardado con éxito');
@@ -49,15 +53,25 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
             that.save.emit(response.json());
         };
         this.setEndpoint(this.params.endpoint);
-        let body = this.instanceForm.getFormValues();
+        let body = this.instanceForm.getFormValues(addBody);
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.instanceForm.id,JSON.stringify(body),this.instanceForm.dataSelect,this.error);
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
+    formActions(){
+        if(this.params.updateField)
+            return [{'title':'Actualizar','class':'btn btn-blue','icon':'fa fa-save','addBody':null}];
+
+        if(this.params.customActions && this.params.customActions.length > 0)
+            return this.params.customActions;
+
+        return [{'title':'Registrar','class':'btn btn-primary','icon':'fa fa-save','addBody':null}]
+    }
+
     formValid():boolean{
-        if(this.instanceForm && this.instanceForm.form && this.instanceForm.form.valid){
-            return true;
+        if(this.instanceForm && this.instanceForm.form){
+            return this.instanceForm.isValidForm();
         }
         return false;
     }
