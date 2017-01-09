@@ -38,6 +38,13 @@ export class RegisterFullComponent extends RestController implements OnInit{
         this.initViewOptions();
     }
 
+    prueba(event){ //TODO:Prueba para cambiar validadores
+        if(event)
+            event.preventDefault();
+        (<FormControl>this.user.form.controls.email).setValidators(null);
+        (<FormControl>this.user.form.controls.email).updateValueAndValidity();
+    }
+
     initModel() {
         this.model= new RegisterFullModel(this.myglobal);
     }
