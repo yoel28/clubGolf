@@ -127,7 +127,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     @HostListener('keydown', ['$event'])
     keyboardInput(event: any) {
-        if(event.code=="Enter"){
+        if(event.code=="Enter" || event.code=="NumpadEnter"){
             let key = event.path[0].accessKey;
             if(key && this.rules[key] && this.rules[key].objectOrSave){
                 this.loadAndSetDataSearch(true);
@@ -153,7 +153,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
-    public getFormValues(){
+    public getFormValues(addBody=null){
         let that = this;
         let body = Object.assign({},this.form.value);
         Object.keys(body).forEach((key:string)=>{
@@ -196,6 +196,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 }
             }
         });
+        if(addBody && typeof addBody == 'object'){ //TODO:agregar parametros extrar... no implementado
+            body.push(addBody)
+        }
         return body;
     }
     //objecto del search actual
@@ -351,6 +354,13 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     }
     hiddenFormControl(exp='false'){
         return eval(exp);
+    }
+
+    isValidForm():boolean{
+        if(this.form && this.form.valid){
+            return this.params.customValidator?this.params.customValidator(this):true;
+        }
+        return false
     }
 }
 
