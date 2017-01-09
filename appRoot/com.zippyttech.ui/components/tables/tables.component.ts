@@ -8,6 +8,7 @@ import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var moment:any;
+declare var jQuery:any;
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
@@ -17,7 +18,7 @@ declare var moment:any;
 })
 
 export class TablesComponent extends RestController implements OnInit {
-
+    private bandprue:boolean = true;
 
     public params:any={};
     public model:any={};
@@ -187,6 +188,17 @@ export class TablesComponent extends RestController implements OnInit {
         else
             that.modelReference.model.setDataField(data[that.modelReference.code],that.model.ruleObject.key,null,that.modelReference.callback,data);
 
+    }
+    private prue(){
+        jQuery('#yyyy').footable({
+            "Breakpoints": {
+                "xs": 480,
+                "sm": 768,
+                "md": 992,
+                "lg": 1200
+            }
+        });
+        this.bandprue = false;
     }
 
     public formatDateId={};
