@@ -17,6 +17,7 @@ export class RecordModel extends ModelBase{
     private location:any;
     private company:any;
 
+
     constructor(public myglobal:globalService){
         super('RECORD','/records/',myglobal);
         this.initModel();
@@ -33,7 +34,7 @@ export class RecordModel extends ModelBase{
     initRules(){
 
         this.rules['user'] = this.user.ruleObject;
-        this.rules['user'].title='Cedula o Id socio';
+        this.rules['user'].title='Socio';
         this.rules['user'].required=true;
         this.rules['user'].keyDisplay='userName';
 
@@ -135,7 +136,37 @@ export class RecordModel extends ModelBase{
         this.paramsSearch.placeholder="Ingrese el registro";
     }
     initParamsSave() {
-        this.paramsSave.title="Agregar un registro"
+        this.paramsSave.title="Agregar un registro";
+        this.paramsSave.customValidator=(that):boolean=>{
+            let countError=0;
+            if(!(that && that.form && that.form.valid)){
+                countError++;
+            }
+            if(that && that.form){
+                if(that.searchId['user'] && that.searchId['user'].id){
+                    that.form.controls['userName'].setValue(null);
+                    that.form.controls['userType'].setValue(null);
+                }
+                if(!that.searchId['user'])
+                {
+                    that.rules['userName'].required = true;
+                    that.rules['userType'].required = true;
+
+                    if(!that.form.controls['userName'].value)
+                        countError++;
+                    if(!that.form.controls['userType'].value)
+                        countError++;
+                }
+            }
+            return countError==0?true:false;
+        }
+        this.paramsSave.customActions=[ //TODO: Perdio enlace en el dissmis del modal...
+            {'title':'Entrada','class':'btn btn-blue','icon':'fa fa-angle-double-up'   ,'addBody':{'entering':true}},
+            {'title':'Salida' ,'class':'btn btn-green','icon':'fa fa-angle-double-down','addBody':{'entering':true}}
+        ]
+
+
+
     }
     initRuleObject() {
         this.ruleObject.title="Registro";
@@ -146,6 +177,19 @@ export class RecordModel extends ModelBase{
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
+
+        this.rulesSave["entering"] = {
+            'required': true,
+            "type": "boolean",
+            'source': [
+                {'value':true,'text': 'Entrando', 'class': 'btn btn-sm btn-green'},
+                {'value':false,'text': 'Saliendo', 'class': 'btn btn-sm btn-red'},
+            ],
+            "key": "entering",
+            "title": "Dirección",
+        };
+
+
         delete this.rulesSave.enabled;
         delete this.rulesSave.dateIn;
         delete this.rulesSave.dateOut;
