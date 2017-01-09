@@ -1,5 +1,5 @@
 <div *ngIf="params && rules">
-    <div class="modal fade" [attr.id]="params.idModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div [attr.id]="configId+'_ADD'" class="modal fade" [attr.id]="params.idModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" [class.modal-lg]="existloadSearch()">
             <div class="modal-content">
                 <div class="modal-header text-center bg-green-club">
@@ -26,6 +26,11 @@
                         <i class="fa fa-save"></i>
                         &nbsp;{{params.updateField?'Actualizar':'Registrar'}}
                     </button>
+                    <!-- Botones no hacen dissmis y se tiene q clickear dos veces...-->
+                    <!--<button *ngFor="let action of formActions()" (click)="submitForm($event,action.addBody)" data-dismiss="modal" type="button" class="{{action.class}}" [disabled]="!formValid()">-->
+                    <!--<i class="{{action.icon || 'fa fa-list'}}"></i>-->
+                    <!--&nbsp;{{action.title}}-->
+                    <!--</button>-->
                 </div>
             </div>
         </div>
