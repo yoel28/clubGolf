@@ -15,9 +15,22 @@
                 </div>
                 <div *ngIf="!dataOk">
                     <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" >
-                        <div class="box box-block {{ (user && user.form && user.form.valid)?'valid':'error' }}">
+
+                        <div [hidden]="(user && user.form && user.form.valid)" class="box box-block {{ (userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">Usuario</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <form-view [onlyRequired]="true" (getInstance)="userObjectInstance=$event" [params]="model.user.paramsSave" [rules]="userObject"></form-view>
+                            </div>
+                        </div>
+
+                        <div [hidden]="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="box box-block {{ (user && user.form && user.form.valid)?'valid':'error' }}">
+                            <div class="box-header">
+                                <h3 class="box-title letra-grande">Registrar usuario</h3>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 </div>
