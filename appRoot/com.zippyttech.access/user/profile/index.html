@@ -22,7 +22,7 @@
                                                    [data]="db.myglobal.user" [rules]="model.rules" [field]="key">
                                                 </a>
                                                 <a *ngIf="model.rules[key].object">
-                                                    {{db.myglobal.user[key]}}
+                                                    {{db.myglobal.user[model.rules[key].keyDisplay]}}
                                                 </a>
                                             </p>
                                         </div>
