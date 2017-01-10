@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, DoCheck, AfterViewChecked, AfterViewInit} from "@angular/core";
 import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
@@ -9,16 +9,18 @@ import {ToastyService, ToastyConfig} from "ng2-toasty";
 declare var SystemJS:any;
 declare var moment:any;
 declare var jQuery:any;
+
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
     inputs:['params','model','dataList','where'],
-    outputs:['getInstance'],
+    outputs:['getInstance']
 })
 
-export class TablesComponent extends RestController implements OnInit {
-    private bandprue:boolean = true;
+export class TablesComponent extends RestController implements OnInit{
+
+    private bandprue:boolean = false;
 
     public params:any={};
     public model:any={};
@@ -49,7 +51,9 @@ export class TablesComponent extends RestController implements OnInit {
         this.setEndpoint(this.params.endpoint);
         this.getListObjectNotReferenceSave();
     }
+
     ngAfterViewInit() {
+        this.bandprue = true;
         this.getInstance.emit(this);
     }
 
@@ -189,17 +193,6 @@ export class TablesComponent extends RestController implements OnInit {
             that.modelReference.model.setDataField(data[that.modelReference.code],that.model.ruleObject.key,null,that.modelReference.callback,data);
 
     }
-    private prue(){
-        jQuery('#yyyy').footable({
-            "Breakpoints": {
-                "xs": 480,
-                "sm": 768,
-                "md": 992,
-                "lg": 1200
-            }
-        });
-        this.bandprue = false;
-    }
 
     public formatDateId={};
     public dateHmanizer = StaticValues.dateHmanizer;
@@ -255,8 +248,5 @@ export class TablesComponent extends RestController implements OnInit {
     public getObjectKeys(data){
         return Object.keys(data || {});
     }
-
-
-
 
 }
