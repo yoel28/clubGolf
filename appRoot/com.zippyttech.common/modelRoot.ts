@@ -19,6 +19,8 @@ export abstract class ModelRoot{
     private rulesDefault:any = {};
     public rules:Object={};
 
+    public dataList={};
+
 
     constructor(prefix,endpoint,public myglobal:globalService,useGlobal=true){
         this.prefix = prefix;
