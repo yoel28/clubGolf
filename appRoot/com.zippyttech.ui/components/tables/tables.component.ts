@@ -43,9 +43,11 @@ export class TablesComponent extends RestController implements OnInit {
 
     ngOnInit()
     {
-        this.keyActions=Object.keys(this.params.actions);
+        this.keyActions=[];
+        if(this.params && this.params.actions)
+            this.keyActions=Object.keys(this.params.actions);
         this.getInstance = new EventEmitter();
-        this.setEndpoint(this.params.endpoint);
+        this.setEndpoint(this.params? this.params.endpoint:'');
         this.getListObjectNotReferenceSave();
     }
     ngAfterViewInit() {
