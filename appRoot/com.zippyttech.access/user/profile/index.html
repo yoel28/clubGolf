@@ -38,7 +38,9 @@
                             </div>
                         </div>
                         <div class="panel-body">
-
+                            <div *ngIf="vehicle && vehicle.completed && vehicle.dataList && vehicle.dataList.list">
+                                <tables-view [dataList]="vehicle.dataList" [model]="vehicle" [params]="vehicle.paramsTable" ></tables-view>
+                            </div>
                         </div>
                     </div>
                 </div>
