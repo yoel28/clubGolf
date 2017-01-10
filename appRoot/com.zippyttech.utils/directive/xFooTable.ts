@@ -1,23 +1,26 @@
-import {ElementRef, Directive} from "@angular/core";
+import {ElementRef, Directive, Input, AfterViewInit} from "@angular/core";
 
 declare let jQuery:any;
 
 @Directive({
     selector: "[x-footable]"
 })
-export class XFooTable {
-    constructor(el: ElementRef) {
-        jQuery(el.nativeElement).footable({
-            "Breakpoints": {
-                "xs": 480,
-                "sm": 768,
-                "md": 992,
-                "lg": 1200
-            }
+export class XFooTable{
+    private _active:boolean;
+    @Input('x-footable')
+    set active(value:boolean) {
+        this._active = value;
+        console.log("FOOTABLE:"+((this._active)?"TRUE":"FALSE"));
+        if(this._active)
+            this.run();
+    }
 
-        });
-        jQuery(el.nativeElement).bind('footable_breakpoint', function() {
-            jQuery(el.nativeElement).trigger('footable_expand_first_row');
-        }).footable();
+    constructor(private el: ElementRef){
+        this.active = false;
+    }
+
+    private run()
+    {
+        jQuery(this.el.nativeElement).footable();
     }
 }
