@@ -51,6 +51,18 @@ export class ProductTypeModel extends ModelBase{
             'title':'Nombre',
             'placeholder':'Nombre',
         };
+        this.rules['intervalMinutes']={
+            'type':'number',
+            'step':'1',
+            'disabled':'data.type == "unidad"',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key':'intervalMinutes',
+            'icon': 'fa fa-list',
+            'title':'Intervalo',
+            'placeholder':'Minutos',
+        };
 
         this.rules['type']={
             'type':'select',
@@ -63,7 +75,7 @@ export class ProductTypeModel extends ModelBase{
             'placeholder':'Tipo',
             'source':[
                 {'value':'unidad','text': 'Unidad', 'class': 'btn btn-sm btn-green'},
-                {'value':'unidad','text': 'Tiempo', 'class': 'btn btn-sm btn-red'},
+                {'value':'tiempo','text': 'Tiempo', 'class': 'btn btn-sm btn-red'},
             ]
         };
         this.rules['minPrice']={
