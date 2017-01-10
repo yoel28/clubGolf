@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 
@@ -11,6 +12,7 @@ declare var SystemJS:any;
     selector: 'acl',
     templateUrl: SystemJS.map.app+'/com.zippyttech.access/acl/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/acl/style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class AclComponent extends RestController implements OnInit{
 
@@ -143,6 +145,7 @@ export class AclComponent extends RestController implements OnInit{
     
     //Guardar Permisos
     savePermissions(){
+        let that =  this;
         let permissions=[];
         this.role.permissions.forEach(obj=>{
             permissions.push(obj.id);
@@ -151,6 +154,7 @@ export class AclComponent extends RestController implements OnInit{
         let successCallback= response => {
             let index = this.dataRoles.list.findIndex(obj => obj.id == this.role.id);
             this.dataRoles.list[index].permissions = this.role.permissions;
+            that.addToast('Notificación','Guardado con exito');
         }
         this.httputils.doPost('/role/'+this.role.id+'/permissions/',body,successCallback,this.error)
     }

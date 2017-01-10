@@ -12,6 +12,7 @@ import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 declare var SystemJS:any;
 declare var moment:any;
+
 @NgModule({
     imports:[XEditable,ColorPicker,SearchComponent,SaveComponent]
 })

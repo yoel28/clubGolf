@@ -1,11 +1,8 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {FormGroup, FormControl} from "@angular/forms";
-import {Http} from "@angular/http";
-
 import {isNumeric} from "rxjs/util/isNumeric";
 import {RestController} from "../../../com.zippyttech.rest/restController";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -116,8 +113,8 @@ export class FilterComponent extends RestController implements OnInit{
     data:any = {};
     keys:any = {};
 
-    constructor(public http: Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db.http,db.toastyService,db.toastyConfig);
         this.whereFilter = new EventEmitter();
     }
     ngOnInit() {
@@ -215,6 +212,13 @@ export class FilterComponent extends RestController implements OnInit{
         let dataWhere=[];
         let that=this;
         Object.keys(this.rules).forEach( key=>{
+            if(that.rules[key].type=='boolean' && that.form.value[key]=='-1')
+                that.form.controls[key].setValue(null);
+            if(that.rules[key].type=='select' && that.form.value[key]=='-1')
+                that.form.controls[key].setValue(null);
+            if(that.rules[key].type=='filter' && that.form.value[key]=='-1')
+                that.form.controls[key].setValue(null);
+
             if ((this.form.value[key] && this.form.value[key] != "") || that.form.value[key + 'Cond'] == 'isNull')
             {
                 let whereTemp:any = {};//Fila de where para un solo elemento
@@ -223,12 +227,17 @@ export class FilterComponent extends RestController implements OnInit{
                 whereTemp.op = that.form.value[key + 'Cond'];//condicion
                 whereTemp.field = that.rules[key].key || key;//columna
 
+                if(that.rules[key].type=='filter'){
+                    whereTemp = that.rules[key].where[this.form.value[key]];
+                }
+
+
                 if (that.rules[key].subType)//si existe un subtype lo agregamos
                 {
                     whereTemp.type = that.rules[key].subType;
                 }
 
-                if (whereTemp.op != 'isNull')// si es diferente de nulo, carge el value
+                if (whereTemp.op != 'isNull' && whereTemp.op != 'isNotNull')// si es diferente de nulo, carge el value
                 {
                     whereTemp.value = that.form.value[key];//valor
 
@@ -294,6 +303,10 @@ export class FilterComponent extends RestController implements OnInit{
                         whereTemp.value=null;
                         if(that.searchId[key] && that.searchId[key].id)
                             whereTemp.value = that.searchId[key].id;
+                    }
+
+                    if(that.rules[key].type == 'boolean'){
+                        whereTemp.value = whereTemp.value=='true'?true:false;
                     }
                 }
 

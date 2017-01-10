@@ -117,5 +117,10 @@ export class StateModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.productDisabling;
+        delete this.rulesSave.userDisabling;
+        delete this.rulesSave.qrDisabling;
+        delete this.rulesSave.billAdd;
+        delete this.rulesSave.mustComment;
     }
 }

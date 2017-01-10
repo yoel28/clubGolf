@@ -3,10 +3,14 @@ import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RoleModel} from "../role/role.model";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType.model";
+import {UserStatusModel} from "../../com.zippyttech.club/catalog/userStatus/userStatus.model";
+import {ContractModel} from "../../com.zippyttech.club/catalog/contract/contract.model";
 
 export class UserModel extends ModelBase{
-    public role:any;
-    public type:any;
+    private role:any;
+    private type:any;
+    private status:any;
+    private contract:any;
     public pathElements=StaticValues.pathElements;
 
     constructor(public myglobal:globalService){
@@ -17,6 +21,8 @@ export class UserModel extends ModelBase{
     modelExternal() {
         this.role= new RoleModel(this.myglobal);
         this.type= new UserTypeModel(this.myglobal);
+        this.status= new UserStatusModel(this.myglobal);
+        this.contract = new ContractModel(this.myglobal);
     }
     initRules(){
 
@@ -28,14 +34,15 @@ export class UserModel extends ModelBase{
             'title': 'ID',
             'placeholder': 'ID',
         };
-        this.rules['contractCode']={
+
+        this.rules['idCard']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'contractCode',
-            'title': 'Contrato',
-            'placeholder': 'Contrato',
+            'key': 'idCard',
+            'title': 'Cédula',
+            'placeholder': 'Cédula',
         };
         this.rules['name']={
             'type': 'text',
@@ -68,6 +75,17 @@ export class UserModel extends ModelBase{
             'title': 'Teléfono',
             'placeholder': 'Teléfono',
         };
+
+        this.rules['address']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'address',
+            'title': 'Dirección',
+            'placeholder': 'Dirección',
+        };
+
         this.rules['password']={
             'type': 'password',
             'required':true,
@@ -104,7 +122,13 @@ export class UserModel extends ModelBase{
         };
 
         this.rules['userType']=this.type.ruleObject;
-        this.rules['userType'].required=true;
+        this.rules['userType'].required=false;
+
+        this.rules['contract']=this.contract.ruleObject;
+        this.rules['contract'].required=false;
+
+        this.rules['userStatus']=this.status.ruleObject;
+        this.rules['userStatus'].required=false;
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
@@ -124,7 +148,7 @@ export class UserModel extends ModelBase{
         this.paramsSearch.title="Buscar usuario";
         this.paramsSearch.placeholder="Ingrese el usuario";
         this.paramsSearch.label.title="Alias: ";
-        this.paramsSearch.label.detail="Correo: "
+        this.paramsSearch.label.detail=""
     }
     initParamsSave() {
         this.paramsSave.title="Agregar usuario"

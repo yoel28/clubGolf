@@ -1,0 +1,91 @@
+<section [@animation_0]="'true'" class="content container">
+        <div class="background-grandient {{classCol(10,10,11,12)}}">
+            <div class="{{classCol(12,12,12,12)}} margin-top-5">
+                <div class="text-white text-center margin-bottom-5">
+                    <span class="text-x-large">Registro de entrada y salida</span>
+                </div>
+                <form role="form">
+                    <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="step1">
+                            <div class="row">
+                                <div class="{{classCol(12,12,12,12)}} text-center margin-top-5">
+                                    <form-view
+                                            (getInstance)="setForm($event)"
+                                            [params]="model.paramsSave"
+                                            [rules]="model.rulesSave">
+                                    </form-view>
+                                </div>
+                                <div class="{{classCol(12,12,12,12)}}">
+                                    <button [disabled]="!formValid()" (click)="saveForm($event)" class="btn btn-blue"><i class="fa fa-angle-double-up"></i>&nbsp;Entrada</button>
+                                    <button [disabled]="!formValid()" (click)="saveForm($event,false)" class="btn btn-green"><i class="fa fa-angle-double-down"></i>&nbsp;Salida</button>
+                                </div>
+                            </div>
+                            <div class="row margin-top-5">
+                                <div class="{{classCol(6,6,6,12)}}">
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnUsuario">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Usuarios</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                    </div>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnFamilia">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Familia</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                    </div>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnToallas">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Toallas</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="{{classCol(6,6,6,12)}}">
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnInvitados">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Invitados</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                    </div>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnCarrito">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Carros de Golf</strong><br>
+                                            Escanea el servicio
+                                        </div>
+                                    </div>
+                                    <div class="margin-top-5 row">
+                                        <div class="{{classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="pathElements.btnServicios">
+                                        </div>
+                                        <div class="{{classCol(9,8,7,7)}}">
+                                            <strong>Servicios</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>

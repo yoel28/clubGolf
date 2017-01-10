@@ -75,6 +75,7 @@ export class StaticValues {
     {
         return {
             'format': 'dd/mm/yyyy, LT',
+            'formatView': 'DD/MM/YYYY, LT',
             'startDate': '01/01/2016',
             'startView': 2,
             'minViewMode': 0,
@@ -108,6 +109,8 @@ export class StaticValues {
     public static get pathElements(){
         return{
             'isotipo':          'assets/img/default/zippy/isotipo.png',
+            'isotipoMini':      'assets/img/default/zippy/isotipo-mini.png',
+            'favicon':          'assets/img/default/zippy/favicon.png',
             'isotipo-blanco':   'assets/img/default/zippy/isotipo-blanco.png',
             'logo':             'assets/img/clubGolf/logo.png',
             'logoBlanco':       'assets/img/clubGolf/logo.png',
@@ -165,6 +168,14 @@ export class StaticValues {
         msg.getProducts="Recepción de productos";
         msg.clickChange="Click para cambiar";
         msg.add="Agregar";
+        msg.find="Buscar";
+        msg.introValueFind="Ingrese valor para buscar";
+        msg.findData="Buscando información, por favor espere";
+        msg.close="Cerrar";
+        msg.selectOption="Seleccione una opción";
+        msg.notAuthorized="Acceso no autorizado";
+        msg.select="Seleccionar";
+        msg.config="Configuración";
 
         return msg;
 

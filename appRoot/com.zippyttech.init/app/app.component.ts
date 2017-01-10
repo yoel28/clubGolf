@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
-import {Router, RoutesRecognized} from "@angular/router";
+import {Router, RoutesRecognized, NavigationStart} from "@angular/router";
 import {Http} from "@angular/http";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
@@ -12,6 +12,7 @@ import {FormControl} from "@angular/forms";
 import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -19,6 +20,7 @@ declare var SystemJS:any;
     selector: 'my-app',
     templateUrl: SystemJS.map.app+'com.zippyttech.init/app/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/app/style.css'],
+    animations: AnimationsManager.getTriggers("d-fade|expand_down",150)
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
     public pathElement = StaticValues.pathElements;
@@ -42,7 +44,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         localStorage.setItem('url', url);
 
         router.events.subscribe((event: any) => {
+            if(event instanceof NavigationStart){
+                that.myglobal.navigationStart= true;
+            }
             if (event instanceof RoutesRecognized) {
+                that.myglobal.navigationStart= false;
                 let componentName =  event.state.root.children[0].component['name'];
                 let isPublic = that.isPublic(componentName);
 
@@ -98,8 +104,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     ngAfterContentChecked(){
 
     }
-    @HostListener('window:resize') onResize() {
+
+    @HostListener('window:resize' , ['$event'])
+    onResize(event) {
         //TODO:Cambiar menu
+        this.myglobal.visualData.height = event.target.innerWidth;
     }
 
     public isPublic(component: string) {
@@ -140,12 +149,26 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     }
 
     activeMenu(event, id) {
+
+        this.menuItems.value.forEach((v)=>
+        {
+            if(this.activeMenuId === v.key && this.activeMenuId !== id)
+                v.select = false;
+
+            if(id === v.key)
+                v.select = !v.select;
+        });
+
         if(event)
             event.preventDefault();
-        if (this.activeMenuId == id)
+
+        if (this.activeMenuId == id) {
             this.activeMenuId = "";
-        else
+        }
+        else {
             this.activeMenuId = id;
+        }
+
     }
     loadPage() {
         if(!this.menuType.value)
@@ -170,12 +193,14 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-dollar',
                 'title': 'Dashboard',
                 'routerLink': '/init/dashboard'
+
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE']),
+                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_USERS']),
@@ -188,6 +213,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-user',
                         'title': 'Tipos de usuarios',
                         'routerLink': '/access/user/type'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_USER_STATUS']),
+                        'icon': 'fa fa-user',
+                        'title': 'Estatus de usuarios',
+                        'routerLink': '/access/user/status'
                     },
                     {
                         'visible': this.myglobal.existsPermission(['MEN_ACL']),
@@ -213,6 +244,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Cuentas',
                         'routerLink': '/access/account'
                     },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_CONT']),
+                        'icon': 'fa fa-user',
+                        'title': 'Contratos',
+                        'routerLink': '/club/catalog/contract'
+                    },
                 ]
             });
             this.menuItems.value.push({
@@ -220,6 +257,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-gears',
                 'title': 'Configuración',
                 'key': 'Configuracion',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_EVENT']),
@@ -252,6 +290,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-gears',
                 'title': 'Catalogo',
                 'key': 'Catalogo',
+                'select' : false,
                 'treeview': [
                     {
                         'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
@@ -276,13 +315,32 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'QR Codigos',
                         'routerLink': '/club/catalog/qr'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_COMPANY']),
+                        'icon': 'fa fa-list',
+                        'title': 'Empresas',
+                        'routerLink': '/club/catalog/company'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_ANTENNA']),
+                        'icon': 'fa fa-list',
+                        'title': 'Antenas',
+                        'routerLink': '/club/catalog/antenna'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_LOCATION']),
+                        'icon': 'fa fa-list',
+                        'title': 'Ubicaciones',
+                        'routerLink': '/club/catalog/location'
                     }
                 ]
             });
             this.menuItems.value.push({
                 'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
-                'title': 'operaciones',
+                'select' : false,
+                'title': 'Operaciones',
                 'key': 'Operaciones',
                 'treeview': [
                     {
@@ -302,6 +360,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Lista de Op.',
                         'routerLink': '/club/catalog/trade'
+                    },
+                    {
+                        'visible': this.myglobal.existsPermission(['MEN_RECORD_LIST']),
+                        'icon': 'fa fa-list',
+                        'title': 'Lista registro',
+                        'routerLink': '/club/catalog/record'
                     }
 
                 ]
@@ -312,6 +376,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
+                'select': false,
                 'treeview': [
 
                     {
@@ -349,6 +414,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             });
         }
     }
+
     menuItemsVisible(menu) {
         let data = [];
         menu.forEach(obj=> {

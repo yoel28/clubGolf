@@ -6,16 +6,27 @@ import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 export class QrcodeModel extends ModelBase{
     public rules={};
     public pathElements=StaticValues.pathElements;
-    public user:any;
+    public sponsor:any;
+    public guest:any;
 
     constructor(public myglobal:globalService){
         super('QRCODE','/qr/codes/',myglobal);
         this.initModel();
     }
     modelExternal() {
-        this.user = new UserModel(this.myglobal);
+        this.sponsor = new UserModel(this.myglobal);
+        this.guest = new UserModel(this.myglobal);
     }
     initRules(){
+
+        this.rules['id']={
+            'type': 'number',
+            'visible':this.permissions.visible,
+            'search':this.permissions.search,
+            'title': 'Código',
+            'iconVisible':'fa fa-qrcode',
+            'placeholder': 'Código',
+        };
 
         this.rules['email']={
             'type': 'text',
@@ -28,17 +39,23 @@ export class QrcodeModel extends ModelBase{
             'placeholder': 'Correo',
         };
 
-        this.rules['sponsor']=Object.assign({},this.user.ruleObject);
+        this.rules['sponsor']=Object.assign({},this.sponsor.ruleObject);
         this.rules['sponsor'].title='Patrocinador';
         this.rules['sponsor'].keyDisplay='sponsorEmail';
         this.rules['sponsor'].key='sponsor';
         this.rules['sponsor'].required=false;
+        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
-        this.rules['guest']=Object.assign({},this.user.ruleObject);
+        this.rules['guest']=Object.assign({},this.guest.ruleObject);
         this.rules['guest'].title='Invitado';
         this.rules['guest'].keyDisplay='guestEmail';
         this.rules['guest'].key='guest';
         this.rules['guest'].required=false;
+        this.rules['guest'].placeholder='Invitado';
+        this.rules['guest'].paramsSearch.field='guest.id';
+
+
 
 
 
@@ -100,5 +117,6 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.enabled;
         delete this.rulesSave.code;
         delete this.rulesSave.guest;
+        delete this.rulesSave.id;
     }
 }

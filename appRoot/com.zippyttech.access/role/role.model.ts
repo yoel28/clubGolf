@@ -1,7 +1,7 @@
-import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
+import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 
-export class RoleModel extends ModelBase{
+export class RoleModel extends ModelRoot{
     public rules={};
     constructor(public myglobal:globalService){
         super('ROLE','/roles/',myglobal);
@@ -21,7 +21,6 @@ export class RoleModel extends ModelBase{
             'placeholder': 'Nombre del perfil',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
-        delete this.rules['detail'];
     }
     initPermissions() {}
     initParamsSearch() {

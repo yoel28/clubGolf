@@ -18,12 +18,20 @@ export class RegisterFullModel extends ModelBase{
     }
     modelExternal() {
         this.user = new UserModel(this.myglobal);
-        this.vehicle = new VehicleModel(this.myglobal);
+        this.vehicle = new VehicleModel(this.myglobal,false);
         this.tags = new TagModel(this.myglobal);
     }
     initRules() {
         this.rules['user'] =  this.user.ruleObject;
         this.rules['vehicle'] =  this.vehicle.ruleObject;
+        delete this.rules['vehicle'].rulesSave['user'];
+        delete this.rules['vehicle'].rulesSave['year'];
+        delete this.rules['vehicle'].rulesSave['color'];
+        delete this.rules['vehicle'].rulesSave['model'];
+        delete this.rules['vehicle'].rulesSave['vehicleType'];
+        delete this.rules['vehicle'].rulesSave['detail'];
+
+
         this.rules['tags'] =  this.tags.ruleObject;
     }
     initPermissions() {}

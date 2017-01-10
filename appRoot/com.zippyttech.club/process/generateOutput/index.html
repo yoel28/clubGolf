@@ -1,4 +1,4 @@
-<div>
+<div [@animation_0] = '"true"'>
     <section class="content container">
         <div class="background-grandient {{classCol(10,10,11,12)}}">
             <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
@@ -26,8 +26,15 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div>
-
+                                    <div class="form-group input-icon right" style="margin-top: 15px">
+                                        <div class="{{classCol(12,12,12,12)}}">
+                                            <div class="input-icon right">
+                                                <i class="fa fa-qrcode"></i>
+                                                <form (submit)="searchQr($event)">
+                                                    <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="{{classCol(6,6,6,12)}} margin-top-5">
@@ -139,7 +146,7 @@
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Numero de contrato</td>
-                                            <td>{{dataClient.sponsorContractCode}}</td>
+                                            <td>{{dataClient.sponsorContract}}</td>
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Usuario</td>
@@ -147,7 +154,7 @@
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Despachador</td>
-                                            <td>{{myglobal.user.username}}</td>
+                                            <td>{{db.myglobal.user.username}}</td>
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Invitado</td>
@@ -165,7 +172,7 @@
                                                    placeholder="ESCANEAR PRODUCTO" type="text">
                                         </div>
                                     </form>
-                                    <button class="btn  btn-green btn-block" (click)="saveProduct($event)">
+                                    <button class="btn btn-green btn-block" (click)="saveProduct($event)" [disabled]="disableSubmit()">
                                         TERMINAR
                                     </button>
                                 </div>

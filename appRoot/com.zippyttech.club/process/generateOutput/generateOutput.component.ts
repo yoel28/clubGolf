@@ -1,23 +1,24 @@
-import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {WebSocket} from "../../../com.zippyttech.utils/websocket";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
-import {Router} from "@angular/router";
-import {Http} from "@angular/http";
 import {ProductModel} from "../../catalog/product/product.model";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {QrcodeModel} from "../../catalog/qrcode/qrcode.model";
+import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
 declare var moment:any;
+declare var jQuery:any;
 
 @Component({
     moduleId:module.id,
     selector: 'generate-output',
     templateUrl:'index.html',
     styleUrls: ['../style.css'],
+    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class GenerateOutputComponent extends ControllerBase implements OnInit,OnDestroy {
 
@@ -34,6 +35,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public dataClient:any={};
 
     public product:any;
+    public qr:QrcodeModel;
     public listProduct:any={};
 
     public dataQr={
@@ -42,12 +44,13 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     };
     public channelWS:string;
 
-    constructor(public myglobal:globalService,public ws:WebSocket,public router:Router,public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super('NA','',router,http,myglobal,toastyService,toastyConfig);
+    constructor(public ws:WebSocket,public db:DependenciesBase) {
+        super('NA','',db);
         this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){
-        this.product = new ProductModel(this.myglobal);
+        this.product = new ProductModel(this.db.myglobal);
+        this.qr = new QrcodeModel(this.db.myglobal);
     }
 
     ngOnInit(){
@@ -86,22 +89,22 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         if(event)
             event.preventDefault();
         var contents = document.getElementById("myqr").innerHTML;
-        if(!this.myglobal.qrPublic || (this.myglobal.qrPublic && !this.myglobal.qrPublic.window)){
-            this.myglobal.qrPublic = window.open('', '_blank');
-            this.myglobal.qrPublic.document.open();
+        if(!this.db.myglobal.qrPublic || (this.db.myglobal.qrPublic && !this.db.myglobal.qrPublic.window)){
+            this.db.myglobal.qrPublic = window.open('', '_blank');
+            this.db.myglobal.qrPublic.document.open();
         }
-        if(this.myglobal.qrPublic.document.body)
-            this.myglobal.qrPublic.document.body.innerHTML = '';
-        this.myglobal.qrPublic.document.write('<body>' + contents + '</body>');
-        this.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
+        if(this.db.myglobal.qrPublic.document.body)
+            this.db.myglobal.qrPublic.document.body.innerHTML = '';
+        this.db.myglobal.qrPublic.document.write('<body>' + contents + '</body>');
+        this.db.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
     }
     closeQR(event?){
         if(event)
             event.preventDefault();
-        if(this.myglobal.qrPublic && this.myglobal.qrPublic.window) {
-            this.myglobal.qrPublic.document.body.innerHTML = '';
-            this.myglobal.qrPublic.document.write('<body>Por favor espere</body>');
-            this.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
+        if(this.db.myglobal.qrPublic && this.db.myglobal.qrPublic.window) {
+            this.db.myglobal.qrPublic.document.body.innerHTML = '';
+            this.db.myglobal.qrPublic.document.write('<body>Por favor espere</body>');
+            this.db.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
         }
     }
 
@@ -134,15 +137,25 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         let successCallback= response => {
             let data=response.json();
             if(data.count==1)
+            {
                 that.listProduct[code]=data.list[0];
-            else
-                that.listProduct[code]={'error':'Codigo no registrado'};
+                if(!that.listProduct[code].available){
+                    delete that.listProduct[code];
+                    that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                }
+            }
+            else{
+                delete that.listProduct[code];
+                that.addToast('Error','Código '+code+' no registrado','error',15000);
+            }
+
         };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
         this.product.loadDataModelWhere(successCallback,where);
-
-
+    }
+    disableSubmit(){
+        return Object.keys(this.listProduct).length>0?false:true;
     }
     public get getDataQr(){
         return JSON.stringify(this.dataQr);
@@ -176,6 +189,30 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         if(event)
             event.preventDefault();
         this.ws.onSocket(this.channelWS);
+    }
+    searchQr(event){
+        if(event)
+            event.preventDefault();
+        try {
+            let that=this;
+            let val = jQuery('#validQr').val();//TODO:exp Reg replac '
+            val = val.replace(/'/g, '"');
+            jQuery('#validQr').val('');
+            let data = JSON.parse(val);
+            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+
+            let successCallback = response => {
+                that.ws.webSocket[that.channelWS].data.setValue(response.json());
+            };
+            this.qr.loadDataModelWhere(successCallback,where,data.id)
+
+
+        }catch (e){
+            this.addToast('Error','QR invalido','error');
+        }
+
+
+
     }
 
 }

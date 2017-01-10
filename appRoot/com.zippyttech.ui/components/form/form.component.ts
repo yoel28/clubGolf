@@ -1,12 +1,8 @@
-import {Component, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, AfterViewInit, HostListener} from "@angular/core";
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
-import {Http} from "@angular/http";
 
 import {RestController} from "../../../com.zippyttech.rest/restController";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -20,10 +16,9 @@ declare var SystemJS:any;
 export class FormComponent extends RestController implements OnInit,AfterViewInit{
 
     public params:any={};
-    public msg:any = StaticValues.msg;
 
     public rules:any={};
-    public id:string;
+    public id:number;
     public dataSelect:any={};
     public dataListMultiple:any={};//arraay para opciones multiples
 
@@ -38,25 +33,22 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public delete=false;
     public onlyRequired=false;
 
-    public classCol=StaticFunction.classCol;
-    public classOffset=StaticFunction.classOffset;
-
-    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db.http,db.toastyService,db.toastyConfig);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();
     }
     ngOnInit(){
         this.initForm();
+        this.getForm.emit(this.form);
     }
     ngAfterViewInit(){
         this.getInstance.emit(this);
-        this.getForm.emit(this.form);
-        if(this.params.prefix && !this.myglobal.objectInstance[this.params.prefix])
+        if(this.params.prefix && !this.db.myglobal.objectInstance[this.params.prefix])
         {
-            this.myglobal.objectInstance[this.params.prefix]={};
-            this.myglobal.objectInstance[this.params.prefix]=this;
+            this.db.myglobal.objectInstance[this.params.prefix]={};
+            this.db.myglobal.objectInstance[this.params.prefix]=this;
         }
     }
 
@@ -81,7 +73,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                                     if(that.searchId[key].detail == c.value)
                                         return null;
                                 }
-                                return {object: {valid: true}};
+                                return that.rules[key].objectOrSave?null:{object: {valid: true}};
                             }
                             return null;
                         });
@@ -105,22 +97,25 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 if(that.rules[key].object)
                 {
                     that.data[key].valueChanges.subscribe((value: string) => {
+                        that.findControl = value;
                         if(value && value.length > 0){
                             that.search=that.rules[key];
-                            that.findControl = value;
                             that.dataList=[];
-                            that.setEndpoint(that.rules[key].paramsSearch.endpoint+value);
                             if( !that.searchId[key]){
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else if(that.searchId[key].detail != value){
                                 delete that.searchId[key];
-                                that.loadData();
+                                that.getSearch(null,value);
                             }
                             else{
                                 this.findControl="";
                                 that.search = [];
                             }
+                        }
+                        else {
+                            if(that.search && that.search.key == key)
+                                that.getSearch(null,'');
                         }
                     });
                 }
@@ -130,10 +125,20 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.keys = Object.keys(this.data);
         this.form = new FormGroup(this.data);
     }
+    @HostListener('keydown', ['$event'])
+    keyboardInput(event: any) {
+        if(event.code=="Enter" || event.code=="NumpadEnter"){
+            let key = event.path[0].accessKey;
+            if(key && this.rules[key] && this.rules[key].object){
+                this.loadAndSetDataSearch(true);
+            }
+        }
+    }
 
     public findControl:string="";
 
-    submitForm(event){
+    submitForm(event?){
+        if(event)
         event.preventDefault();
         let that = this;
         let successCallback= response => {
@@ -142,65 +147,111 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             that.save.emit(response.json());
         };
         this.setEndpoint(this.params.endpoint);
-        let body = this.form.value;
-
-        Object.keys(body).forEach((key:string)=>{
-            if(that.rules[key].object){
-                body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
-            }
-            if(that.rules[key].type == 'number' && body[key]!=""){
-                body[key]=parseFloat(body[key]);
-            }
-            if(that.rules[key].type == 'boolean' && body[key]!=""){
-                if(typeof body[key] === 'string')
-                    body[key]=body[key]=='true'?true:false;
-            }
-            if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
-            {
-                body[key] = that.rules[key].prefix + body[key];
-            }
-            if(that.rules[key].setEqual){
-                body[that.rules[key].setEqual] = body[key];
-            }
-            if(that.rules[key].type=='list'){
-                body[key]=[];
-                that.dataListMultiple[key].data.forEach(obj=>{
-                    body[key].push(obj);
-                });
-            }
-        });
+        let body = this.getFormValues();
         if(this.params.updateField)
             this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
+    public getFormValues(addBody=null){
+        let that = this;
+        let body = Object.assign({},this.form.value);
+        Object.keys(body).forEach((key:string)=>{
+            if(that.rules[key]){
+                if(that.rules[key].object){
+                    if(that.rules[key].object){
+                        if(!that.rules[key].objectOrSave){
+                            body[key]=that.searchId[key]?(that.searchId[key].id||null): null;
+                        }
+                        else{
+                            if(that.searchId[key] && that.searchId[key].id){
+                                body[key]=that.searchId[key].id;
+                            }
+                            else if(!body[key] || body[key]=='')
+                                body[key]=null;
+                        }
+                    }
+
+                }
+                if(that.rules[key].type == 'number' && body[key]!=""){
+                    body[key]=parseFloat(body[key]);
+                }
+                if(that.rules[key].type == 'boolean' && body[key]!=""){
+                    if(typeof body[key] === 'string')
+                        body[key]=body[key]=='true'?true:false;
+                }
+                if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
+                {
+                    body[key] = that.rules[key].prefix + body[key];
+                }
+                if(that.rules[key].setEqual){
+                    body[that.rules[key].setEqual] = body[key];
+                }
+                if(that.rules[key].type=='list'){
+                    let data=[];
+                    body[key].forEach(obj=>{
+                        data.push(obj.value);
+                    });
+                    body[key]=data;
+                }
+            }
+        });
+        if(addBody && typeof addBody == 'object'){ //TODO:agregar parametros extrar... no implementado
+            body.push(addBody)
+        }
+        return body;
+    }
     //objecto del search actual
     public search:any={};
+    public searchView=false;
     //Lista de id search
     public searchId:any={};
     //Al hacer click en la lupa guarda los valores del objecto
     getLoadSearch(event,data){
         event.preventDefault();
         this.max=5;
-        this.findControl="";
+        this.searchView=true;
+        this.findControl=this.data[data.key].value || '';
         this.search=data;
-        this.getSearch(event,"");
+        this.getSearch(event,this.findControl);
     }
     //accion al dar click en el boton de buscar del formulario en el search
-    getSearch(event,value){
-        event.preventDefault();
+    getSearch(event=null,value){
+        let that=this;
+        if(event)
+            event.preventDefault();
         this.setEndpoint(this.search.paramsSearch.endpoint+value);
-        this.loadData();
+        this.loadData().then(response=>{
+            if(that.search && that.search.key){
+                this.search.paramsSearch.count = this.dataList.count;
+                if(that.rules[that.search.key] && !that.rules[that.search.key].objectOrSave){
+                    that.loadAndSetDataSearch(this.searchView);
+                }
+            }
+        });
+    }
+    loadAndSetDataSearch(searchView=false){
+        if(this.dataList && this.dataList.count && this.dataList.count==1)//cuando existe un solo elemento se carga automatico
+        {
+            this.getDataSearch(this.dataList.list[0]);
+        }
+
+        else if(this.dataList && this.dataList.count && this.dataList.count > 1){
+            this.searchView = searchView;
+        }
+
     }
     //accion al dar click en el boton de cerrar el formulario
     searchQuit(event){
         event.preventDefault();
+        this.searchView=false;
         this.search={};
         this.dataList={};
     }
     //accion al seleccion un parametro del search
     getDataSearch(data){
-        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail};
+        this.searchView=false;
+        this.searchId[this.search.key]={'id':data.id,'title':data.title,'detail':data.detail,'data':data};
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
@@ -225,24 +276,24 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
-    loadDelete(event){
-        this.setEndpoint(this.params.endpoint);
-        this.onDelete(event,this.id);
-    }
+
     refreshField(event,data){
         event.preventDefault();
         let that = this;
         if(data.refreshField.endpoint){
             let successCallback= response => {
                 let val = response.json()[data.refreshField.field];
-                that.data[data.key].setValue(val);
+                if(data.refreshField.callback)
+                    data.refreshField.callback(data,response.json(),that.data[data.key]);
+                else
+                    that.data[data.key].setValue(val);
             }
             this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
         }
         else{
-            that.data[data.key].setValue(eval(data.refreshField.eval));
+            if(that.rules[data.key].type=='list')
+                that.data[data.key].value.push(eval(data.refreshField.eval));
         }
-
     }
     makeTextRandon():string
     {
@@ -304,6 +355,16 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(index!=-1)
             this.dataListMultiple[key].data.splice(index,1);
 
+    }
+    hiddenFormControl(exp='false'){
+        return eval(exp);
+    }
+
+    isValidForm():boolean{
+        if(this.form && this.form.valid){
+            return this.params.customValidator?this.params.customValidator(this):true;
+        }
+        return false
     }
 }
 

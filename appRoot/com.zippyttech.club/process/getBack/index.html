@@ -1,4 +1,4 @@
-<section class="content container" *ngIf="model.completed">
+<section  [@animation_0] = 'model.completed?"true":"false"' class="content container" *ngIf="model.completed">
     <div class="background-grandient {{classCol(10,10,11,12)}}">
         <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
             <form role="form">
@@ -6,7 +6,7 @@
                     <h1 class="text-center">{{msg.getProducts}}</h1>
                     <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
                         <div class="row margin-top-5">
-                            <div class="{{classCol(12,12,12,12)}} margin-top-5 ">
+                            <div class="{{classCol(12,12,12,12)}}">
                                 <span>{{msg.fieldRequired}}</span>
                                 <table class="table color-golf">
                                     <thead>
@@ -141,7 +141,7 @@
                                         </tr>
                                         <tr>
                                             <td  class="border-right">Operador</td>
-                                            <td>{{myglobal.user.username}}</td>
+                                            <td>{{db.myglobal.user.username}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -152,7 +152,7 @@
                                     <div class="form-group input-icon right">
                                         <i class="fa fa-qrcode text-white"></i>
                                         <input formControlName="code" class="form-control input-control"
-                                               placeholder="ESCANEAR PRODUCTO" type="text">
+                                               placeholder="ESCANEAR PRODUCTO" type="text" autofocus>
                                     </div>
                                 </form>
                                 <button class="btn  btn-green btn-block" (click)="saveProduct($event)" [disabled]="!form.valid">
@@ -181,3 +181,13 @@
         </div>
     </div>
 </section>
+
+<div *ngIf="!(model.completed)" class="preload">
+    <div id="screen">
+        <div id="course">
+            <div id="hole"></div>
+            <div id="flag"> <span></span> </div>
+        </div>
+        <div id="ball"></div>
+    </div>
+</div>

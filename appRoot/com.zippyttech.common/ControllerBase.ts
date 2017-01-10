@@ -1,11 +1,8 @@
-import {Http} from "@angular/http";
-import { Router }           from '@angular/router';
 import {RestController} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../com.zippyttech.utils/globalService";
 import {OnInit} from "@angular/core";
 import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "./DependenciesBase";
 
 declare var humanizeDuration:any;
 declare var moment:any;
@@ -26,11 +23,12 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(prefix, endpoint,public router: Router, public http:Http, public myglobal:globalService,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(prefix, endpoint,public db:DependenciesBase) {
+        super(db.http,db.toastyService,db.toastyConfig);
         this.setEndpoint(endpoint);
         this.prefix = prefix;
         this.initLang();
+
     }
     ngOnInit():void{
         this.initModel();
@@ -67,9 +65,9 @@ export abstract class ControllerBase extends RestController implements OnInit {
         if (date) {
             if (id && this.formatDateId[id])
                 force = this.formatDateId[id].value;
-            if (this.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
+            if (this.db.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
                 var diff = moment().valueOf() - moment(date).valueOf();
-                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                if (diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) {
                     if (diff < 1800000)//menor a 30min
                         return 'Hace ' + this.dateHmanizer(diff, {units: ['m', 's']})
                     if (diff < 3600000) //menor a 1hora
@@ -91,7 +89,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public viewChangeDate(date) {
         //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
         var diff = moment().valueOf() - moment(date).valueOf();
-        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+        return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) && this.db.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true')
     }
     //enlace a restcontroller
     public setLoadData(data) {
@@ -137,7 +135,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         if(event)
             event.preventDefault();
         let link = ['init/dashboard', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
     
     public export(type){
@@ -181,6 +179,9 @@ export abstract class ControllerBase extends RestController implements OnInit {
     }
     public setWhere(where:Object):void{
         this.where = "&where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
+    }
+    public getKeys(data){
+        return Object.keys(data || {})
     }
 
 }

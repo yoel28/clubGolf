@@ -1,12 +1,12 @@
-import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 
-export class AccountModel extends ModelBase{
-    public rules={};
+export class AccountModel extends ModelRoot{
     public pathElements=StaticValues.pathElements;
+
     constructor(public myglobal:globalService){
-        super('ACCOUNT','/accounts/',myglobal);
+        super('ACCOUNT','/accounts/',myglobal,false);
         this.initModel();
     }
     modelExternal() {}
@@ -130,17 +130,17 @@ export class AccountModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar cuenta";
         this.paramsSearch.placeholder="Ingrese la cuenta";
-        this.paramsSearch.label.title="Título: ";
-        this.paramsSearch.label.detail="Detalle: "
+        this.paramsSearch.label.title="Cuenta: ";
+        this.paramsSearch.label.detail="RUC: "
     }
     initParamsSave() {
         this.paramsSave.title="Agregar cuenta"
     }
     initRuleObject() {
-        this.ruleObject.title="Cuentas";
-        this.ruleObject.placeholder="Ingrese una cuenta";
+        this.ruleObject.title="Cuenta";
+        this.ruleObject.placeholder="Ingrese la cuenta";
         this.ruleObject.key="account";
-        this.ruleObject.keyDisplay="accountRuc";
+        this.ruleObject.keyDisplay="accountName";
         this.ruleObject.code="accountId";
     }
     initRulesSave() {
@@ -151,3 +151,4 @@ export class AccountModel extends ModelBase{
     }
 
 }
+

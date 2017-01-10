@@ -8,13 +8,15 @@ import {contentHeaders} from "../../com.zippyttech.rest/headers";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 
 declare var SystemJS:any;
 
 @Component({
     selector: 'user-login',
     templateUrl: SystemJS.map.app+'com.zippyttech.auth/login/index.html',
-    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css']
+    styleUrls: [ SystemJS.map.app+'com.zippyttech.auth/style.css'],
+    animations: AnimationsManager.getTriggers("d-expand_down",200)
 })
 export class LoginComponent extends RestController implements OnInit,OnDestroy{
 
@@ -81,6 +83,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
         this.submitForm = true;
         let errorLogin = (error:any)=> {
             that.submitForm = false;
+            that.error(error);
         }
         let successCallback = (response:any) => {
             that.submitForm = false;

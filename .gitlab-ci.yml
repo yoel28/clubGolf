@@ -54,6 +54,7 @@ deploy_job_3:
     - sudo tar -cf html.tar html/
     - sudo rm -rf /var/www/html/*
     - sudo cp -rf /tmp/build/* /var/www/html/
+    - sh /home/ubuntu/script/conn.sh
   when: on_success 
   tags:
     - dev_club

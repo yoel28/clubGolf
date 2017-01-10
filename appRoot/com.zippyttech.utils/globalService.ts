@@ -12,9 +12,13 @@ export class globalService extends RestController{
     help:any={};
     permissions:any=[];
 
+    public visualData:any = {};
+
     public qrPublic:any;
 
     public channelWebsocket:any={};
+
+    public navigationStart:boolean=false;
 
     public dataSesion = new FormControl(
         null,
@@ -49,6 +53,7 @@ export class globalService extends RestController{
         } else {
             console.log("no habemus localstorage")
         }
+        this.loadVisualData();
     }
     initSession():void{
         this.dataSesionInit();
@@ -66,7 +71,7 @@ export class globalService extends RestController{
             'help':         {'status':false,'title':'Consultando  ayudas'},
         });
     }
-    error = (err:any):void => {
+    errorGS = (err:any):void => {
         if(localStorage.getItem('bearer')){
             if(this.toastyService)
                 this.addToast('Ocurrio un error',err,'error',10000);
@@ -88,7 +93,7 @@ export class globalService extends RestController{
             that.user.account=data[0];
             that.loadUser();
         };
-        this.httputils.doGet('/validate',successCallback,this.error);
+        this.httputils.doGet('/validate',successCallback,this.errorGS);
     }
     loadUser():void{
         let that = this;
@@ -99,7 +104,7 @@ export class globalService extends RestController{
 
         };
         let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
-        this.httputils.doGet('/users?where='+where, successCallback,this.error);
+        this.httputils.doGet('/users?where='+where, successCallback,this.errorGS);
     };
     loadMyPermissions():any{
         let that = this;
@@ -108,7 +113,7 @@ export class globalService extends RestController{
             that.dataSesion.value.permissions.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
         };
-        return this.httputils.doGet('/current/permissions/',successCallback,this.error);
+        return this.httputils.doGet('/current/permissions/',successCallback,this.errorGS);
     }
     loadParams():void{
         let that = this;
@@ -117,7 +122,7 @@ export class globalService extends RestController{
             that.dataSesion.value.params.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
         };
-        this.httputils.doGet('/params?max=1000',successCallback,this.error);
+        this.httputils.doGet('/params?max=1000',successCallback,this.errorGS);
     }
     loadTooltips():void{
         let that = this;
@@ -126,8 +131,17 @@ export class globalService extends RestController{
             that.dataSesion.value.help.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
         };
-        this.httputils.doGet('/infos?max=1000',successCallback,this.error);
+        this.httputils.doGet('/infos?max=1000',successCallback,this.errorGS);
     }
+
+    loadVisualData():void{
+        let data:any =
+        {
+
+        };
+        this.visualData = Object.assign(data);
+    }
+
     existsPermission(keys:any):boolean{
         let index = this.permissions.findIndex((obj:any) => (keys.indexOf(obj.id) >= 0 || keys.indexOf(obj.code)>=0));
         if(index > -1)

@@ -16,3 +16,6 @@
 .alert{
     margin-bottom: 0px !important;
 }
+.modal-header{
+    border-radius: 0px !important;
+}
