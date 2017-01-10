@@ -1,5 +1,9 @@
 <div class="table-responsive">
-    <table id="yyyy" class="table table-striped table-hover toggle-square-filled" data-show-toggle="true">
+    <!--(dataList && model.completed && !findData && bandprue)-->
+    <table *ngIf="dataList && dataList.list"
+           [x-footable]="!findData && bandprue"
+           id="yyyy" class="table table-striped table-hover toggle-square-filled" data-show-toggle="true"
+    >
         <thead>
             <tr>
                 <th *ngFor="let key of keyVisible();let i = index" data-type = "html"
@@ -11,27 +15,24 @@
                     >
                     {{model.rules[key].title}}
                 </th>
-                <th *ngIf="params.actions" data-type = "html">&nbsp;
+                <th *ngIf="params.actions" data-type = "html">
+                    &nbsp;
                     <tooltip-view [code]="model.prefix+'_5'"></tooltip-view>
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <tr *ngFor="let data of dataList.list">
                 <td *ngFor="let key of keyVisible()">
-
                     <span *ngIf="!getDisabledField(key,data)">
-                        <i *ngIf="model.rules[key].iconVisible" class="{{model.rules[key].iconVisible}}">&nbsp;</i>
-                        <i *ngIf="model.rules[key].type == 'icon'" class="{{data[key]}}">&nbsp;</i>
-
-
-
-                        <a *ngIf=" !model.rules[key].object &&
-                                    model.rules[key].type == 'text' ||
-                                    model.rules[key].type == 'textarea' ||
-                                    model.rules[key].type == 'number' ||
-                                    model.rules[key].type == 'select' ||
-                                    model.rules[key].type == 'password'"
+                        <i *ngIf=" model.rules[key].iconVisible" class="{{model.rules[key].iconVisible}}">&nbsp;</i>
+                        <i *ngIf=" model.rules[key].type == 'icon'" class="{{data[key]}}">&nbsp;</i>
+                        <a *ngIf="!model.rules[key].object &&
+                                   model.rules[key].type == 'text' ||
+                                   model.rules[key].type == 'textarea' ||
+                                   model.rules[key].type == 'number' ||
+                                   model.rules[key].type == 'select' ||
+                                   model.rules[key].type == 'password'"
                            x-editable [disabled]="!model.rules[key].update" [endpoint]="params.endpoint"
                            [function]="onEditable" [data]="data" [rules]="model.rules" [field]="key">
                         </a>
@@ -44,7 +45,6 @@
                                  class="image-editor"
                                  [attr.title]="model.rules[key].update?msg.imageEdit:''"
                             >
-
                             <div [attr.id]="data.id+'_'+key" class="modal fade" tabindex="-1" role="dialog"
                                  aria-labelledby="myModalLabel">
                                <div class="modal-dialog" role="document">
@@ -278,7 +278,6 @@
                 </td>
             </tr>
         </tfoot>
-        <div *ngIf="bandprue">{{prue()}}</div>
     </table>
 </div>
 
