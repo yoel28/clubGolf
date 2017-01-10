@@ -166,6 +166,7 @@ export class RestController implements OnInit {
     }
 
     loadData(offset?) {
+        this.dataList={};
         this.findData = true;
         let that = this;
         if (offset && offset == '#')
