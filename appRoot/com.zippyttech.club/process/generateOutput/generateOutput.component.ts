@@ -199,7 +199,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
             this.qr.loadDataWhere(data.id,where).then(
                 response => {
-                    that.db.ws.webSocket[that.channelWS].data.setValue(response.json());
+                    that.db.ws.webSocket[that.channelWS].data.setValue(response);
                 }
             )
 
