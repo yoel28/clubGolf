@@ -8,7 +8,7 @@
                 <i *ngIf="sort==key && findData" class="fa fa-spinner fa-spin"></i>
                 &nbsp;{{model.rules[key].title}}
             </th>
-            <th data-type = "html" *ngIf="params.actions">&nbsp;
+            <th data-type = "html" *ngIf="params && params.actions">&nbsp;
                 <tooltip-view [code]="model.prefix+'_5'"></tooltip-view>
             </th>
         </tr>
@@ -29,7 +29,7 @@
                                 model.rules[key].type == 'number' ||
                                 model.rules[key].type == 'select' ||
                                 model.rules[key].type == 'password'"
-                       x-editable [disabled]="!model.rules[key].update" [endpoint]="params.endpoint"
+                       x-editable [disabled]="!model.rules[key].update" [endpoint]="params?params.endpoint:endpoint"
                        [function]="onEditable" [data]="data" [rules]="model.rules" [field]="key">
                     </a>
 
@@ -189,7 +189,7 @@
                 </span>
 
             </td>
-            <td *ngIf="params.actions">
+            <td *ngIf="params && params.actions">
 
                 <div class="btn-group dropdown pull-right" *ngIf="keyActions.length > 1">
                     <button type="button" data-toggle="dropdown"
@@ -280,7 +280,7 @@
     </table>
 </div>
 
-<div *ngIf="model.permissions.delete">
+<div *ngIf="model.permissions.delete && params && params.actions && params.actions.delete">
     <div class="modal fade" [attr.id]="params.actions.delete.idModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">

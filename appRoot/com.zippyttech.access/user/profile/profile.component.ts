@@ -4,7 +4,7 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-
+import {VehicleModel} from "../../../com.zippyttech.club/catalog/vehicle/vehicle.model";
 
 declare var SystemJS:any;
 
@@ -17,6 +17,7 @@ declare var SystemJS:any;
 export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit{
     
     public msg= StaticValues.msg;
+    public vehicle:any;
 
     constructor(public db:DependenciesBase) {
         super(db,'USER','/users/');
@@ -28,6 +29,17 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     }
     initModel():any{
         this.model = new UserModel(this.db);
+        this.vehicle = new VehicleModel(this.db);
+
+        let that=this;
+        let _where=[
+            {'op':'eq','field':'user.id','value':this.db.myglobal.user.id}
+            ];
+
+        let callback=(response)=>{
+            Object.assign(that.vehicle.dataList,response.json())
+        }
+        this.vehicle.loadDataModelWhere(callback,_where);
     }
     ngAfterViewInit():any{
     }
