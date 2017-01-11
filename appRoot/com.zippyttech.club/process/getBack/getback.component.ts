@@ -27,7 +27,7 @@ export class GetbackComponent extends ControllerBase {
     public byClientDefault=this.db.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
     constructor(public db:DependenciesBase) {
-        super('GETBACK','/getback/',db);
+        super(db,'GETBACK','/getback/');
 
     }
     ngOnInit():void{
