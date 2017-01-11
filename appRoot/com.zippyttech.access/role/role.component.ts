@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {RoleModel} from "./role.model";
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {BaseViewInstance} from "../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,11 +11,11 @@ declare var SystemJS:any;
 })
 export class RoleComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
     initModel():any {
-        this.model= new RoleModel(this.myglobal);
+        this.model= new RoleModel(this.db);
     }
     initViewOptions() {
         this.viewOptions["title"] = 'Roles';
