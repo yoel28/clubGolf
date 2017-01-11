@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute}           from '@angular/router';
-import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 
 declare var SystemJS:any;
@@ -16,15 +13,13 @@ export class ActivateComponent extends RestController implements OnInit{
     public activate={'status':false,'response':false};
     public id:string;
     public token:string;
-    public pathElements=StaticValues.pathElements;
-    public msg=StaticValues.msg;
 
-    constructor(public router:Router, public http:Http,private routeActive: ActivatedRoute,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
     ngOnInit():void{
-        this.id=this.routeActive.snapshot.params['id'];
-        this.token=this.routeActive.snapshot.params['token'];
+        this.id=this.db.routeActive.snapshot.params['id'];
+        this.token=this.db.routeActive.snapshot.params['token'];
         this.setEndpoint('/users/activate/' + this.id + "?access_token=" + this.token);
         this.validate();
     }
@@ -42,6 +37,6 @@ export class ActivateComponent extends RestController implements OnInit{
     onLogin(event){
         event.preventDefault();
         let link = ['/auth/login', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
 }
