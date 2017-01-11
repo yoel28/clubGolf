@@ -1,17 +1,17 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {VehicleModel} from "../vehicle/vehicle.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class TagModel extends ModelBase{
-    public vehicle:any;
+    private vehicle:any;
 
-    constructor(public myglobal:globalService){
-        super('TAG','/tags/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'TAG','/tags/');
         this.initModel();
     }
     modelExternal() {
-        this.vehicle = new VehicleModel(this.myglobal);
+        this.vehicle = new VehicleModel(this.db);
     }
     initRules() {
         this.rules['code'] = {
