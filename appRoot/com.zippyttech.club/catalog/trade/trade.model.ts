@@ -21,6 +21,7 @@ export class TradeModel extends ModelBase{
         super('TRADE','/trades/',myglobal);
         this.initModel();
     }
+
     modelExternal() {
         this.qr = new QrcodeModel(this.myglobal);
         this.state = new StateModel(this.myglobal);
@@ -30,6 +31,7 @@ export class TradeModel extends ModelBase{
         this.sponsor = new UserModel(this.myglobal);
         this.guest = new UserModel(this.myglobal);
     }
+
     initRules(){
         this.rules['entregado']={
             'type':'filter',
@@ -92,6 +94,7 @@ export class TradeModel extends ModelBase{
             'title': 'Fecha del pedido',
             'placeholder': 'Fecha del pedido',
         };
+
         this.rules['receivedDate']={
             'type': 'date',
             'required':true,
@@ -111,6 +114,7 @@ export class TradeModel extends ModelBase{
             'title': 'Tiempo de uso',
             'placeholder': 'Tiempo de uso',
         };
+
         this.rules["byClient"] = {
             'update':this.permissions.update,
             'search':this.permissions.filter,
@@ -125,7 +129,9 @@ export class TradeModel extends ModelBase{
             "title": "Entrego Cliente",
             "placeholder": "Entrego Cliente",
         };
+
         this.rules['state']=Object.assign({},this.state.ruleObject);
+
         this.rules['comment']={
             'type': 'text',
             'update':this.permissions.update,
@@ -135,6 +141,7 @@ export class TradeModel extends ModelBase{
             'title': 'Descripción',
             'placeholder': 'Descripción',
         };
+
         this.rules['usernameCreator']={
             'type': 'eval',
             'visible':this.permissions.visible,
@@ -143,6 +150,7 @@ export class TradeModel extends ModelBase{
             'placeholder': 'Operador entrega',
 
         };
+
         this.rules['usernameUpdater']={
             'type': 'eval',
             'visible':this.permissions.visible,
@@ -151,6 +159,7 @@ export class TradeModel extends ModelBase{
             'placeholder': 'Operador recepción',
 
         };
+
         this.rules['productTypePrice']={
             'type': 'number',
             'double':true,
@@ -163,14 +172,18 @@ export class TradeModel extends ModelBase{
             'placeholder': 'Costo',
         };
     }
+
     initPermissions() {}
+
     initParamsSearch() {
         this.paramsSearch.title="Buscar operación";
         this.paramsSearch.placeholder="Ingrese codigo de la operación";
     }
+
     initParamsSave() {
         this.paramsSave.title="Agregar operación"
     }
+
     initRuleObject() {
         this.ruleObject.title="Operación";
         this.ruleObject.placeholder="Ingrese codigo de la operación";
@@ -178,6 +191,7 @@ export class TradeModel extends ModelBase{
         this.ruleObject.keyDisplay = "tradeId";
         this.ruleObject.code = "tradeId";
     }
+
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
