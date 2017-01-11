@@ -11,6 +11,14 @@
                             <div class="profile">
                                 <div style="margin-bottom: 15px" class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        <image-edit-view *ngIf="model.rules.image"
+                                                         [image]="db.myglobal.user.image"
+                                                         [default]="model.rules.image.default"
+                                                         [edit]="model.rules.image.update"
+                                                         (out)="saveImage($event)"
+                                        ></image-edit-view>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                         <div *ngFor="let key of getObjectKeys(model.rules)">
                                             <h2 *ngIf="model.rules[key].protected" class="truncate">
                                                 <strong>{{model.rules[key].title}}:</strong>&nbsp;
@@ -27,14 +35,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                        <image-edit-view *ngIf="model.rules.image"
-                                                    [image]="db.myglobal.user.image"
-                                                    [default]="model.rules.image.default"
-                                                    [edit]="model.rules.image.update"
-                                                    (out)="saveImage($event)"
-                                        ></image-edit-view>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

@@ -31,6 +31,22 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         this.model = new UserModel(this.db);
         this.vehicle = new VehicleModel(this.db);
 
+        this.vehicle.rules["enabled"] = {
+            "update": (this.vehicle.permissions.update && this.vehicle.permissions.lock),
+            "visible": this.vehicle.permissions.lock && this.vehicle.permissions.visible,
+            "search": false,
+            'required': true,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':true, 'class': 'btn btn-sm btn-enabled fa fa-check'},
+                {'value':false, 'class': 'btn btn-sm btn-disable fa fa-remove'},
+            ],
+            "key": "enabled",
+            "title": "Habilitado",
+            "placeholder": "",
+        };
+
         let that=this;
         let where=[{'op':'eq','field':'user.id','value':this.db.myglobal.user.id}];
         this.vehicle.loadDataWhere('',where);
