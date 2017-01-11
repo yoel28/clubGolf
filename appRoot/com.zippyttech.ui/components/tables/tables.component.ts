@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, OnChanges, AfterViewChecked, AfterContentChecked} from "@angular/core";
 import {Http} from "@angular/http";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
@@ -16,7 +16,7 @@ declare var moment:any;
     outputs:['getInstance'],
 })
 
-export class TablesComponent extends RestController implements OnInit {
+export class TablesComponent extends RestController implements OnInit,AfterContentChecked {
 
 
     public params:any={};
@@ -31,6 +31,8 @@ export class TablesComponent extends RestController implements OnInit {
 
     public keyActions =[];
     public configId=moment().valueOf();
+
+    public on=false;
 
     public getInstance:any;
     public msg=StaticValues.msg;
@@ -47,10 +49,38 @@ export class TablesComponent extends RestController implements OnInit {
         this.getInstance = new EventEmitter();
         this.setEndpoint(this.params.endpoint);
         this.getListObjectNotReferenceSave();
+        console.log('1 '+this.findData);
+    }
+    ngAfterContentChecked(){
+        console.log('2 '+this.findData);
+    }
+    ngOnChanges(){
+        console.log('3 '+this.findData);
+    }
+    ngDoCheck(){
+        console.log('4 '+this.findData);
+    }
+    ngAfterContentInit(){
+        console.log('5 '+this.findData);
+    }
+    ngAfterViewChecked(){
+        console.log('6 '+this.findData);
+        if(!this.findData)
+            this.on = true;
     }
     ngAfterViewInit() {
+        console.log('7 '+this.findData);
         this.getInstance.emit(this);
     }
+
+
+
+
+
+    console(msg){
+        console.log(msg)
+    }
+
 
     private instanceSearch={};
     setInstanceSearch(type,instance){
