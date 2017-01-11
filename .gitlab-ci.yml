@@ -92,3 +92,85 @@ clean_job_:
     - dev_club
   only :
     - dev
+    
+pre_install_prod_job_1:
+  stage: pre_install
+  script:
+    - mkdir -p /tmp/build
+    - mkdir -p /home/ubuntu/node_modules/
+    - cp -rf /home/ubuntu/node_modules /tmp/build/
+    - cp -rf ./* /tmp/build
+    - cd /tmp/build
+    - npm install
+  when: on_success
+  tags:
+    - prod_club
+  only :
+    - tags
+
+build_prod_job_2:
+  stage: build
+  script:
+    - cd /tmp/build
+    - export epoch=$(date +%s)
+    - sed -i -e 's;\=\"\(http\)s\?://[a-zA-Z0-9.]\+\([:][0-9]\+\)\?\"\;;\=\"https://club.zippyttech.com:8080\"\;;g' appRoot/com.zippyttech.init/app/app.component.ts
+    - sed -i -e "s;appRoot;${epoch};g" ./system-config.ts
+    - sed -i -e "s;appRoot;${epoch};g" ./tsconfig-aot.json
+    - sed -i -e "s;appRoot;${epoch};g" ./tsconfig.json
+    - sed -i -e "s;appRoot;${epoch};g" ./rollup-config.js
+    - mv appRoot ${epoch}
+    - npm run only-run
+  when: on_success
+  tags:
+    - prod_club
+  only :
+    - tags
+
+deploy_prod_job_3:
+  stage: deploy
+  script:
+    - cd /tmp/build
+    - cp -rf ./node_modules /home/ubuntu/
+    - find ./ -type f -name '*.ts' -delete
+    - cd /var/www/
+    - sudo tar -cf html.tar html/
+    - sudo rm -rf /var/www/html/*
+    - sudo cp -rf /tmp/build/* /var/www/html/
+    - sh /home/ubuntu/script/conn.sh
+  when: on_success 
+  tags:
+    - prod_club
+  only :
+    - tags
+
+reset_prod_job_4:
+  stage: reset
+  script:
+    - sudo rm -rf /tmp/build
+    - sudo rm -rf /var/www/html/build
+    - sudo rm -rf /var/www/html/typings
+    - sudo rm -rf /var/www/html/.git
+    - sudo rm -f /var/www/html/.gitignore
+    - sudo rm -f /var/www/html/.gitlab-ci.yml
+    - sudo rm -f /var/www/html/bs-config.json
+    - sudo rm -f /var/www/html/package.json
+    - sudo rm -f /var/www/html/tsconfig.json
+    - sudo rm -f /var/www/html/typings.json
+    - sudo chown ubuntu.ubuntu -R /var/www/html/
+  when: on_success
+  tags:
+    - prod_club
+  only :
+    - tags
+
+clean_prod_job_5:
+  stage: clean
+  script:
+    - rm -rf /tmp/build
+    - sudo rm -rf /var/www/html/*
+    - sudo tar -xf /var/www/html.tar -C /var/www/
+  when: on_failure
+  tags:
+    - prod_club
+  only :
+    - tags
