@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {BrandModel} from "./brand.model";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,12 +11,12 @@ declare var SystemJS:any;
 })
 export class BrandComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
 
     initModel() {
-        this.model= new BrandModel(this.myglobal);
+        this.model= new BrandModel(this.db);
     }
 
     initViewOptions() {

@@ -1,7 +1,7 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {Component} from '@angular/core';
 import {ProductTypeModel} from "./productType.model";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,11 +11,11 @@ declare var SystemJS:any;
 })
 export class ProductTypeComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
     initModel() {
-        this.model= new ProductTypeModel(this.myglobal);
+        this.model= new ProductTypeModel(this.db);
     }
 
     initViewOptions() {

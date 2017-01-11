@@ -1,13 +1,11 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class ProductTypeModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
 
-    constructor(public myglobal:globalService){
-        super('PRTYPE','/type/products/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'PRTYPE','/type/products/');
         this.initModel();
     }
     modelExternal() {}
@@ -35,7 +33,7 @@ export class ProductTypeModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'icon',
             'icon': 'fa fa-key',
-            'default':this.pathElements.warning,
+            'default':this.db.pathElements.warning,
             'title': 'Imagen',
             'placeholder': 'Ingrese una imagen',
         };
