@@ -13,17 +13,17 @@
                 </div>
                 <div class="col-lg-4 margin-bottom">
                     <div class="pull-left">
-                        <button *ngIf="myglobal.existsPermission(['ROLE_LIST'])" type="button" class="btn btn-success fa fa-refresh" (click)="loadRoles()"></button>
+                        <button *ngIf="db.myglobal.existsPermission(['ROLE_LIST'])" type="button" class="btn btn-success fa fa-refresh" (click)="loadRoles()"></button>
                     </div>
                 </div>
-                <div *ngIf="!myglobal.existsPermission(['ROLE_LIST'])" class="col-lg-12">
+                <div *ngIf="!db.myglobal.existsPermission(['ROLE_LIST'])" class="col-lg-12">
                     <div class="btn-red padding-error">
                         <h5><i class="fa fa-warning"></i>&nbsp;<strong>ADVERTENCIA</strong></h5>
                         No tiene permisos para listar los roles
                     </div>
                 </div>
 
-                <div *ngIf="!role.id && myglobal.existsPermission(['ROLE_LIST'])" class="col-lg-10 text-red ">
+                <div *ngIf="!role.id && db.myglobal.existsPermission(['ROLE_LIST'])" class="col-lg-10 text-red ">
                     Seleccione un rol
                 </div>
             </div>
