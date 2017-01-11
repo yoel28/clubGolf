@@ -19,7 +19,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     public paramsTable:any={};
 
     constructor(public db:DependenciesBase) {
-        super('NOPREFIX','/NOENDPOINT/',db);
+        super(db);
     }
     ngOnInit(){
         super.ngOnInit();
