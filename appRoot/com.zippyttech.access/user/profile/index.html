@@ -19,7 +19,7 @@
                                             <p *ngIf="!model.rules[key].protected && (model.rules[key].type=='text' || model.rules[key].type=='textarea' || model.rules[key].type=='number' || model.rules[key].type=='password')">
                                                 <strong>{{model.rules[key].title}}:</strong>&nbsp;
                                                 <a *ngIf="!model.rules[key].object" x-editable [endpoint]="endpoint" [function]="onEditable"
-                                                   [data]="db.myglobal.user" [rules]="model.rules" [field]="key">
+                                                   [data]="db.myglobal.user" [rules]="model.rules" [field]="key" [disabled]="!model.rules[key].update">
                                                 </a>
                                                 <a *ngIf="model.rules[key].object">
                                                     {{db.myglobal.user[model.rules[key].keyDisplay]}}
@@ -28,9 +28,10 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                        <image-edit-view *ngIf="model.rules.image && model.rules.image.update"
+                                        <image-edit-view *ngIf="model.rules.image"
                                                     [image]="db.myglobal.user.image"
                                                     [default]="model.rules.image.default"
+                                                    [edit]="model.rules.image.update"
                                                     (out)="saveImage($event)"
                                         ></image-edit-view>
                                     </div>

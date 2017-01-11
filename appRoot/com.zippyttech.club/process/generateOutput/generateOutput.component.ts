@@ -129,25 +129,26 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
         if(event)
             event.preventDefault();
-        let successCallback= response => {
-            let data=response.json();
-            if(data.count==1)
-            {
-                that.listProduct[code]=data.list[0];
-                if(!that.listProduct[code].available){
-                    delete that.listProduct[code];
-                    that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
-                }
-            }
-            else{
-                delete that.listProduct[code];
-                that.addToast('Error','Código '+code+' no registrado','error',15000);
-            }
 
-        };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
-        this.product.loadDataWhere(null,where,successCallback);
+        this.product.loadDataWhere('',where).then(
+            response => {
+                if(that.product.dataList && that.product.dataList.count==1)
+                {
+                    that.listProduct[code]=that.product.dataList.list[0];
+                    if(!that.listProduct[code].available){
+                        delete that.listProduct[code];
+                        that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                    }
+                }
+                else{
+                    delete that.listProduct[code];
+                    that.addToast('Error','Código '+code+' no registrado','error',15000);
+                }
+
+            }
+        );
     }
     disableSubmit(){
         return Object.keys(this.listProduct).length>0?false:true;
@@ -196,10 +197,11 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             let data = JSON.parse(val);
             let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
 
-            let successCallback = response => {
-                that.db.ws.webSocket[that.channelWS].data.setValue(response.json());
-            };
-            this.qr.loadDataWhere(data.id,where,successCallback)
+            this.qr.loadDataWhere(data.id,where).then(
+                response => {
+                    that.db.ws.webSocket[that.channelWS].data.setValue(response.json());
+                }
+            )
 
 
         }catch (e){

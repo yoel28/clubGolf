@@ -7,6 +7,7 @@ export abstract class ModelRoot extends RestController{
 
     public prefix = "DEFAULT";
     public endpoint = "DEFAULT_ENDPOINT";
+    public useGlobal:boolean=true;
     public completed=false;
     public permissions:any = {};
     public paramsSearch:any = {};
@@ -19,10 +20,11 @@ export abstract class ModelRoot extends RestController{
     public rules:Object={};
 
 
-    constructor(db:DependenciesBase,prefix,endpoint){
+    constructor(public db:DependenciesBase,prefix,endpoint,useGlobal=true){
         super(db);
         this.prefix = prefix;
         this.endpoint = endpoint;
+        this.useGlobal = useGlobal;
         this._initModel();
     }
 
@@ -63,7 +65,7 @@ export abstract class ModelRoot extends RestController{
         this.permissions['warning'] = this.db.myglobal.existsPermission([this.prefix + '_WARNING']);
         this.permissions['visible'] = true;//this.myglobal.existsPermission([this.prefix + '_VISIBLE']);
         this.permissions['audit'] = this.db.myglobal.existsPermission([this.prefix + '_AUDICT']);
-        this.permissions['global'] = this.db.myglobal.existsPermission(['ACCESS_GLOBAL']);
+        this.permissions['global'] = this.db.myglobal.existsPermission(['ACCESS_GLOBAL']) && this.useGlobal;
     }
 
     abstract modelExternal();

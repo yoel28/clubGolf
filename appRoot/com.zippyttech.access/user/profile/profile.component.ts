@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";

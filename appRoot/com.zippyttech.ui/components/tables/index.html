@@ -39,7 +39,7 @@
                              width="30" height="30"
                              data-toggle="modal" [attr.data-target]="'#'+data.id+'_'+key"
                              class="image-editor"
-                             [attr.title]="model.rules[key].update?msg.imageEdit:''"
+                             [attr.title]="model.rules[key].update?db.msg.imageEdit:''"
                         >
 
                         <div [attr.id]="data.id+'_'+key" class="modal fade" tabindex="-1" role="dialog"
@@ -50,7 +50,7 @@
                                             aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title">
                                         <i class="fa fa-image"></i>&nbsp;
-                                        <strong>{{msg.imageEditor}}</strong>
+                                        <strong>{{db.msg.imageEditor}}</strong>
                                     </h4>
                                 </div>
                                 <div class="modal-content">
@@ -289,7 +289,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h3 class="modal-title" id="myModalLabel"><i
-                            class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle}}&nbsp;
+                            class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle}}&nbsp;
                         <tooltip-view [code]="model.prefix+'_10'"></tooltip-view>
                     </strong></h3>
                 </div>
@@ -298,9 +298,9 @@
                     ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{msg.warningButtonExit}}</button>
+                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{db.msg.warningButtonExit}}</button>
                     <button (click)="onDelete($event,dataSelect.id)" data-dismiss="modal" type="button"
-                            class="btn btn-red fa fa-trash">&nbsp;{{msg.delete}}
+                            class="btn btn-red fa fa-trash">&nbsp;{{db.msg.delete}}
                     </button>
                 </div>
             </div>
@@ -361,7 +361,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{msg.warningButtonExit}}</button>
+                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{db.msg.warningButtonExit}}</button>
                 </div>
             </div>
         </div>

@@ -1,10 +1,8 @@
-import {Component, EventEmitter, OnInit, OnChanges, AfterViewChecked, AfterContentChecked} from "@angular/core";
-import {Http} from "@angular/http";
+import {Component, EventEmitter, OnInit, AfterContentChecked} from "@angular/core";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -35,12 +33,11 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
     public on=false;
 
     public getInstance:any;
-    public msg=StaticValues.msg;
 
     public formatTime=StaticFunction.formatTime;
 
-    constructor(public http:Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
 
     ngOnInit()
@@ -225,9 +222,9 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
         if (date) {
             if (id && this.formatDateId[id])
                 force = this.formatDateId[id].value;
-            if (this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
+            if (this.db.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
                 var diff = moment().valueOf() - moment(date).valueOf();
-                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                if (diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) {
                     if (diff < 1800000)//menor a 30min
                         return 'Hace ' + this.dateHmanizer(diff, {units: ['m', 's']})
                     if (diff < 3600000) //menor a 1hora
@@ -248,7 +245,7 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
     public viewChangeDate(date) {
         //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
         var diff = moment().valueOf() - moment(date).valueOf();
-        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+        return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) && this.db.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
     }
     public getTypeEval(key,data){
         if(this.model.rules[key])

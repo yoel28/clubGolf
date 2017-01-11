@@ -114,7 +114,7 @@ export class FilterComponent extends RestController implements OnInit{
     keys:any = {};
 
     constructor(public db:DependenciesBase) {
-        super(db.http,db.toastyService,db.toastyConfig);
+        super(db);
         this.whereFilter = new EventEmitter();
     }
     ngOnInit() {

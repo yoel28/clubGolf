@@ -171,10 +171,12 @@ export class UserModel extends ModelBase{
     {
         let that = this;
         this.role.loadData().then(response => {
-            let roles =  response.json();
-            roles.list.forEach(obj=> {
-                that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
-            });
+            if(that.role.dataList && that.role.dataList.list)
+            {
+                that.role.dataList.list.forEach(obj=> {
+                    that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
+                });
+            }
             that.completed = true;
         })
     }

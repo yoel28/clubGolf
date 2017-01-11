@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {ActivatedRoute} from "@angular/router";
 
 
 declare var SystemJS:any;
@@ -14,12 +15,12 @@ export class ActivateComponent extends RestController implements OnInit{
     public id:string;
     public token:string;
 
-    constructor(public db:DependenciesBase) {
+    constructor(public db:DependenciesBase,private routeActive:ActivatedRoute) {
         super(db);
     }
     ngOnInit():void{
-        this.id=this.db.routeActive.snapshot.params['id'];
-        this.token=this.db.routeActive.snapshot.params['token'];
+        this.id=this.routeActive.snapshot.params['id'];
+        this.token=this.routeActive.snapshot.params['token'];
         this.setEndpoint('/users/activate/' + this.id + "?access_token=" + this.token);
         this.validate();
     }

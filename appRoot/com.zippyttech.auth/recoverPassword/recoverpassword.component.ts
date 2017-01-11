@@ -3,6 +3,7 @@ import  {Validators, FormGroup,FormControl} from '@angular/forms';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {ActivatedRoute} from "@angular/router";
 
 declare var SystemJS:any;
 @Component({
@@ -17,12 +18,12 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
     public token:string;
 
 
-    constructor(public db:DependenciesBase) {
+    constructor(public db:DependenciesBase,private routeActive:ActivatedRoute) {
         super(db);
     }
     ngOnInit():void{
-        this.id=this.db.routeActive.snapshot.params['id'];
-        this.token=this.db.routeActive.snapshot.params['token'];
+        this.id=this.routeActive.snapshot.params['id'];
+        this.token=this.routeActive.snapshot.params['token'];
         this.setEndpoint('/users/' + this.id + "?access_token=" + this.token);
 
         this.initForm();

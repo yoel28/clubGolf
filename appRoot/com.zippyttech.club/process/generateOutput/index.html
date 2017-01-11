@@ -15,12 +15,12 @@
                                         </button>
                                     </h2>
                                     <div class="text-center img-responsive">
-                                        <div [class.opacity-qr]="db.ws.webSocket[channeldb.ws].status.value != 'connect'">
+                                        <div [class.opacity-qr]="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
                                             <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
                                         </div>
-                                        <div class="center-load" *ngIf="db.ws.webSocket[channeldb.ws].status.value != 'connect'">
-                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="db.ws.webSocket[channeldb.ws].reconnect<=5"></i><br/>
-                                            <button *ngIf="db.ws.webSocket[channeldb.ws].reconnect > 5" class="btn btn-blue" (click)="reconectdb.ws($event)">
+                                        <div class="center-load" *ngIf="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
+                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="db.ws.webSocket[channelWS.ws].reconnect<=5"></i><br/>
+                                            <button *ngIf="db.ws.webSocket[channelWS.ws].reconnect > 5" class="btn btn-blue" (click)="reconectdb.ws($event)">
                                                 <i class="fa fa-qrcode"></i>
                                                 &nbsp;Reintentar
                                             </button>
@@ -46,7 +46,7 @@
                                 <div class="{{db.classCol(6,6,6,12)}}">
                                     <div class="margin-top-5 row">
                                             <div class="{{db.classCol(3,4,5,5)}}">
-                                                <img class="img-responsive" [attr.src]="pathElements.btnUsuario">
+                                                <img class="img-responsive" [attr.src]="db.pathElements.btnUsuario">
                                             </div>
                                             <div class="{{db.classCol(9,8,7,7)}}">
                                                 <strong>Usuarios</strong><br>
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="margin-top-5 row">
                                         <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="pathElements.btnFamilia">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnFamilia">
                                         </div>
                                         <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Familia</strong><br>
@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="margin-top-5 row">
                                         <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="pathElements.btnToallas">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnToallas">
                                         </div>
                                         <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Toallas</strong><br>
@@ -75,7 +75,7 @@
                                 <div class="{{db.classCol(6,6,6,12)}}">
                                     <div class="margin-top-5 row">
                                         <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="pathElements.btnInvitados">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnInvitados">
                                         </div>
                                         <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Invitados</strong><br>
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="margin-top-5 row">
                                         <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="pathElements.btnCarrito">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnCarrito">
                                         </div>
                                         <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Carros de Golf</strong><br>
@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="margin-top-5 row">
                                         <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="pathElements.btnServicios">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnServicios">
                                         </div>
                                         <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Servicios</strong><br>

@@ -79,12 +79,13 @@ export class GetbackModel extends ModelBase{
         let that = this;
         this.state.loadData().then(
             response => {
-                let data =  response.json();
-                data.list.forEach(obj=> {
-                    that.rules['state'].source.push({'value': obj.id, 'text': obj.code + ' ('+obj.title+')' });
-                    that.rules['state'].data[obj.id]=obj;
-
-                });
+                if(that.state.dataList && that.state.dataList.list)
+                {
+                    that.state.dataList.list.forEach(obj=> {
+                        that.rules['state'].source.push({'value': obj.id, 'text': obj.code + ' ('+obj.title+')' });
+                        that.rules['state'].data[obj.id]=obj;
+                    });
+                }
                 that.completed = true;
             }
         )

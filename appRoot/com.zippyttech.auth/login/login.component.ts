@@ -27,7 +27,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
     form:FormGroup;
     public subcribe;
 
-    constructor(public af: AngularFire,public db:DependenciesBase) {
+    constructor(public af: AngularFire,public db:DependenciesBase,private routeActive:ActivatedRoute) {
         super(db);
         this.setEndpoint("/login");
     }
@@ -46,7 +46,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
     }
     ngOnInit(){
         this.initForm();
-        this.context.company=this.db.routeActive.snapshot.params['company'];
+        this.context.company=this.routeActive.snapshot.params['company'];
         if(!this.context.company)
             this.context.company='zippyttech';
         if(this.context.company){

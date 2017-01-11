@@ -56,7 +56,7 @@ export class RuleModel extends ModelBase{
         this.ruleObject.title="Regla";
         this.ruleObject.placeholder="Ingrese codigo de la regla";
         this.ruleObject.key="rule";
-        this.ruleObject.keyDisplay = "ruleName";
+        this.ruleObject.keyDisplay = "ruleCode";
         this.ruleObject.code = "ruleId";
     }
     initRulesSave() {

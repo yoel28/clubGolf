@@ -55,37 +55,34 @@ export class GetbackComponent extends ControllerBase {
         if(that.listProduct[code])
             return;
 
-
-        let successCallback= response => {
-            let data=response.json();
-            if(data.count==1){
-                that.listProduct[code]={};
-                that.listProduct[code].available=data.list[0].available;
-                that.listProduct[code].id=data.list[0].id;
-                that.listProduct[code].code=data.list[0].code;
-                that.listProduct[code].title=data.list[0].productTypeTitle;
-                that.listProduct[code].byClient=that.byClientDefault;
-                that.listProduct[code].detail=null;
-                that.listProduct[code].state=that.stateDefault;
-                that.listProduct[code].mustComment=false;
-
-                if(that.listProduct[code].available){
-                    delete that.listProduct[code];
-                    that.addToast('Error','Código '+code+' no a salido','warning',15000);
-                }
-            }
-            else{
-                delete that.listProduct[code];
-                that.addToast('Error','Código '+code+' no registrado','error',15000);
-            }
-
-            that.form.controls['data'].setValue(that.listProduct);
-        };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
         this.form.controls['data'].setValue(this.listProduct);
 
-        this.product.loadDataWhere(null,where,successCallback);
+        this.product.loadDataWhere('',where).then(
+            response => {
+                if(that.product.dataList && that.product.dataList.count==1){
+                    that.listProduct[code]={};
+                    that.listProduct[code].available=that.product.dataList.list[0].available;
+                    that.listProduct[code].id=that.product.dataList.list[0].id;
+                    that.listProduct[code].code=that.product.dataList.list[0].code;
+                    that.listProduct[code].title=that.product.dataList.list[0].productTypeTitle;
+                    that.listProduct[code].byClient=that.byClientDefault;
+                    that.listProduct[code].detail=null;
+                    that.listProduct[code].state=that.stateDefault;
+                    that.listProduct[code].mustComment=false;
+
+                    if(that.listProduct[code].available){
+                        delete that.listProduct[code];
+                        that.addToast('Error','Código '+code+' no a salido','warning',15000);
+                    }
+                }
+                else{
+                    delete that.listProduct[code];
+                    that.addToast('Error','Código '+code+' no registrado','error',15000);
+                }
+                that.form.controls['data'].setValue(that.listProduct);
+        });
     }
     deleteKeyProduc(key){
         if(this.listProduct[key])
