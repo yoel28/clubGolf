@@ -32,14 +32,8 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         this.vehicle = new VehicleModel(this.db);
 
         let that=this;
-        let _where=[
-            {'op':'eq','field':'user.id','value':this.db.myglobal.user.id}
-            ];
-
-        let callback=(response)=>{
-            Object.assign(that.vehicle.dataList,response.json())
-        }
-        this.vehicle.loadDataModelWhere(callback,_where);
+        let where=[{'op':'eq','field':'user.id','value':this.db.myglobal.user.id}];
+        this.vehicle.loadDataWhere('',where);
     }
     ngAfterViewInit():any{
     }
