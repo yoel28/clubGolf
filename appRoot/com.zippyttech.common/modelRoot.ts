@@ -94,8 +94,8 @@ export abstract class ModelRoot extends RestController{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Habilitado', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Deshabilitado', 'class': 'btn btn-sm btn-red'},
+                {'value':true,'text': 'Habilitado', 'class': 'btn btn-sm btn-green','title':'Habilitado'},
+                {'value':false,'text': 'Deshabilitado', 'class': 'btn btn-sm btn-red','title':'Deshabilitado'},
             ],
             "key": "enabled",
             "title": "Habilitado",
