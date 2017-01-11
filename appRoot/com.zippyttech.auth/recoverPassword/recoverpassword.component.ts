@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import  {Validators, FormGroup,FormControl} from '@angular/forms';
-import {Router, ActivatedRoute}           from '@angular/router';
-import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -17,15 +15,14 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
     public form:FormGroup;
     public id:string;
     public token:string;
-    public pathElements=StaticValues.pathElements;
-    public msg=StaticValues.msg;
 
-    constructor(public router:Router, public http:Http,private routeActive: ActivatedRoute,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
     ngOnInit():void{
-        this.id=this.routeActive.snapshot.params['id'];
-        this.token=this.routeActive.snapshot.params['token'];
+        this.id=this.db.routeActive.snapshot.params['id'];
+        this.token=this.db.routeActive.snapshot.params['token'];
         this.setEndpoint('/users/' + this.id + "?access_token=" + this.token);
 
         this.initForm();
@@ -42,7 +39,7 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
         let body = JSON.stringify({'password':this.form.value.password});
         let successCallback= response => {
             let link = ['/auth/login', {}];
-            that.router.navigate(link);
+            that.db.router.navigate(link);
         }
         this.httputils.doPut(this.endpoint,body,successCallback,this.error)
     }
@@ -50,6 +47,6 @@ export class RecoverPasswordComponent extends RestController implements OnInit  
     onLogin(event){
         event.preventDefault();
         let link = ['/auth/login', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
 }
