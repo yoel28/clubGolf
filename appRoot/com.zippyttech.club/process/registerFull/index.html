@@ -8,13 +8,13 @@
             </div>
             <div *ngIf="model.permissions.add" class="box-body">
                 <div *ngIf="dataOk">
-                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}} text-center" >
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}} text-center" >
                         Guardado con exito<br/>
                         <button class="btn btn-success" (click)="dataOk=false">Iniciar</button>
                     </div>
                 </div>
                 <div *ngIf="!dataOk">
-                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" >
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" >
 
                         <div [hidden]="(user && user.form && user.form.valid)" class="box box-block {{ (userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)?'valid':'error' }}">
                             <div class="box-header">
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="{{classCol(10,10,10,10)}}{{classOffset(1,1,1,1)}}" style="margin-top:15px">
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
                         <div *ngFor="let veh of vehicle;let i=index" class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">
@@ -73,8 +73,8 @@
             </div>
             <div *ngIf="!model.permissions.add">
                 <div class="btn-red padding-error">
-                    <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
-                    {{ (msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{msg.contactAdminPermission | translate}} {{model.prefix}}_SAVE
+                    <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
+                    {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{model.prefix}}_SAVE
                 </div>
             </div>
         </div>
