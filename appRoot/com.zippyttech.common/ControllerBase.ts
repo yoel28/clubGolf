@@ -1,3 +1,4 @@
+///<reference path="DependenciesBase.ts"/>
 import {RestController} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {OnInit} from "@angular/core";
@@ -23,16 +24,18 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(prefix, endpoint,public db:DependenciesBase) {
+    constructor(public db:DependenciesBase, prefix?, endpoint?) {
         super(db.http,db.toastyService,db.toastyConfig);
-        this.setEndpoint(endpoint);
-        this.prefix = prefix;
+        this.setEndpoint(endpoint  || 'NOPREFIX') ;
+        this.prefix = prefix || '/NOENDPOINT/';
         this.initLang();
 
     }
+
     ngOnInit():void{
         this.initModel();
     }
+
     public initLang() {
         var userLang = navigator.language.split('-')[0];
         userLang = /(es|en)/gi.test(userLang) ? userLang : 'es';
@@ -50,6 +53,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         })
         return visible;
     }
+
     public getViewOptionsActions() {
         let visible = [];
         Object.keys(this.viewOptions.actions).forEach(obj=> {
@@ -58,6 +62,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         })
         return visible;
     }
+
     public getObjectKeys(data) {
         return Object.keys(data || {});
     }
@@ -92,7 +97,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) && this.db.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true')
     }
     //enlace a restcontroller
-    public setLoadData(data) {
+    public setLoadData(data){
         this.dataList.list.unshift(data);
         this.dataList.count++;
         if (this.dataList.count > this.max)
@@ -111,6 +116,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
                 this.loadData();
         }
     }
+
     public setDataFieldReference(model,data,setNull=false,callback)
     {
         let value=null;
@@ -131,6 +137,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
             model.setDataField(data[model.ruleObject.code],that.model.ruleObject.key,null,callback,data);
 
     }
+
     public onDashboard(event){
         if(event)
             event.preventDefault();
