@@ -20,7 +20,7 @@ export class RecordInOutComponent extends ControllerBase {
     public instanceForm:FormComponent;
 
     constructor(public db:DependenciesBase){
-        super('RECORD','/records/',db);
+        super(db,'RECORD','/records/');
     }
 
     initModel(){
