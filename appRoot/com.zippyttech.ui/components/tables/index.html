@@ -72,7 +72,7 @@
 
 
                     <button *ngIf="model.rules[key].type =='boolean'" class="{{getBooleandData(key,data).class}}"
-                            (click)="onPatch(key,data)" [disabled]="getBooleandData(key,data).disabled">
+                            (click)="onPatch(key,data)" [disabled]="getBooleandData(key,data).disabled" [attr.title]="getBooleandData(key,data).title">
                         {{getBooleandData(key,data).text}}
                     </button>
 
