@@ -11,3 +11,13 @@
 .rotate button.btn, button.redondo.btn{
     margin: 0px !important;
 }
+.rotate {
+    margin-left:35px;
+}
+.input-file{
+    background: transparent;
+    border: none;
+}
+.group-btn{
+    margin-top:-25px;
+}
