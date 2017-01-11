@@ -1,13 +1,10 @@
 import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
-import {globalService} from "../../com.zippyttech.utils/globalService";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class NotificationModel extends ModelRoot{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
 
-    constructor(public myglobal:globalService){
-        super('NOTIFY','/notifications/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'NOTIFY','/notifications/');
         this.initModel();
     }
     modelExternal() {}
@@ -17,7 +14,7 @@ export class NotificationModel extends ModelRoot{
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'image',
-            'default':this.pathElements.robot,
+            'default':this.db.pathElements.robot,
             'title': 'Imagen',
             'placeholder': 'Imagen',
         };
@@ -63,6 +60,7 @@ export class NotificationModel extends ModelRoot{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.image;
     }
 
 }

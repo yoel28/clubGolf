@@ -39,8 +39,8 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true, 'class': 'btn btn-sm btn-enabled fa fa-check'},
-                {'value':false, 'class': 'btn btn-sm btn-disable fa fa-remove'},
+                {'value':true, 'class': 'btn btn-sm btn-enabled fa fa-check','title':'Habilitado'},
+                {'value':false, 'class': 'btn btn-sm btn-disable fa fa-remove','title':'deshabilitado'},
             ],
             "key": "enabled",
             "title": "Habilitado",
