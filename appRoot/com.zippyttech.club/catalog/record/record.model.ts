@@ -7,8 +7,10 @@ import {AntennaModel} from "../antenna/antenna.model";
 import {LocationModel} from "../location/location.model";
 import {CompanyModel} from "../company/company.model";
 import {UserTypeModel} from "../userType/userType.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class RecordModel extends ModelBase{
+
     private vehicle:any;
     private user:any;
     private userType:any;
@@ -18,18 +20,18 @@ export class RecordModel extends ModelBase{
     private company:any;
 
 
-    constructor(public myglobal:globalService){
-        super('RECORD','/records/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'RECORD','/records/');
         this.initModel();
     }
     modelExternal() {
-        this.vehicle = new VehicleModel(this.myglobal);
-        this.user = new UserModel(this.myglobal);
-        this.userType = new UserTypeModel(this.myglobal);
-        this.antennaIn = new AntennaModel(this.myglobal);
-        this.antennaOut = new AntennaModel(this.myglobal);
-        this.location = new LocationModel(this.myglobal);
-        this.company = new CompanyModel(this.myglobal);
+        this.vehicle = new VehicleModel(this.db);
+        this.user = new UserModel(this.db);
+        this.userType = new UserTypeModel(this.db);
+        this.antennaIn = new AntennaModel(this.db);
+        this.antennaOut = new AntennaModel(this.db);
+        this.location = new LocationModel(this.db);
+        this.company = new CompanyModel(this.db);
     }
     initRules(){
 
