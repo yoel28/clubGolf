@@ -1,13 +1,13 @@
 <section  [@animation_0] = 'model.completed?"true":"false"' class="content container" *ngIf="model.completed">
-    <div class="background-grandient {{classCol(10,10,11,12)}}">
-        <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
+    <div class="background-grandient {{db.classCol(10,10,11,12)}}">
+        <div class="{{db.classCol(10,10,12,12)}}{{db.classOffset(1,1)}} margin-top-5">
             <form role="form">
                 <div class="tab-content">
-                    <h1 class="text-center">{{msg.getProducts}}</h1>
+                    <h1 class="text-center">{{db.msg.getProducts}}</h1>
                     <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
                         <div class="row margin-top-5">
-                            <div class="{{classCol(12,12,12,12)}}">
-                                <span>{{msg.fieldRequired}}</span>
+                            <div class="{{db.classCol(12,12,12,12)}}">
+                                <span>{{db.msg.fieldRequired}}</span>
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>
@@ -16,11 +16,11 @@
                                         <th class="text-center">PRODUCTO</th>
                                         <th class="text-center">
                                             ENTREGADO<br/>
-                                            <span *ngIf="byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="msg.clickChange">
+                                            <span *ngIf="byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="db.msg.clickChange">
                                                 <i class="fa fa-user"></i>
                                                 &nbsp;Cliente
                                             </span>
-                                            <span *ngIf="!byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="msg.clickChange">
+                                            <span *ngIf="!byClientDefault" (click)="changeClientDefault()" class="cursor-pointer" [attr.title]="db.msg.clickChange">
                                                 <i class="fa fa-user-md"></i>
                                                 &nbsp;Empleado
                                             </span>
@@ -59,7 +59,7 @@
                                         </td>
 
                                         <td class="text-left">
-                                            <i class="fa fa-trash fa-lg cursor-pointer" (click)="deleteKeyProduc(code)" [attr.title]="msg.delete"></i>
+                                            <i class="fa fa-trash fa-lg cursor-pointer" (click)="deleteKeyProduc(code)" [attr.title]="db.msg.delete"></i>
                                             &nbsp;{{code}}
                                         </td>
 
@@ -84,11 +84,11 @@
                                                 <i class="fa fa-close"></i>
                                                 &nbsp;Producto no a salido
                                             </span>
-                                            <span *ngIf="listProduct[code].byClient && !listProduct[code].available" (click)="changeClient(code)" class="cursor-pointer" [attr.title]="msg.clickChange">
+                                            <span *ngIf="listProduct[code].byClient && !listProduct[code].available" (click)="changeClient(code)" class="cursor-pointer" [attr.title]="db.msg.clickChange">
                                                 <i class="fa fa-user"></i>
                                                 &nbsp;Cliente
                                             </span>
-                                            <span *ngIf="!listProduct[code].byClient && !listProduct[code].available && listProduct[code].id" (click)="changeClient(code)" [attr.title]="msg.clickChange" class="cursor-pointer">
+                                            <span *ngIf="!listProduct[code].byClient && !listProduct[code].available && listProduct[code].id" (click)="changeClient(code)" [attr.title]="db.msg.clickChange" class="cursor-pointer">
                                                 <i class="fa fa-user-md"></i>
                                                 &nbsp;Empleado
                                             </span>
@@ -123,7 +123,7 @@
                             </div>
 
 
-                            <div class="{{classCol(6,6,6,12)}} table-responsive">
+                            <div class="{{db.classCol(6,6,6,12)}} table-responsive">
                                 <table class="table color-golf">
                                     <thead>
                                         <tr>
@@ -147,7 +147,7 @@
                                 </table>
 
                             </div>
-                            <div class="{{classCol(6,6,6,12)}} ">
+                            <div class="{{db.classCol(6,6,6,12)}} ">
                                 <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
                                     <div class="form-group input-icon right">
                                         <i class="fa fa-qrcode text-white"></i>

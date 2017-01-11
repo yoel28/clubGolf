@@ -21,14 +21,12 @@ export class GetbackComponent extends ControllerBase {
     public form:FormGroup;
     public listProduct:any={};
     public product:any;
-    public msg=StaticValues.msg;
 
     public stateDefault=parseFloat(this.db.myglobal.getParams('TRADE_CODE_DEFAULT'));
     public byClientDefault=this.db.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
     constructor(public db:DependenciesBase) {
-        super('GETBACK','/getback/',db);
-
+        super(db,'GETBACK','/getback/');
     }
     ngOnInit():void{
         super.ngOnInit();
@@ -38,8 +36,8 @@ export class GetbackComponent extends ControllerBase {
 
 
     initModel() {
-        this.model= new GetbackModel(this.db.myglobal);
-        this.product = new ProductModel(this.db.myglobal);
+        this.model= new GetbackModel(this.db);
+        this.product = new ProductModel(this.db);
     }
 
     initViewOptions() {
@@ -47,6 +45,9 @@ export class GetbackComponent extends ControllerBase {
     }
 
     loadProduct(event){
+        if(event)
+            event.preventDefault();
+
         let that=this;
         let code=this.form.controls['code'].value;
         this.form.controls['code'].setValue(null);
@@ -54,8 +55,6 @@ export class GetbackComponent extends ControllerBase {
         if(that.listProduct[code])
             return;
 
-        if(event)
-            event.preventDefault();
 
         let successCallback= response => {
             let data=response.json();
@@ -86,7 +85,7 @@ export class GetbackComponent extends ControllerBase {
         this.listProduct[code]={'wait':true};
         this.form.controls['data'].setValue(this.listProduct);
 
-        this.product.loadDataModelWhere(successCallback,where);
+        this.product.loadDataWhere(null,where,successCallback);
     }
     deleteKeyProduc(key){
         if(this.listProduct[key])

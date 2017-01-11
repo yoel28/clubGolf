@@ -2,20 +2,19 @@ import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {StateModel} from "../../catalog/state/state.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class GetbackModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
-    public state:any;
+    private state:any;
 
-    constructor(public myglobal:globalService){
-        super('GETBACK','/getback/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'GETBACK','/getback/');
         this.initModel(false);
-        this.loadData();
+        this.loadDataExternal();
     }
     modelExternal() {
-        this.state = new StateModel(this.myglobal);
+        this.state = new StateModel(this.db);
     }
     initRules(){
         this.rules['code']={
@@ -75,18 +74,19 @@ export class GetbackModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
     }
-    loadData()
+    loadDataExternal()
     {
         let that = this;
-        let successCallback= response => {
-            let data =  response.json();
-            data.list.forEach(obj=> {
-                that.rules['state'].source.push({'value': obj.id, 'text': obj.code + ' ('+obj.title+')' });
-                that.rules['state'].data[obj.id]=obj;
+        this.state.loadData().then(
+            response => {
+                let data =  response.json();
+                data.list.forEach(obj=> {
+                    that.rules['state'].source.push({'value': obj.id, 'text': obj.code + ' ('+obj.title+')' });
+                    that.rules['state'].data[obj.id]=obj;
 
-            });
-            that.completed = true;
-        }
-        this.state.loadDataModel(successCallback)
+                });
+                that.completed = true;
+            }
+        )
     }
 }
