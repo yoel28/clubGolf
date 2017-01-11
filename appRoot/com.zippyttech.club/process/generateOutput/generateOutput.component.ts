@@ -45,7 +45,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public channelWS:string;
 
     constructor(public ws:WebSocket,public db:DependenciesBase) {
-        super('NA','',db);
+        super(db,'NA','');
         this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){
