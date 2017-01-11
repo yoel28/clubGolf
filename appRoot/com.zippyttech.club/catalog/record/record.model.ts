@@ -1,6 +1,5 @@
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {VehicleModel} from "../vehicle/vehicle.model";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {AntennaModel} from "../antenna/antenna.model";
