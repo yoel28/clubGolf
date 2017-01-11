@@ -12,7 +12,7 @@ declare var Table2Excel:any;
 export abstract class ControllerBase extends RestController implements OnInit {
     
     public formatDateId:any = {};
-    public prefix = "DEFAULT";
+    public prefix:string;
     public configId = moment().valueOf();
     public viewOptions:any = {};
     public dateHmanizer = StaticValues.dateHmanizer;
@@ -23,8 +23,8 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(prefix, endpoint,public db:DependenciesBase) {
-        super(db.http,db.toastyService,db.toastyConfig);
+    constructor(public db:DependenciesBase,prefix='NOPREFIX', endpoint='NOENPOINT') {
+        super(db);
         this.setEndpoint(endpoint);
         this.prefix = prefix;
         this.initLang();
