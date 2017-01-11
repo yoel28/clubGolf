@@ -1,12 +1,12 @@
 <div [@animation_0] = '"true"'>
     <section class="content container">
-        <div class="background-grandient {{classCol(10,10,11,12)}}">
-            <div class="{{classCol(10,10,12,12)}}{{classOffset(1,1)}} margin-top-5">
+        <div class="background-grandient {{db.classCol(10,10,11,12)}}">
+            <div class="{{db.classCol(10,10,12,12)}}{{db.classOffset(1,1)}} margin-top-5">
                 <form role="form">
                     <div class="tab-content">
                         <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
                             <div class="row">
-                                <div class="{{classCol(6,6,6,12)}} text-center margin-top-5">
+                                <div class="{{db.classCol(6,6,6,12)}} text-center margin-top-5">
                                     <h2 hidden>
                                         <i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando al usuario
                                         <button (click)="openQR($event)" class="btn btn-success"
@@ -15,19 +15,19 @@
                                         </button>
                                     </h2>
                                     <div class="text-center img-responsive">
-                                        <div [class.opacity-qr]="ws.webSocket[channelWS].status.value != 'connect'">
+                                        <div [class.opacity-qr]="db.ws.webSocket[channeldb.ws].status.value != 'connect'">
                                             <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
                                         </div>
-                                        <div class="center-load" *ngIf="ws.webSocket[channelWS].status.value != 'connect'">
-                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="ws.webSocket[channelWS].reconnect<=5"></i><br/>
-                                            <button *ngIf="ws.webSocket[channelWS].reconnect > 5" class="btn btn-blue" (click)="reconectWS($event)">
+                                        <div class="center-load" *ngIf="db.ws.webSocket[channeldb.ws].status.value != 'connect'">
+                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="db.ws.webSocket[channeldb.ws].reconnect<=5"></i><br/>
+                                            <button *ngIf="db.ws.webSocket[channeldb.ws].reconnect > 5" class="btn btn-blue" (click)="reconectdb.ws($event)">
                                                 <i class="fa fa-qrcode"></i>
                                                 &nbsp;Reintentar
                                             </button>
                                         </div>
                                     </div>
                                     <div class="form-group input-icon right" style="margin-top: 15px">
-                                        <div class="{{classCol(12,12,12,12)}}">
+                                        <div class="{{db.classCol(12,12,12,12)}}">
                                             <div class="input-icon right">
                                                 <i class="fa fa-qrcode"></i>
                                                 <form (submit)="searchQr($event)">
@@ -37,65 +37,65 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="{{classCol(6,6,6,12)}} margin-top-5">
+                                <div class="{{db.classCol(6,6,6,12)}} margin-top-5">
                                     <h1><strong class="letra-grande">CDGApp</strong></h1>
                                     <h1>Usa CDGApp en tu telefono para escanear el código</h1>
                                 </div>
                             </div>
                             <div class="row margin-top-5">
-                                <div class="{{classCol(6,6,6,12)}}">
+                                <div class="{{db.classCol(6,6,6,12)}}">
                                     <div class="margin-top-5 row">
-                                            <div class="{{classCol(3,4,5,5)}}">
+                                            <div class="{{db.classCol(3,4,5,5)}}">
                                                 <img class="img-responsive" [attr.src]="pathElements.btnUsuario">
                                             </div>
-                                            <div class="{{classCol(9,8,7,7)}}">
+                                            <div class="{{db.classCol(9,8,7,7)}}">
                                                 <strong>Usuarios</strong><br>
                                                 Abre App-Menú-CDG
                                             </div>
                                     </div>
                                     <div class="margin-top-5 row">
-                                        <div class="{{classCol(3,4,5,5)}}">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
                                             <img class="img-responsive" [attr.src]="pathElements.btnFamilia">
                                         </div>
-                                        <div class="{{classCol(9,8,7,7)}}">
+                                        <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Familia</strong><br>
                                             Abre App-Menú-CDG
                                         </div>
                                     </div>
                                     <div class="margin-top-5 row">
-                                        <div class="{{classCol(3,4,5,5)}}">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
                                             <img class="img-responsive" [attr.src]="pathElements.btnToallas">
                                         </div>
-                                        <div class="{{classCol(9,8,7,7)}}">
+                                        <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Toallas</strong><br>
                                             Abre App-Menú-CDG
                                         </div>
                                     </div>
                                 </div>
-                                <div class="{{classCol(6,6,6,12)}}">
+                                <div class="{{db.classCol(6,6,6,12)}}">
                                     <div class="margin-top-5 row">
-                                        <div class="{{classCol(3,4,5,5)}}">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
                                             <img class="img-responsive" [attr.src]="pathElements.btnInvitados">
                                         </div>
-                                        <div class="{{classCol(9,8,7,7)}}">
+                                        <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Invitados</strong><br>
                                             Abre App-Menú-CDG
                                         </div>
                                     </div>
                                     <div class="margin-top-5 row">
-                                        <div class="{{classCol(3,4,5,5)}}">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
                                             <img class="img-responsive" [attr.src]="pathElements.btnCarrito">
                                         </div>
-                                        <div class="{{classCol(9,8,7,7)}}">
+                                        <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Carros de Golf</strong><br>
                                             Escanea el servicio
                                         </div>
                                     </div>
                                     <div class="margin-top-5 row">
-                                        <div class="{{classCol(3,4,5,5)}}">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
                                             <img class="img-responsive" [attr.src]="pathElements.btnServicios">
                                         </div>
-                                        <div class="{{classCol(9,8,7,7)}}">
+                                        <div class="{{db.classCol(9,8,7,7)}}">
                                             <strong>Servicios</strong><br>
                                             Abre App-Menú-CDG
                                         </div>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="tab-pane" [class.active]="step==2" role="tabpanel" id="step2">
                             <div class="row margin-top-5">
-                                <div class="{{classCol(6,6,6,12)}} table-responsive">
+                                <div class="{{db.classCol(6,6,6,12)}} table-responsive">
                                     <table class="table color-golf">
                                         <thead>
                                         <tr>
@@ -164,7 +164,7 @@
                                     </table>
 
                                 </div>
-                                <div class="{{classCol(6,6,6,12)}} ">
+                                <div class="{{db.classCol(6,6,6,12)}} ">
                                     <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
                                         <div class="form-group input-icon right">
                                             <i class="fa fa-qrcode text-white"></i>
@@ -177,7 +177,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="{{classCol(8,8,10,10)}}{{classOffset(2,2,1,1)}} margin-top-5 table-responsive">
+                            <div class="{{db.classCol(8,8,10,10)}}{{db.classOffset(2,2,1,1)}} margin-top-5 table-responsive">
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>
