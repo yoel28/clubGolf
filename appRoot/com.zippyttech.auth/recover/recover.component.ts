@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
-import {Router}           from '@angular/router';
-import {Http} from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -15,14 +13,11 @@ declare var SystemJS:any;
     animations: AnimationsManager.getTriggers("d-expand_down",200)
 })
 export class RecoverComponent extends RestController {
-
-    public pathElements=StaticValues.pathElements;
-    public msg=StaticValues.msg;
     
     form:FormGroup;
 
-    constructor(public router:Router, public http:Http,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
         this.setEndpoint(localStorage.getItem('url')+'/users/recover/');
         this.initForm();
     }
@@ -36,13 +31,13 @@ export class RecoverComponent extends RestController {
         let that= this;
         let successCallback= response => {
             let link = ['/auth/login', {}];
-            that.router.navigate(link);
+            that.db.router.navigate(link);
         }
         this.httputils.doGet(this.endpoint+this.form.value.username,successCallback,this.error,true);
     }
     onLogin(event:Event){
         event.preventDefault();
         let link = ['/auth/login', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
 }
