@@ -19,7 +19,7 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     public msg= StaticValues.msg;
 
     constructor(public db:DependenciesBase) {
-        super('USER','/users/',db);
+        super(db,'USER','/users/');
     }
     ngOnInit():any
     {
@@ -27,7 +27,7 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         this.loadPage();
     }
     initModel():any{
-        this.model = new UserModel(this.db.myglobal);
+        this.model = new UserModel(this.db);
     }
     ngAfterViewInit():any{
     }
