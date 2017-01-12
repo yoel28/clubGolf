@@ -3,6 +3,30 @@
     border-radius: 5px !important;
     overflow: hidden;
 }
+
 .box-header
 {
+
+}
+
+.data-detail
+{
+    border-radius: 0px !important;
+    height: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+li
+{
+    padding: 0px;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 30px;
+    margin: 1px 0px;
+}
+
+.btn-expand-data
+{
+    border-radius: 0px !important;
+    height: 100%;
 }
