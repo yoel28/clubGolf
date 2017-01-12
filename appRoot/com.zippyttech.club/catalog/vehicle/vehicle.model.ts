@@ -1,9 +1,9 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {ModelModel} from "../model/model.model";
 import {BrandModel} from "../brand/brand.model";
 import {VehicleTypeModel} from "../vehicleType/vehicleType.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class VehicleModel extends ModelBase{
 
@@ -13,15 +13,15 @@ export class VehicleModel extends ModelBase{
     public user:any;
     public tag:any;
 
-    constructor(public myglobal:globalService,useGlobal=true){
-        super('VEH','/vehicles/',myglobal,useGlobal);
+    constructor(public db:DependenciesBase,useGlobal=true){
+        super(db,'VEH','/vehicles/',useGlobal);
         this.initModel();
     }
     modelExternal() {
-        this.user = new UserModel(this.myglobal);
-        this.model = new ModelModel(this.myglobal);
-        this.brand = new BrandModel(this.myglobal);
-        this.vehicleType = new VehicleTypeModel(this.myglobal);
+        this.user = new UserModel(this.db);
+        this.model = new ModelModel(this.db);
+        this.brand = new BrandModel(this.db);
+        this.vehicleType = new VehicleTypeModel(this.db);
 
     }
     initRules() {

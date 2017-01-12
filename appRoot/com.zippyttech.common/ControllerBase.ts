@@ -1,4 +1,3 @@
-///<reference path="DependenciesBase.ts"/>
 import {RestController} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {OnInit} from "@angular/core";
@@ -13,7 +12,7 @@ declare var Table2Excel:any;
 export abstract class ControllerBase extends RestController implements OnInit {
     
     public formatDateId:any = {};
-    public prefix = "DEFAULT";
+    public prefix:string;
     public configId = moment().valueOf();
     public viewOptions:any = {};
     public dateHmanizer = StaticValues.dateHmanizer;
@@ -24,10 +23,10 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
 
-    constructor(public db:DependenciesBase, prefix?, endpoint?) {
-        super(db.http,db.toastyService,db.toastyConfig);
-        this.setEndpoint(endpoint  || 'NOPREFIX') ;
-        this.prefix = prefix || '/NOENDPOINT/';
+    constructor(public db:DependenciesBase,prefix='NOPREFIX', endpoint='NOENPOINT') {
+        super(db);
+        this.setEndpoint(endpoint);
+        this.prefix = prefix;
         this.initLang();
 
     }
@@ -98,7 +97,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
     }
 
     //enlace a restcontroller
-    public setLoadData(data){
+    public setLoadData(data) {
         this.dataList.list.unshift(data);
         this.dataList.count++;
         if (this.dataList.count > this.max)
@@ -117,7 +116,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
                 this.loadData();
         }
     }
-
     public setDataFieldReference(model,data,setNull=false,callback)
     {
         let value=null;
@@ -138,7 +136,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
             model.setDataField(data[model.ruleObject.code],that.model.ruleObject.key,null,callback,data);
 
     }
-
     public onDashboard(event){
         if(event)
             event.preventDefault();
@@ -191,8 +188,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
     public getKeys(data){
         return Object.keys(data || {})
     }
-
-
 
     public getKeysDataVisible()
     {

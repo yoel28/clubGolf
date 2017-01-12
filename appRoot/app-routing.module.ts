@@ -47,6 +47,7 @@ import {LocationComponent} from "./com.zippyttech.club/catalog/location/location
 import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/recordInOut";
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
 import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
+import {NotificationComponent} from "./com.zippyttech.business/notification/notification.component";
 import {listAccionComponent} from "./com.zippyttech.ui/components/listAction/listAccion.component";
 
 const routesDefault: Routes = [
@@ -74,6 +75,7 @@ const routesDefault: Routes = [
     { path: 'business/info', component: InfoComponent},
     { path: 'business/rule', component: RuleComponent},
     { path: 'business/param', component: ParamComponent},
+    { path: 'business/notification', component: NotificationComponent},
 
 
     { path: 'club/catalog/type/product', component: ProductTypeComponent},
@@ -129,7 +131,8 @@ export const componentsDefault = [
     RuleComponent,
     ParamComponent,
     AccountComponent,
-    UserComponent
+    UserComponent,
+    NotificationComponent
 ];
 export const componentsView = [
     ImageEditComponent,

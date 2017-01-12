@@ -1,6 +1,7 @@
 import {ElementRef, EventEmitter, OnInit, Directive} from "@angular/core";
 import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {RestController} from "../../com.zippyttech.rest/restController";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -10,7 +11,7 @@ declare var moment:any;
     inputs: ['data', 'rules', 'field', 'function', 'endpoint','disabled'],
     outputs: ['success']
 })
-export class XEditable implements OnInit {
+export class XEditable extends RestController implements OnInit {
     public success:any;
     public data:any = {};
     public rules:any = {};
@@ -21,6 +22,7 @@ export class XEditable implements OnInit {
     public disabled:boolean;
 
     constructor(public el:ElementRef, public db:DependenciesBase) {
+        super(db)
         this.success = new EventEmitter();
         this.httputils = new HttpUtils(db.http,db.toastyService,db.toastyConfig);
     }

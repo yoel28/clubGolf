@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {TradeModel} from "./trade.model";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {ActivatedRoute} from "@angular/router";
 
 declare var SystemJS:any;
@@ -15,7 +15,7 @@ export class TradeComponent extends BaseViewInstance{
 
     public userId:string;
 
-    constructor(public myglobal:globalService,private routeActive: ActivatedRoute) {
+    constructor(public db:DependenciesBase,private routeActive:ActivatedRoute) {
         super();
     }
     ngOnInit():void{
@@ -34,7 +34,7 @@ export class TradeComponent extends BaseViewInstance{
     }
 
     initModel() {
-        this.model= new TradeModel(this.myglobal);
+        this.model= new TradeModel(this.db);
 
     }
 

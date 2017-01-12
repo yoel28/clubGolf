@@ -13,6 +13,7 @@ import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var jQuery:any;
 declare var SystemJS:any;
@@ -23,7 +24,6 @@ declare var SystemJS:any;
     animations: AnimationsManager.getTriggers("d-fade|expand_down",150)
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck{
-    public pathElement = StaticValues.pathElements;
 
     public menuType:FormControl;
     public menuItems:FormControl;
@@ -32,54 +32,52 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info:any;
 
-    constructor(public router: Router, http: Http, public myglobal: globalService,private cdRef:ChangeDetectorRef,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase, private cdRef:ChangeDetectorRef) {
+        super(db);
 
         let that = this;
         let url="https://cdg.zippyttech.com:8080";
-        //let url="http://pescadorj:8080";
-        //let url="https://club-golf.herokuapp.com";
 
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
 
-        router.events.subscribe((event: any) => {
+        db.router.events.subscribe((event: any) => {
             if(event instanceof NavigationStart){
-                that.myglobal.navigationStart= true;
+                that.db.myglobal.navigationStart= true;
             }
             if (event instanceof RoutesRecognized) {
-                that.myglobal.navigationStart= false;
+                that.db.myglobal.navigationStart= false;
                 let componentName =  event.state.root.children[0].component['name'];
                 let isPublic = that.isPublic(componentName);
 
-                if (isPublic && that.myglobal.dataSesion.valid) {
+                if (isPublic && that.db.myglobal.dataSesion.valid) {
                     let link = ['/init/dashboard', {}];
-                    that.router.navigate(link);
+                    that.db.router.navigate(link);
                 }
-                else if (!isPublic && !that.myglobal.dataSesion.valid) {
+                else if (!isPublic && !that.db.myglobal.dataSesion.valid) {
                     let link:any;
                     if(localStorage.getItem('bearer')){
                         if(componentName!='LoadComponent')
                         {
-                            that.myglobal.saveUrl = event.url;
+                            that.db.myglobal.saveUrl = event.url;
                             link = ['/init/load', {}];
-                            that.router.navigate(link);
+                            that.db.router.navigate(link);
                         }
                     }
                     else{
-                        that.myglobal.saveUrl = event.url;
+                        that.db.myglobal.saveUrl = event.url;
                         link = ['/auth/login', {}];
-                        that.router.navigate(link);
+                        that.db.router.navigate(link);
                     }
                 }
-                else if (that.myglobal.saveUrl && !isPublic) {
-                    let link = [that.myglobal.saveUrl, {}];
-                    that.myglobal.saveUrl = null;
-                    that.router.navigate(link);
+                else if (that.db.myglobal.saveUrl && !isPublic) {
+                    let link = [that.db.myglobal.saveUrl, {}];
+                    that.db.myglobal.saveUrl = null;
+                    that.db.router.navigate(link);
                 }
 
-                if (that.myglobal.dataSesion.valid && that.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE')) {
-                    localStorage.setItem('VERSION_CACHE', that.myglobal.getParams('VERSION_CACHE'));
+                if (that.db.myglobal.dataSesion.valid && that.db.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE')) {
+                    localStorage.setItem('VERSION_CACHE', that.db.myglobal.getParams('VERSION_CACHE'));
                     location.reload(true);
                 }
             }
@@ -91,7 +89,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.menuItems=new FormControl([]);
     }
     initModels(){
-        this.info = new InfoModel(this.myglobal);
+        this.info = new InfoModel(this.db);
         this.info.rules['code'].readOnly=true;
         this.info.paramsSave.updateField=true;
     }
@@ -108,7 +106,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     @HostListener('window:resize' , ['$event'])
     onResize(event) {
         //TODO:Cambiar menu
-        this.myglobal.visualData.height = event.target.innerWidth;
+        this.db.myglobal.visualData.height = event.target.innerWidth;
     }
 
     public isPublic(component: string) {
@@ -123,14 +121,14 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         event.preventDefault();
         let that = this;
         let successCallback = (response: any) => {
-            this.myglobal.dataSesionInit();
+            this.db.myglobal.dataSesionInit();
             localStorage.removeItem('bearer');
             contentHeaders.delete('Authorization');
             this.menuItems.setValue([]);
             this.menuType.setValue(null);
             this.activeMenuId = "";
             let link = ['/auth/login', {}];
-            this.router.navigate(link);
+            that.db.router.navigate(link);
         };
         this.httputils.doPost('/logout', null, successCallback, this.error);
 
@@ -144,7 +142,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if(event)
             event.preventDefault();
         let link = ['/access/user/profile', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
 
     }
 
@@ -176,8 +174,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.loadMenu();
             this.initModels();
             this.menuType.setValue({
-                'list':this.myglobal.getParams('MENU_LIST')=='1'?true:false,
-                'modal':this.myglobal.getParams('MENU_MODAL')=='1'?true:false,
+                'list':this.db.myglobal.getParams('MENU_LIST')=='1'?true:false,
+                'modal':this.db.myglobal.getParams('MENU_MODAL')=='1'?true:false,
             });
 
             if (!this.menuType.value.list) {
@@ -189,63 +187,63 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if (this.menuItems.value && this.menuItems.value.length == 0) {
 
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_DASHBOARD']),
+                'visible': this.db.myglobal.existsPermission(['MEN_DASHBOARD']),
                 'icon': 'fa fa-dollar',
                 'title': 'Dashboard',
                 'routerLink': '/init/dashboard'
 
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT']),
+                'visible': this.db.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
                 'select' : false,
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_USERS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USERS']),
                         'icon': 'fa fa-user',
                         'title': 'Usuarios',
                         'routerLink': '/access/user'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_US_TYPE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_US_TYPE']),
                         'icon': 'fa fa-user',
                         'title': 'Tipos de usuarios',
                         'routerLink': '/access/user/type'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_USER_STATUS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USER_STATUS']),
                         'icon': 'fa fa-user',
                         'title': 'Estatus de usuarios',
                         'routerLink': '/access/user/status'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_ACL']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_ACL']),
                         'icon': 'fa fa-user',
                         'title': 'ACL',
                         'routerLink': '/access/acl'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PERM']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PERM']),
                         'icon': 'fa fa-user',
                         'title': 'Permisos',
                         'routerLink': '/access/permission'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_ROLE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_ROLE']),
                         'icon': 'fa fa-user',
                         'title': 'Roles',
                         'routerLink': '/access/role'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_ACCOUNT']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_ACCOUNT']),
                         'icon': 'fa fa-building',
                         'title': 'Cuentas',
                         'routerLink': '/access/account'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_CONT']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_CONT']),
                         'icon': 'fa fa-user',
                         'title': 'Contratos',
                         'routerLink': '/club/catalog/contract'
@@ -253,83 +251,89 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_EVENT','MEN_INFO','MEN_PARAM','MEN_RULE']),
+                'visible': this.db.myglobal.existsPermission(['MEN_EVENT','MEN_INFO','MEN_PARAM','MEN_RULE','MEN_NOTIFY']),
                 'icon': 'fa fa-gears',
                 'title': 'Configuración',
                 'key': 'Configuracion',
                 'select' : false,
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_EVENT']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_EVENT']),
                         'icon': 'fa fa-user',
                         'title': 'Eventos',
                         'routerLink': '/business/event'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_INFO']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_INFO']),
                         'icon': 'fa fa-user',
                         'title': 'Información',
                         'routerLink': '/business/info'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PARAM']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PARAM']),
                         'icon': 'fa fa-user',
                         'title': 'Parametros',
                         'routerLink': '/business/param'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_RULE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_RULE']),
                         'icon': 'fa fa-user',
                         'title': 'Reglas',
                         'routerLink': '/business/rule'
                     },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_NOTIFY']),
+                        'icon': 'fa fa-user',
+                        'title': 'Notificaciones',
+                        'routerLink': '/business/notification'
+                    },
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
+                'visible': this.db.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
                 'icon': 'fa fa-gears',
                 'title': 'Catalogo',
                 'key': 'Catalogo',
                 'select' : false,
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PRTYPE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PRTYPE']),
                         'icon': 'fa fa-list',
                         'title': 'Tipo de producto',
                         'routerLink': '/club/catalog/type/product'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_PROD']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PROD']),
                         'icon': 'fa fa-list',
                         'title': 'Producto',
                         'routerLink': '/club/catalog/product'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_STATUS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_STATUS']),
                         'icon': 'fa fa-list',
                         'title': 'Estados',
                         'routerLink': '/club/catalog/status'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_QR']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_QR']),
                         'icon': 'fa fa-list',
                         'title': 'QR Codigos',
                         'routerLink': '/club/catalog/qr'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_COMPANY']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_COMPANY']),
                         'icon': 'fa fa-list',
                         'title': 'Empresas',
                         'routerLink': '/club/catalog/company'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_ANTENNA']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_ANTENNA']),
                         'icon': 'fa fa-list',
                         'title': 'Antenas',
                         'routerLink': '/club/catalog/antenna'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_LOCATION']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_LOCATION']),
                         'icon': 'fa fa-list',
                         'title': 'Ubicaciones',
                         'routerLink': '/club/catalog/location'
@@ -337,32 +341,32 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
+                'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
                 'icon': 'fa fa-gears',
                 'select' : false,
                 'title': 'Operaciones',
                 'key': 'Operaciones',
                 'treeview': [
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_GENE_OUT']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT']),
                         'icon': 'fa fa-list',
                         'title': 'Generar salida',
                         'routerLink': '/club/process/generate/output'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_GETBACK']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_GETBACK']),
                         'icon': 'fa fa-list',
                         'title': 'Generar entrada',
                         'routerLink': '/club/process/getback'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_TRADE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_TRADE']),
                         'icon': 'fa fa-list',
                         'title': 'Lista de Op.',
                         'routerLink': '/club/catalog/trade'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_RECORD_LIST']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_RECORD_LIST']),
                         'icon': 'fa fa-list',
                         'title': 'Lista registro',
                         'routerLink': '/club/catalog/record'
@@ -372,7 +376,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             });
 
             this.menuItems.value.push({
-                'visible': this.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYP','MEN_MODEL','MEN_BRAND']),
+                'visible': this.db.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYP','MEN_MODEL','MEN_BRAND']),
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
@@ -380,31 +384,31 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'treeview': [
 
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_TAG']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_TAG']),
                         'icon': 'fa fa-list',
                         'title': 'Tag',
                         'routerLink': '/club/catalog/tag'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_VEH']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_VEH']),
                         'icon': 'fa fa-list',
                         'title': 'Vehículos',
                         'routerLink': '/club/catalog/vehicle'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_VEH_TYP']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_VEH_TYP']),
                         'icon': 'fa fa-list',
                         'title': 'Tipos de veh.',
                         'routerLink': '/club/catalog/vehicle/type'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_MODEL']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_MODEL']),
                         'icon': 'fa fa-list',
                         'title': 'Modelo de veh.',
                         'routerLink': '/club/catalog/vehicle/model'
                     },
                     {
-                        'visible': this.myglobal.existsPermission(['MEN_BRAND']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_BRAND']),
                         'icon': 'fa fa-list',
                         'title': 'Marcas de veh.',
                         'routerLink': '/club/catalog/vehicle/brand'
@@ -438,14 +442,14 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     }
 
     setInstance(instance, prefix) {
-        if (!this.myglobal.objectInstance[prefix])
-            this.myglobal.objectInstance[prefix] = {};
-        this.myglobal.objectInstance[prefix] = instance;
+        if (!this.db.myglobal.objectInstance[prefix])
+            this.db.myglobal.objectInstance[prefix] = {};
+        this.db.myglobal.objectInstance[prefix] = instance;
     }
     goPage(event,url){
         if(event)
             event.preventDefault();
         let link = [url, {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
 }

@@ -1,8 +1,8 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {VehicleModel} from "../../catalog/vehicle/vehicle.model";
 import {TagModel} from "../../catalog/tag/tag.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class RegisterFullModel extends ModelBase{
@@ -12,14 +12,14 @@ export class RegisterFullModel extends ModelBase{
     public tags:any;
 
 
-    constructor(public myglobal:globalService){
-        super('REG_FULL','/users/wizard',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'REG_FULL','/users/wizard');
         this.initModel();
     }
     modelExternal() {
-        this.user = new UserModel(this.myglobal);
-        this.vehicle = new VehicleModel(this.myglobal,false);
-        this.tags = new TagModel(this.myglobal);
+        this.user = new UserModel(this.db);
+        this.vehicle = new VehicleModel(this.db,false);
+        this.tags = new TagModel(this.db);
     }
     initRules() {
         this.rules['user'] =  this.user.ruleObject;

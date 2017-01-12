@@ -1,30 +1,32 @@
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../com.zippyttech.utils/globalService";
+import {RestController} from "../com.zippyttech.rest/restController";
+import {DependenciesBase} from "./DependenciesBase";
 
 declare var moment:any;
-export abstract class ModelRoot{
+export abstract class ModelRoot extends RestController{
 
-    public useGlobal:boolean;
     public prefix = "DEFAULT";
     public endpoint = "DEFAULT_ENDPOINT";
+    public useGlobal:boolean=true;
     public completed=false;
     public permissions:any = {};
     public paramsSearch:any = {};
     public paramsSave:any = {};
     public ruleObject:any={};
     public rulesSave:any={};
-    public msg:any=StaticValues.msg;
 
     public configId = moment().valueOf();
     private rulesDefault:any = {};
     public rules:Object={};
 
+    public dataList={};
 
-    constructor(prefix,endpoint,public myglobal:globalService,useGlobal=true){
+
+    constructor(public db:DependenciesBase,prefix,endpoint,useGlobal=true){
+        super(db);
         this.prefix = prefix;
         this.endpoint = endpoint;
         this.useGlobal = useGlobal;
-
         this._initModel();
     }
 
@@ -55,17 +57,17 @@ export abstract class ModelRoot{
 
     abstract initPermissions();
     private _initPermissions() {
-        this.permissions['list'] = this.myglobal.existsPermission([this.prefix + '_LIST']);
-        this.permissions['add'] = this.myglobal.existsPermission([this.prefix + '_ADD']);
-        this.permissions['update'] = this.myglobal.existsPermission([this.prefix + '_UPDATE']);
-        this.permissions['delete'] = this.myglobal.existsPermission([this.prefix + '_DELETE']);
-        this.permissions['filter'] = this.myglobal.existsPermission([this.prefix + '_FILTER']);
-        this.permissions['search'] = this.myglobal.existsPermission([this.prefix + '_SEARCH']);
-        this.permissions['lock'] = this.myglobal.existsPermission([this.prefix + '_LOCK']);
-        this.permissions['warning'] = this.myglobal.existsPermission([this.prefix + '_WARNING']);
+        this.permissions['list'] = this.db.myglobal.existsPermission([this.prefix + '_LIST']);
+        this.permissions['add'] = this.db.myglobal.existsPermission([this.prefix + '_ADD']);
+        this.permissions['update'] = this.db.myglobal.existsPermission([this.prefix + '_UPDATE']);
+        this.permissions['delete'] = this.db.myglobal.existsPermission([this.prefix + '_DELETE']);
+        this.permissions['filter'] = this.db.myglobal.existsPermission([this.prefix + '_FILTER']);
+        this.permissions['search'] = this.db.myglobal.existsPermission([this.prefix + '_SEARCH']);
+        this.permissions['lock'] = this.db.myglobal.existsPermission([this.prefix + '_LOCK']);
+        this.permissions['warning'] = this.db.myglobal.existsPermission([this.prefix + '_WARNING']);
         this.permissions['visible'] = true;//this.myglobal.existsPermission([this.prefix + '_VISIBLE']);
-        this.permissions['audit'] = this.myglobal.existsPermission([this.prefix + '_AUDICT']);
-        this.permissions['global'] = this.myglobal.existsPermission(['ACCESS_GLOBAL']) && this.useGlobal;
+        this.permissions['audit'] = this.db.myglobal.existsPermission([this.prefix + '_AUDICT']);
+        this.permissions['global'] = this.db.myglobal.existsPermission(['ACCESS_GLOBAL']) && this.useGlobal;
     }
 
     abstract modelExternal();
@@ -92,8 +94,8 @@ export abstract class ModelRoot{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Habilitado', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Deshabilitado', 'class': 'btn btn-sm btn-red'},
+                {'value':true,'text': 'Habilitado', 'class': 'btn btn-sm btn-green','title':'Habilitado'},
+                {'value':false,'text': 'Deshabilitado', 'class': 'btn btn-sm btn-red','title':'Deshabilitado'},
             ],
             "key": "enabled",
             "title": "Habilitado",
@@ -112,7 +114,7 @@ export abstract class ModelRoot{
             'label': {'title': "titulo: ", 'detail': "detalle: "},
             'msg': {
                 'errors': {
-                    'noAuthorized': this.msg.noAuthorized,
+                    'noAuthorized': this.db.msg.noAuthorized,
                 },
             },
             'where': '',
@@ -178,25 +180,18 @@ export abstract class ModelRoot{
         this.paramsSave.prefix = this.prefix+'_ADD';
     }
 
-    public setDataField(id,key,value?,callback?,data?){
-        let json = {};
-        json[key] = value || null;
-        let body = JSON.stringify(json);
-        return (this.myglobal.httputils.onUpdate(this.endpoint + id, body,{}).then(response=>{
-            if(callback)
-                callback(response,data);
-        }));
-    }
-    public loadDataModel(successCallback){
-        return this.myglobal.httputils.doGet(this.endpoint,successCallback,this.myglobal.error);
-    }
-    public onSave(body,successCallback){
-        return this.myglobal.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.myglobal.error);
-    }
-    public loadDataModelWhere(successCallback,where=[],id='',error=this.myglobal.error){
-        let _where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
-        return this.myglobal.httputils.doGet(this.endpoint+id+_where,successCallback,error);
-    }
+    // public setDataField(id,key,value?,callback?,data?){
+    //     let json = {};
+    //     json[key] = value || null;
+    //     let body = JSON.stringify(json);
+    //     return (this.db.myglobal.httputils.onUpdate(this.endpoint + id, body,{}).then(response=>{
+    //         if(callback)
+    //             callback(response,data);
+    //     }));
+    // }
+    // public loadDataModel(successCallback){
+    //     return this.db.myglobal.httputils.doGet(this.endpoint,successCallback,this.myglobal.error);
+    // }
 
     public extendRulesObjectInRules(rules){
         let that = this;

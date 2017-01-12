@@ -1,12 +1,10 @@
-import {globalService} from "../../com.zippyttech.utils/globalService";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class AccountModel extends ModelRoot{
-    public pathElements=StaticValues.pathElements;
 
-    constructor(public myglobal:globalService){
-        super('ACCOUNT','/accounts/',myglobal,false);
+    constructor(db:DependenciesBase){
+        super(db,'ACCOUNT','/accounts/');
         this.initModel();
     }
     modelExternal() {}
@@ -18,7 +16,7 @@ export class AccountModel extends ModelRoot{
             'visible':this.permissions.visible,
             'key': 'logo',
             'title': 'Logo',
-            'default':this.pathElements.company,
+            'default':this.db.pathElements.company,
             'placeholder': 'Logo',
         };
 
@@ -118,7 +116,7 @@ export class AccountModel extends ModelRoot{
             'visible':this.permissions.visible,
             'key': 'miniLogo',
             'title': 'Mini logo',
-            'default':this.pathElements.company,
+            'default':this.db.pathElements.company,
             'placeholder': 'Mini Logo',
         };
 

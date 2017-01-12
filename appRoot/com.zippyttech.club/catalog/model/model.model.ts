@@ -1,17 +1,18 @@
-import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {BrandModel} from "../brand/brand.model";
+import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
-export class ModelModel extends ModelBase{
+export class ModelModel extends ModelRoot{
 
     public brand:any;
-    constructor(public myglobal:globalService){
-        super('MOD','/models/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'MOD','/models/');
         this.initModel();
     }
     modelExternal() {
-        this.brand = new BrandModel(this.myglobal);
+        this.brand = new BrandModel(this.db);
     }
     initRules() {
         this.rules['title'] = {

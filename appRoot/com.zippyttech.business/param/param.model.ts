@@ -1,10 +1,10 @@
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
-import {globalService} from "../../com.zippyttech.utils/globalService";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class ParamModel extends ModelBase{
     public rules={};
-    constructor(public myglobal:globalService){
-        super('PARAM','/params/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'PARAM','/params/');
         this.initModel();
     }
     modelExternal() {}

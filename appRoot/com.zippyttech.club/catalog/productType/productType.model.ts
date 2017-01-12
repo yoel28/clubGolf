@@ -1,13 +1,11 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class ProductTypeModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
 
-    constructor(public myglobal:globalService){
-        super('PRTYPE','/type/products/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'PRTYPE','/type/products/');
         this.initModel();
     }
     modelExternal() {}
@@ -35,7 +33,7 @@ export class ProductTypeModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'icon',
             'icon': 'fa fa-key',
-            'default':this.pathElements.warning,
+            'default':this.db.pathElements.warning,
             'title': 'Imagen',
             'placeholder': 'Ingrese una imagen',
         };
@@ -51,6 +49,18 @@ export class ProductTypeModel extends ModelBase{
             'title':'Nombre',
             'placeholder':'Nombre',
         };
+        this.rules['intervalMinutes']={
+            'type':'number',
+            'step':'1',
+            'disabled':'data.type == "unidad"',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key':'intervalMinutes',
+            'icon': 'fa fa-list',
+            'title':'Intervalo',
+            'placeholder':'Minutos',
+        };
 
         this.rules['type']={
             'type':'select',
@@ -63,7 +73,7 @@ export class ProductTypeModel extends ModelBase{
             'placeholder':'Tipo',
             'source':[
                 {'value':'unidad','text': 'Unidad', 'class': 'btn btn-sm btn-green'},
-                {'value':'unidad','text': 'Tiempo', 'class': 'btn btn-sm btn-red'},
+                {'value':'tiempo','text': 'Tiempo', 'class': 'btn btn-sm btn-red'},
             ]
         };
         this.rules['minPrice']={

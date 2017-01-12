@@ -1,14 +1,14 @@
-<div class="table-responsive">
+<div class="table-responsive" *ngIf="dataList && dataList.list" >
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
+            <th data-type = "html" *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
                 <i *ngIf="sort==key && order == 'asc' && !findData" class="fa fa-caret-up text-blue"></i>
                 <i *ngIf="sort==key && order == 'desc' && !findData" class="fa fa-caret-down text-blue"></i>
                 <i *ngIf="sort==key && findData" class="fa fa-spinner fa-spin"></i>
                 &nbsp;{{model.rules[key].title}}
             </th>
-            <th *ngIf="params.actions">&nbsp;
+            <th data-type = "html" *ngIf="params && params.actions">&nbsp;
                 <tooltip-view [code]="model.prefix+'_5'"></tooltip-view>
             </th>
         </tr>
@@ -29,7 +29,7 @@
                                 model.rules[key].type == 'number' ||
                                 model.rules[key].type == 'select' ||
                                 model.rules[key].type == 'password'"
-                       x-editable [disabled]="!model.rules[key].update" [endpoint]="params.endpoint"
+                       x-editable [disabled]="!model.rules[key].update" [endpoint]="params?params.endpoint:endpoint"
                        [function]="onEditable" [data]="data" [rules]="model.rules" [field]="key">
                     </a>
 
@@ -39,7 +39,7 @@
                              width="30" height="30"
                              data-toggle="modal" [attr.data-target]="'#'+data.id+'_'+key"
                              class="image-editor"
-                             [attr.title]="model.rules[key].update?msg.imageEdit:''"
+                             [attr.title]="model.rules[key].update?db.msg.imageEdit:''"
                         >
 
                         <div [attr.id]="data.id+'_'+key" class="modal fade" tabindex="-1" role="dialog"
@@ -50,7 +50,7 @@
                                             aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title">
                                         <i class="fa fa-image"></i>&nbsp;
-                                        <strong>{{msg.imageEditor}}</strong>
+                                        <strong>{{db.msg.imageEditor}}</strong>
                                     </h4>
                                 </div>
                                 <div class="modal-content">
@@ -72,7 +72,7 @@
 
 
                     <button *ngIf="model.rules[key].type =='boolean'" class="{{getBooleandData(key,data).class}}"
-                            (click)="onPatch(key,data)" [disabled]="getBooleandData(key,data).disabled">
+                            (click)="onPatch(key,data)" [disabled]="getBooleandData(key,data).disabled" [attr.title]="getBooleandData(key,data).title">
                         {{getBooleandData(key,data).text}}
                     </button>
 
@@ -189,7 +189,7 @@
                 </span>
 
             </td>
-            <td *ngIf="params.actions">
+            <td *ngIf="params && params.actions">
 
                 <div class="btn-group dropdown pull-right" *ngIf="keyActions.length > 1">
                     <button type="button" data-toggle="dropdown"
@@ -276,10 +276,11 @@
             </td>
         </tr>
         </tfoot>
+        {{console('prueba final')}}
     </table>
 </div>
 
-<div *ngIf="model.permissions.delete">
+<div *ngIf="model.permissions.delete && params && params.actions && params.actions.delete">
     <div class="modal fade" [attr.id]="params.actions.delete.idModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -288,7 +289,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h3 class="modal-title" id="myModalLabel"><i
-                            class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle}}&nbsp;
+                            class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle}}&nbsp;
                         <tooltip-view [code]="model.prefix+'_10'"></tooltip-view>
                     </strong></h3>
                 </div>
@@ -297,9 +298,9 @@
                     ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{msg.warningButtonExit}}</button>
+                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{db.msg.warningButtonExit}}</button>
                     <button (click)="onDelete($event,dataSelect.id)" data-dismiss="modal" type="button"
-                            class="btn btn-red fa fa-trash">&nbsp;{{msg.delete}}
+                            class="btn btn-red fa fa-trash">&nbsp;{{db.msg.delete}}
                     </button>
                 </div>
             </div>
@@ -360,7 +361,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{msg.warningButtonExit}}</button>
+                    <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">&nbsp;{{db.msg.warningButtonExit}}</button>
                 </div>
             </div>
         </div>

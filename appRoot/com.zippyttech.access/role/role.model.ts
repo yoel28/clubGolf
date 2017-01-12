@@ -1,10 +1,10 @@
-import {ModelBase} from "../../com.zippyttech.common/modelBase";
-import {globalService} from "../../com.zippyttech.utils/globalService";
+import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
-export class RoleModel extends ModelBase{
-    public rules={};
-    constructor(public myglobal:globalService){
-        super('ROLE','/roles/',myglobal);
+export class RoleModel extends ModelRoot{
+
+    constructor(public db:DependenciesBase){
+        super(db,'ROLE','/roles/');
         this.initModel();
     }
     modelExternal() {}

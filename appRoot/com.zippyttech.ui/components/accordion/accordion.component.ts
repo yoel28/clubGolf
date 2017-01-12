@@ -9,6 +9,7 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -43,8 +44,8 @@ export class AccordionComponent extends RestController implements OnInit,AfterVi
     public formatTime = StaticFunction.formatTime;
 
 
-    constructor(public http:Http, public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
         this.getInstance = new EventEmitter();
     }
 
@@ -76,7 +77,7 @@ export class AccordionComponent extends RestController implements OnInit,AfterVi
                 force = this.formatDateId[id].value;
             if (!force) {
                 var diff = moment().valueOf() - moment(date).valueOf();
-                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                if (diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) {
                     return 'Hace '+this.formatTime(diff);
                 }
             }
@@ -94,7 +95,7 @@ export class AccordionComponent extends RestController implements OnInit,AfterVi
     public viewChangeDate(date) {
         //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
         var diff = moment().valueOf() - moment(date).valueOf();
-        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))))
+        return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))))
     }
 
     public getObjectKey(data){

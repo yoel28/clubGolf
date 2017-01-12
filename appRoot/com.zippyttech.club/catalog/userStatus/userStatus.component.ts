@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {UserStatusModel} from "./userStatus.model";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,11 +11,11 @@ declare var SystemJS:any;
 })
 export class UserStatusComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
     initModel():any {
-        this.model= new UserStatusModel(this.myglobal);
+        this.model= new UserStatusModel(this.db);
     }
     initViewOptions() {
         this.viewOptions["title"] = 'Estatus de usuarios';

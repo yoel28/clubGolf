@@ -16,7 +16,6 @@ declare var SystemJS:any;
 })
 export class RecordInOutComponent extends ControllerBase {
     public record:any;
-    public pathElements=StaticValues.pathElements;
     public instanceForm:FormComponent;
 
     constructor(public db:DependenciesBase){
@@ -24,7 +23,7 @@ export class RecordInOutComponent extends ControllerBase {
     }
 
     initModel(){
-        this.model = new RecordModel(this.db.myglobal);
+        this.model = new RecordModel(this.db);
 
         delete (<RecordModel>this.model).rulesSave['entering'];
         this.model=Object.assign({},this.model)

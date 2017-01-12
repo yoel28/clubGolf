@@ -1,10 +1,8 @@
-import {Component, EventEmitter, OnInit} from "@angular/core";
-import {Http} from "@angular/http";
+import {Component, EventEmitter, OnInit, AfterContentChecked} from "@angular/core";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -16,7 +14,7 @@ declare var moment:any;
     outputs:['getInstance'],
 })
 
-export class TablesComponent extends RestController implements OnInit {
+export class TablesComponent extends RestController implements OnInit,AfterContentChecked {
 
 
     public params:any={};
@@ -32,25 +30,56 @@ export class TablesComponent extends RestController implements OnInit {
     public keyActions =[];
     public configId=moment().valueOf();
 
+    public on=false;
+
     public getInstance:any;
-    public msg=StaticValues.msg;
 
     public formatTime=StaticFunction.formatTime;
 
-    constructor(public http:Http,public myglobal:globalService,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
 
     ngOnInit()
     {
-        this.keyActions=Object.keys(this.params.actions);
+        this.keyActions=[];
+        if(this.params && this.params.actions)
+            this.keyActions=Object.keys(this.params.actions);
         this.getInstance = new EventEmitter();
-        this.setEndpoint(this.params.endpoint);
+        this.setEndpoint(this.params? this.params.endpoint:'');
         this.getListObjectNotReferenceSave();
+        console.log('1 '+this.findData);
+    }
+    ngAfterContentChecked(){
+        console.log('2 '+this.findData);
+    }
+    ngOnChanges(){
+        console.log('3 '+this.findData);
+    }
+    ngDoCheck(){
+        console.log('4 '+this.findData);
+    }
+    ngAfterContentInit(){
+        console.log('5 '+this.findData);
+    }
+    ngAfterViewChecked(){
+        console.log('6 '+this.findData);
+        if(!this.findData)
+            this.on = true;
     }
     ngAfterViewInit() {
+        console.log('7 '+this.findData);
         this.getInstance.emit(this);
     }
+
+
+
+
+
+    console(msg){
+        console.log(msg)
+    }
+
 
     private instanceSearch={};
     setInstanceSearch(type,instance){
@@ -195,9 +224,9 @@ export class TablesComponent extends RestController implements OnInit {
         if (date) {
             if (id && this.formatDateId[id])
                 force = this.formatDateId[id].value;
-            if (this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
+            if (this.db.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true' && !force) {
                 var diff = moment().valueOf() - moment(date).valueOf();
-                if (diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) {
+                if (diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) {
                     if (diff < 1800000)//menor a 30min
                         return 'Hace ' + this.dateHmanizer(diff, {units: ['m', 's']})
                     if (diff < 3600000) //menor a 1hora
@@ -218,7 +247,7 @@ export class TablesComponent extends RestController implements OnInit {
     public viewChangeDate(date) {
         //<i *ngIf="viewChangeDate(data.rechargeReferenceDate)" class="fa fa-exchange" (click)="changeFormatDate(data.id)"></i>
         var diff = moment().valueOf() - moment(date).valueOf();
-        return ((diff < parseFloat(this.myglobal.getParams('DATE_MAX_HUMAN'))) && this.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
+        return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) && this.db.myglobal.getParams(this.model.prefix + '_DATE_FORMAT_HUMAN') == 'true')
     }
     public getTypeEval(key,data){
         if(this.model.rules[key])
