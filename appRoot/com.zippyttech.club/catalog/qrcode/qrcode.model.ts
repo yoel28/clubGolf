@@ -1,21 +1,20 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class QrcodeModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
+
     public sponsor:any;
     public guest:any;
 
-    constructor(public myglobal:globalService){
-        super('QRCODE','/qr/codes/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'QRCODE','/qr/codes/');
         this.initModel();
     }
     modelExternal() {
-        this.sponsor = new UserModel(this.myglobal);
-        this.guest = new UserModel(this.myglobal);
+        this.sponsor = new UserModel(this.db);
+        this.guest = new UserModel(this.db);
     }
     initRules(){
 

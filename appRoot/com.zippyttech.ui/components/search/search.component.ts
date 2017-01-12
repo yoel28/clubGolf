@@ -26,7 +26,7 @@ export class SearchComponent extends RestController implements OnInit,DoCheck{
     public getInstance:any;
 
     constructor(public db:DependenciesBase) {
-        super(db.http,db.toastyService,db.toastyConfig);
+        super(db);
         this.result = new EventEmitter();
         this.getInstance = new EventEmitter();
     }

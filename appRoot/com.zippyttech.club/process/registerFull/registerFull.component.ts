@@ -1,15 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
-import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
 import {RegisterFullModel} from "./registerFull.model";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 import {RestController} from "../../../com.zippyttech.rest/restController";
-import {Http} from "@angular/http";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
-import {FormGroup, Validators, FormControl} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -23,17 +18,13 @@ export class RegisterFullComponent extends RestController implements OnInit{
     public model:any;
     public viewOptions:any={};
 
-    public msg=StaticValues.msg;
-    public classCol = StaticFunction.classCol;
-    public classOffset = StaticFunction.classOffset;
-
     public user:any;
     public userObject:any={};
     public userObjectInstance:any;
     public vehicle:any=[];
 
-    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig,public myglobal:globalService) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
 
     ngOnInit(){
@@ -49,8 +40,8 @@ export class RegisterFullComponent extends RestController implements OnInit{
     }
 
     initModel() {
-        this.model= new RegisterFullModel(this.myglobal);
-        this.userObject['id']= (new UserModel(this.myglobal)).ruleObject;
+        this.model= new RegisterFullModel(this.db);
+        this.userObject['id']= (new UserModel(this.db)).ruleObject;
         this.userObject['id'].key='id';
     }
 

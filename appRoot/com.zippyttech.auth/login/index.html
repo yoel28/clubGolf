@@ -5,7 +5,7 @@
                 <div class="login-box-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-4 col-lg-offset-3 col-md-offset-3">
-                            <img [attr.src]="pathElements.logoBlanco" class="img-responsive img-logo">
+                            <img [attr.src]="db.pathElements.logoBlanco" class="img-responsive img-logo">
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
                         </fieldset>
                     </form>
-                    <p><a href="#" class="pull-right" (click)="onRecover($event)">{{msg.recoverPassword}}</a></p>
+                    <p><a href="#" class="pull-right" (click)="onRecover($event)">{{db.msg.recoverPassword}}</a></p>
                 </div>
             </div>
         </div>

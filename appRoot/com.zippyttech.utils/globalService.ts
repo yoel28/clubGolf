@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Http} from "@angular/http";
 import {RestController} from "../com.zippyttech.rest/restController";
 import {contentHeaders} from "../com.zippyttech.rest/headers";
 import {FormControl, Validators} from "@angular/forms";
-import {ToastyConfig, ToastyService, ToastOptions, ToastData} from "ng2-toasty";
+import {Http} from "@angular/http";
+import {ToastyService, ToastyConfig} from "ng2-toasty";
 
 @Injectable()
 export class globalService extends RestController{
@@ -41,8 +41,8 @@ export class globalService extends RestController{
 
     objectInstance:any={};//lista de instancias creadas
     
-    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public http:Http, public toastyService:ToastyService, public toastyConfig:ToastyConfig) {
+        super({'http':http,'toastyService':toastyService,'toastyConfig':toastyConfig});
         this.existLocalStorage();
 
     }
@@ -73,7 +73,7 @@ export class globalService extends RestController{
     }
     errorGS = (err:any):void => {
         if(localStorage.getItem('bearer')){
-            if(this.toastyService)
+            if(this.db.toastyService)
                 this.addToast('Ocurrio un error',err,'error',10000);
 
             this.dataSesionInit();

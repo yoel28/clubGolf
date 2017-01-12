@@ -9,6 +9,7 @@ import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 
@@ -21,16 +22,13 @@ declare var SystemJS:any;
 export class LoginComponent extends RestController implements OnInit,OnDestroy{
 
     public submitForm:boolean = false;
-    public msg=StaticValues.msg;
-    public pathElements = StaticValues.pathElements;
     public context:any={'company':null,'public':{}};
     
     form:FormGroup;
     public subcribe;
 
-    constructor(public router:Router, public http:Http, public myglobal:globalService,public af: AngularFire,private routeActive: ActivatedRoute,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
-        let that = this;
+    constructor(public af: AngularFire,public db:DependenciesBase,private routeActive:ActivatedRoute) {
+        super(db);
         this.setEndpoint("/login");
     }
     loginFirebase(token){
@@ -42,7 +40,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
             localStorage.setItem('bearer', response.json().tokenValue);
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
             let link = ['/init/load', {}];
-            that.router.navigate(link);
+            that.db.router.navigate(link);
         };
         return this.httputils.doPost(localStorage.getItem('url')+'/tokens/'+this.context.company+'/firebaseToken',JSON.stringify(json),successCallback,this.error,true)
     }
@@ -60,9 +58,9 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
         let that = this;
         let successCallback= response => {
             Object.assign(that.context.public, response.json());
-            that.pathElements.logo = that.context.public.logo || that.pathElements.logo;
-            that.pathElements.logoBlanco = that.context.public.logo || that.pathElements.logo;
-            that.pathElements.isotipo = that.context.public.miniLogo || that.pathElements.isotipo;
+            that.db.pathElements.logo = that.context.public.logo || that.db.pathElements.logo;
+            that.db.pathElements.logoBlanco = that.context.public.logo || that.db.pathElements.logo;
+            that.db.pathElements.isotipo = that.context.public.miniLogo || that.db.pathElements.isotipo;
         };
         this.httputils.doGet(localStorage.getItem('url')+'/context/'+this.context.company,successCallback,this.error,true);
     }
@@ -76,7 +74,8 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
     }
 
     login(event:Event) {
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
         let that=this;
         let body = Object.assign({},this.form.value);
         body['username'] = body['company']+'/'+body['username'];
@@ -90,7 +89,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
             localStorage.setItem('bearer', response.json().access_token);
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
             let link = ['/init/load', {}];
-            that.router.navigate(link);
+            that.db.router.navigate(link);
         };
         this.httputils.doPost(this.endpoint, JSON.stringify(body), successCallback, errorLogin);
     }
@@ -99,7 +98,7 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
             event.preventDefault();
         
         let link = ['/auth/recover', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
     ngOnDestroy(){
         if(this.subcribe)

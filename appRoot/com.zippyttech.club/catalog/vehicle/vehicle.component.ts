@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {VehicleModel} from "./vehicle.model";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
 import {TagModel} from "../tag/tag.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -12,14 +12,15 @@ declare var SystemJS:any;
 })
 export class VehicleComponent extends BaseViewInstance{
 
-    public tag:any;
-    constructor(public myglobal:globalService) {
+    private tag:any;
+
+    constructor(public db:DependenciesBase) {
         super();
     }
 
     initModel() {
-        this.model= new VehicleModel(this.myglobal);
-        this.tag= new TagModel(this.myglobal);
+        this.model= new VehicleModel(this.db);
+        this.tag= new TagModel(this.db);
 
         this.model.rules['tags']=this.tag.ruleObject;
         this.model.rules['tags'].multiple=true;

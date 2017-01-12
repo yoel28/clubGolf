@@ -1,10 +1,10 @@
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class PermissionModel extends ModelRoot{
-    public rules={};
-    constructor(public myglobal:globalService){
-        super('PERM','/permissions/',myglobal);
+
+    constructor(public db:DependenciesBase){
+        super(db,'PERM','/permissions/');
         this.initModel();
     }
     modelExternal() {}

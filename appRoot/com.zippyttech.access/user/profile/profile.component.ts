@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, NgModule} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
@@ -20,7 +20,7 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     public vehicle:any;
 
     constructor(public db:DependenciesBase) {
-        super('USER','/users/',db);
+        super(db,'USER','/users/');
     }
     ngOnInit():any
     {
@@ -28,18 +28,28 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         this.loadPage();
     }
     initModel():any{
-        this.model = new UserModel(this.db.myglobal);
-        this.vehicle = new VehicleModel(this.db.myglobal);
+        this.model = new UserModel(this.db);
+        this.vehicle = new VehicleModel(this.db);
+
+        this.vehicle.rules["enabled"] = {
+            "update": (this.vehicle.permissions.update && this.vehicle.permissions.lock),
+            "visible": this.vehicle.permissions.lock && this.vehicle.permissions.visible,
+            "search": false,
+            'required': true,
+            'icon': 'fa fa-list',
+            "type": "boolean",
+            'source': [
+                {'value':true, 'class': 'btn btn-sm btn-enabled fa fa-check','title':'Habilitado'},
+                {'value':false, 'class': 'btn btn-sm btn-disable fa fa-remove','title':'deshabilitado'},
+            ],
+            "key": "enabled",
+            "title": "Habilitado",
+            "placeholder": "",
+        };
 
         let that=this;
-        let _where=[
-            {'op':'eq','field':'user.id','value':this.db.myglobal.user.id}
-            ];
-
-        let callback=(response)=>{
-            Object.assign(that.vehicle.dataList,response.json())
-        }
-        this.vehicle.loadDataModelWhere(callback,_where);
+        let where=[{'op':'eq','field':'user.id','value':this.db.myglobal.user.id}];
+        this.vehicle.loadDataWhere('',where);
     }
     ngAfterViewInit():any{
     }
@@ -47,4 +57,5 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
     saveImage(data){
         this.onPatchValue('image',this.db.myglobal.user,data);
     }
+
 }

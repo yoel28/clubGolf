@@ -34,7 +34,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public onlyRequired=false;
 
     constructor(public db:DependenciesBase) {
-        super(db.http,db.toastyService,db.toastyConfig);
+        super(db);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();

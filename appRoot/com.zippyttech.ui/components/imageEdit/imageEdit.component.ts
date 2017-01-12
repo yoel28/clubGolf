@@ -12,7 +12,7 @@ declare var moment:any;
     selector: 'image-edit-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/index.html',
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/style.css'],
-    inputs:['params','image','default'],
+    inputs:['params','image','default','edit'],
     outputs:['out'],
 })
 export class ImageEditComponent {
@@ -20,6 +20,7 @@ export class ImageEditComponent {
     public configId=moment().valueOf();
     public out:any;
     public pathElements=StaticValues.pathElements;
+    public edit:boolean = true;
 
     public params:any={};
 
