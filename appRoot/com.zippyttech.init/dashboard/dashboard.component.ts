@@ -14,21 +14,46 @@ declare var SystemJS:any;
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/dashboard/style.css']
 })
 export class DashboardComponent extends ControllerBase implements OnInit{
-    private record:RecordModel;
-    private trade:TradeModel;
+    private record:any;
+    private trade:any;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'NOPREFIX','/dashboard/');
-        this.initModel();
     }
 
     ngOnInit():void {
-
+        super.ngOnInit();
     }
 
     initModel(){
-        let visibles:String[] = ["dateIn","userName","vehicle","userType"];
+        this.record = new RecordModel(this.db.myglobal);
+        this.trade = new TradeModel(this.db.myglobal);
+        this.record.title = "Vehiculos";
+        this.trade.title = "Pendientes por entregar";
+        let _whereRecord=[ {'op':'isNull','field':'dateOut'} ];
+        let _whereTrade=[ {'op':'isNull','field':'receivedDate'} ];
 
+        let that=this;
+        this.record.loadDataModelWhere(
+            (response)=>{ Object.assign(that.record.dataList ,response.json()) }
+            ,_whereRecord);
+
+        this.trade.loadDataModelWhere(
+            (response)=>{ Object.assign(that.trade.dataList ,response.json()) }
+            ,_whereTrade);
+
+        console.log(this.record.dataList);
+        console.log(this.trade.dataList);
+
+        Object.keys(this.record.rules).forEach((key)=>{
+            if(key != "dateIn" && key != "userName" && key != "vehicle" && key != "userType")
+                that.record.rules[key].visible = false;
+        });
+
+        Object.keys(this.trade.rules).forEach((key)=>{
+            if(key != "dateCreated" && key != "product" && key != "sponsor" && key != "guest")
+                that.trade.rules[key].visible = false;
+        });
     }
 
 }
