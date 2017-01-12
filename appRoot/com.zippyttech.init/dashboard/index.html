@@ -1,10 +1,8 @@
-<div class="content">
-    <div class="container">
-        <div class = "col-md-6">
-            <list-action [model]="record"></list-action>
-        </div>
-        <div class = "col-md-6">
-            <list-action [model]="trade"></list-action>
-        </div>
+<section class="content">
+    <div class = "col-md-6">
+        <list-action title="Vehiculos" [model]="record">Cargando...</list-action>
     </div>
-</div>
+    <div class="col-md-6">
+        <list-action title="Productos" [model]="trade">Cargando...</list-action>
+    </div>
+</section>
