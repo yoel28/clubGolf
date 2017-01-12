@@ -32,7 +32,9 @@ export class LoadComponent implements OnInit,OnDestroy{
     public onLoadPage(){
         if(this.myglobal.dataSesion.valid)
         {
-            let link = [ this.myglobal.saveUrl || '/init/dashboard', {}];
+            if(!this.myglobal.saveUrl || (this.myglobal.saveUrl && this.myglobal.saveUrl=='/'))
+                this.myglobal.saveUrl='/init/dashboard';
+            let link = [ this.myglobal.saveUrl, {}];
             this.myglobal.saveUrl=null;
             this.router.navigate(link);
         }

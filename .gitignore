@@ -1,7 +1,8 @@
 system-config.js*
 appRoot/**/*.js
+appRoot/**/*.d.ts
 appRoot/**/*.map
-node_modules
+node_modules/
 jspm_packages
 bower_components
 aot/*

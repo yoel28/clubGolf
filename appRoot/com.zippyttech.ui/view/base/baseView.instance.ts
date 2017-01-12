@@ -1,4 +1,5 @@
 import {OnInit} from '@angular/core';
+import {Rest} from "../../../com.zippyttech.rest/restController";
 
 export abstract class BaseViewInstance  implements OnInit {
 
@@ -6,10 +7,10 @@ export abstract class BaseViewInstance  implements OnInit {
     public paramsTable:any={};
     public model:any;
     public viewOptions:any={};
-    public rest:any={
-        'where':[],
-        'max':15,
-        'offset':0,
+    public rest:Rest={
+        where:[],
+        max:15,
+        offset:0,
     };
 
     abstract initModel();

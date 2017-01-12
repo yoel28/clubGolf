@@ -276,19 +276,28 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
-
+    public refreshFieldKey='';
     refreshField(event,data){
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
         let that = this;
+        this.refreshFieldKey=data.key;
         if(data.refreshField.endpoint){
+            this.findData=true;
             let successCallback= response => {
+                that.refreshFieldKey = '';
+                this.findData=false;
                 let val = response.json()[data.refreshField.field];
                 if(data.refreshField.callback)
                     data.refreshField.callback(data,response.json(),that.data[data.key]);
                 else
                     that.data[data.key].setValue(val);
             }
-            this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
+            let error = (err)=>{
+                that.refreshFieldKey='';
+                that.error(err);
+            }
+            this.httputils.doGet(data.refreshField.endpoint,successCallback,error);
         }
         else{
             if(that.rules[data.key].type=='list')
