@@ -5,57 +5,92 @@ import {ControllerBase} from "../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model";
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
+import {IListActionData, ListActionComponent} from "../../com.zippyttech.ui/components/listAction/listAction.component";
+import {GetbackModel} from "../../com.zippyttech.club/process/getBack/getback.model";
 
 declare var SystemJS:any;
-
 @Component({
     selector: 'dashboard',
     templateUrl: SystemJS.map.app+'com.zippyttech.init/dashboard/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/dashboard/style.css']
 })
 export class DashboardComponent extends ControllerBase implements OnInit{
-    private record:any;
-    private trade:any;
+    private record:RecordModel;
+    private trade:TradeModel;
+    private recordData:IListActionData;
+    private tradeData:IListActionData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'NOPREFIX','/dashboard/');
+
     }
 
     ngOnInit():void {
         super.ngOnInit();
+        this.initActions();
     }
 
     initModel(){
-        this.record = new RecordModel(this.db.myglobal);
-        this.trade = new TradeModel(this.db.myglobal);
-        this.record.title = "Vehiculos";
-        this.trade.title = "Pendientes por entregar";
-        let _whereRecord=[ {'op':'isNull','field':'dateOut'} ];
-        let _whereTrade=[ {'op':'isNull','field':'receivedDate'} ];
+        this.record = new RecordModel(this.db);
+        this.trade = new TradeModel(this.db);
+        this.record.ruleObject.title = "Vehiculos";
+        this.trade.ruleObject.title = "Pendientes por entregar";
+        this.record.loadDataWhere('',[{'op':'isNull','field':'dateOut'}]);
+        this.trade.loadDataWhere('',[{'op':'isNull','field':'receivedDate'}]);
 
         let that=this;
-        this.record.loadDataModelWhere(
-            (response)=>{ Object.assign(that.record.dataList ,response.json()) }
-            ,_whereRecord);
-
-        this.trade.loadDataModelWhere(
-            (response)=>{ Object.assign(that.trade.dataList ,response.json()) }
-            ,_whereTrade);
-
-        console.log(this.record.dataList);
-        console.log(this.trade.dataList);
-
         Object.keys(this.record.rules).forEach((key)=>{
-            if(key != "dateIn" && key != "userName" && key != "vehicle" && key != "userType")
+            if(key != "dateIn" && key != "user" && key != "vehicle" && key != "userType")
                 that.record.rules[key].visible = false;
+            if(that.record.rules[key].type =='date')
+                that.record.rules[key].title = "fecha";
         });
 
         Object.keys(this.trade.rules).forEach((key)=>{
             if(key != "dateCreated" && key != "product" && key != "sponsor" && key != "guest")
                 that.trade.rules[key].visible = false;
+            if(that.trade.rules[key].type =='date')
+                that.trade.rules[key].title = "fecha";
         });
     }
 
+    private initActions() {
+        //Productos
+        let that = this;
+        this.tradeData = {
+            model: that.trade,
+            actions:{
+                "put":{
+                    model: new GetbackModel(this.db),
+                    action : that.outAction
+                }
+            },
+            globalParams:{
+                "byClient": {
+                    required: true,
+                },
+                "state": {
+                    required: true,
+                },
+                "detail": {
+                    required: false,
+                }
+            }
+        }
+    }
+
+    private outAction(context:ListActionComponent){
+        if(context.dataSelect && context.dataSelect.productCode){
+            let body={'list':[
+                    Object.assign({},{'code': context.dataSelect.productCode},context.dataForm)
+                ]};
+            context.data.actions['put'].model.onSave(body).then(
+                response=>{
+                    console.log('guAARDO');
+                }
+            );
+        }
+    }
 }
 
 
