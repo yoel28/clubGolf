@@ -362,5 +362,8 @@ export class FilterComponent extends RestController implements OnInit{
             this.data[key].setValue(null);
 
     }
+    debugLog(log){
+        console.log(log);
+    }
 }
 
