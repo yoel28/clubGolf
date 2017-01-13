@@ -42,9 +42,9 @@ export class ListActionComponent extends ControllerBase
     private visibleKeys:string[] = [];
     private instanceForm:FormComponent;
 
+    public actionSelect:string = "";
     public dataForm:Object={};
     public dataSelect:any = {};
-    public actionSelect:string = "";
 
 
     constructor(public db:DependenciesBase) {
