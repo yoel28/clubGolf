@@ -62,7 +62,8 @@ export class DashboardComponent extends ControllerBase implements OnInit{
             actions:{
                 "put":{
                     model: new GetbackModel(this.db),
-                    action : that.outAction
+                    action : that.outAction,
+                    title: "Generar entrada"
                 }
             },
             globalParams:{
@@ -77,6 +78,13 @@ export class DashboardComponent extends ControllerBase implements OnInit{
                 }
             }
         }
+
+        this.recordData = {
+            model: that.record,
+            actions:undefined,
+            globalParams:undefined
+        }
+
     }
 
     private outAction(context:ListActionComponent){
