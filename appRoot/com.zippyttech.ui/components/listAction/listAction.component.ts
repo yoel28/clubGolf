@@ -7,24 +7,25 @@ import {FormComponent} from "../form/form.component";
 declare var SystemJS:any;
 declare var moment:any;
 
-
 export interface IListActionData {
     actions: IAction;
-    model: any;
     globalParams:IActionParams;
-
+    model: any;
 }
+
 interface IActionParams {
     [name:string]:{
         required: boolean,
         value?: string | boolean | number
     };
 }
+
 interface IAction {
     [name:string]:{
+        title:string;
+        action: (context:ListActionComponent)=>void
         params?:IActionParams,
         model?:any,
-        action: (context:ListActionComponent)=>void
     };
 }
 
