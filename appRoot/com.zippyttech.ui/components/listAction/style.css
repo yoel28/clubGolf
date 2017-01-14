@@ -8,19 +8,21 @@
 .box
 {
     border-radius: 5px !important;
+    height: inherit;
     overflow: hidden;
+    border-top: none;
 }
 
 .box-header
 {
     background: #488c6c;
-    /*border-bottom: 1px solid #0d5628;*/
+    border-bottom: 1px solid #0d5628;
     color: #fff;
 }
 
 .box-body
 {
-    padding: 0px;
+    padding: 0px 30px;
     margin: 0px;
 }
 
@@ -39,22 +41,36 @@
     border: none;
 }
 
-.list-group-item-heading .data-detail{
-    margin-left: 8.33333333% !important;
+.list-group-item-heading{
+    background: #222d32;
+    color: white;
+    margin: 0px;
 }
 
 .data-detail
 {
     height: inherit !important;
+    padding: 0px;
 }
 
 .data-detail-item
 {
     height: inherit !important;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    /*font-size: 8px !important;*/
+}
+
+.btn-edit
+{
+    width: auto;
+    margin: 0px 15px;
 }
 
 .item-content{
-
+    padding: 0px;
 }
 
 .action-body
@@ -64,6 +80,20 @@
 
 .item-content-edit
 {
- padding: 10px;
+    padding: 10px;
     margin: 15px;
+}
+
+
+/*#################OTHER##########################*/
+
+.badge
+{
+    background: white;
+    color: #488c6c;
+}
+
+.btn-box-tool
+{
+    color: white;
 }
