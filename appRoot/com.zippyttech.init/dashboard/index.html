@@ -5,4 +5,41 @@
     <div class = "">
         <list-action [data]="recordData"></list-action>
     </div>
+
+    <div class = "">
+        <list-action [data]="guestData"></list-action>
+        <div class="box reader">
+            <div class="box-header">
+                <div class="reader-input">
+                    <h4 class="box-title">Reader</h4>
+                    <form (submit)="searchQr($event)">
+                        <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <div class="reader-detail" *ngIf="model.qr && model.qr.dataList.id">
+                        <div *ngFor="let key of getKeys(model.qr.rules)">
+                            <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
+                                {{model.qr.rules[key].title}}:
+                                <span *ngIf="model.qr.rules[key].type =='date'">
+                                    {{formatDate(model.qr.dataList[key],model.qr.rules[key].format?model.qr.rules[key].format.formatView:'DD/MM/YYYY',false,model.qr.dataList.id)}}
+                                </span>
+                                <span *ngIf="model.qr.rules[key].type =='number'">
+                                    {{model.qr.dataList[key]}}
+                                </span>
+                                <span *ngIf="model.qr.rules[key].object">
+                                    {{(model.qr.dataList[model.qr.rules[key].keyDisplay])?model.qr.dataList[model.qr.rules[key].keyDisplay]:"N/A"}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-green" *ngIf="model.qr && model.qr.dataList.id" (click)="loadAttendings($event)">
+                        Procesar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
