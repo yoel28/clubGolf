@@ -5,6 +5,10 @@
             {{data.model.dataList.list.length}}
         </span>
         <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" [routerLink]="data.routerLink">
+                    <i class="fa fa-external-link"></i>
+            </button>
+
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip">
                 <i class="fa fa-plus"></i>
             </button>
@@ -12,19 +16,19 @@
     </div>
     <div class="box-body" data-spy="scroll" data-offset="50">
         <ul class="list-group">
-            <li class="list-group-item list-group-item-heading col-md-12">
-                <div class="col-md-11 data-detail">
-                    <div [class]="'data-detail-item col-md-'+(12/visibleKeys.length)" *ngFor="let key of visibleKeys">
+            <li class="list-group-item list-group-item-heading {{db.classCol(12,12,12,12)}}">
+                <div class="{{db.classCol(11,11,11,11)}} data-detail">
+                    <div class="data-detail-item {{db.classCol((12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length))}}" *ngFor="let key of visibleKeys">
                         {{data.model.rules[key].title}}
                     </div>
                 </div>
             </li>
 
             <template [ngIf]="data.model && data.model.dataList">
-            <li class="col-md-12 list-group-item" *ngFor="let elem of data.model.dataList.list">
-                <div class="col-md-12 item-content">
-                    <div class="col-md-11 data-detail">
-                        <div [class]="'data-detail-item col-md-'+(12/visibleKeys.length)" *ngFor="let key of visibleKeys">
+            <li class="{{db.classCol(12,12,12,12)}} list-group-item" *ngFor="let elem of data.model.dataList.list">
+                <div class="{{db.classCol(12,12,12,12)}} item-content">
+                    <div class="{{db.classCol(11,11,11,11)}} data-detail">
+                        <div class="data-detail-item {{db.classCol((12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length))}}" *ngFor="let key of visibleKeys">
                             <!--CAMBIAR Y CREAR UN ARREGLO DE VIEWS-->
                             <span *ngIf="data.model.rules[key].type =='date'">
                                 {{formatDate(elem[key],data.model.rules[key].format?data.model.rules[key].format.formatView:'DD/MM/YYYY',false,elem.id)}}
@@ -34,22 +38,24 @@
                             </span>
                         </div>
                     </div>
-                    <button *ngIf="data.actions!==undefined" class="col-md-1 btn btn-green btn-edit" (click)="dataSelect = (dataSelect==elem)?{}:elem">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
+                    <div class="data-detail-item">
+                        <button *ngIf="data.actions!==undefined" class="{{db.classCol(1,1,1,1)}} btn btn-box-tool text-green text-center" (click)="dataSelect = (dataSelect==elem)?{}:elem" data-toggle="collapse" data-target="#edit">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div *ngIf="data.actions!==undefined" class="item-content-edit">
-                    <ul class="list-actions list-group" *ngIf="dataSelect == elem">
+                <div id="edit" class="item-content-edit collapse" *ngIf="data.actions!==undefined && (actionSelect==action || getKeys(data.actions).length == 1) && dataSelect == elem">
+                    <ul class="list-actions list-group">
                         <li class="list-actions-item" *ngFor="let action of getKeys(data.actions)">
                             <div class="box action">
                                 <div class="box-header action-header">
                                     <h4 class="box-title action-title">{{data.actions[action].title}}</h4>
-                                    <button (click)="actionSelect = (actionSelect==action)?'':action" type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip">
+                                    <button (click)="actionSelect = (actionSelect==action)?'':action" type="button" class="btn btn-box-tool pull-right" data-widget="collapse" data-toggle="tooltip">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                                 <div class="box-body action-body">
-                                    <form-view class="action-form" *ngIf="actionSelect==action || getKeys(data.actions).length == 1"
+                                    <form-view class="action-form"
                                                (getInstance)="setForm($event)"
                                                [params]="getModelAction(action).paramsSave"
                                                [rules]="filterRules(action)">
@@ -57,7 +63,10 @@
                                     </form-view>
                                 </div>
                                 <div class="box-footer action-footer">
-                                    <button class="btn btn-green pull-right" (click)="submit($event,action)">Procesar</button>
+                                    <button class="btn btn-green pull-right"
+                                            (click)="submit($event,action)"
+                                            [disabled] = "!formValid()"
+                                    >Procesar</button>
                                 </div>
                             </div>
                         </li>
