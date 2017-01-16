@@ -89,6 +89,22 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                             return null;
                         });
                 }
+                if(that.rules[key].customValidator){
+                    validators.push(that.rules[key].customValidator);
+                }
+                if(that.rules[key].type=='select' || that.rules[key].type=='boolean'){
+                    validators.push(
+                        (c:FormControl)=> {
+                            if(c.value && c.value.length > 0){
+                                if(c.value!='-1'){
+                                        return null;
+                                }
+                                return {error: {valid: false}};
+                            }
+                            return null;
+                        });
+                }
+
                 that.data[key] = new FormControl('',Validators.compose(validators));
                 if(that.rules[key].value)
                     that.data[key].setValue(that.rules[key].value);
@@ -276,19 +292,28 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
-
+    public refreshFieldKey='';
     refreshField(event,data){
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
         let that = this;
+        this.refreshFieldKey=data.key;
         if(data.refreshField.endpoint){
+            this.findData=true;
             let successCallback= response => {
+                that.refreshFieldKey = '';
+                this.findData=false;
                 let val = response.json()[data.refreshField.field];
                 if(data.refreshField.callback)
                     data.refreshField.callback(data,response.json(),that.data[data.key]);
                 else
                     that.data[data.key].setValue(val);
             }
-            this.httputils.doGet(data.refreshField.endpoint,successCallback,this.error);
+            let error = (err)=>{
+                that.refreshFieldKey='';
+                that.error(err);
+            }
+            this.httputils.doGet(data.refreshField.endpoint,successCallback,error);
         }
         else{
             if(that.rules[data.key].type=='list')

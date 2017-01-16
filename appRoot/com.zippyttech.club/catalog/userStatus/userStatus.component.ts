@@ -18,12 +18,12 @@ export class UserStatusComponent extends BaseViewInstance{
         this.model= new UserStatusModel(this.db);
     }
     initViewOptions() {
-        this.viewOptions["title"] = 'Estatus de usuarios';
+        this.viewOptions["title"] = 'Estados de usuarios';
     }
     loadParamsTable(){
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
-            'message': '¿ Esta seguro de eliminar el estatus : ',
+            'message': '¿ Esta seguro de eliminar el estado : ',
             'keyAction':'title'
         };
     }

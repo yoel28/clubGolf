@@ -24,8 +24,8 @@ export class ModelModel extends ModelRoot{
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
             'key': 'title',
-            'title': 'Título',
-            'placeholder': 'Título',
+            'title': 'Modelo',
+            'placeholder': 'Modelo',
         };
         this.rules['brand']=this.brand.ruleObject;
         this.rules['brand'].required=true;

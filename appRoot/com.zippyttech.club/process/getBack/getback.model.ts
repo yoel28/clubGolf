@@ -59,14 +59,14 @@ export class GetbackModel extends ModelBase{
     initPermissions() {}
     initParamsSearch() {
         this.paramsSearch.title="Buscar producto";
-        this.paramsSearch.placeholder="Ingrese codigo del producto";
+        this.paramsSearch.placeholder="Ingrese código del producto";
     }
     initParamsSave() {
         this.paramsSave.title="Agregar producto"
     }
     initRuleObject() {
         this.ruleObject.title="Producto";
-        this.ruleObject.placeholder="Ingrese codigo del producto";
+        this.ruleObject.placeholder="Ingrese código del producto";
         this.ruleObject.key="product";
         this.ruleObject.keyDisplay = "productCode";
         this.ruleObject.code = "productId";

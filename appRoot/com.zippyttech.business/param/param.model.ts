@@ -45,7 +45,7 @@ export class ParamModel extends ModelBase{
             ],
             'key': 'type',
             'title': 'Tipo',
-            'placeholder': 'Selecccione un Tipo',
+            'placeholder': 'Seleccione un Tipo',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }

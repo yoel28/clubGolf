@@ -1,10 +1,9 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {VehicleModel} from "../../../com.zippyttech.club/catalog/vehicle/vehicle.model";
+import {IRest} from "../../../com.zippyttech.rest/restController";
 
 declare var SystemJS:any;
 
@@ -14,10 +13,9 @@ declare var SystemJS:any;
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/user/profile/style.css'],
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
-export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit{
-    
-    public msg= StaticValues.msg;
-    public vehicle:any;
+export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit {
+
+    public restVeh:IRest;
 
     constructor(public db:DependenciesBase) {
         super(db,'USER','/users/');
@@ -27,29 +25,15 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         super.ngOnInit();
         this.loadPage();
     }
+
     initModel():any{
         this.model = new UserModel(this.db);
-        this.vehicle = new VehicleModel(this.db);
-
-        this.vehicle.rules["enabled"] = {
-            "update": (this.vehicle.permissions.update && this.vehicle.permissions.lock),
-            "visible": this.vehicle.permissions.lock && this.vehicle.permissions.visible,
-            "search": false,
-            'required': true,
-            'icon': 'fa fa-list',
-            "type": "boolean",
-            'source': [
-                {'value':true, 'class': 'btn btn-sm btn-enabled fa fa-check','title':'Habilitado'},
-                {'value':false, 'class': 'btn btn-sm btn-disable fa fa-remove','title':'deshabilitado'},
-            ],
-            "key": "enabled",
-            "title": "Habilitado",
-            "placeholder": "",
+        this.restVeh= {
+            'where': [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}],
+            'max': 5,
+            'offset':0,
         };
 
-        let that=this;
-        let where=[{'op':'eq','field':'user.id','value':this.db.myglobal.user.id}];
-        this.vehicle.loadDataWhere('',where);
     }
     ngAfterViewInit():any{
     }

@@ -99,7 +99,7 @@ export class StateModel extends ModelBase{
     initPermissions() {}
     initParamsSearch() {
         this.paramsSearch.title="Buscar estado";
-        this.paramsSearch.placeholder="Ingrese codigo del estado";
+        this.paramsSearch.placeholder="Ingrese código del estado";
     }
     initParamsSave() {
         this.paramsSave.title="Agregar estado"

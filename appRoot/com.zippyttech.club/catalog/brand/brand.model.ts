@@ -19,8 +19,8 @@ export class BrandModel extends ModelRoot{
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
             'key': 'title',
-            'title': 'Título',
-            'placeholder': 'Título',
+            'title': 'Marca',
+            'placeholder': 'Marca',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['detail'].required=true;

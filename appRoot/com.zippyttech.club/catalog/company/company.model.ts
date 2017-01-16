@@ -35,7 +35,7 @@ export class CompanyModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar empresa";
         this.paramsSearch.placeholder="Ingrese la empresa";
-        this.paramsSearch.label.title="Titulo: ";
+        this.paramsSearch.label.title="Título: ";
         this.paramsSearch.label.detail="Código: "
     }
     initParamsSave() {

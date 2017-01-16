@@ -39,7 +39,7 @@ export class ProductModel extends ModelBase{
         this.paramsSave.title="Agregar producto"
     }
     initRuleObject() {
-        this.ruleObject.title="Producto";
+        this.ruleObject.title="Cod. Producto";
         this.ruleObject.placeholder="Ingrese codigo del producto";
         this.ruleObject.key="product";
         this.ruleObject.keyDisplay = "productCode";

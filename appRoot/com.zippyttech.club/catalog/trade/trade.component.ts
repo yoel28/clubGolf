@@ -23,13 +23,14 @@ export class TradeComponent extends BaseViewInstance{
         this.userId=this.routeActive.snapshot.params['userId'];
 
         if(this.userId){
-            this.rest.where.push
-            ({
-                'or':[
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'sponsor.id'},
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'guest.id'}
-                    ]
-            });
+            this.rest.where = [
+                {
+                    'or':[
+                            {'op':'eq', 'value':parseFloat(this.userId), 'field':'sponsor.id'},
+                            {'op':'eq', 'value':parseFloat(this.userId), 'field':'guest.id'}
+                        ]
+                }
+            ];
         }
     }
 

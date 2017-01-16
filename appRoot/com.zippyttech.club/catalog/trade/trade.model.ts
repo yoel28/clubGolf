@@ -44,23 +44,7 @@ export class TradeModel extends ModelBase{
                 {'value':'No entregados','text':'No entregados'}
             ],
             'placeholder':'¿Productos entregados?'
-        }
-
-        this.rules['id']={
-            'type': 'number',
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'id',
-            'title': 'Operación',
-            'placeholder': 'Operación',
         };
-
-        this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
-        this.rules['sponsor'].key='sponsor';
-        this.rules['sponsor'].title='Patrocinador';
-        this.rules['sponsor'].keyDisplay='sponsorName';
-        this.rules['sponsor'].placeholder='Patrocinador';
-        this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest'] = Object.assign({},this.guest.ruleObject);
         this.rules['guest'].key='guest';
@@ -69,18 +53,7 @@ export class TradeModel extends ModelBase{
         this.rules['guest'].placeholder='Invitado';
         this.rules['guest'].paramsSearch.field='guest.id';
 
-        this.rules['product']=Object.assign({},this.product.ruleObject);
-        this.rules['product'].title="Cod. Producto";
-
-        this.rules['title']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'title',
-            'title': 'Producto',
-            'placeholder': 'Producto',
-        };
+        this.rules['product']=this.product.ruleObject;
 
         this.rules['dateCreated']={
             'type': 'date',
@@ -105,6 +78,33 @@ export class TradeModel extends ModelBase{
             'title': 'Fecha de entrega',
             'placeholder': 'Fecha de entrega',
         };
+
+        this.rules['id']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'id',
+            'title': 'Operación',
+            'placeholder': 'Operación',
+        };
+
+        this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
+        this.rules['sponsor'].key='sponsor';
+        this.rules['sponsor'].title='Patrocinador';
+        this.rules['sponsor'].keyDisplay='sponsorName';
+        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].paramsSearch.field='sponsor.id';
+
+
+        this.rules['title']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'key': 'title',
+            'title': 'Producto',
+            'placeholder': 'Producto',
+        };
+
 
         this.rules['timeUse']={
             'type': 'eval',
@@ -170,6 +170,15 @@ export class TradeModel extends ModelBase{
             'title': 'Costo',
             'placeholder': 'Costo',
         };
+
+        this.rules['usePrice']={
+            'type': 'number',
+            'visible':this.permissions.visible,
+            'search':this.permissions.search,
+            'key': 'usePrice',
+            'title': 'Costo total',
+            'placeholder': 'Costo total',
+        };
     }
 
     initPermissions() {}
@@ -202,5 +211,6 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.usernameCreator;
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;
+        delete this.rulesSave.usePrice;
     }
 }

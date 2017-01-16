@@ -265,8 +265,11 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
             Object.keys(data[key][0]).forEach(subkey=>{
                 if(that.model.rules[key].rulesSave[subkey])
                     that.viewListData['label'][subkey] = that.model.rules[key].rulesSave[subkey].title;
-            })
+            });
         this.viewListData['data'] =  data[key];
+        if(typeof data[key] === 'string'){
+               this.viewListData['data'] = JSON.parse(data[key])
+        }
     }
 
     public getObjectKeys(data){

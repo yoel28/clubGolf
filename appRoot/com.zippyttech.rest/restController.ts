@@ -4,6 +4,23 @@ import {FormGroup} from "@angular/forms";
 import {DependenciesBase} from "../com.zippyttech.common/DependenciesBase";
 import {ToastOptions, ToastData} from "ng2-toasty";
 
+export interface IWhere {
+    [index:number]: WhereOp |{ and:IWhere } |{ or:IWhere }  | { join:string; where:IWhere };
+}
+
+interface WhereOp {
+    op:string;
+    field:string;
+    value?:string | boolean | number;
+    type?:string;
+}
+
+export interface IRest{
+    where:IWhere;
+    max:number;
+    offset:number;
+}
+
 export class RestController implements OnInit {
 
     dataList:any = [];
@@ -15,6 +32,7 @@ export class RestController implements OnInit {
     order = "";//asc o desc
     page:any = [];
     where:string = "";
+    whereObject:IWhere=[];
     findData:boolean=false;
 
     constructor(public db:DependenciesBase | any) {
@@ -336,7 +354,7 @@ export class RestController implements OnInit {
         this.where = where;
         this.loadData();
     }
-    loadDataWhere(id='',where=[]){
+    loadDataWhere(id='',where:IWhere=[]){
         let that = this;
         this.where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
         let successCallback= response => {
