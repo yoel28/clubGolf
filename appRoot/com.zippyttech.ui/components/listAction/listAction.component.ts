@@ -3,15 +3,21 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {AnimationsManager} from "../../animations/AnimationsManager";
 import {FormComponent} from "../form/form.component";
+import {FormControl} from "@angular/forms";
 
 declare var SystemJS:any;
 declare var moment:any;
+
 
 export interface IListActionData {
     actions: IAction;
     globalParams:IActionParams;
     model: any;
     routerLink: string;
+    observable?:{
+        watch:FormControl,
+        _function:(context:ListActionComponent)=>void;
+    }
 }
 
 interface IActionParams {
@@ -24,7 +30,8 @@ interface IActionParams {
 interface IAction {
     [name:string]:{
         title:string;
-        action: (context:ListActionComponent)=>void
+        action: (context:ListActionComponent)=>void,
+        permission: boolean,
         params?:IActionParams,
         model?:any,
     };
@@ -42,6 +49,7 @@ export class ListActionComponent extends ControllerBase
 {
     public data:IListActionData;
     private visibleKeys:string[] = [];
+
     private instanceForm:FormComponent;
 
     public actionSelect:string = "";
@@ -53,6 +61,20 @@ export class ListActionComponent extends ControllerBase
         super(db);
         this.setEndpoint(this.model.endpoint);
         this.prefix = this.model.prefix;
+    }
+
+    ngOnInit()
+    {
+        super.ngOnInit();
+        let that = this;
+        if(this.data.observable && this.data.observable.watch){
+            this.data.observable.watch.valueChanges.subscribe(
+                (value) => {
+                    that.data.observable._function(that);
+                }
+            )
+        }
+
     }
 
     public getVisibleDataKeys()
@@ -69,6 +91,17 @@ export class ListActionComponent extends ControllerBase
     initModel()
     {
         this.visibleKeys = this.getVisibleDataKeys();
+
+    }
+
+    private getActionKeys(actions:IAction):string[]
+    {
+        let keys:string[] = [];
+        Object.keys(actions).forEach(k=>{
+            if(actions[k].permission)
+                keys.push(k);
+        })
+        return keys;
     }
 
     private filterRules(key:string)
@@ -123,5 +156,8 @@ export class ListActionComponent extends ControllerBase
         }
         return false;
     }
-
+    public p()
+    {
+        console.log('ee');
+    }
 }
