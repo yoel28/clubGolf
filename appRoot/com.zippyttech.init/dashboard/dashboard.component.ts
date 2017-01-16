@@ -33,7 +33,7 @@ export class DashboardComponent extends ControllerBase implements OnInit{
     initModel(){
         this.record = new RecordModel(this.db);
         this.trade = new TradeModel(this.db);
-        this.record.ruleObject.title = "Vehiculos en el estacionamiento";
+        this.record.ruleObject.title = "Vehiculos";
         this.trade.ruleObject.title = "Operaciones pendientes";
         this.record.loadDataWhere('',[{'op':'isNull','field':'dateOut'}]);
         this.trade.loadDataWhere('',[{'op':'isNull','field':'receivedDate'}]);
