@@ -102,6 +102,7 @@ pre_install_prod_job_1:
     - cp -rf ./* /tmp/build
     - cd /tmp/build
     - npm install
+    - npm install --dev
   when: on_success
   tags:
     - prod_club
