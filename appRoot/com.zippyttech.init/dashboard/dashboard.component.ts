@@ -7,21 +7,24 @@ import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {IListActionData, ListActionComponent} from "../../com.zippyttech.ui/components/listAction/listAction.component";
 import {GetbackModel} from "../../com.zippyttech.club/process/getBack/getback.model";
+import {DashboardModel} from "./dashboard.model";
+import {FormControl} from "@angular/forms";
 
 declare var SystemJS:any;
+declare var jQuery:any;
+
 @Component({
     selector: 'dashboard',
     templateUrl: SystemJS.map.app+'com.zippyttech.init/dashboard/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/dashboard/style.css']
 })
 export class DashboardComponent extends ControllerBase implements OnInit{
-    private record:RecordModel;
-    private trade:TradeModel;
     private recordData:IListActionData;
     private tradeData:IListActionData;
+    private guestData:IListActionData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
-        super(db,'NOPREFIX','/dashboard/');
+        super(db,'DASH','/dashboard/');
 
     }
 
@@ -31,40 +34,22 @@ export class DashboardComponent extends ControllerBase implements OnInit{
     }
 
     initModel(){
-        this.record = new RecordModel(this.db);
-        this.trade = new TradeModel(this.db);
-        this.record.ruleObject.title = "Vehiculos";
-        this.trade.ruleObject.title = "Operaciones pendientes";
-        this.record.loadDataWhere('',[{'op':'isNull','field':'dateOut'}]);
-        this.trade.loadDataWhere('',[{'op':'isNull','field':'receivedDate'}]);
-
-        let that=this;
-        Object.keys(this.record.rules).forEach((key)=>{
-            if(key != "dateIn" && key != "user" && key != "vehicle" && key != "userType")
-                that.record.rules[key].visible = false;
-            if(that.record.rules[key].type =='date')
-                that.record.rules[key].title = "fecha";
-        });
-
-        Object.keys(this.trade.rules).forEach((key)=>{
-            if(key != "dateCreated" && key != "product" && key != "sponsor" && key != "guest")
-                that.trade.rules[key].visible = false;
-            if(that.trade.rules[key].type =='date')
-                that.trade.rules[key].title = "fecha";
-        });
+        this.model = new DashboardModel(this.db);
     }
 
     private initActions() {
         //Productos
+        let modelAction = new GetbackModel(this.db);
         let that = this;
         this.tradeData = {
             routerLink:"/club/process/getback",
-            model: that.trade,
+            model: that.model.trade,
             actions:{
                 "put":{
-                    model: new GetbackModel(this.db),
+                    model: modelAction,
                     action : that.outAction,
-                    title: "Generar entrada"
+                    title: "Generar entrada",
+                    permission: modelAction.permissions.add
                 }
             },
             globalParams:{
@@ -82,9 +67,20 @@ export class DashboardComponent extends ControllerBase implements OnInit{
 
         this.recordData = {
             routerLink:"/club/catalog/record",
-            model: that.record,
+            model: that.model.record,
             actions:undefined,
             globalParams:undefined
+        }
+
+        this.guestData = {
+            routerLink:"/club/catalog/qr",
+            model: that.model.guest,
+            actions:undefined,
+            globalParams:undefined,
+            observable:{
+                watch:that.guestRemove,
+                _function:that.observableAction
+            }
         }
 
     }
@@ -103,6 +99,50 @@ export class DashboardComponent extends ControllerBase implements OnInit{
             );
         }
     }
+
+
+    public guestRemove:FormControl = new FormControl();
+    public qrString:string = '';
+    searchQr(event){
+        if(event)
+            event.preventDefault();
+        try {
+            let that=this;
+            let val = jQuery('#validQr').val();
+            val = val.replace(/'/g, '"');
+            this.qrString = val;
+            jQuery('#validQr').val('');
+            let data = JSON.parse(val);
+            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+
+            this.model.qr.loadDataWhere(data.id,where);
+
+        }catch (e){
+            this.addToast('Error','QR invalido','error');
+        }
+    }
+
+
+
+    public loadAttendings(event)
+    {
+        let that = this;
+        let callback = (response)=>{
+            that.guestRemove.setValue(this.model.qr.dataList.id);
+        };
+
+        if(event)
+            event.preventDefault();
+
+        this.httputils.doPost('/attendings/',this.qrString,callback,this.error);
+    }
+
+    private observableAction(context:ListActionComponent)
+    {
+        if(context.data.observable.watch.value)
+            context.data.model.spliceId(context.data.observable.watch.value);
+    }
+
 }
 
 
