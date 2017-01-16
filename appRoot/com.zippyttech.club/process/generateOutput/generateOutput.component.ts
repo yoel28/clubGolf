@@ -141,6 +141,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
                         delete that.listProduct[code];
                         that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
                     }
+                    else if(!that.listProduct[code].enabled){
+                        delete that.listProduct[code];
+                        that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                    }
                 }
                 else{
                     delete that.listProduct[code];
