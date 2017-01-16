@@ -20,7 +20,7 @@ export class ContractComponent extends BaseViewInstance{
     }
 
     initViewOptions() {
-        this.viewOptions["title"] = 'Contratos';
+        this.viewOptions["title"] = 'Contrato';
     }
 
     loadParamsTable(){

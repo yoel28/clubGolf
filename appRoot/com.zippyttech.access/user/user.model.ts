@@ -61,8 +61,8 @@ export class UserModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'email',
-            'title': 'Correo electronico',
-            'placeholder': 'Correo electronico',
+            'title': 'Correo electrónico',
+            'placeholder': 'Correo electrónico',
         };
         this.rules['phone']={
             'type': 'text',

@@ -84,7 +84,7 @@ export abstract class ModelRoot extends RestController{
             "type": "textarea",
             "key": "detail",
             "title": "Detalle",
-            "placeholder": "ingrese el detalle",
+            "placeholder": "Ingrese el detalle",
         };
         this.rulesDefault["enabled"] = {
             "update": (this.permissions.update && this.permissions.lock),
@@ -111,7 +111,7 @@ export abstract class ModelRoot extends RestController{
             'idModal': this.prefix + '_' + this.configId + '_search',
             'endpoint': "/search" + this.endpoint,
             'placeholder': "Placeholder default",
-            'label': {'title': "titulo: ", 'detail': "detalle: "},
+            'label': {'title': "título: ", 'detail': "detalle: "},
             'msg': {
                 'errors': {
                     'noAuthorized': this.db.msg.noAuthorized,

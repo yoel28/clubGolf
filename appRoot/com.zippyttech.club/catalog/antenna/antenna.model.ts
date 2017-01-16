@@ -41,7 +41,7 @@ export class AntennaModel extends ModelBase{
             ],
             'key': 'type',
             'title': 'Dirección',
-            'placeholder': 'Selecccione un la dirección',
+            'placeholder': 'Seleccione un la dirección',
         };
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
@@ -49,7 +49,7 @@ export class AntennaModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar antena";
         this.paramsSearch.placeholder="Ingrese la antena";
-        this.paramsSearch.label.title="Titulo: ";
+        this.paramsSearch.label.title="Título: ";
         this.paramsSearch.label.detail="Código: "
     }
     initParamsSave() {
