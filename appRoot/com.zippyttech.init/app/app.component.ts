@@ -211,7 +211,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_USER_STATUS']),
                         'icon': 'fa fa-user',
-                        'title': 'Estatus de usuarios',
+                        'title': 'Estado de usuarios',
                         'routerLink': '/access/user/status'
                     },
                     {
@@ -268,7 +268,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_PARAM']),
                         'icon': 'fa fa-user',
-                        'title': 'Parametros',
+                        'title': 'Parámetros',
                         'routerLink': '/business/param'
                     },
                     {
@@ -288,7 +288,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.menuItems.value.push({
                 'visible': this.db.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
                 'icon': 'fa fa-gears',
-                'title': 'Catalogo',
+                'title': 'Catálogo',
                 'key': 'Catalogo',
                 'select' : false,
                 'treeview': [
@@ -313,7 +313,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_QR']),
                         'icon': 'fa fa-list',
-                        'title': 'QR Codigos',
+                        'title': 'Códigos QR',
                         'routerLink': '/club/catalog/qr'
                     },
                     {

@@ -111,7 +111,7 @@ export abstract class ModelRoot extends RestController{
             'idModal': this.prefix + '_' + this.configId + '_search',
             'endpoint': "/search" + this.endpoint,
             'placeholder': "Placeholder default",
-            'label': {'title': "titulo: ", 'detail': "detalle: "},
+            'label': {'title': "título: ", 'detail': "detalle: "},
             'msg': {
                 'errors': {
                     'noAuthorized': this.db.msg.noAuthorized,
