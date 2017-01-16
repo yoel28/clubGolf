@@ -33,17 +33,17 @@ export class ContractModel extends ModelBase{
     }
     initPermissions() {}
     initParamsSearch() {
-        this.paramsSearch.title="Buscar contracto";
-        this.paramsSearch.placeholder="Ingrese el contracto";
+        this.paramsSearch.title="Buscar contrato";
+        this.paramsSearch.placeholder="Ingrese el contrato";
         this.paramsSearch.label.title="Titulo: ";
         this.paramsSearch.label.detail="Código: "
     }
     initParamsSave() {
-        this.paramsSave.title="Agregar contracto"
+        this.paramsSave.title="Agregar contrato"
     }
     initRuleObject() {
-        this.ruleObject.title="Contracto";
-        this.ruleObject.placeholder="Ingrese el contracto";
+        this.ruleObject.title="Contrato";
+        this.ruleObject.placeholder="Ingrese el contrato";
         this.ruleObject.key="contract";
         this.ruleObject.keyDisplay="contractCode";
         this.ruleObject.code="contractId";
