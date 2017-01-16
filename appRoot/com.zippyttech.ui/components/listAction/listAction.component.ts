@@ -11,6 +11,7 @@ export interface IListActionData {
     actions: IAction;
     globalParams:IActionParams;
     model: any;
+    routerLink: string;
 }
 
 interface IActionParams {
@@ -114,6 +115,13 @@ export class ListActionComponent extends ControllerBase
         if(key && this.data.actions[key])
             return this.data.actions[key].params || this.data.globalParams;
         return {};
+    }
+
+    private formValid():boolean{
+        if(this.instanceForm && this.instanceForm.form){
+            return this.instanceForm.isValidForm();
+        }
+        return false;
     }
 
 }
