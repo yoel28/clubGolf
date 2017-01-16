@@ -33,17 +33,17 @@ export class UserStatusModel extends ModelBase{
     }
     initPermissions() {}
     initParamsSearch() {
-        this.paramsSearch.title="Buscar estatus de usuario";
-        this.paramsSearch.placeholder="Ingrese el estatus de usuario";
+        this.paramsSearch.title="Buscar estado de usuario";
+        this.paramsSearch.placeholder="Ingrese el estado de usuario";
         this.paramsSearch.label.title="Codigo: ";
         this.paramsSearch.label.detail="Nombre: "
     }
     initParamsSave() {
-        this.paramsSave.title="Agregar estatus de usuario"
+        this.paramsSave.title="Agregar estado de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Estatus";
-        this.ruleObject.placeholder="Ingrese el estatus de usuario";
+        this.ruleObject.title="Estado";
+        this.ruleObject.placeholder="Ingrese el estado de usuario";
         this.ruleObject.key="userStatus";
         this.ruleObject.keyDisplay="userStatusTitle";
         this.ruleObject.code="userStatusId";

@@ -84,7 +84,7 @@ export abstract class ModelRoot extends RestController{
             "type": "textarea",
             "key": "detail",
             "title": "Detalle",
-            "placeholder": "ingrese el detalle",
+            "placeholder": "Ingrese el detalle",
         };
         this.rulesDefault["enabled"] = {
             "update": (this.permissions.update && this.permissions.lock),
