@@ -161,6 +161,15 @@ export class TradeModel extends ModelBase{
             'title': 'Costo',
             'placeholder': 'Costo',
         };
+
+        this.rules['usePrice']={
+            'type': 'number',
+            'visible':this.permissions.visible,
+            'search':this.permissions.search,
+            'key': 'usePrice',
+            'title': 'Costo total',
+            'placeholder': 'Costo total',
+        };
     }
     initPermissions() {}
     initParamsSearch() {
@@ -188,5 +197,6 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.usernameCreator;
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;
+        delete this.rulesSave.usePrice;
     }
 }
