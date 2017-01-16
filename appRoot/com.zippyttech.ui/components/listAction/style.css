@@ -84,6 +84,11 @@
     padding: 0px;
 }
 
+.item-content:hover
+{
+    background: rgba(72, 140, 108,0.1);
+}
+
 .action-body
 {
     padding: 5px;
