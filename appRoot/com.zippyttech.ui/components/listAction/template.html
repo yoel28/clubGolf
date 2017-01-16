@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="box-body" data-spy="scroll" data-offset="50">
-        <ul class="list-group">
+        <ul class="list-group" *ngIf="data.model && data.model.permissions && data.model.permissions.list">
             <li class="list-group-item list-group-item-heading {{db.classCol(12,12,12,12)}}">
                 <div class="{{db.classCol(11,11,11,11)}} data-detail">
                     <div class="data-detail-item {{db.classCol((12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length),(12/visibleKeys.length))}}" *ngFor="let key of visibleKeys">
@@ -33,20 +33,23 @@
                             <span *ngIf="data.model.rules[key].type =='date'">
                                 {{formatDate(elem[key],data.model.rules[key].format?data.model.rules[key].format.formatView:'DD/MM/YYYY',false,elem.id)}}
                             </span>
+                            <span *ngIf="data.model.rules[key].type =='number'">
+                                {{elem[key]}}
+                            </span>
                             <span *ngIf="data.model.rules[key].object">
-                                {{elem[data.model.rules[key].keyDisplay]}}
+                                {{(elem[data.model.rules[key].keyDisplay])?elem[data.model.rules[key].keyDisplay]:"N/A"}}
                             </span>
                         </div>
                     </div>
                     <div class="data-detail-item">
-                        <button *ngIf="data.actions!==undefined" class="{{db.classCol(1,1,1,1)}} btn btn-box-tool text-green text-center" (click)="dataSelect = (dataSelect==elem)?{}:elem" data-toggle="collapse" data-target="#edit">
+                        <button *ngIf="data.actions!==undefined && getActionKeys(data.actions).length" class="{{db.classCol(1,1,1,1)}} btn btn-box-tool text-green text-center" (click)="dataSelect = (dataSelect==elem)?{}:elem" data-toggle="collapse" data-target="#edit">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
                 <div id="edit" class="item-content-edit collapse" *ngIf="data.actions!==undefined && (actionSelect==action || getKeys(data.actions).length == 1) && dataSelect == elem">
                     <ul class="list-actions list-group">
-                        <li class="list-actions-item" *ngFor="let action of getKeys(data.actions)">
+                        <li class="list-actions-item" *ngFor="let action of getActionKeys(data.actions)">
                             <div class="box action">
                                 <div class="box-header action-header">
                                     <h4 class="box-title action-title">{{data.actions[action].title}}</h4>
@@ -75,6 +78,12 @@
             </li>
             </template>
         </ul>
+        <div *ngIf="!(data.model && data.model.permissions && data.model.permissions.list)">
+            <div class="btn-red padding-error">
+                <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="data.model.prefix+'_3'"></tooltip-view></strong></h5>
+                {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{data.model.prefix}}_LIST
+            </div>
+        </div>
     </div>
     <div class="box-footer">
     </div>
