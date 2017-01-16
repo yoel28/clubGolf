@@ -33,8 +33,8 @@ export class DashboardComponent extends ControllerBase implements OnInit{
     initModel(){
         this.record = new RecordModel(this.db);
         this.trade = new TradeModel(this.db);
-        this.record.ruleObject.title = "Vehiculos";
-        this.trade.ruleObject.title = "Pendientes por entregar";
+        this.record.ruleObject.title = "Vehiculos en el estacionamiento";
+        this.trade.ruleObject.title = "Operaciones pendientes";
         this.record.loadDataWhere('',[{'op':'isNull','field':'dateOut'}]);
         this.trade.loadDataWhere('',[{'op':'isNull','field':'receivedDate'}]);
 
@@ -58,6 +58,7 @@ export class DashboardComponent extends ControllerBase implements OnInit{
         //Productos
         let that = this;
         this.tradeData = {
+            routerLink:"/club/process/getback",
             model: that.trade,
             actions:{
                 "put":{
@@ -80,6 +81,7 @@ export class DashboardComponent extends ControllerBase implements OnInit{
         }
 
         this.recordData = {
+            routerLink:"/club/catalog/record",
             model: that.record,
             actions:undefined,
             globalParams:undefined
@@ -89,11 +91,13 @@ export class DashboardComponent extends ControllerBase implements OnInit{
 
     private outAction(context:ListActionComponent){
         if(context.dataSelect && context.dataSelect.productCode){
+            context.dataForm["state"] = parseInt(context.dataForm["state"]);
             let body={'list':[
                     Object.assign({},{'code': context.dataSelect.productCode},context.dataForm)
                 ]};
             context.data.actions['put'].model.onSave(body).then(
                 response=>{
+                    context.data.model.dataList.list.splice(context.data.model.dataList.list.indexOf(context.dataSelect),1);
                     console.log('guAARDO');
                 }
             );
