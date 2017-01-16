@@ -1,34 +1,33 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {QrcodeModel} from "../qrcode/qrcode.model";
 import {StateModel} from "../state/state.model";
 import {ProductModel} from "../product/product.model";
 import {ProductTypeModel} from "../productType/productType.model";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class TradeModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
-    public qr:any;
-    public state:any;
-    public product:any;
-    public productType:any;
-    public sponsor:any;
-    public guest:any;
 
-    constructor(public myglobal:globalService){
-        super('TRADE','/trades/',myglobal);
+    private qr:any;
+    private state:any;
+    private product:any;
+    private productType:any;
+    private sponsor:any;
+    private guest:any;
+
+    constructor(public db:DependenciesBase){
+        super(db,'TRADE','/trades/');
         this.initModel();
     }
     modelExternal() {
-        this.qr = new QrcodeModel(this.myglobal);
-        this.state = new StateModel(this.myglobal);
-        this.product = new ProductModel(this.myglobal);
-        this.productType = new ProductTypeModel(this.myglobal);
+        this.qr = new QrcodeModel(this.db);
+        this.state = new StateModel(this.db);
+        this.product = new ProductModel(this.db);
+        this.productType = new ProductTypeModel(this.db);
 
-        this.sponsor = new UserModel(this.myglobal);
-        this.guest = new UserModel(this.myglobal);
+        this.sponsor = new UserModel(this.db);
+        this.guest = new UserModel(this.db);
     }
     initRules(){
         this.rules['entregado']={
@@ -43,23 +42,7 @@ export class TradeModel extends ModelBase{
                 {'value':'No entregados','text':'No entregados'}
             ],
             'placeholder':'¿Productos entregados?'
-        }
-
-        this.rules['id']={
-            'type': 'number',
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'id',
-            'title': 'Operación',
-            'placeholder': 'Operación',
         };
-
-        this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
-        this.rules['sponsor'].key='sponsor';
-        this.rules['sponsor'].title='Patrocinador';
-        this.rules['sponsor'].keyDisplay='sponsorName';
-        this.rules['sponsor'].placeholder='Patrocinador';
-        this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest'] = Object.assign({},this.guest.ruleObject);
         this.rules['guest'].key='guest';
@@ -68,18 +51,7 @@ export class TradeModel extends ModelBase{
         this.rules['guest'].placeholder='Invitado';
         this.rules['guest'].paramsSearch.field='guest.id';
 
-        this.rules['product']=Object.assign({},this.product.ruleObject);
-        this.rules['product'].title="Cod. Producto";
-
-        this.rules['title']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'title',
-            'title': 'Producto',
-            'placeholder': 'Producto',
-        };
+        this.rules['product']=this.product.ruleObject;
 
         this.rules['dateCreated']={
             'type': 'date',
@@ -103,6 +75,33 @@ export class TradeModel extends ModelBase{
             'title': 'Fecha de entrega',
             'placeholder': 'Fecha de entrega',
         };
+
+        this.rules['id']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'id',
+            'title': 'Operación',
+            'placeholder': 'Operación',
+        };
+
+        this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
+        this.rules['sponsor'].key='sponsor';
+        this.rules['sponsor'].title='Patrocinador';
+        this.rules['sponsor'].keyDisplay='sponsorName';
+        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].paramsSearch.field='sponsor.id';
+
+
+        this.rules['title']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'key': 'title',
+            'title': 'Producto',
+            'placeholder': 'Producto',
+        };
+
 
         this.rules['timeUse']={
             'type': 'eval',

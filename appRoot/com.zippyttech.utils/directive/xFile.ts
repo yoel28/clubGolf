@@ -11,7 +11,7 @@ export class XFile implements OnInit{
         jQuery(this.el.nativeElement).fileinput({
             browseLabel: '',
             previewFileType: 'image',
-            browseClass: 'redondo btn btn-green btn-outlined',
+            browseClass: 'redondo btn btn-green-club',
             browseIcon: '<i class="fa fa-folder-open-o"></i> ',
             showCaption: false,//mostra campo con la ruta del archivo
             showRemove: false,//boton de eliminar (inutil)

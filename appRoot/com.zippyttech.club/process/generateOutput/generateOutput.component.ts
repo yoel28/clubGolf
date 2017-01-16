@@ -1,6 +1,4 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
-import {WebSocket} from "../../../com.zippyttech.utils/websocket";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {ProductModel} from "../../catalog/product/product.model";
@@ -24,8 +22,6 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
     public instance:any={};
 
-    public pathElements=StaticValues.pathElements;
-
     public QRCam:any;
 
     public form:FormGroup;
@@ -44,13 +40,13 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     };
     public channelWS:string;
 
-    constructor(public ws:WebSocket,public db:DependenciesBase) {
-        super('NA','',db);
+    constructor(public db:DependenciesBase) {
+        super(db);
         this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
     public initModel(){
-        this.product = new ProductModel(this.db.myglobal);
-        this.qr = new QrcodeModel(this.db.myglobal);
+        this.product = new ProductModel(this.db);
+        this.qr = new QrcodeModel(this.db);
     }
 
     ngOnInit(){
@@ -69,10 +65,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     }
     loadWebSocket(){
         let that=this;
-        this.ws.onSocket(this.channelWS);
-        if(this.ws.webSocket[this.channelWS].data)
+        this.db.ws.onSocket(this.channelWS);
+        if(this.db.ws.webSocket[this.channelWS].data)
         {
-            this.subscribe = this.ws.webSocket[this.channelWS].data.valueChanges.subscribe(
+            this.subscribe = this.db.ws.webSocket[this.channelWS].data.valueChanges.subscribe(
                 (value:any) => {
                     if(value.id){
                         that.listProduct={};
@@ -123,7 +119,6 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     resultHandler (err, result) {
         if (err)
             return console.log(err.message);
-
         alert(result);
     }
 
@@ -134,25 +129,26 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
         if(event)
             event.preventDefault();
-        let successCallback= response => {
-            let data=response.json();
-            if(data.count==1)
-            {
-                that.listProduct[code]=data.list[0];
-                if(!that.listProduct[code].available){
-                    delete that.listProduct[code];
-                    that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
-                }
-            }
-            else{
-                delete that.listProduct[code];
-                that.addToast('Error','Código '+code+' no registrado','error',15000);
-            }
 
-        };
         let where=[{'op':'eq','field':'code','value':code}];
         this.listProduct[code]={'wait':true};
-        this.product.loadDataModelWhere(successCallback,where);
+        this.product.loadDataWhere('',where).then(
+            response => {
+                if(that.product.dataList && that.product.dataList.count==1)
+                {
+                    that.listProduct[code]=that.product.dataList.list[0];
+                    if(!that.listProduct[code].available){
+                        delete that.listProduct[code];
+                        that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                    }
+                }
+                else{
+                    delete that.listProduct[code];
+                    that.addToast('Error','Código '+code+' no registrado','error',15000);
+                }
+
+            }
+        );
     }
     disableSubmit(){
         return Object.keys(this.listProduct).length>0?false:true;
@@ -180,7 +176,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
     }
     ngOnDestroy():void{
-        this.ws.closeWebsocket(this.channelWS);
+        this.db.ws.closeWebsocket(this.channelWS);
         if(this.subscribe)
             this.subscribe.unsubscribe();
         this.subscribe=null;
@@ -188,23 +184,24 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     reconectWS(event){
         if(event)
             event.preventDefault();
-        this.ws.onSocket(this.channelWS);
+        this.db.ws.onSocket(this.channelWS);
     }
     searchQr(event){
         if(event)
             event.preventDefault();
         try {
             let that=this;
-            let val = jQuery('#validQr').val();//TODO:exp Reg replac '
+            let val = jQuery('#validQr').val();
             val = val.replace(/'/g, '"');
             jQuery('#validQr').val('');
             let data = JSON.parse(val);
             let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
 
-            let successCallback = response => {
-                that.ws.webSocket[that.channelWS].data.setValue(response.json());
-            };
-            this.qr.loadDataModelWhere(successCallback,where,data.id)
+            this.qr.loadDataWhere(data.id,where).then(
+                response => {
+                    that.db.ws.webSocket[that.channelWS].data.setValue(response);
+                }
+            )
 
 
         }catch (e){

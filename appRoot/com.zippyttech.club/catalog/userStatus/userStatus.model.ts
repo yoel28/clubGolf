@@ -1,10 +1,10 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class UserStatusModel extends ModelBase{
 
-    constructor(public myglobal:globalService){
-        super('US_STATUS','/statuses/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'US_STATUS','/statuses/');
         this.initModel();
     }
     modelExternal() {}

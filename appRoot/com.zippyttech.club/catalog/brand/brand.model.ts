@@ -1,11 +1,11 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class BrandModel extends ModelRoot{
 
-    constructor(public myglobal:globalService){
-        super('BRAND','/brands/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'BRAND','/brands/');
         this.initModel();
     }
     modelExternal() {}

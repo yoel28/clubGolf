@@ -1,11 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {globalService} from "../../../com.zippyttech.utils/globalService";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class VehicleTypeModel extends ModelBase{
 
-    constructor(public myglobal:globalService){
-        super('VEHTYPE','/type/vehicles/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'VEHTYPE','/type/vehicles/');
         this.initModel();
     }
     modelExternal() {}

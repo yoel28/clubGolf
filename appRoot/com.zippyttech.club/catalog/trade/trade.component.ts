@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {TradeModel} from "./trade.model";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {ActivatedRoute} from "@angular/router";
 
 declare var SystemJS:any;
@@ -15,7 +15,7 @@ export class TradeComponent extends BaseViewInstance{
 
     public userId:string;
 
-    constructor(public myglobal:globalService,private routeActive: ActivatedRoute) {
+    constructor(public db:DependenciesBase,private routeActive:ActivatedRoute) {
         super();
     }
     ngOnInit():void{
@@ -23,18 +23,19 @@ export class TradeComponent extends BaseViewInstance{
         this.userId=this.routeActive.snapshot.params['userId'];
 
         if(this.userId){
-            this.rest.where.push
-            ({
-                'or':[
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'sponsor.id'},
-                        {'op':'eq', 'value':parseFloat(this.userId), 'field':'guest.id'}
-                    ]
-            });
+            this.rest.where = [
+                {
+                    'or':[
+                            {'op':'eq', 'value':parseFloat(this.userId), 'field':'sponsor.id'},
+                            {'op':'eq', 'value':parseFloat(this.userId), 'field':'guest.id'}
+                        ]
+                }
+            ];
         }
     }
 
     initModel() {
-        this.model= new TradeModel(this.myglobal);
+        this.model= new TradeModel(this.db);
 
     }
 

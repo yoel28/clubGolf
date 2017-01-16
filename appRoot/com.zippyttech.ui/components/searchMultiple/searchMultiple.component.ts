@@ -3,6 +3,7 @@ import { Http} from '@angular/http';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ToastyService, ToastyConfig} from "ng2-toasty";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 declare var SystemJS:any;
 @Component({
     selector: 'search-multiple-view',
@@ -17,10 +18,8 @@ export class SearchMultipleComponent extends RestController implements OnInit,Do
     public result:any;
     public getInstance:any;
 
-    public msg = StaticValues.msg;
-
-    constructor(public http:Http,public toastyService:ToastyService,public toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
         this.result = new EventEmitter();
         this.getInstance = new EventEmitter();
     }

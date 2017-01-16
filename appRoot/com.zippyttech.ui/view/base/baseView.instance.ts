@@ -1,4 +1,5 @@
 import {OnInit} from '@angular/core';
+import {IRest} from "../../../com.zippyttech.rest/restController";
 
 export abstract class BaseViewInstance  implements OnInit {
 
@@ -6,10 +7,10 @@ export abstract class BaseViewInstance  implements OnInit {
     public paramsTable:any={};
     public model:any;
     public viewOptions:any={};
-    public rest:any={
-        'where':[],
-        'max':15,
-        'offset':0,
+    public rest:IRest={
+        where:[],
+        max:15,
+        offset:0,
     };
 
     abstract initModel();
@@ -20,7 +21,7 @@ export abstract class BaseViewInstance  implements OnInit {
         this.initModel();
         this.initViewOptions();
         this.loadParamsTable();
-
+        this._loadWhereInParamsFilter();
         this._loadInstance();
     }
 
@@ -31,6 +32,9 @@ export abstract class BaseViewInstance  implements OnInit {
             'paramsTable':this.paramsTable,
             'rest':this.rest
         };
+    }
+    protected _loadWhereInParamsFilter(){
+        this.model.paramsSearch.where = this.rest.where;
     }
 
 }

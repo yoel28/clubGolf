@@ -8114,3 +8114,13 @@ ul.chats li.out .message {
   border-radius: 0px !important;
   border: 1px solid #e5e5e5;
 }
+.btn-enabled {
+  background: transparent;
+  color: #488c6c;
+  font-size: 18px;
+}
+.btn-disable {
+  background: transparent;
+  color: darkred;
+  font-size: 18px;
+}

@@ -2,7 +2,7 @@
     <section class="content">
         <div class="box">
             <div class="box-header with-border">
-                <h1>{{msg.profile}}</h1>
+                <h1>{{db.msg.profile}}</h1>
             </div>
             <div class="box-body">
                 <div *ngIf="db.myglobal.user.id" class="col-lg-12">
@@ -10,6 +10,14 @@
                         <div class="panel-body">
                             <div class="profile">
                                 <div style="margin-bottom: 15px" class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        <image-edit-view *ngIf="model.rules.image"
+                                                         [image]="db.myglobal.user.image"
+                                                         [default]="model.rules.image.default"
+                                                         [edit]="model.rules.image.update"
+                                                         (out)="saveImage($event)"
+                                        ></image-edit-view>
+                                    </div>
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                         <div *ngFor="let key of getObjectKeys(model.rules)">
                                             <h2 *ngIf="model.rules[key].protected" class="truncate">
@@ -19,7 +27,7 @@
                                             <p *ngIf="!model.rules[key].protected && (model.rules[key].type=='text' || model.rules[key].type=='textarea' || model.rules[key].type=='number' || model.rules[key].type=='password')">
                                                 <strong>{{model.rules[key].title}}:</strong>&nbsp;
                                                 <a *ngIf="!model.rules[key].object" x-editable [endpoint]="endpoint" [function]="onEditable"
-                                                   [data]="db.myglobal.user" [rules]="model.rules" [field]="key">
+                                                   [data]="db.myglobal.user" [rules]="model.rules" [field]="key" [disabled]="!model.rules[key].update">
                                                 </a>
                                                 <a *ngIf="model.rules[key].object">
                                                     {{db.myglobal.user[model.rules[key].keyDisplay]}}
@@ -27,20 +35,12 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                        <image-edit-view *ngIf="model.rules.image && model.rules.image.update"
-                                                    [image]="db.myglobal.user.image"
-                                                    [default]="model.rules.image.default"
-                                                    (out)="saveImage($event)"
-                                        ></image-edit-view>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
-                            <div *ngIf="vehicle && vehicle.completed && vehicle.dataList && vehicle.dataList.list">
-                                <tables-view [dataList]="vehicle.dataList" [model]="vehicle" [params]="vehicle.paramsTable" ></tables-view>
-                            </div>
+                            <vehicle [rest]="restVeh"></vehicle>
                         </div>
                     </div>
                 </div>

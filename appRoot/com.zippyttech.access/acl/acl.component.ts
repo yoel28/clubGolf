@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Router }           from '@angular/router';
-import { Http } from '@angular/http';
 import {RestController} from "../../com.zippyttech.rest/restController";
-import {globalService} from "../../com.zippyttech.utils/globalService";
-import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 
@@ -18,8 +15,8 @@ export class AclComponent extends RestController implements OnInit{
 
     public dataSelect:any={};
 
-    constructor(public router: Router,public http: Http,public myglobal:globalService,public toastyService:ToastyService,toastyConfig:ToastyConfig) {
-        super(http,toastyService,toastyConfig);
+    constructor(public db:DependenciesBase) {
+        super(db);
     }
     ngOnInit(){
 
@@ -35,7 +32,7 @@ export class AclComponent extends RestController implements OnInit{
     onDashboard(event){
         event.preventDefault();
         let link = ['/init/dashboard', {}];
-        this.router.navigate(link);
+        this.db.router.navigate(link);
     }
 
     public dataPermissionsAll:any={};
@@ -61,7 +58,7 @@ export class AclComponent extends RestController implements OnInit{
     public items:any = [];
     public dataRoles:any=[];
     loadRoles(){
-        if(this.myglobal.existsPermission(['ROLE_LIST'])){
+        if(this.db.myglobal.existsPermission(['ROLE_LIST'])){
             let successCallback= response => {
                 Object.assign(this.dataRoles, response.json());
                 this.items=[];

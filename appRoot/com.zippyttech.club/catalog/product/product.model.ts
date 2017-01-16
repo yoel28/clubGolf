@@ -1,19 +1,19 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ProductTypeModel} from "../productType/productType.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class ProductModel extends ModelBase{
     public rules={};
     public pathElements=StaticValues.pathElements;
     public productType:any;
 
-    constructor(public myglobal:globalService){
-        super('PRODUCT','/products/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'PRODUCT','/products/');
         this.initModel();
     }
     modelExternal() {
-        this.productType = new ProductTypeModel(this.myglobal);
+        this.productType = new ProductTypeModel(this.db);
     }
     initRules(){
         this.rules['code']={
@@ -39,7 +39,7 @@ export class ProductModel extends ModelBase{
         this.paramsSave.title="Agregar producto"
     }
     initRuleObject() {
-        this.ruleObject.title="Producto";
+        this.ruleObject.title="Cod. Producto";
         this.ruleObject.placeholder="Ingrese codigo del producto";
         this.ruleObject.key="product";
         this.ruleObject.keyDisplay = "productCode";

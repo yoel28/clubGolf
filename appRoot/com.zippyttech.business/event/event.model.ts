@@ -1,23 +1,19 @@
-import {Http} from '@angular/http';
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
-import {HttpUtils} from "../../com.zippyttech.rest/http-utils";
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RuleModel} from "../rule/rule.model";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class EventModel extends ModelBase{
-    public rules:any={};
+
     public publicData:any={};
     public rule:any={};
-    public httpUtils:HttpUtils;
 
-    constructor(public myglobal:globalService,public http:Http ){
-        super('EVENT','/events/',myglobal);
-        this.httpUtils = new HttpUtils(http);
+    constructor(public db:DependenciesBase){
+        super(db,'EVENT','/events/');
         this.initModel(false);
-        this.loadData();
+        this.loadDataExternal();
     }
     modelExternal() {
-        this.rule = new RuleModel(this.myglobal);
+        this.rule = new RuleModel(this.db);
     }
     initRules(){
         this.rules['code']={
@@ -149,23 +145,23 @@ export class EventModel extends ModelBase{
         delete this.rulesSave.detail;
         delete this.rulesSave.enabled;
     }
-    loadData()
+    loadDataExternal()
     {
         let that = this;
         let successCallback= response => {
             Object.assign(that.publicData,response.json())
             that.publicData.domains.forEach(obj=>{
-                that.rules.over.source.push({'value':obj.name,'text':obj.logicalPropertyName});
+                that.rules['over'].source.push({'value':obj.name,'text':obj.logicalPropertyName});
             });
             that.publicData.event.actionTypes.forEach(obj=>{
-                that.rules.actionType.source.push({'value':obj,'text':obj});
+                that.rules['actionType'].source.push({'value':obj,'text':obj});
             });
             that.publicData.event.wayTypes.forEach(obj=>{
-                that.rules.way.source.push({'value':obj,'text':obj});
+                that.rules['way'].source.push({'value':obj,'text':obj});
             })
             that.completed = true;
         }
-        this.httpUtils.doGet(localStorage.getItem('url'),successCallback,null,true)
+        this.httputils.doGet(localStorage.getItem('url'),successCallback,this.error,true)
     }
 
 }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {QrcodeModel} from "./qrcode.model";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,12 +11,12 @@ declare var SystemJS:any;
 })
 export class QrcodeComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
 
     initModel() {
-        this.model= new QrcodeModel(this.myglobal);
+        this.model= new QrcodeModel(this.db);
     }
 
     initViewOptions() {

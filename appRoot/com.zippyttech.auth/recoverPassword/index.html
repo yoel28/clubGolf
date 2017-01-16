@@ -4,9 +4,9 @@
             <div class="header-login text-center">
                 <div class="login-box-body">
                     <div class="row">
-                        <h2>{{msg.titleRecoverPassword}}</h2>
+                        <h2>{{db.msg.titleRecoverPassword}}</h2>
                         <div class="col-lg-6 col-md-4 col-lg-offset-3 col-md-offset-3">
-                            <img [attr.src]="pathElements.logoBlanco" class="img-responsive img-logo">
+                            <img [attr.src]="db.pathElements.logoBlanco" class="img-responsive img-logo">
                         </div>
                     </div>
                 </div>
@@ -22,11 +22,11 @@
                             </div>
                             <button style="float:left;" class="btn btn-success btn-blue pull-left"
                                     (click)="onLogin($event)">
-                                <i class="fa fa-chevron-circle-left"></i>&nbsp;{{msg.start}}
+                                <i class="fa fa-chevron-circle-left"></i>&nbsp;{{db.msg.start}}
                             </button>
                             <button type="submit" [disabled]="!form.valid"
                                     class="btn  btn-success pull-right">
-                                &nbsp;{{msg.update}}&nbsp;<i class="fa  fa-chevron-circle-right"></i>
+                                &nbsp;{{db.msg.update}}&nbsp;<i class="fa  fa-chevron-circle-right"></i>
                             </button>
                         </fieldset>
                     </form>

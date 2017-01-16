@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {Http} from '@angular/http';
 import {EventModel} from "./event.model";
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {BaseViewInstance} from "../../com.zippyttech.ui/view/base/baseView.instance";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 
@@ -13,11 +12,11 @@ declare var SystemJS:any;
 })
 export class EventComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService,public http:Http) {
+    constructor(public db:DependenciesBase) {
         super();
     }
     initModel() {
-        this.model= new EventModel(this.myglobal,this.http);
+        this.model= new EventModel(this.db);
     }
     initViewOptions() {
         this.viewOptions["title"] = 'Eventos';

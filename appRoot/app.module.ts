@@ -47,10 +47,10 @@ const myFirebaseConfig = {
         directivesDefault
     ],
     providers: [
-        globalService,
-        DependenciesBase,
         WebSocket,
-        {provide:LocationStrategy,useClass: HashLocationStrategy}
+        {provide:LocationStrategy,useClass: HashLocationStrategy},
+        DependenciesBase,
+        globalService,
     ],
     bootstrap: [AppComponent]
 })

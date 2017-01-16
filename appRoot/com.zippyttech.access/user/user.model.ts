@@ -1,28 +1,26 @@
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {RoleModel} from "../role/role.model";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType.model";
 import {UserStatusModel} from "../../com.zippyttech.club/catalog/userStatus/userStatus.model";
 import {ContractModel} from "../../com.zippyttech.club/catalog/contract/contract.model";
+import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class UserModel extends ModelBase{
     private role:any;
     private type:any;
     private status:any;
     private contract:any;
-    public pathElements=StaticValues.pathElements;
 
-    constructor(public myglobal:globalService){
-        super('USER','/users/',myglobal);
+    constructor(public db:DependenciesBase){
+        super(db,'USER','/users/');
         this.initModel(false);
-        this.loadData();
+        this.loadDataExternal();
     }
     modelExternal() {
-        this.role= new RoleModel(this.myglobal);
-        this.type= new UserTypeModel(this.myglobal);
-        this.status= new UserStatusModel(this.myglobal);
-        this.contract = new ContractModel(this.myglobal);
+        this.role= new RoleModel(this.db);
+        this.type= new UserTypeModel(this.db);
+        this.status= new UserStatusModel(this.db);
+        this.contract = new ContractModel(this.db);
     }
     initRules(){
 
@@ -102,7 +100,7 @@ export class UserModel extends ModelBase{
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'image',
-            'default':this.pathElements.robot,
+            'default':this.db.pathElements.robot,
             'title': 'Imagen',
             'placeholder': 'Imagen',
         };
@@ -169,17 +167,18 @@ export class UserModel extends ModelBase{
         delete this.rulesSave.accountLocked;
         delete this.rulesSave.username;
     }
-    loadData()
+    loadDataExternal()
     {
         let that = this;
-        let successCallback= response => {
-            let roles =  response.json();
-            roles.list.forEach(obj=> {
-                that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
-            });
+        this.role.loadData().then(response => {
+            if(that.role.dataList && that.role.dataList.list)
+            {
+                that.role.dataList.list.forEach(obj=> {
+                    that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
+                });
+            }
             that.completed = true;
-        }
-        this.role.loadDataModel(successCallback)
+        })
     }
 
 }

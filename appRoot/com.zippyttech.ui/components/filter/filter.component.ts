@@ -23,7 +23,8 @@ export class FilterComponent extends RestController implements OnInit{
         title: "sin titulo",
         idModal: "nomodal",
         endpoint: "sin endpoint",
-        placeholder: "sin placeholder"
+        placeholder: "sin placeholder",
+        where:[]
     };
     //objecto del search actual
     public search:any={};
@@ -114,7 +115,7 @@ export class FilterComponent extends RestController implements OnInit{
     keys:any = {};
 
     constructor(public db:DependenciesBase) {
-        super(db.http,db.toastyService,db.toastyConfig);
+        super(db);
         this.whereFilter = new EventEmitter();
     }
     ngOnInit() {
@@ -328,6 +329,10 @@ export class FilterComponent extends RestController implements OnInit{
                 }
             }
         });
+        if(this.params.where && this.params.where.length > 0 ){
+            let temp = dataWhere.concat(this.params.where);
+            dataWhere = temp;
+        }
         let where = "&where="+encodeURI(JSON.stringify(dataWhere).split('{').join('[').split('}').join(']'));
         this.whereFilter.emit(where);
     }
@@ -342,7 +347,11 @@ export class FilterComponent extends RestController implements OnInit{
                 (<FormControl>this.form.controls[key]).setErrors(null);
             }
         })
-        this.whereFilter.emit("");
+        let where="";
+        if(this.params.where && this.params.where.length > 0 ){
+             where="&where="+encodeURI(JSON.stringify(this.params.where).split('{').join('[').split('}').join(']'));
+        }
+        this.whereFilter.emit(where);
     }
     //guardar condicion en el formulario
     setCondicion(cond,id){
@@ -361,6 +370,9 @@ export class FilterComponent extends RestController implements OnInit{
         if(data=='-1')
             this.data[key].setValue(null);
 
+    }
+    debugLog(log){
+        console.log(log);
     }
 }
 

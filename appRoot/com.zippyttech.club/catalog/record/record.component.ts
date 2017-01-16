@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.instance";
 import {RecordModel} from "./record.model";
+import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
 @Component({
@@ -11,12 +11,12 @@ declare var SystemJS:any;
 })
 export class RecordComponent extends BaseViewInstance{
 
-    constructor(public myglobal:globalService) {
+    constructor(public db:DependenciesBase) {
         super();
     }
 
     initModel() {
-        this.model= new RecordModel(this.myglobal);
+        this.model= new RecordModel(this.db);
 
         this.model.rules['userContractCode']={
             'type': 'text',
