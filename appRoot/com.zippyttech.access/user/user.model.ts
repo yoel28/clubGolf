@@ -74,15 +74,6 @@ export class UserModel extends ModelBase{
             'placeholder': 'Teléfono',
         };
 
-        this.rules['address']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'address',
-            'title': 'Dirección',
-            'placeholder': 'Dirección',
-        };
 
         this.rules['password']={
             'type': 'password',
