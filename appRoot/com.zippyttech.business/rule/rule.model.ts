@@ -31,13 +31,13 @@ export class RuleModel extends ModelBase{
             'title':'Regla',
             'placeholder':'Regla',
         };
-        this.rules['name']={
+        this.rules['title']={
             'type':'text',
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key':'name',
+            'key':'title',
             'icon': 'fa fa-list',
             'title':'Nombre',
             'placeholder':'Nombre',
