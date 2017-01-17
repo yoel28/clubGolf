@@ -313,7 +313,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.refreshFieldKey='';
                 that.error(err);
             }
-            this.httputils.doGet(data.refreshField.endpoint,successCallback,error);
+            this.httputils.doGet(data.refreshField.endpoint,successCallback,error,data.refreshField.absolute);
         }
         else{
             if(that.rules[data.key].type=='list')
