@@ -1790,8 +1790,8 @@ a:focus {
   border-bottom-left-radius: 0;
 }
 .box-footer {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   border-top: 1px solid #f4f4f4;

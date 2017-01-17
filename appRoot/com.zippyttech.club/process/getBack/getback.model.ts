@@ -32,7 +32,6 @@ export class GetbackModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'required': true,
-            'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
                 {'value':true,'text': 'SI', 'class': 'btn btn-sm btn-green'},
@@ -45,8 +44,10 @@ export class GetbackModel extends ModelBase{
 
         this.rules['state']=this.state.ruleObject;
         this.rules['state'].required = true;
+        this.rules['state'].icon = '';
         this.rules['state'].type= 'select';
         this.rules['state'].mode= 'popup';
+        this.rules['state'].object = false;
         this.rules['state'].source=[];
         this.rules['state'].data={};
 

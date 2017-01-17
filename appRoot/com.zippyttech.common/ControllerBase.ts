@@ -30,9 +30,11 @@ export abstract class ControllerBase extends RestController implements OnInit {
         this.initLang();
 
     }
+
     ngOnInit():void{
         this.initModel();
     }
+
     public initLang() {
         var userLang = navigator.language.split('-')[0];
         userLang = /(es|en)/gi.test(userLang) ? userLang : 'es';
@@ -50,6 +52,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         })
         return visible;
     }
+
     public getViewOptionsActions() {
         let visible = [];
         Object.keys(this.viewOptions.actions).forEach(obj=> {
@@ -58,6 +61,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         })
         return visible;
     }
+
     public getObjectKeys(data) {
         return Object.keys(data || {});
     }
@@ -91,6 +95,7 @@ export abstract class ControllerBase extends RestController implements OnInit {
         var diff = moment().valueOf() - moment(date).valueOf();
         return ((diff < parseFloat(this.db.myglobal.getParams('DATE_MAX_HUMAN'))) && this.db.myglobal.getParams(this.prefix + '_DATE_FORMAT_HUMAN') == 'true')
     }
+
     //enlace a restcontroller
     public setLoadData(data) {
         this.dataList.list.unshift(data);
@@ -182,6 +187,17 @@ export abstract class ControllerBase extends RestController implements OnInit {
     }
     public getKeys(data){
         return Object.keys(data || {})
+    }
+
+    public getKeysDataVisible()
+    {
+        let data=[];
+        let that=this;
+        Object.keys(this.model.rules).forEach((key)=>{
+            if(that.model.rules[key].visible)
+                data.push(key)
+        });
+        return data;
     }
 
 }

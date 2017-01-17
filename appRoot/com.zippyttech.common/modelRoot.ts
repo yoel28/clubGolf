@@ -214,4 +214,19 @@ export abstract class ModelRoot extends RestController{
             that.rules[key].check =  false;
         })
     }
+
+    public spliceId(id:string)
+    {
+        if(this.dataList['list']) {
+            let index = this.dataList['list'].findIndex(obj => obj.id == id);
+            if (index != -1)
+                this.dataList['list'].splice(index,1);
+        }
+    }
+
+    public getIndexById(id:string)
+    {
+        if(this.dataList['list'])
+            return this.dataList['list'].findIndex(obj => obj.id == id);
+    }
 }
