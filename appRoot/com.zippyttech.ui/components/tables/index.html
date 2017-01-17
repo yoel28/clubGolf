@@ -178,7 +178,7 @@
                      </a>
 
                     <a x-editable *ngIf="key=='roles'"
-                       [disabled]="!model.permissions.update || !model.rules[key].permissions.list"
+                       [disabled]="!model.permissions.update || !model.rules[key].permissions.list || !model.permissions.roleSave"
                        [endpoint]="'/users/'+data.id+'/roles'"
                        [function]="onEditableRole" [data]="data" [rules]="model.rules"
                        field="roles">
