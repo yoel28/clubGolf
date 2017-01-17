@@ -1,45 +1,49 @@
-<section class="content">
-    <div class = "">
-        <list-action [data]="tradeData"></list-action>
-    </div>
-    <div class = "">
-        <list-action [data]="recordData"></list-action>
-    </div>
-
-    <div class = "">
-        <list-action [data]="guestData"></list-action>
-        <div class="box reader">
+<section class="content" *ngIf="model">
+    <div id="reader" *ngIf="model.permissions['qr']">
+        <div class="box collapsed-box" *ngIf="true">
             <div class="box-header">
-                <div class="reader-input">
-                    <h4 class="box-title">Reader</h4>
-                    <form (submit)="searchQr($event)">
-                        <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
-                    </form>
-                </div>
-                <div class="box-body">
-                    <div class="reader-detail" *ngIf="model.qr && model.qr.dataList.id">
-                        <div *ngFor="let key of getKeys(model.qr.rules)">
-                            <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
-                                {{model.qr.rules[key].title}}:
-                                <span *ngIf="model.qr.rules[key].type =='date'">
+                <h4 class="box-title vertical-center {{db.classCol(3,3,3,3)}}">QR:</h4>
+                <form (submit)="searchQr($event)" class="{{db.classCol(9,9,9,9)}}">
+                    <input id="validQr" class="form-control" placeholder="Validación QR" type="text" autofocus>
+                </form>
+            </div>
+            <div class="box-body">
+                <div class="reader-detail" *ngIf="model.qr && model.qr.dataList.id">
+                    <div *ngFor="let key of getKeys(model.qr.rules)">
+                        <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
+                            {{model.qr.rules[key].title}}:
+                            <span *ngIf="model.qr.rules[key].type =='date'">
                                     {{formatDate(model.qr.dataList[key],model.qr.rules[key].format?model.qr.rules[key].format.formatView:'DD/MM/YYYY',false,model.qr.dataList.id)}}
                                 </span>
-                                <span *ngIf="model.qr.rules[key].type =='number'">
+                            <span *ngIf="model.qr.rules[key].type =='number'">
                                     {{model.qr.dataList[key]}}
                                 </span>
-                                <span *ngIf="model.qr.rules[key].object">
+                            <span *ngIf="model.qr.rules[key].object">
                                     {{(model.qr.dataList[model.qr.rules[key].keyDisplay])?model.qr.dataList[model.qr.rules[key].keyDisplay]:"N/A"}}
                                 </span>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="box-footer">
-                    <button class="btn btn-green" *ngIf="model.qr && model.qr.dataList.id" (click)="loadAttendings($event)">
-                        Procesar
-                    </button>
-                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-green" *ngIf="model.qr && model.qr.dataList.id" (click)="loadAttendings($event)">
+                    Procesar
+                </button>
             </div>
         </div>
+        <button class="btn pull-right btn-hide btn-green" (click)="readerClick()">
+            <i [class]="'fa fa-chevron-'+((qrHidden)?'right':'left')"></i>
+        </button>
+    </div>
+
+    <div class = "" *ngIf="model.permissions['trade']">
+        <list-action [data]="tradeData"></list-action>
+    </div>
+    <div class = "" *ngIf="model.permissions['vehicle']">
+        <list-action [data]="recordData"></list-action>
+    </div>
+
+    <div class = "" *ngIf="model.permissions['guest']">
+        <list-action [data]="guestData"></list-action>
     </div>
 </section>
