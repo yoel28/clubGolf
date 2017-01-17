@@ -48,16 +48,19 @@ export class VehicleModel extends ModelBase{
                 'absolute':this.TAG_LOCAL,
                 'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
                 'callback':function (rules,newData,control) {
-                    if(this.TAG_LOCAL) {
-                        let data = newData.split('\n');
-                        newData=[];
+                    if(rules.refreshField.absolute) {
+                        let data = newData._body.split('\n');
                         data.forEach(v=>{
                             let val = v.split(';');
-                            rules.refreshField.instance.addValue({
-                                'id': val[2],
-                                'value': val[0],
-                                'title': 'Local'
-                            });
+                            if(val[0] != '0')
+                            {
+                                rules.refreshField.instance.addValue({
+                                    'id': val[0],
+                                    'value': val[0],
+                                    'title': 'Local (Antena '+val[2]+')'
+                                });
+                            }
+
                         })
                     }
                     else{
