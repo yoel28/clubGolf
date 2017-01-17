@@ -303,11 +303,17 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             let successCallback= response => {
                 that.refreshFieldKey = '';
                 this.findData=false;
-                let val = response.json()[data.refreshField.field];
-                if(data.refreshField.callback)
-                    data.refreshField.callback(data,response.json(),that.data[data.key]);
-                else
-                    that.data[data.key].setValue(val);
+                try {
+                    let val = response.json()[data.refreshField.field];
+                    if(data.refreshField.callback)
+                        data.refreshField.callback(data,response.json(),that.data[data.key]);
+                    else
+                        that.data[data.key].setValue(val);
+                }catch (e){
+                    if(data.refreshField.callback)
+                        data.refreshField.callback(data,response,that.data[data.key]);
+                }
+
             }
             let error = (err)=>{
                 that.refreshFieldKey='';
