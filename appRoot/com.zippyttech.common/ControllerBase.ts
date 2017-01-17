@@ -200,4 +200,9 @@ export abstract class ControllerBase extends RestController implements OnInit {
         return data;
     }
 
+    public objectToString(data){
+        if(typeof data === 'object')
+            return JSON.stringify(data);
+        return '';
+    }
 }
