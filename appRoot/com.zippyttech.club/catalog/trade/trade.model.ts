@@ -125,15 +125,7 @@ export class TradeModel extends ModelBase{
             "placeholder": "Entrego Cliente",
         };
         this.rules['state']=Object.assign({},this.state.ruleObject);
-        this.rules['comment']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'comment',
-            'title': 'Descripción',
-            'placeholder': 'Descripción',
-        };
+
         this.rules['usernameCreator']={
             'type': 'eval',
             'visible':this.permissions.visible,
@@ -170,6 +162,10 @@ export class TradeModel extends ModelBase{
             'title': 'Costo total',
             'placeholder': 'Costo total',
         };
+        this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['detail'].title="Comentario";
+        this.rules['detail'].placeholder="Ingrese un comentario";
+
     }
     initPermissions() {}
     initParamsSearch() {
