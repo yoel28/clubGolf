@@ -2,7 +2,7 @@ import {ModelBase} from "../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
 export class ParamModel extends ModelBase{
-    public rules={};
+
     constructor(public db:DependenciesBase){
         super(db,'PARAM','/params/');
         this.initModel();
