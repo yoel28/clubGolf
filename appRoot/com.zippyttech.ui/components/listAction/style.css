@@ -109,7 +109,7 @@
 .badge
 {
     background: white;
-    color: #488c6c;
+    color: #488c6c !important;
 }
 
 .btn-box-tool
@@ -132,10 +132,27 @@
     border-bottom: 1px solid #dedede !important;
 }
 
+.action-header-error
+{
+    content: "";
+}
+
+.box-title *{
+    display: inline-block;
+    color: #fff;
+    cursor: pointer;
+}
+
 .action-body {
     padding: 5px 50px !important;
 }
 
 .action-footer {
     padding: 2px;
+}
+
+
+.error-info{
+    padding: 20px;
+    text-align: center;
 }
