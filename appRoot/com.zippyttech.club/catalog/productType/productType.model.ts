@@ -51,6 +51,7 @@ export class ProductTypeModel extends ModelBase{
         };
         this.rules['intervalMinutes']={
             'type':'number',
+            'required':true,
             'step':'1',
             'disabled':'data.type == "unidad"',
             'update':this.permissions.update,

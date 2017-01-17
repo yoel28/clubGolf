@@ -13,6 +13,9 @@ export class VehicleModel extends ModelBase{
     public user:any;
     public tag:any;
 
+    public TAG_LOCAL:boolean=false;
+    public ANT_READ_ADDRESS:string;
+
     constructor(public db:DependenciesBase,useGlobal=true){
         super(db,'VEH','/vehicles/',useGlobal);
         this.initModel();
@@ -25,6 +28,8 @@ export class VehicleModel extends ModelBase{
 
     }
     initRules() {
+        this.TAG_LOCAL = this.db.myglobal.getParams('TAG_LOCAL')=='true'?true:false;
+        this.ANT_READ_ADDRESS = this.db.myglobal.getParams('ANT_READ_ADDRESS');
 
         this.rules['tags'] = {
             'type': 'list',
@@ -39,14 +44,37 @@ export class VehicleModel extends ModelBase{
             'title': 'Tag',
             'refreshField':{
                 'icon':'fa-refresh',
-                'endpoint':'/read/tags',
+                'endpoint':this.TAG_LOCAL?this.ANT_READ_ADDRESS:'/read/tags',
+                'absolute':this.TAG_LOCAL,
                 'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
                 'callback':function (rules,newData,control) {
-                    newData.forEach(obj=>{
-                       obj.tags.forEach(tag=>{
-                           rules.refreshField.instance.addValue({'id':obj.code,'value':tag,'title':obj.type+'('+obj.code+')'});
-                       })
-                    });
+                    if(rules.refreshField.absolute) {
+                        let data = newData._body.split('\n');
+                        data.forEach(v=>{
+                            let val = v.split(';');
+                            if(val[0] != '0')
+                            {
+                                rules.refreshField.instance.addValue({
+                                    'id': val[0],
+                                    'value': val[0],
+                                    'title': 'Local (Antena '+val[2]+')'
+                                });
+                            }
+
+                        })
+                    }
+                    else{
+                        newData.forEach(obj=> {
+                            obj.tags.forEach(tag => {
+                                rules.refreshField.instance.addValue({
+                                    'id': obj.code,
+                                    'value': tag,
+                                    'title': obj.type + '(' + obj.code || 'Local' + ')'
+                                });
+                            })
+
+                        });
+                    }
                 },
             },
             'placeholder': 'Tags',

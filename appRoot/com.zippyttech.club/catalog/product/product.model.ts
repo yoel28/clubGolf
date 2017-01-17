@@ -1,11 +1,9 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {ProductTypeModel} from "../productType/productType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class ProductModel extends ModelBase{
-    public rules={};
-    public pathElements=StaticValues.pathElements;
+
     public productType:any;
 
     constructor(public db:DependenciesBase){

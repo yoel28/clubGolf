@@ -19,7 +19,7 @@ export abstract class ModelRoot extends RestController{
     private rulesDefault:any = {};
     public rules:Object={};
 
-    public dataList={};
+    public dataList:any={};
 
 
     constructor(public db:DependenciesBase,prefix,endpoint,useGlobal=true){

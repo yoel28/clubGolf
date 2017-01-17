@@ -163,6 +163,18 @@
                                  </button>
                              </span>
                          </label>
+                        <label *ngIf="!(model.permissions.update && (data.enabled==true || data.enabled==null))">
+                            <button *ngIf="model.rules[key].multiple && data[key] && data[key].length > 0"
+                                    (click)="setViewListData($event,data,key)"
+                                    type="button" class="btn btn-box-tool"
+                                    title="Listar" data-toggle="modal"
+                                    data-target="#dataMultiple"
+                            >
+                                     <i class="fa fa-list text-red"></i>
+                                 </button>
+                        </label>
+
+
                      </a>
 
                     <a x-editable *ngIf="key=='roles'"
