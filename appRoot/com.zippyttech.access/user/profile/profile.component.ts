@@ -26,13 +26,24 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
         this.loadPage();
     }
 
+    public qrList=[];
     initModel():any{
+        let that = this;
         this.model = new UserModel(this.db);
         this.restVeh= {
             'where': [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}],
             'max': 5,
             'offset':0,
         };
+        let successCallback= response => {
+            let data = response.json();
+            if(typeof data === 'object' && data.length){
+                data.forEach(obj=>{
+                    that.qrList.push({'id':obj.id,'sponsorContract':obj.sponsorContract})
+                })
+            }
+        };
+        this.httputils.doGet('/current/qr',successCallback,this.error);
 
     }
     ngAfterViewInit():any{
