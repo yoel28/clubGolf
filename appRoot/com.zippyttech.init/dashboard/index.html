@@ -1,6 +1,6 @@
 <section class="content" *ngIf="model">
     <div id="reader" *ngIf="model.permissions['qr']">
-        <div class="box collapsed-box" *ngIf="true">
+        <div class="box" *ngIf="true">
             <div class="box-header">
                 <h4 class="box-title vertical-center {{db.classCol(3,3,3,3)}}">QR:</h4>
                 <form (submit)="searchQr($event)" class="{{db.classCol(9,9,9,9)}}">
