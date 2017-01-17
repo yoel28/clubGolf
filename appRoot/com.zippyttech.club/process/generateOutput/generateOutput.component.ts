@@ -5,6 +5,7 @@ import {ProductModel} from "../../catalog/product/product.model";
 import {QrcodeModel} from "../../catalog/qrcode/qrcode.model";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {TradeModel} from "../../catalog/trade/trade.model";
 
 declare var SystemJS:any;
 declare var QCodeDecoder:any;
@@ -30,8 +31,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public step=1;
     public dataClient:any={};
 
-    public product:any;
+    public product:ProductModel;
     public qr:QrcodeModel;
+    public trade:TradeModel;
+
     public listProduct:any={};
 
     public dataQr={
@@ -47,6 +50,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public initModel(){
         this.product = new ProductModel(this.db);
         this.qr = new QrcodeModel(this.db);
+        this.trade = new TradeModel(this.db);
     }
 
     ngOnInit(){
@@ -123,35 +127,48 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     }
 
     loadProduct(event){
-        let that=this;
-        let code=this.form.controls['code'].value;
-        this.form.controls['code'].setValue(null);
-
         if(event)
             event.preventDefault();
 
-        let where=[{'op':'eq','field':'code','value':code}];
-        this.listProduct[code]={'wait':true};
-        this.product.loadDataWhere('',where).then(
-            response => {
-                if(that.product.dataList && that.product.dataList.count==1)
-                {
-                    that.listProduct[code]=that.product.dataList.list[0];
-                    if(!that.listProduct[code].available){
-                        delete that.listProduct[code];
-                        that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
-                    }
-                }
-                else{
-                    delete that.listProduct[code];
-                    that.addToast('Error','Código '+code+' no registrado','error',15000);
-                }
+        if(this.product.permissions.list)
+        {
+            let that=this;
+            let code=this.form.controls['code'].value;
+            this.form.controls['code'].setValue(null);
 
-            }
-        );
+            let where=[{'op':'eq','field':'code','value':code}];
+            this.listProduct[code]={'wait':true};
+            this.product.loadDataWhere('',where).then(
+                response => {
+                    if(that.product.dataList && that.product.dataList.count==1)
+                    {
+                        that.listProduct[code]=that.product.dataList.list[0];
+                        if(!that.listProduct[code].available){
+                            delete that.listProduct[code];
+                            that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                        }
+                        else if(!that.listProduct[code].enabled){
+                            delete that.listProduct[code];
+                            that.addToast('Error','El codigo '+code+' no se encuentra habilitado para su uso','warning',15000);
+                        }
+                    }
+                    else{
+                        delete that.listProduct[code];
+                        that.addToast('Error','Código '+code+' no registrado','error',15000);
+                    }
+
+                }
+            );
+        }
+
     }
+
     disableSubmit(){
-        return Object.keys(this.listProduct).length>0?false:true;
+        if(!Object.keys(this.listProduct).length)
+            return true;
+        if(!this.trade.permissions.add)
+            return true;
+        return false;
     }
     public get getDataQr(){
         return JSON.stringify(this.dataQr);
@@ -161,18 +178,24 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             delete this.listProduct[key];
     }
     saveProduct(event){
-        let that=this;
         if(event)
             event.preventDefault();
-        let body={'qrCode':null,'list':[]};
-        body.qrCode =  this.dataClient.id;
-        Object.keys(this.listProduct).forEach(key=>{
-            if(that.listProduct[key].id)
-                body.list.push(that.listProduct[key].id)
-        })
-        this.httputils.onSave('/trades',JSON.stringify(body),null).then(response=>{
-            that.step=3;
-        })
+        if(this.trade.permissions.add){
+
+            let that=this;
+            let body={'qrCode':null,'list':[]};
+            body.qrCode =  this.dataClient.id;
+
+            Object.keys(this.listProduct).forEach(key=>{
+                if(that.listProduct[key].id)
+                    body.list.push(that.listProduct[key].id)
+            });
+
+            this.trade.onSave(body).then(response=>{
+                that.step=3;
+            })
+        }
+
 
     }
     ngOnDestroy():void{
@@ -190,18 +213,23 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         if(event)
             event.preventDefault();
         try {
-            let that=this;
-            let val = jQuery('#validQr').val();
-            val = val.replace(/'/g, '"');
-            jQuery('#validQr').val('');
-            let data = JSON.parse(val);
-            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+            if(this.qr.permissions.list) {
+                let that = this;
+                let val = jQuery('#validQr').val();
+                val = val.replace(/'/g, '"');
+                jQuery('#validQr').val('');
+                let data = JSON.parse(val);
+                let where = [{
+                    join: "sponsor",
+                    where: [{'op': 'eq', 'field': 'contractCode', 'value': data.sponsorContract}]
+                }];
 
-            this.qr.loadDataWhere(data.id,where).then(
-                response => {
-                    that.db.ws.webSocket[that.channelWS].data.setValue(response);
-                }
-            )
+                this.qr.loadDataWhere(data.id, where).then(
+                    response => {
+                        that.db.ws.webSocket[that.channelWS].data.setValue(response);
+                    }
+                )
+            }
 
 
         }catch (e){

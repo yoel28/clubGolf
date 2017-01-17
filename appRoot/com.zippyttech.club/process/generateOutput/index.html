@@ -32,6 +32,12 @@
                                                 <i class="fa fa-qrcode"></i>
                                                 <form (submit)="searchQr($event)">
                                                     <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
+                                                    <div *ngIf="!qr.permissions.list">
+                                                        <div class="btn-red padding-error">
+                                                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="qr.prefix+'_3'"></tooltip-view></strong></h5>
+                                                            {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{qr.prefix}}_LIST
+                                                        </div>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -39,7 +45,7 @@
                                 </div>
                                 <div class="{{db.classCol(6,6,6,12)}} margin-top-5">
                                     <h1><strong class="letra-grande">CDGApp</strong></h1>
-                                    <h1>Usa CDGApp en tu telefono para escanear el código</h1>
+                                    <h1>Usa CDGApp en tu teléfono para escanear el código</h1>
                                 </div>
                             </div>
                             <div class="row margin-top-5">
@@ -145,7 +151,7 @@
                                             <td>{{getHora}}</td>
                                         </tr>
                                         <tr>
-                                            <td  class="border-right">Numero de contrato</td>
+                                            <td  class="border-right">Número de contrato</td>
                                             <td>{{dataClient.sponsorContract}}</td>
                                         </tr>
                                         <tr>
@@ -171,10 +177,22 @@
                                             <input formControlName="code" class="form-control input-control"
                                                    placeholder="ESCANEAR PRODUCTO" type="text">
                                         </div>
+                                        <div *ngIf="!product.permissions.list">
+                                            <div class="btn-red padding-error">
+                                                <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
+                                                {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{product.prefix}}_LIST
+                                            </div>
+                                        </div>
                                     </form>
                                     <button class="btn btn-green btn-block" (click)="saveProduct($event)" [disabled]="disableSubmit()">
                                         TERMINAR
                                     </button>
+                                    <div *ngIf="!trade.permissions.add">
+                                        <div class="btn-red padding-error">
+                                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
+                                            {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{trade.prefix}}_ADD
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="{{db.classCol(8,8,10,10)}}{{db.classOffset(2,2,1,1)}} margin-top-5 table-responsive">

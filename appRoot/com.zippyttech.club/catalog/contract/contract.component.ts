@@ -20,13 +20,13 @@ export class ContractComponent extends BaseViewInstance{
     }
 
     initViewOptions() {
-        this.viewOptions["title"] = 'Contracto';
+        this.viewOptions["title"] = 'Contrato';
     }
 
     loadParamsTable(){
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
-            'message': '¿ Esta seguro de eliminar el contracto: ',
+            'message': '¿ Esta seguro de eliminar el contrato: ',
             'keyAction':'code'
         };
     }

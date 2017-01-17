@@ -51,6 +51,7 @@ export class ProductTypeModel extends ModelBase{
         };
         this.rules['intervalMinutes']={
             'type':'number',
+            'required':true,
             'step':'1',
             'disabled':'data.type == "unidad"',
             'update':this.permissions.update,
@@ -123,14 +124,14 @@ export class ProductTypeModel extends ModelBase{
     initPermissions() {}
     initParamsSearch() {
         this.paramsSearch.title="Buscar tipo de producto";
-        this.paramsSearch.placeholder="Ingrese codigo del tipo de producto";
+        this.paramsSearch.placeholder="Ingrese código del tipo de producto";
     }
     initParamsSave() {
         this.paramsSave.title="Agregar tipo de producto"
     }
     initRuleObject() {
         this.ruleObject.title="Tipo de producto";
-        this.ruleObject.placeholder="Ingrese codigo del tipo de producto";
+        this.ruleObject.placeholder="Ingrese código del tipo de producto";
         this.ruleObject.key="productType";
         this.ruleObject.keyDisplay = "productTypeTitle";
         this.ruleObject.code = "productTypeId";

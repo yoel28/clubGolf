@@ -38,6 +38,15 @@ export class QrcodeModel extends ModelBase{
             'placeholder': 'Correo',
         };
 
+        this.rules['priceUptake']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'priceUptake',
+            'title': 'Consumo',
+            'placeholder': 'Consumo',
+        };
+
         this.rules['sponsor']=Object.assign({},this.sponsor.ruleObject);
         this.rules['sponsor'].title='Patrocinador';
         this.rules['sponsor'].keyDisplay='sponsorEmail';
@@ -117,5 +126,6 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.code;
         delete this.rulesSave.guest;
         delete this.rulesSave.id;
+        delete this.rulesSave.priceUptake;
     }
 }

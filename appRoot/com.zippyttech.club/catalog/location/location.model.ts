@@ -36,7 +36,7 @@ export class LocationModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar ubicación";
         this.paramsSearch.placeholder="Ingrese la ubicación";
-        this.paramsSearch.label.title="Titulo: ";
+        this.paramsSearch.label.title="Título: ";
         this.paramsSearch.label.detail="Código: "
     }
     initParamsSave() {

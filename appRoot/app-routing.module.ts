@@ -48,6 +48,7 @@ import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/re
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
 import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
 import {NotificationComponent} from "./com.zippyttech.business/notification/notification.component";
+import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
 
 const routesDefault: Routes = [
 
@@ -142,7 +143,8 @@ export const componentsView = [
     FilterComponent,
     SaveComponent,
     SearchMultipleComponent,
-    FormComponent
+    FormComponent,
+    ListActionComponent
 ];
 export const componentsApp = [
     ProductTypeComponent,

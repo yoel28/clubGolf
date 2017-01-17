@@ -39,7 +39,7 @@ export class UserTypeModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar tipo de usuario";
         this.paramsSearch.placeholder="Ingrese el tipo de usuario";
-        this.paramsSearch.label.title="Codigo: ";
+        this.paramsSearch.label.title="Código: ";
         this.paramsSearch.label.detail="Nombre: "
     }
     initParamsSave() {

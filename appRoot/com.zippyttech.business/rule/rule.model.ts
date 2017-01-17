@@ -31,13 +31,13 @@ export class RuleModel extends ModelBase{
             'title':'Regla',
             'placeholder':'Regla',
         };
-        this.rules['name']={
+        this.rules['title']={
             'type':'text',
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key':'name',
+            'key':'title',
             'icon': 'fa fa-list',
             'title':'Nombre',
             'placeholder':'Nombre',
@@ -47,14 +47,14 @@ export class RuleModel extends ModelBase{
     initPermissions() {}
     initParamsSearch() {
         this.paramsSearch.title="Buscar regla";
-        this.paramsSearch.placeholder="Ingrese codigo de la regla";
+        this.paramsSearch.placeholder="Ingrese código de la regla";
     }
     initParamsSave() {
         this.paramsSave.title="Agregar regla"
     }
     initRuleObject() {
         this.ruleObject.title="Regla";
-        this.ruleObject.placeholder="Ingrese codigo de la regla";
+        this.ruleObject.placeholder="Ingrese código de la regla";
         this.ruleObject.key="rule";
         this.ruleObject.keyDisplay = "ruleCode";
         this.ruleObject.code = "ruleId";
