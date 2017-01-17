@@ -205,10 +205,10 @@ export class RestController implements OnInit {
         let that = this;
 
         if (offset && offset == '#')
-            that.getLoadDataAll([], endpoint, list, 0, 1000, where);
+            return that.getLoadDataAll([], endpoint, list, 0, 1000, where);
         else {
             this.getOffset(offset, list, max);
-            this.httputils.onLoadList((endpoint || this.endpoint) + "?max=" + (max || this.max) + "&offset=" + (this.offset) + (where || this.where) + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), (list || this.dataList), this.max, this.error).then(
+            return this.httputils.onLoadList((endpoint || this.endpoint) + "?max=" + (max || this.max) + "&offset=" + (this.offset) + (where || this.where) + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), (list || this.dataList), this.max, this.error).then(
                 response=> {
                     that.loadPager(list || that.dataList);
                 }, error=> {
@@ -226,7 +226,7 @@ export class RestController implements OnInit {
         max = (max ? max : that.max);
         where = (where ? where : that.where);
         list.page = [];
-        this.httputils.onLoadList(endpoint + "?max=" + max + "&offset=" + offset + where, list, max, this.error).then(
+        return this.httputils.onLoadList(endpoint + "?max=" + max + "&offset=" + offset + where, list, max, this.error).then(
             response=> {
                 if (list.count > 0) {
                     data = data.concat(list.list);
