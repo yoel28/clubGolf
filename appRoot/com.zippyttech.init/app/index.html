@@ -111,8 +111,8 @@
     <div *ngIf="menuType.value && menuType.value.modal" class="modal fade" id="myMenu" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content ">
+                <div class="modal-header ">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color:#fff; opacity: 1;"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel" style="color:#fff; font-size:15pt;">Men&uacute;
@@ -147,13 +147,35 @@
             </div>
         </div>
     </div>
-
     <div *ngIf="info && (info.permissions.add || info.permissions.update)">
         <save-view *ngIf="info" [rules]="info.rulesSave" [params]="info.paramsSave" (getInstance)="setInstance($event,info.prefix)" ></save-view>
     </div>
 
 </div>
 
-<div *ngIf="db.myglobal.dataSesion.valid && db.myglobal.existsPermission(['REG_FULL_ADD'])" class="block-float">
-    <button (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue "><i class="fa fa-user-plus"></i></button>
+<div *ngIf="db.myglobal.dataSesion.valid" class="block-float">
+    <button title="Enviar invitación" class="redondo btn btn-success" data-toggle="modal" data-target="#invitacion"><i class="fa fa-envelope-o" ></i></button>
+    <button *ngIf="db.myglobal.existsPermission(['REG_FULL_ADD'])" (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue "><i class="fa fa-user-plus"></i></button>
+</div>
+
+<div class="modal fade" tabindex="-1" id="invitacion" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog send" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="modal-title">Enviar invitación </h3>
+            </div>
+            <div class="modal-body" *ngIf="user && user.completed">
+                <form-view [params]="user.paramsSave" (getInstance)="setEmailInstance($event)" [rules]="user.rulesSave"></form-view>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">
+                    &nbsp;{{db.msg.warningButtonExit | translate}}
+                </button>
+
+                <button (click)="searchUser($event)" [disabled]="!validForm()"  data-dismiss="modal" type="button" class="btn btn-blue fa fa-check">
+                    &nbsp;Invitar
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -57,6 +57,7 @@ export class DashboardModel extends ModelRoot{
                 that.qr.rules[key].visible = false;
             }
         });
+        this.qr.dataList = {};
 
     }
 
@@ -64,9 +65,10 @@ export class DashboardModel extends ModelRoot{
 
     initPermissions() {
         this.permissions = {};
-        this.permissions["trade"] = this.db.myglobal.existsPermission(['DASH_TRADE_LIST']);
-        this.permissions["vehicle"] = this.db.myglobal.existsPermission(['DASH_VEH_LIST']);
-        this.permissions["guest"] = this.db.myglobal.existsPermission(['DASH_GUEST_LIST']);
+        this.permissions["trade"] = this.db.myglobal.existsPermission(['DASH_TRADE']);
+        this.permissions["vehicle"] = this.db.myglobal.existsPermission(['DASH_VEH']);
+        this.permissions["guest"] = this.db.myglobal.existsPermission(['DASH_GUEST']);
+        this.permissions["qr"] = this.db.myglobal.existsPermission(['DASH_QR']);
     }
 
     initParamsSearch() {}

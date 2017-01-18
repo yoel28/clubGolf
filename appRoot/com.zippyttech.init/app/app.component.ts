@@ -7,6 +7,7 @@ import {componentsPublic} from "../../app-routing.module";
 import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {UserModel} from "../../com.zippyttech.access/user/user.model";
 
 declare var jQuery: any;
 declare var SystemJS: any;
@@ -24,6 +25,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     public activeMenuId: string;
 
     public info: any;
+    public user: any;
 
     constructor(public db: DependenciesBase, private cdRef: ChangeDetectorRef) {
         super(db);
@@ -85,6 +87,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.info = new InfoModel(this.db);
         this.info.rules['code'].readOnly = true;
         this.info.paramsSave.updateField = true;
+
+        this.user = new UserModel(this.db);
+        Object.keys(this.user.rulesSave).forEach(key=>{
+            if(key!='email')
+                delete this.user.rulesSave[key];
+        })
     }
 
     public ngAfterViewInit() {
@@ -443,10 +451,33 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.db.myglobal.objectInstance[prefix] = instance;
     }
 
+
     goPage(event, url) {
         if (event)
             event.preventDefault();
         let link = [url, {}];
         this.db.router.navigate(link);
     }
+    public emailInstance:any;
+    setEmailInstance(data){
+        this.emailInstance = data;
+    }
+    validForm(){
+        if(this.emailInstance && this.emailInstance.form && this.emailInstance.form.valid)
+            return true;
+        return false;
+    }
+    searchUser(event){
+        if(event)
+            event.preventDefault();
+
+        let that = this;
+        let body = this.emailInstance.getFormValues()
+        let callback=(response)=>{
+            let data=response.json();
+            that.addToast('Notificación',data.message)
+        };
+        this.httputils.doPost('/invite',JSON.stringify(body),callback,this.error)
+    }
+
 }

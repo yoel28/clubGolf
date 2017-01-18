@@ -1,10 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, DoCheck} from '@angular/core';
 import {Http} from '@angular/http';
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {ControllerBase} from "../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
-import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model";
-import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {IListActionData, ListActionComponent} from "../../com.zippyttech.ui/components/listAction/listAction.component";
 import {GetbackModel} from "../../com.zippyttech.club/process/getBack/getback.model";
 import {DashboardModel} from "./dashboard.model";
@@ -18,10 +16,14 @@ declare var jQuery:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.init/dashboard/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/dashboard/style.css']
 })
-export class DashboardComponent extends ControllerBase implements OnInit{
+export class DashboardComponent extends ControllerBase implements OnInit, DoCheck{
     private recordData:IListActionData;
     private tradeData:IListActionData;
     private guestData:IListActionData;
+
+    public guestRemove:FormControl = new FormControl();
+    public qrString:string = '';
+    public qrHidden: boolean = false;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'DASH','/dashboard/');
@@ -100,12 +102,10 @@ export class DashboardComponent extends ControllerBase implements OnInit{
         }
     }
 
-
-    public guestRemove:FormControl = new FormControl();
-    public qrString:string = '';
     searchQr(event){
         if(event)
             event.preventDefault();
+
         try {
             let that=this;
             let val = jQuery('#validQr').val();
@@ -114,7 +114,6 @@ export class DashboardComponent extends ControllerBase implements OnInit{
             jQuery('#validQr').val('');
             let data = JSON.parse(val);
             let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
-
             this.model.qr.loadDataWhere(data.id,where);
 
         }catch (e){
@@ -135,12 +134,37 @@ export class DashboardComponent extends ControllerBase implements OnInit{
             event.preventDefault();
 
         this.httputils.doPost('/attendings/',this.qrString,callback,this.error);
+        this.model.qr.dataList = {};
     }
 
     private observableAction(context:ListActionComponent)
     {
+
         if(context.data.observable.watch.value)
             context.data.model.spliceId(context.data.observable.watch.value);
+    }
+
+
+
+    ngDoCheck() {
+        if(!(this.model.qr && this.model.qr.dataList.id)) {
+            jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
+        }
+        else{
+            jQuery('#reader').find('.box-body,.box-footer').collapse('show');
+        }
+    }
+
+    private readerClick(){
+        let reader = jQuery('#reader');
+        if(reader.hasClass('reader-hide')) {
+            reader.removeClass('reader-hide');
+            this.qrHidden = false;
+        }
+        else {
+            reader.addClass('reader-hide');
+            this.qrHidden = true;
+        }
     }
 
 }
