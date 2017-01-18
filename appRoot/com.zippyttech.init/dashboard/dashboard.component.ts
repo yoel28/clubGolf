@@ -113,7 +113,11 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             this.qrString = val;
             jQuery('#validQr').val('');
             let data = JSON.parse(val);
-            let where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+            let where = [];
+            if (data.sponsorContract)
+                where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
+            else
+                where=[{join:"sponsor", where:[{'op':'isNull','field':'contractCode'}]}];
             this.model.qr.loadDataWhere(data.id,where);
 
         }catch (e){
