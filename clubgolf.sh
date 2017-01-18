@@ -118,6 +118,7 @@ Modulos[26,0]="PERM";		Modulos[26,1]="Permisos";			Modulos[26,2]="permission";
 for (( i=0; i<$((${#Modulos[@]}/3)); i++ ));
 do
 	echo -e "\n\n${Modulos[$i,0]}---${Modulos[$i,1]}---${Modulos[$i,2]}\n";
+	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_SHOW_DELETED'   ,'module':'${Modulos[$i,1]}','title':'Ver eliminados'     ,'controlador':'${Modulos[$i,2]}','accion':'' ,'detail':'Ver eliminados'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_LIST'   ,'module':'${Modulos[$i,1]}','title':'Listar'     ,'controlador':'${Modulos[$i,2]}','accion':'index' ,'detail':'Listar elementos'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_UPDATE' ,'module':'${Modulos[$i,1]}','title':'Actualizar' ,'controlador':'${Modulos[$i,2]}','accion':'update','detail':'Actualizar elementos'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_DELETE' ,'module':'${Modulos[$i,1]}','title':'Eliminar'   ,'controlador':'${Modulos[$i,2]}','accion':'delete','detail':'Borrar elementos'}"  -k $url
