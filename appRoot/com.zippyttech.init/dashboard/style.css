@@ -1,0 +1,36 @@
+
+#reader
+{
+    border-radius: 5px !important;
+    position: fixed;
+    width: 20%;
+    bottom: 20%;
+    overflow: hidden;
+    transition: 1s;
+    z-index: 1;
+}
+
+#reader .box{
+    width: 85%;
+    display: inline-block;
+    border-radius: 0px !important;
+    overflow: hidden;
+    border: 2px solid #488c6c;
+}
+
+#reader .box-body, #reader .box-footer
+{
+    overflow: hidden;
+}
+
+#reader .btn-hide{
+    width: 15%;
+    height: 100% !important;
+    display: inline-block;
+    border-radius: 0px !important;
+}
+
+.reader-hide
+{
+    transform: translateX(-90%);
+}

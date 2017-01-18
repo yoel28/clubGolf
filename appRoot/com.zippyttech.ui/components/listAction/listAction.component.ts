@@ -7,6 +7,7 @@ import {FormControl} from "@angular/forms";
 
 declare var SystemJS:any;
 declare var moment:any;
+declare var jQuery:any;
 
 
 export interface IListActionData {
@@ -156,8 +157,19 @@ export class ListActionComponent extends ControllerBase
         }
         return false;
     }
-    public p()
+
+    private permissionValid(permission:string):boolean
     {
-        console.log('ee');
+        if(this.data.model && this.data.model.permissions)
+            return (this.data.model.permissions["list"]);
+        return true;
     }
+
+    private existData():boolean
+    {
+        return (this.data && this.data.model && this.data.model.dataList && this.data.model.dataList.list)
+    }
+
+
 }
+
