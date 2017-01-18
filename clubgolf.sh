@@ -14,6 +14,7 @@ Otros[4,0]="DASH_TRADE";	        Otros[4,1]="Dashboard";    Otros[4,2]="Operacio
 Otros[5,0]="DASH_VEH";	            Otros[5,1]="Dashboard";    Otros[5,2]="Vehiculos";                  Otros[5,3]="";    Otros[5,4]="";     Otros[5,5]="Vista de vehiculos en el estacionamiento"
 Otros[6,0]="DASH_GUEST";	        Otros[6,1]="Dashboard";    Otros[6,2]="Invitados";                  Otros[6,3]="";    Otros[6,4]="";     Otros[6,5]="Vista de invitados activos"
 Otros[7,0]="DASH_QR";	            Otros[7,1]="Dashboard";    Otros[7,2]="Buscar Qr";                  Otros[7,3]="";    Otros[7,4]="";     Otros[7,5]="Vista de escanear qr"
+Otros[7,0]="DASH_INVITED";	        Otros[7,1]="Dashboard";    Otros[7,2]="Invitar usuarios";           Otros[7,3]="qrCode";    Otros[7,4]="invite";     Otros[7,5]="Invitar usuarios"
 
 Otros[8,0]="USER_ROLE_SAVE";	    Otros[8,1]="Usuarios";    Otros[8,2]="Actualizar Roles";    Otros[8,3]="userRole";    Otros[8,4]="save";     Otros[8,5]="Actualizar roles de usuarios"
 
