@@ -8,6 +8,7 @@ import {InfoModel} from "../../com.zippyttech.business/info/info.model";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {UserModel} from "../../com.zippyttech.access/user/user.model";
+import {AngularFire} from "angularfire2";
 
 declare var jQuery: any;
 declare var SystemJS: any;
@@ -27,7 +28,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     public info: any;
     public user: any;
 
-    constructor(public db: DependenciesBase, private cdRef: ChangeDetectorRef) {
+    constructor(public db: DependenciesBase, private cdRef: ChangeDetectorRef,public af: AngularFire) {
         super(db);
 
         let that = this;
@@ -128,6 +129,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.db.myglobal.dataSesionInit();
             localStorage.removeItem('bearer');
             contentHeaders.delete('Authorization');
+            that.af.auth.logout();
             this.menuItems.setValue([]);
             this.menuType.setValue(null);
             this.activeMenuId = "";
