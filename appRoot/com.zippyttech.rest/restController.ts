@@ -30,6 +30,7 @@ export class RestController implements OnInit {
     max = 15;
     sort = "";//name field.
     order = "";//asc o desc
+    deleted = "";//all | only
     page:any = [];
     where:string = "";
     whereObject:IWhere=[];
@@ -190,7 +191,7 @@ export class RestController implements OnInit {
             that.getLoadDataAll([], null, null, 0, 1000, null);
         else {
             this.getOffset(offset);
-            return this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : ''), this.dataList, this.max, this.error).then(
+            return this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : '') + (this.deleted.length > 0 ? '&deleted=' + this.deleted : ''), this.dataList, this.max, this.error).then(
                 response=> {
                     that.loadPager(that.dataList);
                     this.findData=false;
@@ -363,17 +364,6 @@ export class RestController implements OnInit {
         return this.httputils.doGet(this.endpoint+id+this.where,successCallback,this.error);
     }
 
-    changeOrder(sort){
-        if(sort ==  this.sort){
-            this.order = this.order=='asc'?'desc':'asc';
-        }
-        else
-        {
-            this.sort =  sort;
-            this.order = 'desc'
-        }
-        this.loadData();
-    }
 
     public setDataField(id,key,value?,callback?,data?){
         let json = {};
@@ -384,6 +374,19 @@ export class RestController implements OnInit {
                 callback(response,data);
         }));
     }
-
+    changeDeleted(event){
+        if(event)
+            event.preventDefault();
+        if(this.deleted==''){
+            this.deleted = 'all';
+        }
+        else if(this.deleted=='all'){
+            this.deleted = 'only';
+        }
+        else if(this.deleted=='only'){
+            this.deleted = '';
+        }
+        this.loadData();
+    }
 
 }
