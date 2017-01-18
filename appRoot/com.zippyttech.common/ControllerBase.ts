@@ -44,10 +44,10 @@ export abstract class ControllerBase extends RestController implements OnInit {
     
     abstract initModel();
 
-    public getViewOptionsButtons() {
+    public getViewOptionsButtons(type:string) {
         let visible = [];
         this.viewOptions['buttons'].forEach(obj=> {
-            if (obj.visible)
+            if (obj.visible && obj.type == type)
                 visible.push(obj);
         })
         return visible;
