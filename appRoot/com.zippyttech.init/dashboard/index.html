@@ -1,6 +1,9 @@
 <section class="content" *ngIf="model">
     <div id="reader" *ngIf="model.permissions['qr']">
-        <div class="box" *ngIf="true">
+        <button class="btn btn-hide btn-green" (click)="readerClick()">
+            <i [class]="'fa fa-chevron-'+((!qrHidden)?'right':'left')"></i>
+        </button>
+        <div class="box pull-right">
             <div class="box-header">
                 <h4 class="box-title vertical-center {{db.classCol(3,3,3,3)}}">QR:</h4>
                 <form (submit)="searchQr($event)" class="{{db.classCol(9,9,9,9)}}">
@@ -31,19 +34,17 @@
                 </button>
             </div>
         </div>
-        <button class="btn pull-right btn-hide btn-green" (click)="readerClick()">
-            <i [class]="'fa fa-chevron-'+((qrHidden)?'right':'left')"></i>
-        </button>
-    </div>
-
-    <div class = "" *ngIf="model.permissions['trade']">
-        <list-action [data]="tradeData"></list-action>
-    </div>
-    <div class = "" *ngIf="model.permissions['vehicle']">
-        <list-action [data]="recordData"></list-action>
     </div>
 
     <div class = "" *ngIf="model.permissions['guest']">
         <list-action [data]="guestData"></list-action>
+    </div>
+
+    <div class = "" *ngIf="model.permissions['vehicle']">
+        <list-action [data]="recordData"></list-action>
+    </div>
+
+    <div class = "" *ngIf="model.permissions['trade']">
+        <list-action [data]="tradeData"></list-action>
     </div>
 </section>

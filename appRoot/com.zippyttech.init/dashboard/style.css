@@ -1,21 +1,28 @@
+.content
+{
+    padding-top:45px;
+}
+
 
 #reader
 {
     border-radius: 5px !important;
     position: fixed;
     width: 20%;
-    bottom: 20%;
+    top: 50px;
+    right: 0px;
     overflow: hidden;
     transition: 1s;
     z-index: 1;
 }
 
 #reader .box{
-    width: 85%;
+    width: 84%;
     display: inline-block;
     border-radius: 0px !important;
     overflow: hidden;
     border: 2px solid #488c6c;
+    margin: 0px;
 }
 
 #reader .box-body, #reader .box-footer
@@ -24,13 +31,14 @@
 }
 
 #reader .btn-hide{
-    width: 15%;
+    width: 16%;
     height: 100% !important;
     display: inline-block;
-    border-radius: 0px !important;
+    border-radius: 5px 0px 0px 5px!important
+
 }
 
 .reader-hide
 {
-    transform: translateX(-90%);
+    transform: translateX(85%);
 }
