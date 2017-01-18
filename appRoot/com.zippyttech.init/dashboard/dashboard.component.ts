@@ -46,14 +46,15 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         this.tradeData = {
             routerLink:"/club/process/getback",
             model: that.model.trade,
+            visibleKeys:["sponsor","product","dateCreated","guest"],
             actions:{
-                "put":{
-                    model: modelAction,
-                    action : that.outAction,
-                    title: "Generar entrada",
-                    permission: modelAction.permissions.add
-                }
-            },
+                    "put":{
+                        model: modelAction,
+                        action : that.outAction,
+                        title: "Generar entrada",
+                        permission: modelAction.permissions.add
+                    }
+                },
             globalParams:{
                 "byClient": {
                     required: true,

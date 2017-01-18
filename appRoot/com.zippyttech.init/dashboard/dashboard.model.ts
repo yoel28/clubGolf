@@ -60,7 +60,7 @@ export class DashboardModel extends ModelRoot{
         });
 
         Object.keys(this.guest.rules).forEach((key)=>{
-            if(key != "id" && key != "sponsor" && key != "guest" && key != "timeLimit") {
+            if(key != "sponsor" && key != "guest" && key != "timeLimit") {
                 that.guest.rules[key].visible = false;
                 that.guest.rules[key].search = false;
                 that.qr.rules[key].visible = false;
