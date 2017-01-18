@@ -154,11 +154,11 @@
 </div>
 
 <div *ngIf="db.myglobal.dataSesion.valid" class="block-float">
-    <button title="Enviar invitación" class="redondo btn btn-success" data-toggle="modal" data-target="#invitacion"><i class="fa fa-envelope-o" ></i></button>
+    <button *ngIf="db.myglobal.existsPermission(['DASH_INVITED'])" title="Enviar invitación" class="redondo btn btn-success" data-toggle="modal" data-target="#invitacion"><i class="fa fa-envelope-o" ></i></button>
     <button *ngIf="db.myglobal.existsPermission(['REG_FULL_ADD'])" (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue "><i class="fa fa-user-plus"></i></button>
 </div>
 
-<div class="modal fade" tabindex="-1" id="invitacion" role="dialog" aria-labelledby="myModalLabel" >
+<div *ngIf="db.myglobal.existsPermission(['DASH_INVITED'])" class="modal fade" tabindex="-1" id="invitacion" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog send" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
