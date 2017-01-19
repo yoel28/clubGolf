@@ -35,14 +35,26 @@ System.config({
     'firebase':                  'npm:firebase/firebase.js',
     'angular2-qrcode':           'npm:angular2-qrcode',
     'qrcode-generator':          'npm:qrcode-generator/qrcode.js',
-    'ng2-toasty':                'npm:ng2-toasty/bundles/index.umd.js'
-
+    'ng2-toasty':                'npm:ng2-toasty/bundles/index.umd.js',
+    'angular2-highcharts': 'npm:angular2-highcharts',
+    'highcharts': 'npm:highcharts'
   },
   // packages tells the System loader how to load when no filename and/or no extension
   packages: {
     'app': { main: './main.js', defaultExtension: 'js' },
     'api' : { defaultExtension : 'js' },
     'rxjs': { defaultExtension: 'js' },
+    'angular2-highcharts': {
+      main: './index.js',
+      defaultExtension: 'js'
+    },
+    'highcharts': {
+      // NOTE: You should set './highcharts.src.js' here
+      // if you are not going to use <chart type="StockChart"
+      main: './highstock.src.js',
+
+      defaultExtension: 'js'
+    }
 
     // barrels
     // 'app/core':   { main: 'index'},
