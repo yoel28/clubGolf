@@ -24,7 +24,7 @@ export interface IChartData
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/components/accordion/style.css'],
     inputs:['chartData']
 })
-export class ChartComponent extends ControllerBase
+export class ChartViewComponent extends ControllerBase
 {
 
     public chartData:IChartData;
