@@ -66,6 +66,14 @@ export class DashboardModel extends ModelRoot{
                 that.qr.rules[key].visible = false;
             }
         });
+        this.guest.rules['sponsor'].title = 'Email del patrocinador';
+        this.guest.rules['sponsorName'] = {
+            'object':true,
+            'visible':true,
+            'key': 'sponsorName',
+            'keyDisplay':'sponsorName',
+            'title': 'Patrocinador',
+        };
 
     }
 

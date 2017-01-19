@@ -43,7 +43,7 @@
                                 {{elem[key]}}
                             </span>
                             <span *ngIf="data.model.rules[key].object">
-                                {{(elem[data.model.rules[key].keyDisplay])?elem[data.model.rules[key].keyDisplay]:"N/A"}}
+                                {{ (elem[data.model.rules[key].keyDisplay])?elem[data.model.rules[key].keyDisplay]:"N/A"}}
                             </span>
                         </div>
                     </div>
@@ -111,6 +111,7 @@
 </div>
 
 <filter-view
+        (whereFilter)="data.model.loadWhere($event)"
         [rules] = "data.model.rules"
         [params] = "data.model.paramsSearch"
 >
