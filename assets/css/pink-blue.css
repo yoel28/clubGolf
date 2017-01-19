@@ -5918,18 +5918,18 @@ fieldset[disabled] .btn-orange.active {
   border-color: #e85f23;
 }
 .btn-green {
-  color: #ffffff;
-  background-color: #488c6c;
-  border-color: #458567;
+  color: #ffffff !important;
+  background-color: #488c6c !important;
+  border-color: #458567 !important;
 }
 .btn-green:hover,
 .btn-green:focus,
 .btn-green:active,
 .btn-green.active,
 .open .dropdown-toggle.btn-green {
-  color: #ffffff;
-  background-color: #3a7157;
-  border-color: #305d48;
+  color: #ffffff !important;
+  background-color: #3a7157 !important;
+  border-color: #305d48 !important;
 }
 .btn-green:active,
 .btn-green.active,

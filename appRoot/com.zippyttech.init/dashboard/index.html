@@ -1,9 +1,9 @@
 <section class="content" *ngIf="model">
-    <div id="reader" *ngIf="model.permissions['qr']">
+    <div id="reader" class="reader-hide" *ngIf="model.permissions['qr'] && model.qr">
         <button class="btn btn-hide btn-green" (click)="readerClick()">
-            <i [class]="'fa fa-chevron-'+((!qrHidden)?'right':'left')"></i>
+            <i [class]="'fa fa-chevron-'+((qrHidden)?'left':'right')"></i>
         </button>
-        <div class="box pull-right">
+        <div class="box collapsed-box pull-right">
             <div class="box-header">
                 <h4 class="box-title vertical-center {{db.classCol(3,3,3,3)}}">QR:</h4>
                 <form (submit)="searchQr($event)" class="{{db.classCol(9,9,9,9)}}">
@@ -11,7 +11,7 @@
                 </form>
             </div>
             <div class="box-body">
-                <div class="reader-detail" *ngIf="model.qr && model.qr.dataList.id">
+                <div class="reader-detail" *ngIf="model.qr.dataList && model.qr.dataList.id">
                     <div *ngFor="let key of getKeys(model.qr.rules)">
                         <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
                             {{model.qr.rules[key].title}}:
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="box-footer">
-                <button class="btn btn-green" *ngIf="model.qr && model.qr.dataList.id" (click)="loadAttendings($event)">
+                <button class="btn btn-green" *ngIf="model.qr.dataList && model.qr.dataList.id" (click)="loadAttendings($event)">
                     Procesar
                 </button>
             </div>
