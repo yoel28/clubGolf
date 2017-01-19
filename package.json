@@ -27,6 +27,7 @@
     "@types/jasmine": "^2.5.38",
     "@types/node": "^6.0.51",
     "@types/selenium-webdriver": "^2.53.36",
+    "angular2-highcharts": "^0.4.1",
     "angular2-notifications": "*",
     "angular2-qrcode": "^1.0.4",
     "angular2-websocket": "^0.9.0",
