@@ -122,6 +122,8 @@ export class EventModel extends ModelBase{
             'placeholder': 'Ingrese el icono',
         }
 
+        this.globalOptional();
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         delete this.rules['detail'];
     }

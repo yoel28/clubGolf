@@ -42,6 +42,7 @@ export class RuleModel extends ModelBase{
             'title':'Nombre',
             'placeholder':'Nombre',
         };
+        this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}

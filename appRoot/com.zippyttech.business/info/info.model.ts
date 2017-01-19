@@ -94,6 +94,8 @@ export class InfoModel extends ModelBase{
             'placeholder': 'Seleccione un icono',
         }
 
+        this.globalOptional();
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}
