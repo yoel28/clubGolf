@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RegisterFullModel} from "./registerFull.model";
-import {RestController} from "../../../com.zippyttech.rest/restController";
+import {RestController, IRest} from "../../../com.zippyttech.rest/restController";
 import {FormControl} from "@angular/forms";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
@@ -31,7 +31,15 @@ export class RegisterFullComponent extends RestController implements OnInit{
         this.initModel();
         this.initViewOptions();
     }
-
+    getRestUser(){
+        let data = this.userObjectInstance.getFormValues();
+        let rest:IRest={
+            where:[{'op':'eq','field':'id','value':data.id}],
+            offset:0,
+            max:0
+        }
+        return rest;
+    }
     prueba(event){ //TODO:Prueba para cambiar validadores
         if(event)
             event.preventDefault();
