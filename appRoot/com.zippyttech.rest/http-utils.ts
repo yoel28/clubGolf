@@ -183,9 +183,9 @@ export class HttpUtils {
             if (that.toastyService)
                 that.addToast('Notificacion','Actualizado con éxito');
         };
-       return this.doPut(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
+        return this.doPut(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
     }
-    
+
     valideVersion(){
         if(localStorage.getItem('VERSION_CACHE') && localStorage.getItem('VERSION_CACHE_HEADER')!='null')
             if(localStorage.getItem('bearer') && (localStorage.getItem('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE_HEADER')))

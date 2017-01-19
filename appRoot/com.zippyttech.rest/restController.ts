@@ -34,16 +34,32 @@ export class RestController implements OnInit {
     page:any = [];
     where:string = "";
     whereObject:IWhere=[];
+    id:string='';
     findData:boolean=false;
+    rest:IRest= {
+        'where': [],
+        'max': 15,
+        'offset': 0,
+    }
 
     constructor(public db:DependenciesBase | any) {
         this.httputils = new HttpUtils(db.http,db.toastyService,db.toastyConfig);
     }
     ngOnInit() {
     }
+    loadRest(){
+        this.setWhere(this.rest.where);
+        this.max  = this.rest.max;
+        this.offset  = this.rest.offset;
+    }
 
     setEndpoint(endpoint:string) {
         this.endpoint = endpoint;
+    }
+    public setWhere(where:IRest | Object):void{
+        if(where){
+            this.where = "&where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
+        }
     }
 
     addToast(title,message,type='info',time=10000) {
@@ -184,14 +200,16 @@ export class RestController implements OnInit {
         }
     }
 
-    loadData(offset?) {
+    loadData(offset?,event?) {
+        if(event)
+            event.preventDefault();
         this.findData = true;
         let that = this;
         if (offset && offset == '#')
             that.getLoadDataAll([], null, null, 0, 1000, null);
         else {
             this.getOffset(offset);
-            return this.httputils.onLoadList(this.endpoint + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : '') + (this.deleted.length > 0 ? '&deleted=' + this.deleted : ''), this.dataList, this.max, this.error).then(
+            return this.httputils.onLoadList(this.endpoint +this.id + "?max=" + this.max + "&offset=" + this.offset + this.where + (this.sort.length > 0 ? '&sort=' + this.sort : '') + (this.order.length > 0 ? '&order=' + this.order : '') + (this.deleted.length > 0 ? '&deleted=' + this.deleted : ''), this.dataList, this.max, this.error).then(
                 response=> {
                     that.loadPager(that.dataList);
                     this.findData=false;
@@ -351,17 +369,25 @@ export class RestController implements OnInit {
         return (this.httputils.onUpdate(this.endpoint + dataSelect.id, body, dataSelect, this.error));
     }
 
-    loadWhere(where) {
+    loadWhere(where,event?) {
+        if(event)
+            event.preventDefault();
         this.where = where;
         this.loadData();
     }
     loadDataWhere(id='',where:IWhere=[]){
         let that = this;
-        this.where="?where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
+        this.findData = true;
+        if(id && id!='')
+            this.id = id;
+        this.where="&where="+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
         let successCallback= response => {
+            that.findData=false;
             Object.assign(that.dataList, response.json());
+            if(!(id && id==''))
+                that.loadPager(that.dataList);
         };
-        return this.httputils.doGet(this.endpoint+id+this.where,successCallback,this.error);
+        return this.httputils.doGet(this.endpoint+id+'?offset=0'+this.where,successCallback,this.error);
     }
 
 

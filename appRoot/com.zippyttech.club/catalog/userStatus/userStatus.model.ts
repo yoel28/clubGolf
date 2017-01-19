@@ -29,6 +29,7 @@ export class UserStatusModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
+        this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}

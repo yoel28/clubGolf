@@ -16,5 +16,10 @@ export abstract class ModelBase extends ModelRoot{
             this.rules['account'].required = true;
         }
     }
+    public globalOptional(){
+        if(this.permissions['global']){
+            this.rules['account'].required = false;
+        }
+    }
 
 }

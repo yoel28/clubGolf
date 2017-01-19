@@ -215,7 +215,6 @@ export abstract class ModelRoot extends RestController{
             that.rules[key].check =  false;
         })
     }
-
     public spliceId(id:string)
     {
         if(this.dataList['list']) {
@@ -225,9 +224,10 @@ export abstract class ModelRoot extends RestController{
         }
     }
 
-    public getIndexById(id:string)
+    public getIndexById(id:string):number
     {
         if(this.dataList['list'])
             return this.dataList['list'].findIndex(obj => obj.id == id);
+        return -1;
     }
 }

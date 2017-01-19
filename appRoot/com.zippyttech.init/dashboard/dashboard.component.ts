@@ -23,7 +23,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
 
     public guestRemove:FormControl = new FormControl();
     public qrString:string = '';
-    public qrHidden: boolean = false;
+    public qrHidden: boolean;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'DASH','/dashboard/');
@@ -46,14 +46,15 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         this.tradeData = {
             routerLink:"/club/process/getback",
             model: that.model.trade,
+            visibleKeys:["sponsor","product","dateCreated","guest"],
             actions:{
-                "put":{
-                    model: modelAction,
-                    action : that.outAction,
-                    title: "Generar entrada",
-                    permission: modelAction.permissions.add
-                }
-            },
+                    "put":{
+                        model: modelAction,
+                        action : that.outAction,
+                        title: "Generar entrada",
+                        permission: modelAction.permissions.add
+                    }
+                },
             globalParams:{
                 "byClient": {
                     required: true,
@@ -75,6 +76,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
 
         this.guestData = {
+            visibleKeys:["sponsorName","sponsor","guest","timeLimit"],
             routerLink:"/club/catalog/qr",
             model: that.model.guest,
             actions:undefined,
@@ -151,10 +153,15 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
 
 
     ngDoCheck() {
-        if(!(this.model.qr && this.model.qr.dataList.id)) {
+        if(jQuery('#reader').hasClass('reader-hide'))
+            this.qrHidden = true;
+
+        if(!(this.model.qr && this.model.qr.dataList && this.model.qr.dataList.id)) {
             jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
+            jQuery('#reader').find('.box').addClass('collapsed-box');
         }
         else{
+            jQuery('#reader').find('.box').removeClass('collapsed-box');
             jQuery('#reader').find('.box-body,.box-footer').collapse('show');
         }
     }

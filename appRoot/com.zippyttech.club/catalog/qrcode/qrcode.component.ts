@@ -27,7 +27,7 @@ export class QrcodeComponent extends BaseViewInstance{
         this.paramsTable.actions={};
         this.paramsTable.actions.delete = {
             'message': '¿ Esta seguro de eliminar el QR: ',
-            'keyAction':'code'
+            'keyAction':'id'
         };
     }
 }

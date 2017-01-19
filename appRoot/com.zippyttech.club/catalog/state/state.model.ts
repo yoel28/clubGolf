@@ -94,6 +94,7 @@ export class StateModel extends ModelBase{
             "key": "mustComment",
             "title": "Comentario",
         };
+        this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}

@@ -47,6 +47,8 @@ export class ParamModel extends ModelBase{
             'title': 'Tipo',
             'placeholder': 'Seleccione un Tipo',
         };
+
+        this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}

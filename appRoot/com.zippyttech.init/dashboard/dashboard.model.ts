@@ -27,37 +27,53 @@ export class DashboardModel extends ModelRoot{
         this.guest.ruleObject.title = "Invitados";
         this.guest.setEndpoint("/guests/");
 
+        this.guest.max = 10;
+        this.record.max = 10;
+        this.trade.max = 10;
+
+        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'}];
+        this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];
+        this.guest.paramsSearch.where=[{'op':'eq','field':'attended', 'value':false}];
+
         if(this.record.permissions.list)
-            this.record.loadDataWhere('',[{'op':'isNull','field':'dateOut'}]);
+            this.record.loadDataWhere('',this.record.paramsSearch.where);
 
         if(this.trade.permissions.list)
-            this.trade.loadDataWhere('',[{'op':'isNull','field':'receivedDate'}]);
+            this.trade.loadDataWhere('',this.trade.paramsSearch.where);
 
         if(this.guest.permissions.list)
-            this.guest.loadDataWhere('',[{'op':'eq','field':'attended', 'value':false}]);
+            this.guest.loadDataWhere('',this.guest.paramsSearch.where);
 
         let that=this;
         Object.keys(this.record.rules).forEach((key)=>{
-            if(key != "dateIn" && key != "user" && key != "vehicle" && key != "userType" && key != "")
+            if(key != "dateIn" && key != "user" && key != "vehicle" && key != "userType" && key != ""){
                 that.record.rules[key].visible = false;
-            if(that.record.rules[key].type =='date')
-                that.record.rules[key].title = "fecha";
+                that.record.rules[key].search = false;
+            }
         });
 
         Object.keys(this.trade.rules).forEach((key)=>{
-            if(key != "dateCreated" && key != "product" && key != "sponsor" && key != "guest")
+            if(key != "dateCreated" && key != "product" && key != "sponsor" && key != "guest"){
                 that.trade.rules[key].visible = false;
-            if(that.trade.rules[key].type =='date')
-                that.trade.rules[key].title = "fecha";
+                that.trade.rules[key].search = false;
+            }
         });
 
         Object.keys(this.guest.rules).forEach((key)=>{
-            if(key != "id" && key != "sponsor" && key != "guest" && key != "timeLimit") {
+            if(key != "sponsor" && key != "guest" && key != "timeLimit") {
                 that.guest.rules[key].visible = false;
+                that.guest.rules[key].search = false;
                 that.qr.rules[key].visible = false;
             }
         });
-        this.qr.dataList = {};
+        this.guest.rules['sponsor'].title = 'Email del patrocinador';
+        this.guest.rules['sponsorName'] = {
+            'object':true,
+            'visible':true,
+            'key': 'sponsorName',
+            'keyDisplay':'sponsorName',
+            'title': 'Patrocinador',
+        };
 
     }
 

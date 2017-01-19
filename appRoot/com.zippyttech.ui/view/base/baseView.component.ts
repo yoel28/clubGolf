@@ -37,12 +37,13 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         this.setEndpoint(this.model.endpoint);
     }
     initRest(){
-        this.setWhere(this.instance.rest.where);//TODO:Falta cargar todos las demas variables y hacer parametros dinamicos
+        this.rest = this.instance.rest;
+        this.loadRest();
     }
     initViewOptions() {
         this.viewOptions["title"] = this.instance.viewOptions.title;
         this.viewOptions["buttons"] = [];
-        
+
         this.viewOptions["buttons"].push({
             'visible': this.model.permissions.add,
             'title': 'Agregar',
@@ -91,7 +92,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
             }
 
         }
-        
+
     }
 
     setVisibleField(event,data)
