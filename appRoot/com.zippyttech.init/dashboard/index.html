@@ -47,4 +47,10 @@
     <div class = "" *ngIf="model.permissions['trade']">
         <list-action [data]="tradeData"></list-action>
     </div>
+
+
+    <div class="highchart col-md-12">
+        <chart [options]="chart1options"></chart>
+    </div>
+
 </section>

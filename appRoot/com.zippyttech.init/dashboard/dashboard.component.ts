@@ -8,6 +8,13 @@ import {GetbackModel} from "../../com.zippyttech.club/process/getBack/getback.mo
 import {DashboardModel} from "./dashboard.model";
 import {FormControl} from "@angular/forms";
 
+/*
+const Highcharts = require('highcharts');
+const Highcharts3d = require('highcharts/highcharts-3d.src');
+Highcharts.setOptions({
+    colors: ['#058DC7', '#50B432', '#ED561B']
+});*/
+
 declare var SystemJS:any;
 declare var jQuery:any;
 
@@ -25,9 +32,11 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public qrString:string = '';
     public qrHidden: boolean;
 
+    public chart1options:Highcharts.Options;
+
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'DASH','/dashboard/');
-
+        this.initCharts();
     }
 
     ngOnInit():void {
@@ -178,6 +187,49 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
     }
 
+    public initCharts()
+    {
+        let that = this;
+        let callback = (response)=>{
+            that.loadChart(response.json());
+        };
+        this.httputils.doGet('/reports/entries/2017/',callback,null,false);
+    }
+
+    public loadChart(JSONrespose)
+    {
+
+        let data:any = {};
+
+        Object.assign(data, JSONrespose);
+
+        this.chart1options = {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'ENTRADAS'
+            },
+            xAxis: {
+                categories: data.categories,
+                tickmarkPlacement: 'on'
+            },
+            yAxis: {
+                title: { text: 'N° de entradas' },
+            },
+            tooltip: {
+                valueSuffix: ' entradas'
+            },
+            plotOptions: {
+                series: {
+                    shadow: true
+                },
+                line:{}
+            },
+            series: data.list,
+            credits:false
+        };
+    }
 }
 
 
