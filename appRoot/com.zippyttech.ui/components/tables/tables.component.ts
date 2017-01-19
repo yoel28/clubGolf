@@ -268,7 +268,7 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
             });
         this.viewListData['data'] =  data[key];
         if(typeof data[key] === 'string'){
-               this.viewListData['data'] = JSON.parse(data[key])
+            this.viewListData['data'] = JSON.parse(data[key])
         }
     }
 

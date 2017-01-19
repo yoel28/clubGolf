@@ -42,7 +42,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
     initViewOptions() {
         this.viewOptions["title"] = this.instance.viewOptions.title;
         this.viewOptions["buttons"] = [];
-        
+
         this.viewOptions["buttons"].push({
             'visible': this.model.permissions.add,
             'title': 'Agregar',
@@ -91,7 +91,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
             }
 
         }
-        
+
     }
 
     setVisibleField(event,data)

@@ -33,13 +33,13 @@
                                     <li *ngFor="let key of getObjectKeys(model.rules)" class="text-blue flex" [class.check]="model.rules[key].check">
 
                                         <button class="btn btn-box-tool fa"
-                                            [class.fa-eye-slash]="!model.rules[key].visible"
-                                            [class.text-red]="!model.rules[key].visible"
-                                            [class.fa-eye]="model.rules[key].visible"
-                                            [class.text-green]="model.rules[key].visible"
-                                            (click)="setVisibleField($event,model.rules[key])"
-                                            title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
-                                            >
+                                                [class.fa-eye-slash]="!model.rules[key].visible"
+                                                [class.text-red]="!model.rules[key].visible"
+                                                [class.fa-eye]="model.rules[key].visible"
+                                                [class.text-green]="model.rules[key].visible"
+                                                (click)="setVisibleField($event,model.rules[key])"
+                                                title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
+                                        >
 
                                         </button>
                                         <button (click)="changePosition($event,key,'up')" class="btn btn-box-tool fa fa-angle-up" title="Subir"></button>&nbsp;

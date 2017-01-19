@@ -93,7 +93,7 @@ export class InfoModel extends ModelBase{
             'title': 'Icono',
             'placeholder': 'Seleccione un icono',
         }
-        
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}
