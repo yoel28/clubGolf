@@ -19,6 +19,17 @@ export class AccountModel extends ModelRoot{
             'default':this.db.pathElements.company,
             'placeholder': 'Logo',
         };
+        this.rules['title']={
+            'type': 'text',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'title',
+            'title': 'Título',
+            'placeholder': 'Título',
+        };
+
 
         this.rules['name']={
             'type': 'text',
@@ -29,6 +40,16 @@ export class AccountModel extends ModelRoot{
             'key': 'name',
             'title': 'Nombre',
             'placeholder': 'Nombre',
+        };
+
+        this.rules['hostname']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'hostname',
+            'title': 'Hostname',
+            'placeholder': 'Hostname',
         };
 
         this.rules['ruc']={
@@ -64,6 +85,7 @@ export class AccountModel extends ModelRoot{
             'title': 'Dirección',
             'placeholder': 'Dirección',
         };
+
 
         this.rules['url']={
             'type': 'text',
@@ -146,6 +168,7 @@ export class AccountModel extends ModelRoot{
         delete this.rulesSave.enabled;
         delete this.rulesSave.miniLogo;
         delete this.rulesSave.logo;
+        delete this.rulesSave.title;
     }
 
 }
