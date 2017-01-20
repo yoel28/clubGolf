@@ -1,4 +1,15 @@
 <section class="content" *ngIf="model">
+
+    <div class="chart-box">
+        <div class="chart-header">
+
+        </div>
+        <div class="chart-body">
+            <chart-view class="chart-item pull-left" [chartData] = "chvwEntries"></chart-view>
+            <chart-view class="chart-item pull-right" [chartData] = "chvwProducts"></chart-view>
+        </div>
+    </div>
+
     <div id="reader" class="reader-hide" *ngIf="model.permissions['qr'] && model.qr">
         <button class="btn btn-hide btn-green" (click)="readerClick()">
             <i [class]="'fa fa-chevron-'+((qrHidden)?'left':'right')"></i>
@@ -47,14 +58,5 @@
     <div class = "" *ngIf="model.permissions['trade']">
         <list-action [data]="tradeData"></list-action>
     </div>
-
-
-    <div class="highchart col-md-12">
-        <chart [options]="chart1options"></chart>
-    </div>
-
-    <!--<chart-view >-->
-
-    <!--</chart-view>-->
 
 </section>

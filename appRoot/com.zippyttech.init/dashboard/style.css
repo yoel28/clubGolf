@@ -1,7 +1,7 @@
 
 .content
 {
-    padding-top: 45px;
+    /*padding-top: 45px;*/
 }
 
 
@@ -35,11 +35,34 @@
     width: 16%;
     height: 100% !important;
     display: inline-block;
-    border-radius: 5px 0px 0px 5px!important
+    border-radius: 5px 0px 0px 5px !important
 
 }
 
 .reader-hide
 {
     transform: translateX(85%);
+}
+
+
+
+.chart-box{
+    padding: 20px;
+    margin: 15px;
+}
+
+.chart-body{
+    width: 90%;
+    margin: 0 auto;
+    height: 300px;
+
+}
+
+.chart-item{
+    width: 48%;
+    height: 100%;
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
 }
