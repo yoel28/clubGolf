@@ -50,12 +50,14 @@ import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract
 import {NotificationComponent} from "./com.zippyttech.business/notification/notification.component";
 import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
 import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
+import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 
 const routesDefault: Routes = [
 
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
     { path: 'init/dashboard', component: DashboardComponent},
     { path: 'init/load', component: LoadComponent},
+    { path: 'term/conditions', component: TermConditionsComponent},
 
     { path: 'auth/login', component: LoginComponent},
     { path: 'auth/login/:company', component: LoginComponent},
@@ -133,7 +135,8 @@ export const componentsDefault = [
     ParamComponent,
     AccountComponent,
     UserComponent,
-    NotificationComponent
+    NotificationComponent,
+    TermConditionsComponent
 ];
 export const componentsView = [
     ImageEditComponent,
@@ -175,5 +178,6 @@ export const componentsPublic = [
     'LoginComponent',
     'ActivateComponent',
     'RecoverComponent',
-    'RecoverPasswordComponent'
+    'RecoverPasswordComponent',
+    'TermConditionsComponent'
 ];

@@ -106,13 +106,14 @@
             <strong>Copyright &copy; 2017 <a href="#">{{db.myglobal.user.account}}</a>.</strong> Todos los derechos reservados.
             <br/>En caso de error comunicarse al
             {{db.myglobal.getParams('PHONE_SUPPORT')}} / {{ replace(db.myglobal.getParams('EMAIL_SUPPORT')) }}
+            <a href="#" class="pull-right" data-target="#termConditions" data-toggle="modal">{{db.msg.termConditions}}</a>
         </footer>
     </div>
     <div *ngIf="menuType.value && menuType.value.modal" class="modal fade" id="myMenu" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content ">
-                <div class="modal-header ">
+            <div class="modal-content">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             style="color:#fff; opacity: 1;"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel" style="color:#fff; font-size:15pt;">Men&uacute;
@@ -147,6 +148,7 @@
             </div>
         </div>
     </div>
+
     <div *ngIf="info && (info.permissions.add || info.permissions.update)">
         <save-view *ngIf="info" [rules]="info.rulesSave" [params]="info.paramsSave" (getInstance)="setInstance($event,info.prefix)" ></save-view>
     </div>
@@ -181,3 +183,9 @@
         </div>
     </div>
 </div>
+
+<modal-view [params]="getIModalTerm()">
+    <div body>
+        <term-conditions></term-conditions>
+    </div>
+</modal-view>
