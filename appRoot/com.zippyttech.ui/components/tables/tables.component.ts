@@ -16,7 +16,6 @@ declare var moment:any;
 
 export class TablesComponent extends RestController implements OnInit,AfterContentChecked {
 
-
     public params:any={};
     public model:any={};
     public searchId:any={};
@@ -49,27 +48,27 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
         this.getInstance = new EventEmitter();
         this.setEndpoint(this.params? this.params.endpoint:'');
         this.getListObjectNotReferenceSave();
-        console.log('1 '+this.findData);
+        this.db.debugLog('1 '+this.findData);
     }
     ngAfterContentChecked(){
-        console.log('2 '+this.findData);
+        this.db.debugLog('2 '+this.findData);
     }
     ngOnChanges(){
-        console.log('3 '+this.findData);
+        this.db.debugLog('3 '+this.findData);
     }
     ngDoCheck(){
-        console.log('4 '+this.findData);
+        this.db.debugLog('4 '+this.findData);
     }
     ngAfterContentInit(){
-        console.log('5 '+this.findData);
+        this.db.debugLog('5 '+this.findData);
     }
     ngAfterViewChecked(){
-        console.log('6 '+this.findData);
+        this.db.debugLog('6 '+this.findData);
         if(!this.findData)
             this.on = true;
     }
     ngAfterViewInit() {
-        console.log('7 '+this.findData);
+        this.db.debugLog('7 '+this.findData);
         this.getInstance.emit(this);
     }
 
