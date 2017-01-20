@@ -65,6 +65,7 @@ Menu[26,0]="MEN_VEH";                   Menu[26,1]="Vehículos";
 Menu[27,0]="MEN_VEH_TYP";               Menu[27,1]="Tipos de veh.";
 Menu[28,0]="MEN_MODEL";                 Menu[28,1]="Modelo de veh.";
 Menu[29,0]="MEN_BRAND";                 Menu[29,1]="Marcas de veh.";
+Menu[30,0]="MEN_US_GROUP";                 Menu[30,1]="Grupo de usuarios";
 #Menu[0,0]="";                Menu[0,1]="";
 
 
@@ -114,7 +115,8 @@ Modulos[25,0]="VEHTYPE";	Modulos[25,1]="Tipos de vehiculos";	Modulos[25,2]="vehi
 #process-------------------------------------------------------------------------------------------------------------------------------------
 Modulos[1,0]="GETBACK";	    Modulos[1,1]="Recepcion de productos";	Modulos[1,2]="getback";
 
-Modulos[26,0]="PERM";		Modulos[26,1]="Permisos";			Modulos[26,2]="permission";
+Modulos[26,0]="US_GROUP";		Modulos[26,1]="Grupo de usuarios";			Modulos[26,2]="userGroup";
+Modulos[27,0]="PERM";		Modulos[27,1]="Permisos";			Modulos[27,2]="permission";
 
 
 
