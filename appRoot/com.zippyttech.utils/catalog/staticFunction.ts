@@ -68,10 +68,18 @@ export class StaticFunction {
         return this.dateHmanizer(time, {units: ['h', 'm']});
     }
 
-    public static classCol(lg=12,md=12,sm=12,xs=12){
+
+    public static classCol(col?:number);
+    public static classCol(lg=12,md=12,sm=12,xs=12, col?:number){
+        if(col)
+            lg=md=sm=xs=col;
         return ' col-lg-'+lg+' col-md-'+md+' col-sm-'+sm+' col-xs-'+xs;
     }
-    public static classOffset(lg=0,md=0,sm=0,xs=0){
+
+    public static classOffset(offset:number);
+    public static classOffset(lg=0,md=0,sm=0,xs=0, offset?:number){
+        if(offset)
+            lg=md=sm=xs=offset;
         return ' col-lg-offset-'+lg+' col-md-offset-'+md+' col-sm-offset-'+sm+' col-xs-offset-'+xs;
     }
 }
