@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#url="https://cdg.zippyttech.com:8080/api/permissions/";
-url="https://club.zippyttech.com:8080/api/permissions/";
+url="https://cdg.zippyttech.com:8080/api/permissions/";
+#url="https://club.zippyttech.com:8080/api/permissions/";
 
-#token="bk3ifapcpe8l03g6iq1su5md5efg29et";#dev
-token="9hf31a08306q7pv6gtv4gtul4bt3jaqv";
+token="bk3ifapcpe8l03g6iq1su5md5efg29et";#dev
+#token="9hf31a08306q7pv6gtv4gtul4bt3jaqv";
 
 
 #Otros------------------------------------------------------------------------------------------------------------------------------------------------------------------------
