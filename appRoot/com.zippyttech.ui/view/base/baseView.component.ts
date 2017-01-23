@@ -41,7 +41,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         this.loadRest();
     }
     initViewOptions() {
-        this.viewOptions["title"] = this.instance.viewOptions.title;
+        this.viewOptions = this.instance.viewOptions;
         this.viewOptions["buttons"] = [];
 
         this.viewOptions["buttons"].push({
@@ -93,6 +93,17 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
 
         }
 
+    }
+
+    getUrlExport(type:string){
+        return  localStorage.getItem('urlAPI')+
+                this.endpoint +this.id +
+                '?access_token='+localStorage.getItem('bearer')+
+                this.where +
+                (this.sort.length > 0 ? '&sort=' + this.sort : '') +
+                (this.order.length > 0 ? '&order=' + this.order : '') +
+                (this.deleted.length > 0 ? '&deleted=' + this.deleted : '')+
+                '&formatType='+type;
     }
 
     setVisibleField(event,data)

@@ -10,6 +10,7 @@ import {WebSocket} from "../com.zippyttech.utils/websocket";
 
 @Injectable()
 export class DependenciesBase {
+    public debug=false;
     public msg = StaticValues.msg;
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
@@ -25,6 +26,7 @@ export class DependenciesBase {
     ){}
 
     public debugLog(log){
-        console.log(log);
+        if(this.debug)
+            console.log(log);
     }
 }

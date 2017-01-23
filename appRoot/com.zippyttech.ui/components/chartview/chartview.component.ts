@@ -1,6 +1,7 @@
 import {Component, NgModule} from "@angular/core";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {checkBinding} from "@angular/core/src/linker/view_utils";
 
 const Highcharts = require('highcharts');/*
  const Highcharts3d = require('highcharts/highcharts-3d.src');
@@ -34,14 +35,16 @@ export class ChartViewComponent extends ControllerBase
 
     public chartData:IChartData;
     public chartId:string;
-    public year:number;
-    public month:number;
+    public selectDate:Date;
+    public currentDate:Date;
     public chartInstance:Highcharts.ChartObject;
+    public viewDeep:number;
 
     constructor(public db:DependenciesBase){
         super(db);
-        this.year = (new Date).getFullYear();
-        this.month = -1;
+        this.currentDate = new Date();
+        this.selectDate = new Date();
+        this.viewDeep = 0;
     }
 
     initModel() {
@@ -53,18 +56,31 @@ export class ChartViewComponent extends ControllerBase
 
     public onPointSelect(event)
     {
-        if(this.month < 0) {
-            this.month = event.context.x + 1;
+        if(this.viewDeep == 0 && this.currentDate.getMonth() >= event.context.x) {
+            this.findData = true;
+            this.selectDate.setMonth(event.context.x);
+            this.viewDeep++;
             this.chartRefresh();
         }
     }
 
-    public change(dir:number){
-        if(this.month < 0)
-            this.year += dir;
-        else
-            this.month += dir;
-        this.chartRefresh();
+    private checkChange(dir:number):boolean{
+        if(dir==1 && ((this.selectDate.getFullYear() < this.currentDate.getFullYear())?true:(this.selectDate.getMonth()<this.currentDate.getMonth())))
+            return true;
+        if(dir==-1 && (this.viewDeep==0)?true:(this.selectDate.getMonth() > 0))
+            return true;
+    }
+
+    public changeD(dir:number){
+        if(this.checkChange(dir))
+        {
+            if(this.viewDeep == 0){
+                this.selectDate.setFullYear(this.selectDate.getFullYear()+dir);
+            }else if(this.viewDeep == 1) {
+                this.selectDate.setMonth(this.selectDate.getMonth()+dir);
+            }
+            this.chartRefresh();
+        }
     }
 
     public saveInstance(instance)
@@ -91,20 +107,20 @@ export class ChartViewComponent extends ControllerBase
                                             },
             this.chartData.options["xAxis"].categories = data.categories;
             this.chartData.options["series"] = data.list;
+
             console.log(this.chartData.options);
-            console.log(''+this.year+"/"+this.month);
-            if(this.chartInstance) {
-                this.chartInstance = new Highcharts.chart(this.chartData.options);
-            }
+
+            this.findData = false;
         };
-        this.httputils.doGet(this.chartData.endpoint+this.year+'/'+((this.month<0)?"":this.month),callback,null,false);
+        this.findData = true;
+        this.httputils.doGet(this.chartData.endpoint+this.selectDate.getFullYear()+'/'+((this.viewDeep==0)?"":(this.selectDate.getMonth()+1)),callback,null,false);
     }
 
     public getTitle():string{
         let months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-        if(this.month < 0)
-            return ''+this.year;
-        return months[this.month-1];
+        if(this.viewDeep == 0)
+            return ''+this.selectDate.getFullYear();
+        return months[this.selectDate.getMonth()];
     }
 
 }

@@ -1,7 +1,11 @@
 #!/bin/bash
 
 url="https://cdg.zippyttech.com:8080/api/permissions/";
+#url="https://club.zippyttech.com:8080/api/permissions/";
+
 token="bk3ifapcpe8l03g6iq1su5md5efg29et";#dev
+#token="9hf31a08306q7pv6gtv4gtul4bt3jaqv";
+
 
 #Otros------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 declare -A Otros;
@@ -61,6 +65,7 @@ Menu[26,0]="MEN_VEH";                   Menu[26,1]="Vehículos";
 Menu[27,0]="MEN_VEH_TYP";               Menu[27,1]="Tipos de veh.";
 Menu[28,0]="MEN_MODEL";                 Menu[28,1]="Modelo de veh.";
 Menu[29,0]="MEN_BRAND";                 Menu[29,1]="Marcas de veh.";
+Menu[30,0]="MEN_US_GROUP";                 Menu[30,1]="Grupo de usuarios";
 #Menu[0,0]="";                Menu[0,1]="";
 
 
@@ -98,7 +103,7 @@ Modulos[13,0]="LOC";		Modulos[13,1]="Ubicaciones";		Modulos[13,2]="location";
 Modulos[14,0]="MOD";		Modulos[14,1]="Modelos";			Modulos[14,2]="model";
 Modulos[15,0]="PRODUCT";	Modulos[15,1]="Productos";			Modulos[15,2]="product";
 Modulos[16,0]="PRTYPE";		Modulos[16,1]="Tipo de producto";	Modulos[16,2]="productType";
-Modulos[17,0]="QRCODE";		Modulos[17,1]="QR";				    Modulos[17,2]="qrcode";
+Modulos[17,0]="QRCODE";		Modulos[17,1]="QR";				    Modulos[17,2]="qrCode";
 Modulos[18,0]="RECORD";		Modulos[18,1]="Registros";			Modulos[18,2]="record";
 Modulos[19,0]="STATE";		Modulos[19,1]="Estados";			Modulos[19,2]="state";
 Modulos[20,0]="TAG";		Modulos[20,1]="Tags";				Modulos[20,2]="tag";
@@ -110,7 +115,8 @@ Modulos[25,0]="VEHTYPE";	Modulos[25,1]="Tipos de vehiculos";	Modulos[25,2]="vehi
 #process-------------------------------------------------------------------------------------------------------------------------------------
 Modulos[1,0]="GETBACK";	    Modulos[1,1]="Recepcion de productos";	Modulos[1,2]="getback";
 
-Modulos[26,0]="PERM";		Modulos[26,1]="Permisos";			Modulos[26,2]="permission";
+Modulos[26,0]="US_GROUP";		Modulos[26,1]="Grupo de usuarios";			Modulos[26,2]="userGroup";
+Modulos[27,0]="PERM";		Modulos[27,1]="Permisos";			Modulos[27,2]="permission";
 
 
 
@@ -120,6 +126,7 @@ for (( i=0; i<$((${#Modulos[@]}/3)); i++ ));
 do
 	echo -e "\n\n${Modulos[$i,0]}---${Modulos[$i,1]}---${Modulos[$i,2]}\n";
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_SHOW_DELETED'   ,'module':'${Modulos[$i,1]}','title':'Ver eliminados'     ,'controlador':'${Modulos[$i,2]}','accion':'' ,'detail':'Ver eliminados'}"  -k $url
+	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_EXPORT' ,'module':'${Modulos[$i,1]}','title':'Exportar'   ,'controlador':'${Modulos[$i,2]}','accion':''      ,'detail':'Exportar data en pdf/xls'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_LIST'   ,'module':'${Modulos[$i,1]}','title':'Listar'     ,'controlador':'${Modulos[$i,2]}','accion':'index' ,'detail':'Listar elementos'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_UPDATE' ,'module':'${Modulos[$i,1]}','title':'Actualizar' ,'controlador':'${Modulos[$i,2]}','accion':'update','detail':'Actualizar elementos'}"  -k $url
 	curl  -H 'Content-Type: application/json' -H 'Accept: application/json' -H "Authorization: Bearer $token" -X POST -d "{'code':'${Modulos[$i,0]}_DELETE' ,'module':'${Modulos[$i,1]}','title':'Eliminar'   ,'controlador':'${Modulos[$i,2]}','accion':'delete','detail':'Borrar elementos'}"  -k $url

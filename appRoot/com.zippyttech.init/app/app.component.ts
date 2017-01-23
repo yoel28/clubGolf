@@ -9,6 +9,7 @@ import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsMa
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {UserModel} from "../../com.zippyttech.access/user/user.model";
 import {AngularFire} from "angularfire2";
+import {IModal} from "../../com.zippyttech.ui/components/modal/modal.component";
 
 declare var jQuery: any;
 declare var SystemJS: any;
@@ -30,14 +31,21 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     constructor(public db: DependenciesBase, private cdRef: ChangeDetectorRef,public af: AngularFire) {
         super(db);
-
-        let that = this;
         let url="https://cdg.zippyttech.com:8080";
-
         localStorage.setItem('urlAPI', url + '/api');
         localStorage.setItem('url', url);
+        this.routerEvents();
+    }
 
-        db.router.events.subscribe((event: any) => {
+    ngOnInit(): void {
+        this.menuType = new FormControl(null);
+        this.menuItems = new FormControl([]);
+        this.loadPublicData();
+    }
+
+    routerEvents(){
+        let that = this;
+        this.db.router.events.subscribe((event: any) => {
             if (event instanceof NavigationStart) {
                 that.db.myglobal.navigationStart = true;
             }
@@ -46,8 +54,11 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 let componentName = event.state.root.children[0].component['name'];
                 let isPublic = that.isPublic(componentName);
 
-                if (isPublic && that.db.myglobal.dataSesion.valid) {
+                if (isPublic && localStorage.getItem('bearer')) {
                     let link = ['/init/dashboard', {}];
+                    if(componentName == 'TermConditionsComponent'){
+                        jQuery('#termConditions').modal('show');
+                    }
                     that.db.router.navigate(link);
                 }
                 else if (!isPublic && !that.db.myglobal.dataSesion.valid) {
@@ -77,11 +88,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 }
             }
         });
-    }
-
-    ngOnInit(): void {
-        this.menuType = new FormControl(null);
-        this.menuItems = new FormControl([]);
     }
 
     initModels() {
@@ -200,7 +206,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT']),
+                'visible': this.db.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT','MEN_US_GROUP']),
                 'icon': 'fa fa-gears',
                 'title': 'Acceso',
                 'key': 'Acceso',
@@ -223,6 +229,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-user',
                         'title': 'Estado de usuarios',
                         'routerLink': '/access/user/status'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_US_GROUP']),
+                        'icon': 'fa fa-user',
+                        'title': 'Grupo de usuarios',
+                        'routerLink': '/access/user/group'
                     },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_ACL']),
@@ -453,7 +465,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.db.myglobal.objectInstance[prefix] = instance;
     }
 
-
     goPage(event, url) {
         if (event)
             event.preventDefault();
@@ -482,4 +493,25 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.httputils.doPost('/invite',JSON.stringify(body),callback,this.error)
     }
 
+
+    loadPublicData(){
+        let that = this;
+        let callback=(response)=>{
+            Object.assign(that.db.myglobal.publicData,response.json());
+        };
+        this.httputils.doGet(localStorage.getItem('url'),callback,this.error,true)
+    }
+
+    getIModalTerm(){
+        let iModalTerm:IModal = {
+            id:'termConditions',
+            header:{
+                title:'Terminos y condiciones'
+            },
+            global:{
+                size:'modal-lg'
+            }
+        };
+        return iModalTerm;
+    }
 }

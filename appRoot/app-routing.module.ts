@@ -48,7 +48,10 @@ import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/re
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
 import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
 import {NotificationComponent} from "./com.zippyttech.business/notification/notification.component";
+import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
 import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
+import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
+import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
 
 const routesDefault: Routes = [
@@ -56,6 +59,7 @@ const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
     { path: 'init/dashboard', component: DashboardComponent},
     { path: 'init/load', component: LoadComponent},
+    { path: 'term/conditions', component: TermConditionsComponent},
 
     { path: 'auth/login', component: LoginComponent},
     { path: 'auth/login/:company', component: LoginComponent},
@@ -70,6 +74,7 @@ const routesDefault: Routes = [
     { path: 'access/user/profile', component: ProfileComponent},
     { path: 'access/user/type', component: UserTypeComponent},
     { path: 'access/user/status', component: UserStatusComponent},
+    { path: 'access/user/group', component: UserGroupComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -133,7 +138,8 @@ export const componentsDefault = [
     ParamComponent,
     AccountComponent,
     UserComponent,
-    NotificationComponent
+    NotificationComponent,
+    TermConditionsComponent
 ];
 export const componentsView = [
     ImageEditComponent,
@@ -146,6 +152,7 @@ export const componentsView = [
     SearchMultipleComponent,
     FormComponent,
     ListActionComponent,
+    ModalComponent,
     ChartViewComponent
 ];
 export const componentsApp = [
@@ -169,11 +176,13 @@ export const componentsApp = [
     LocationComponent,
     RecordInOutComponent,
     RecordComponent,
-    ContractComponent
+    ContractComponent,
+    UserGroupComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
     'ActivateComponent',
     'RecoverComponent',
-    'RecoverPasswordComponent'
+    'RecoverPasswordComponent',
+    'TermConditionsComponent'
 ];

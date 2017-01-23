@@ -177,6 +177,9 @@ export class StaticValues {
         msg.select="Seleccionar";
         msg.config="Configuración";
         msg.refresh="Actualizar";
+        msg.exportPdf="Exportar a pdf";
+        msg.exportXls="Exportar a excel";
+        msg.termConditions="Terminos y condiciones";
 
         return msg;
 

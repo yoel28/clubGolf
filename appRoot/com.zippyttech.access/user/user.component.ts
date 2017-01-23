@@ -8,6 +8,7 @@ declare var SystemJS:any;
     selector: 'user',
     templateUrl:SystemJS.map.app+'/com.zippyttech.ui/view/base/base.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/view/base/style.css'],
+    inputs:['rest','viewActions']
 })
 export class UserComponent extends BaseViewInstance{
 
