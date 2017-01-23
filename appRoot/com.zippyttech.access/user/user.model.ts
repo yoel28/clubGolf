@@ -69,6 +69,7 @@ export class UserModel extends ModelBase{
         };
         this.rules['phone']={
             'type': 'text',
+            'forceInSave':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
