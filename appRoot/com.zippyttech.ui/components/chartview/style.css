@@ -1,0 +1,15 @@
+.chart_container, .chart_container > .box{
+    width: 100%;
+    height: 100%;
+}
+
+
+.chart_container > .box > .box-body{
+    width: 100%;
+    height: 90%;
+}
+
+.chart_container > .box > .box-header{
+    width: 100%;
+    height: 10%;
+}

@@ -15,6 +15,7 @@ import {QRCodeModule} from "angular2-qrcode/angular2-qrcode";
 import {WebSocket} from "./com.zippyttech.utils/websocket";
 import {DependenciesBase} from "./com.zippyttech.common/DependenciesBase";
 import {TruncateModule} from "ng2-truncate";
+import {ChartModule} from "angular2-highcharts";
 
 const myFirebaseConfig = {
     apiKey: "AIzaSyD7yBfAAGV9pSCHqkqJXGW2g6R70209Kl4",
@@ -32,6 +33,7 @@ const myFirebaseConfig = {
         AppRoutingModule,
         HttpModule,
         QRCodeModule,
+        ChartModule,
         AngularFireModule.initializeApp(myFirebaseConfig),
         TranslateModule.forRoot({
             provide: TranslateLoader,

@@ -7,6 +7,9 @@ import {IListActionData, ListActionComponent} from "../../com.zippyttech.ui/comp
 import {GetbackModel} from "../../com.zippyttech.club/process/getBack/getback.model";
 import {DashboardModel} from "./dashboard.model";
 import {FormControl} from "@angular/forms";
+import {IChartData} from "../../com.zippyttech.ui/components/chartview/chartview.component";
+
+
 
 declare var SystemJS:any;
 declare var jQuery:any;
@@ -24,21 +27,39 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public guestRemove:FormControl = new FormControl();
     public qrString:string = '';
     public qrHidden: boolean;
+    public chvwEntries:IChartData;
+    public chvwProducts:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db,'DASH','/dashboard/');
-
     }
 
     ngOnInit():void {
         super.ngOnInit();
         this.initActions();
+        this.initChartView();
     }
 
     initModel(){
         this.model = new DashboardModel(this.db);
     }
 
+    ngDoCheck() {
+        if(jQuery('#reader').hasClass('reader-hide'))
+            this.qrHidden = true;
+
+        if(!(this.model.qr && this.model.qr.dataList && this.model.qr.dataList.id)) {
+            jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
+            jQuery('#reader').find('.box').addClass('collapsed-box');
+        }
+        else{
+            jQuery('#reader').find('.box').removeClass('collapsed-box');
+            jQuery('#reader').find('.box-body,.box-footer').collapse('show');
+        }
+    }
+
+
+    //LIST-ACTION GROUP
     private initActions() {
         //Productos
         let modelAction = new GetbackModel(this.db);
@@ -104,6 +125,65 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
     }
 
+
+
+    //CHART-VIEW
+    public initChartView(){
+
+        this.chvwEntries ={
+            title: "Entradas",
+            endpoint: "/reports/entries/",
+            options:{
+                chart: {
+                    type: 'areaspline'
+                },
+                xAxis: {
+                    tickmarkPlacement: 'on'
+                },
+                yAxis: {
+                    title: { text: 'N° de entradas' },
+                },
+                tooltip: {
+                    valueSuffix: ' entradas',
+                    split:true,
+                    crosshairs: true
+                },
+                plotOptions: {
+                    areaspline:
+                    {
+                        fillOpacity: 0.5
+                    }
+                }
+            }
+        }
+
+        this.chvwProducts ={
+            title: "Productos",
+            endpoint: "/reports/products/",
+            options:{
+                chart: {
+                    type: 'column'
+                },
+                xAxis: {
+                    tickmarkPlacement: 'on'
+                },
+                yAxis: {
+                    title: { text: 'N° de entradas' },
+                },
+                tooltip: {
+                    valueSuffix: ' entradas',
+                    split:true,
+                    crosshairs: true
+                }
+            }
+        }
+    }
+
+
+
+
+
+    //QR READER
     searchQr(event){
         if(event)
             event.preventDefault();
@@ -127,10 +207,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
     }
 
-
-
-    public loadAttendings(event)
-    {
+    public loadAttendings(event){
         let that = this;
         let callback = (response)=>{
             that.guestRemove.setValue(this.model.qr.dataList.id);
@@ -143,27 +220,10 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         this.model.qr.dataList = {};
     }
 
-    private observableAction(context:ListActionComponent)
-    {
+    private observableAction(context:ListActionComponent){
 
         if(context.data.observable.watch.value)
             context.data.model.spliceId(context.data.observable.watch.value);
-    }
-
-
-
-    ngDoCheck() {
-        if(jQuery('#reader').hasClass('reader-hide'))
-            this.qrHidden = true;
-
-        if(!(this.model.qr && this.model.qr.dataList && this.model.qr.dataList.id)) {
-            jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
-            jQuery('#reader').find('.box').addClass('collapsed-box');
-        }
-        else{
-            jQuery('#reader').find('.box').removeClass('collapsed-box');
-            jQuery('#reader').find('.box-body,.box-footer').collapse('show');
-        }
     }
 
     private readerClick(){
