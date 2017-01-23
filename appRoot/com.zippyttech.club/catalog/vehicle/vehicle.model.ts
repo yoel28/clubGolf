@@ -29,7 +29,6 @@ export class VehicleModel extends ModelBase{
 
         this.rules['tags'] = {
             'type': 'list',
-            'icon': 'fa fa-font',
             'maxLength': '35',
             'readOnly':true,
             'prefix':'TAG',
