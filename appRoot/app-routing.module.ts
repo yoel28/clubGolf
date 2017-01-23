@@ -52,6 +52,7 @@ import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.compone
 import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
+import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
 
 const routesDefault: Routes = [
 
@@ -151,7 +152,8 @@ export const componentsView = [
     SearchMultipleComponent,
     FormComponent,
     ListActionComponent,
-    ModalComponent
+    ModalComponent,
+    ChartViewComponent
 ];
 export const componentsApp = [
     ProductTypeComponent,

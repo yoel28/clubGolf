@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div *ngIf="!dataOk">
-                    <div class="{{db.classCol(10,10)}}{{db.classOffset(1,1)}}" style="margin-top:15px">
+                    <div class="{{db.classCol(10,10)}}{{db.classOffset(1,1)}}" style="margin-top:15px;margin-bottom: 15px">
                         <div *ngFor="let veh of vehicle;let i=index" class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">

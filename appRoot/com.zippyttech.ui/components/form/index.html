@@ -86,7 +86,7 @@
                                                 <span *ngIf="search && search.key ==  key && !findData" class="label label-green label-radius" [attr.title]="search.paramsSearch.count+' Coincidencia(s)'">
                                                     {{search.paramsSearch.count}}
                                                 </span>
-                                                <span *ngIf="search && search.key ==  key && findData" [attr.title]="db.msg.findData" class="fa fa-spinner fa-spin"></span>
+                                            <span *ngIf="search && search.key ==  key && findData" [attr.title]="db.msg.findData" class="fa fa-spinner fa-spin"></span>
                                         </button>
 
 
@@ -94,7 +94,7 @@
                                                 tabindex="-1" type="button"
                                                 class="btn btn-box-tool fa {{rules[key].refreshField.icon}} text-blue"
                                                 (click)="refreshField($event,rules[key])">
-                                                <span *ngIf="refreshFieldKey && refreshFieldKey ==  key && findData" [attr.title]="db.msg.findData" class="fa fa-spinner fa-spin"></span>
+                                            <span *ngIf="refreshFieldKey && refreshFieldKey ==  key && findData" [attr.title]="db.msg.findData" class="fa fa-spinner fa-spin"></span>
                                         </button>
                                     </div>
                                     <div class="{{db.classCol(12,12,12,12)}} table-responsive"
