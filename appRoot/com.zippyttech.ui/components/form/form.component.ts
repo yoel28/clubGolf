@@ -54,7 +54,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     initForm() {
         let that = this;
         Object.keys(this.rules).forEach((key)=> {
-            if((that.onlyRequired && that.rules[key].required) || !that.onlyRequired){
+            if((that.onlyRequired && (that.rules[key].required || that.rules[key].forceInSave)) || !that.onlyRequired){
                 that.data[key] = [];
                 let validators=[];
                 if(that.rules[key].required)
@@ -212,7 +212,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             }
         });
         if(addBody && typeof addBody == 'object'){ //TODO:agregar parametros extrar... no implementado
-            body.push(addBody)
+            Object.assign(body,body,addBody);
         }
         return body;
     }
@@ -309,8 +309,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     else
                         that.data[data.key].setValue(val);
                 }catch (e){
-                    if(data.refreshField.callback)
-                        data.refreshField.callback(data,response,that.data[data.key]);
+                    console.log(e);
                 }
 
             }

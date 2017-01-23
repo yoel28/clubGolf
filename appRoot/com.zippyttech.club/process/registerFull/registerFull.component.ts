@@ -77,7 +77,7 @@ export class RegisterFullComponent extends RestController implements OnInit{
         if(this.userObjectInstance.form.valid)
             data = Object.assign({},this.userObjectInstance.getFormValues());
         else
-            data = Object.assign({},this.user.getFormValues());
+            data = Object.assign({},this.user.getFormValues({'accountLocked':false}));
         data['vehicles']=[];
         this.instanceVehicle.forEach(obj=>{
             if(obj && obj.form){

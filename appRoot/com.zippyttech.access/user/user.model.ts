@@ -4,12 +4,14 @@ import {UserTypeModel} from "../../com.zippyttech.club/catalog/userType/userType
 import {UserStatusModel} from "../../com.zippyttech.club/catalog/userStatus/userStatus.model";
 import {ContractModel} from "../../com.zippyttech.club/catalog/contract/contract.model";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {UserGroupModel} from "../../com.zippyttech.club/catalog/userGroup/userGroup.model";
 
 export class UserModel extends ModelBase{
     private role:any;
     private type:any;
     private status:any;
     private contract:any;
+    private group:any;
 
     constructor(public db:DependenciesBase){
         super(db,'USER','/users/');
@@ -21,6 +23,7 @@ export class UserModel extends ModelBase{
         this.type= new UserTypeModel(this.db);
         this.status= new UserStatusModel(this.db);
         this.contract = new ContractModel(this.db);
+        this.group = new UserGroupModel(this.db);
     }
     initRules(){
 
@@ -66,6 +69,7 @@ export class UserModel extends ModelBase{
         };
         this.rules['phone']={
             'type': 'text',
+            'forceInSave':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -112,6 +116,9 @@ export class UserModel extends ModelBase{
 
         this.rules['userType']=this.type.ruleObject;
         this.rules['userType'].required=false;
+
+        this.rules['userGroup']=this.group.ruleObject;
+        this.rules['userGroup'].required=false;
 
         this.rules['contract']=this.contract.ruleObject;
         this.rules['contract'].required=false;

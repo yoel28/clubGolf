@@ -51,6 +51,7 @@ import {NotificationComponent} from "./com.zippyttech.business/notification/noti
 import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
 import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
+import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 
 const routesDefault: Routes = [
 
@@ -72,6 +73,7 @@ const routesDefault: Routes = [
     { path: 'access/user/profile', component: ProfileComponent},
     { path: 'access/user/type', component: UserTypeComponent},
     { path: 'access/user/status', component: UserStatusComponent},
+    { path: 'access/user/group', component: UserGroupComponent},
 
 
     { path: 'business/event', component: EventComponent},
@@ -172,7 +174,8 @@ export const componentsApp = [
     LocationComponent,
     RecordInOutComponent,
     RecordComponent,
-    ContractComponent
+    ContractComponent,
+    UserGroupComponent
 ];
 export const componentsPublic = [
     'LoginComponent',
