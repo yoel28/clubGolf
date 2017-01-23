@@ -31,7 +31,7 @@ export class DashboardModel extends ModelRoot{
         this.record.max = 10;
         this.trade.max = 10;
 
-        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'}];
+        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'}];
         this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];
         this.guest.paramsSearch.where=[{'op':'eq','field':'attended', 'value':false}];
 
