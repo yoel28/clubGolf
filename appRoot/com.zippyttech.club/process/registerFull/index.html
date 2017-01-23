@@ -41,7 +41,6 @@
                             </div>
                         </div>
                         <button (click)="addVehicle($event)" class="btn btn-blue"> <i class="fa fa-plus"></i>&nbsp;Agregar veh&iacute;culo</button>
-                        <button [disabled]="!isValidForm()" (click)="saveData($event)" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Guarda</button>
                     </div>
                     <div class="{{db.classCol(10,10)}}{{db.classOffset(1,1)}}" >
 
@@ -71,6 +70,7 @@
                                 <form-view [onlyRequired]="true" (getInstance)="user=$event" [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
                             </div>
                         </div>
+                        <button [disabled]="!isValidForm()" (click)="saveData($event)" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Guarda</button>
                     </div>
                 </div>
             </div>
