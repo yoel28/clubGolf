@@ -1,0 +1,14 @@
+.content>.box>.box-body{
+    padding: 30px;
+}
+
+.step-form
+{
+    margin: 10px auto;
+    width: 70%;
+    padding: 10px;
+}
+
+.box-suptitle{
+    font-size: 18px;
+}
