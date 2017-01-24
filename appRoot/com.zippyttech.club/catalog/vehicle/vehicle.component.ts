@@ -40,12 +40,19 @@ export class VehicleComponent extends BaseViewInstance{
             }
         };
 
-        this.model.rules['userEval']={
+        this.model.rules['userContract']={
             'type': 'eval',
             'visible':true,
             'eval':'data.contractCode?data.contractCode:"N/A"',
             'title': 'Contrato',
             'placeholder': 'Contrato',
+        };
+        this.model.rules['userName']={
+            'type': 'eval',
+            'visible':true,
+            'eval':'data.userName',
+            'title': 'Nombre',
+            'placeholder': 'Nombre',
         };
     }
 
