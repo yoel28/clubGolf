@@ -12,7 +12,6 @@ declare var Table2Excel:any;
 export abstract class ControllerBase extends RestController implements OnInit {
     
     public formatDateId:any = {};
-    public getInstance:any;
     public prefix:string;
     public configId = moment().valueOf();
     public viewOptions:any = {};
@@ -34,7 +33,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
 
     ngOnInit():void{
         this.initModel();
-        this._getInstance();
     }
 
     public initLang() {
@@ -53,10 +51,6 @@ export abstract class ControllerBase extends RestController implements OnInit {
                 visible.push(obj);
         })
         return visible;
-    }
-    protected _getInstance(){
-        this.getInstance = new EventEmitter();
-        this.getInstance.emit(this)
     }
 
     public getViewOptionsActions() {
