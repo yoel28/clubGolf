@@ -4,9 +4,9 @@
         <div class="chart-header">
 
         </div>
-        <div class="chart-body">
-            <chart-view class="chart-item pull-left" [chartData] = "chvwEntries"></chart-view>
-            <chart-view class="chart-item pull-right" [chartData] = "chvwProducts"></chart-view>
+        <div class="chart-body" class="row">
+            <chart-view class="{{db.classCol(6,6,12,12)}}" [chartData] = "chvwEntries"></chart-view>
+            <chart-view class="{{db.classCol(6,6,12,12)}}" [chartData] = "chvwProducts"></chart-view>
         </div>
     </div>
 

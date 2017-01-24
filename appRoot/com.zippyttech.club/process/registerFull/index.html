@@ -3,19 +3,40 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">
-                    {{viewOptions.title | translate }}<tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
+                    {{viewOptions.title | translate }}
+                    <tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
                 </h3>
             </div>
             <div *ngIf="model.permissions.add" class="box-body">
                 <div *ngIf="dataOk">
-                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}} text-center" >
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}} text-center">
                         Guardado con exito<br/>
                         <button class="btn btn-success" (click)="dataOk=false">Iniciar</button>
                     </div>
                 </div>
                 <div *ngIf="!dataOk">
-                    <div class="{{db.classCol(10,10)}}{{db.classOffset(1,1)}}" style="margin-top:15px;margin-bottom: 15px">
-                        <div *ngFor="let veh of vehicle;let i=index" class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}">
+                        <div [hidden]="(user && user.form && user.form.valid)"
+                             class="box box-block {{ (userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)?'valid':'error' }}">
+                            <div class="box-header">
+                                <h3 class="box-title letra-grande">Usuario</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i
+                                            class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <form-view [onlyRequired]="true" (getInstance)="userObjectInstance=$event"
+                                           [params]="model.user.paramsSave" [rules]="userObject"></form-view>
+                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="row">
+                                    <user [rest]="getRestUser()" [viewActions]="false"></user>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
+                        <div *ngFor="let veh of vehicle;let i=index"
+                             class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">
                                     Veh&iacute;culo&nbsp;
@@ -28,8 +49,11 @@
                                 </span>
                                 </h3>
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    <button (click)="deleteForm($event,i)" type="button" class="btn btn-box-tool text-white" data-widget="remove"><i class="fa fa-times"></i></button>
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i
+                                            class="fa fa-minus"></i></button>
+                                    <button (click)="deleteForm($event,i)" type="button"
+                                            class="btn btn-box-tool text-white" data-widget="remove"><i
+                                            class="fa fa-times"></i></button>
                                 </div>
                             </div>
                             <div class="box-body">
@@ -40,44 +64,41 @@
                                 </form-view>
                             </div>
                         </div>
-                        <button (click)="addVehicle($event)" class="btn btn-blue"> <i class="fa fa-plus"></i>&nbsp;Agregar veh&iacute;culo</button>
+                        <button (click)="addVehicle($event)" class="btn btn-blue"><i class="fa fa-plus"></i>&nbsp;Agregar
+                            veh&iacute;culo
+                        </button>
                     </div>
-                    <div class="{{db.classCol(10,10)}}{{db.classOffset(1,1)}}" >
-
-                        <div [hidden]="(user && user.form && user.form.valid)" class="box box-block {{ (userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)?'valid':'error' }}">
-                            <div class="box-header">
-                                <h3 class="box-title letra-grande">Usuario</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                </div>
-                            </div>
-                            <div class="box-body">
-                                <form-view [onlyRequired]="true" (getInstance)="userObjectInstance=$event" [params]="model.user.paramsSave" [rules]="userObject"></form-view>
-                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)">
-                                    <user [rest]="getRestUser()" [viewActions]="false"></user>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div [hidden]="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="box box-block {{ (user && user.form && user.form.valid)?'valid':'error' }}">
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
+                        <div [hidden]="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)"
+                             class="box box-block collapsed-box {{ (user && user.form && user.form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">Registrar usuario</h3>
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button type="button" class="btn btn-box-tool text-white" data-widget="collapse"><i
+                                            class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body">
-                                <form-view [onlyRequired]="true" (getInstance)="user=$event" [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
+                            <div class="box-body" style="display: none;">
+                                <form-view [onlyRequired]="true" (getInstance)="user=$event"
+                                           [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
                             </div>
                         </div>
-                        <button [disabled]="!isValidForm()" (click)="saveData($event)" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Guarda</button>
+                    </div>
+                    <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
+
+                        <button [disabled]="!isValidForm()" (click)="saveData($event)" class="btn btn-success"><i
+                                class="fa fa-save"></i>&nbsp;Guarda
+                        </button>
                     </div>
                 </div>
             </div>
             <div *ngIf="!model.permissions.add">
                 <div class="btn-red padding-error">
-                    <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
-                    {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{model.prefix}}_SAVE
+                    <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}}
+                        <tooltip-view [code]="model.prefix+'_3'"></tooltip-view>
+                    </strong></h5>
+                    {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission
+                    | translate}} {{model.prefix}}_SAVE
                 </div>
             </div>
         </div>
