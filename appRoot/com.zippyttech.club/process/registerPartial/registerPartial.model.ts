@@ -6,18 +6,15 @@ import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase"
 import {ContractModel} from "../../catalog/contract/contract.model";
 
 
-export interface registerData{
-    user:{};
-    vehicle:[{}];
-    contract:{};
-}
-
 export class RegisterPartialModel extends ModelBase
 {
     public contract:ContractModel;
+
     public vehicle:VehicleModel;
     public tags:TagModel;
+
     public user:UserModel;
+    public userSearch:any;
 
     constructor(public db:DependenciesBase){
         super(db,'REG_PARTIAL','/users/wizard');
@@ -33,13 +30,14 @@ export class RegisterPartialModel extends ModelBase
         this.vehicle = new VehicleModel(this.db,false);
         this.tags = new TagModel(this.db);
         this.user = new UserModel(this.db);
+        this.userSearch = {};
     }
 
     initRules(){
-
-        this.rules['user'] = {}
-        this.rules['user'].id = (new UserModel(this.db)).ruleObject;
-        this.rules['user'].id.key='id';
+        this.userSearch.rulesSave = {};
+        this.userSearch.rulesSave.id = (new UserModel(this.db)).ruleObject;
+        this.userSearch.rulesSave.id.key = "id";
+        this.userSearch.paramsSave = {};
 
         delete this.user.ruleObject.rulesSave['contract'];
         delete this.user.ruleObject.rulesSave['userGroup'];

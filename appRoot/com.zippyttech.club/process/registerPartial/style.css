@@ -1,14 +1,33 @@
 .content>.box>.box-body{
-    padding: 30px;
+    padding: 0px;
+}
+
+.registerStep{
+    border-radius: 0px;
+    border: 0px;
+    margin:0px;
 }
 
 .step-form
 {
     margin: 10px auto;
-    width: 70%;
-    padding: 10px;
+    width: 80%;
+    height: auto;
 }
 
 .box-suptitle{
     font-size: 18px;
+}
+
+.btn-step{
+    margin: 0px 10px;
+}
+
+.form-header{
+    height: auto;
+    padding: 0px;
+}
+
+.form-body {
+    padding: 10px;
 }

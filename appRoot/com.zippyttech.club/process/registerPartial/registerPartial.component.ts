@@ -1,22 +1,37 @@
 import {Component, OnInit} from '@angular/core';
-import {RegisterPartialModel, registerData} from "./registerPartial.model";
-import {RestController, IRest} from "../../../com.zippyttech.rest/restController";
-import {FormControl, FormGroup} from "@angular/forms";
+import {RegisterPartialModel} from "./registerPartial.model";
+import {RestController} from "../../../com.zippyttech.rest/restController";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {FormComponent} from "../../../com.zippyttech.ui/components/form/form.component";
 
 declare var SystemJS:any;
 
+
+export interface registerData{
+    vehicles:Object[];
+    user:{};
+    userDetail:{};
+    contract:{};
+    contractDetail:{};
+}
+
+interface IFunction{
+    callback:(context:any,params?:{})=>void;
+    icons?:string[];
+    text?:string;
+}
+
 interface stepData{
+    key?:string,
     title:string;
+    model: any;
     form:{
-        model: any,
-        search?:boolean | false;
-        headInstance?:{};
-        isMultiple?:boolean | false;
-        instance:FormGroup | FormGroup[],
+        instances:FormComponent[],
         nForms:any[],
+        functions?:IFunction[]
     };
+    functions?:IFunction[];
 }
 
 @Component({
@@ -24,39 +39,43 @@ interface stepData{
     selector: 'register-partial',
     templateUrl:'template.html',
     styleUrls: ['style.css'],
-    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
+    animations: AnimationsManager.getTriggers("d-slide_up|fade",200)
 })
 export class RegisterPartialComponent extends RestController implements OnInit
 {
     public model:RegisterPartialModel;
     public viewOptions:any={};
     public registerSteps:[stepData];
-    public currentStep:number;
-    public contractFrom:FormGroup;
-    public userForm:FormGroup;
-    public vehicleForms:FormGroup[]=[];
-
-    public dataOk:boolean=false;
-
+    public currentStep:number = 0;
+    public dataToSend:registerData;
 
     constructor(public db:DependenciesBase) {
         super(db);
+        this.dataToSend = { vehicles:[], user:{}, userDetail:{}, contract:{}, contractDetail:{}};
     }
 
     initSteps() {
-        this.currentStep = 0;
         this.registerSteps = [
             {
-                title:"Vehiculos",
-                form:{model:this.model.vehicle, instance:this.vehicleForms,nForms:[{}],isMultiple:true}
+                title:"Vehiculos", key:"vehicles", model:this.model.vehicle,
+                form:{
+                        instances:[], nForms:[{}],
+                        functions:[{callback:this.del,icons:["fa-times"]}]
+                    },
+                functions:[{callback:this.add, text:"Agregar",icons:["fa-car","fa-plus"]}]
             },
             {
-                title:"Usuario",
-                form:{model:this.model.user, instance:this.userForm,nForms:[{}], headInstance:{},search:true}
+                title:"Usuario", key:"user", model:this.model.userSearch,
+                form:{instances:[], nForms:[{}]},
+                functions:[{callback:this.newUser, icons:["fa-user-plus"], text:"Usuario nuevo"}]
             },
             {
-                title:"Contrato",
-                form:{model:this.model.contract, instance:this.contractFrom,nForms:[{}], headInstance:{},search:true}
+                title:"Detalles", key:"userDetail", model:this.model.user,
+                form:{instances:[], nForms:[{}]}
+            },
+            {
+                title:"Contrato", key:"contractDetail", model:this.model.contract,
+                form:{instances:[], nForms:[{}]}
             }
             ];
     }
@@ -76,31 +95,87 @@ export class RegisterPartialComponent extends RestController implements OnInit
         this.viewOptions["title"] = 'Formulario de Registro';
     }
 
-    add(){
-       this.registerSteps[this.currentStep].form.nForms.push({});
-    }
-
-    deleteForm(event,i){
-        if(event)
-            event.preventDefault();
-
-    }
-
     public sendData(event){
 
     }
 
+
+
     nextStep(){
-        if(true)
-            this.currentStep++;
+        //save current data
+        if(this.registerSteps[this.currentStep].key) {
+            if(this.dataToSend[this.registerSteps[this.currentStep].key] instanceof Array){
+                this.dataToSend[this.registerSteps[this.currentStep].key]=[];
+                for (let form of this.registerSteps[this.currentStep].form.instances)
+                    this.dataToSend[this.registerSteps[this.currentStep].key].push(form.getFormValues(null));
+            }
+            else{
+                Object.assign(this.dataToSend[this.registerSteps[this.currentStep].key],this.registerSteps[this.currentStep].form.instances[0].getFormValues());
+            }
+        }
+        this.currentStep++;
+        if(this.registerSteps[this.currentStep].key == "userDetail")
+            this.registerSteps[this.currentStep].model.loadDataWhere( this.dataToSend.user["id"] );
+        else
+            this.registerSteps[this.currentStep].model.dataList = {};
     }
 
     backStep(){
         this.currentStep--;
+        // for(let form of this.registerSteps[this.currentStep].form.instances)
+        // {
+        //     this.registerSteps[this.currentStep].form.instances
+        // }
     }
 
-    saveInstance(event)
+    public validForm():boolean{
+        if(!this.registerSteps[this.currentStep].form.instances)
+            return false;
+
+        for(let form of this.registerSteps[this.currentStep].form.instances)
+            if(!form.isValidForm())
+                return false
+
+        return true;
+    }
+
+    //CALLBACKS
+    public newUser(context)
     {
-
+        context.dataToSend.user['id'] = null;
+        context.currentStep++;
     }
+
+    public add(context:any){
+        context.registerSteps[context.currentStep].form.nForms.push({});
+    }
+
+    public del(context:any,params:any[]){
+        context.registerSteps[context.currentStep].form.instances.splice(params['index'],1);
+        context.registerSteps[context.currentStep].form.nForms.splice(params['index'],1);
+    }
+
+
+    public saveStepForm(form:FormComponent,i)
+    {
+        console.log(this.registerSteps[this.currentStep].model.dataList);
+        let iform;
+        switch(this.registerSteps[this.currentStep].key){
+            case "userDetail":
+                this.registerSteps[this.currentStep].form.instances[i]=form;
+                iform = this.registerSteps[this.currentStep].form.instances[i];
+                if(this.dataToSend.user["id"]) {
+                    iform.setLoadDataModel(this.registerSteps[this.currentStep].model.dataList);
+                }
+                this.registerSteps[this.currentStep].form.instances[i]=iform;
+                break;
+            default:
+                this.registerSteps[this.currentStep].form.instances[i]=form;
+                break;
+        }
+        console.log(form);
+        console.log(iform);
+        console.log(this.registerSteps[this.currentStep].form.instances[i]);
+    }
+
 }

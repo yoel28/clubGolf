@@ -3,11 +3,13 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {checkBinding} from "@angular/core/src/linker/view_utils";
 
-const Highcharts = require('highcharts');/*
+const Highcharts = require('highcharts');
+/*
  const Highcharts3d = require('highcharts/highcharts-3d.src');
  Highcharts.setOptions({
  colors: ['#058DC7', '#50B432', '#ED561B']
- });*/
+ });
+ */
 
 declare var SystemJS:any;
 declare var moment:any;
@@ -56,7 +58,7 @@ export class ChartViewComponent extends ControllerBase
 
     public onPointSelect(event)
     {
-        if(this.viewDeep == 0 && this.currentDate.getMonth() >= event.context.x) {
+        if(this.validSelectPoint(event.context.x)) {
             this.findData = true;
             this.selectDate.setMonth(event.context.x);
             this.viewDeep++;
@@ -64,21 +66,44 @@ export class ChartViewComponent extends ControllerBase
         }
     }
 
+    private validSelectPoint(month:number)
+    {
+        return this.viewDeep==0 &&
+                (this.selectDate.getFullYear() < this.currentDate.getFullYear())?true:
+                (month <= this.currentDate.getMonth());
+    }
+
     private checkChange(dir:number):boolean{
-        if(dir==1 && ((this.selectDate.getFullYear() < this.currentDate.getFullYear())?true:(this.selectDate.getMonth()<this.currentDate.getMonth())))
-            return true;
-        if(dir==-1 && (this.viewDeep==0)?true:(this.selectDate.getMonth() > 0))
-            return true;
+        return dir==-1 || (
+                    (this.viewDeep == 0)?
+                        (this.selectDate.getFullYear() < this.currentDate.getFullYear())
+                    :(this.viewDeep == 1)?
+                            (this.selectDate.getFullYear() < this.currentDate.getFullYear())?
+                                true
+                            :(this.selectDate.getMonth() < this.currentDate.getMonth())
+                    :false
+            );
     }
 
     public changeD(dir:number){
         if(this.checkChange(dir))
         {
-            if(this.viewDeep == 0){
+            if(this.viewDeep == 0)
                 this.selectDate.setFullYear(this.selectDate.getFullYear()+dir);
-            }else if(this.viewDeep == 1) {
-                this.selectDate.setMonth(this.selectDate.getMonth()+dir);
+
+            if(this.viewDeep == 1){
+                let month = this.selectDate.getMonth()+dir;
+                if(month > 11){
+                    this.selectDate.setMonth(0);
+                    this.selectDate.setFullYear(this.selectDate.getFullYear()+dir);
+                }
+                else if(month < 0){
+                    this.selectDate.setMonth(11);
+                    this.selectDate.setFullYear(this.selectDate.getFullYear() + dir);
+                }
+                else this.selectDate.setMonth(month);
             }
+
             this.chartRefresh();
         }
     }
@@ -120,7 +145,7 @@ export class ChartViewComponent extends ControllerBase
         let months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
         if(this.viewDeep == 0)
             return ''+this.selectDate.getFullYear();
-        return months[this.selectDate.getMonth()];
+        return months[this.selectDate.getMonth()]+" de "+this.selectDate.getFullYear();
     }
 
 }

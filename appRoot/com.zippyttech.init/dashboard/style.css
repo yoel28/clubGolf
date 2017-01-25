@@ -59,10 +59,9 @@
 }
 
 .chart-item{
-    width: 48%;
     height: 100%;
     display: inline-block;
     margin: 0px;
-    padding: 0px;
+    padding: 10px;
     overflow: hidden;
 }
