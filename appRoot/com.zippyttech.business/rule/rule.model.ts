@@ -21,7 +21,8 @@ export class RuleModel extends ModelBase{
             'placeholder':'Código',
         };
         this.rules['rule']={
-            'type':'text',
+            'type':'textarea',
+            "showbuttons": true,
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
@@ -39,8 +40,8 @@ export class RuleModel extends ModelBase{
             'visible':this.permissions.visible,
             'key':'title',
             'icon': 'fa fa-list',
-            'title':'Nombre',
-            'placeholder':'Nombre',
+            'title':'Título',
+            'placeholder':'Título',
         };
         this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
