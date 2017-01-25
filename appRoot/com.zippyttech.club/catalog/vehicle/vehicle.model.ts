@@ -75,9 +75,9 @@ export class VehicleModel extends ModelBase{
             'title': 'Placa',
             'placeholder': 'Placa del vehículo',
         };
-
-        this.rules['user'] = this.user.ruleObject;
-        this.rules['user'].required=true;
+        //RULE:PREFIX:TITLE
+        this.rules['RULE:USER_DISPLAY_:Usuario'] = this.user.ruleObject;
+        this.rules['RULE:USER_DISPLAY_:Usuario'].required=true;
 
         this.rules['year'] = {
             'type': 'number',
@@ -101,11 +101,11 @@ export class VehicleModel extends ModelBase{
             'placeholder': 'Color del vehículo',
         };
 
-        this.rules['model'] = this.model.ruleObject;
-        this.rules['model'].required=false;
+        this.rules['modelTitle'] = this.model.ruleObject;
+        this.rules['modelTitle'].required=false;
 
-        this.rules['vehicleType'] = this.vehicleType.ruleObject;
-        this.rules['vehicleType'].required=false;
+        this.rules['vehicleTypeTitle'] = this.vehicleType.ruleObject;
+        this.rules['vehicleTypeTitle'].required=false;
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
