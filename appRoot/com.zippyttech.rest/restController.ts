@@ -375,6 +375,7 @@ export class RestController implements OnInit {
         this.where = where;
         this.loadData();
     }
+
     loadDataWhere(id='',where:IWhere=[]){
         let that = this;
         this.findData = true;
