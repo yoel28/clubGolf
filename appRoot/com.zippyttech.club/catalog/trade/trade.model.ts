@@ -108,8 +108,9 @@ export class TradeModel extends ModelBase{
 
         this.rules['timeUse']={
             'type': 'eval',
+            'key':'RULE:TRADE_TIMEUSE_:Tiempo de uso',
             'visible':this.permissions.visible,
-            'eval':'this.formatTime(moment(data.receivedDate).valueOf() - moment(data.dateCreated).valueOf())',
+            'eval':this.db.myglobal.getRule('TRADE_TIMEUSE_WEB'),
             'title': 'Tiempo de uso',
             'placeholder': 'Tiempo de uso',
         };
