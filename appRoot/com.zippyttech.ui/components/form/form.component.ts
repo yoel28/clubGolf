@@ -245,6 +245,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             }
         });
     }
+
     loadAndSetDataSearch(searchView=false){
         if(this.dataList && this.dataList.count && this.dataList.count==1)//cuando existe un solo elemento se carga automatico
         {
@@ -270,12 +271,14 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
+
     //accion seleccionar un item de un select
     setValueSelect(data,key){
         (<FormControl>this.form.controls[key]).setValue(data);
         if(data=='-1')
             (<FormControl>this.form.controls[key]).setValue(null);
     }
+
     resetForm(){
         let that=this;
         this.search={};
@@ -291,6 +294,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
+
     public refreshFieldKey='';
     refreshField(event,data){
         if(event)
@@ -360,12 +364,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         }
         this.delete = _delete;
     }
+
     public getKeys(data){
         return Object.keys(data || {});
     }
+
     loadDate(data,key){
         this.data[key].setValue(data.date);
     }
+
     addListMultiple(event,key){
         if(!this.dataListMultiple[key])
             this.dataListMultiple[key]={'view':false,'data':[]};
