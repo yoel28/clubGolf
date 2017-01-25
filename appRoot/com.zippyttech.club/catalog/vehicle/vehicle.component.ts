@@ -39,21 +39,6 @@ export class VehicleComponent extends BaseViewInstance{
                 dataSelect.tags.push(value);
             }
         };
-
-        this.model.rules['contractCode']={
-            'type': 'eval',
-            'visible':true,
-            'eval':'data.contractCode?data.contractCode:"N/A"',
-            'title': 'Contrato',
-            'placeholder': 'Contrato',
-        };
-        this.model.rules['userName']={
-            'type': 'eval',
-            'visible':true,
-            'eval':'data.userName',
-            'title': 'Nombre',
-            'placeholder': 'Nombre',
-        };
     }
 
     initViewOptions() {
