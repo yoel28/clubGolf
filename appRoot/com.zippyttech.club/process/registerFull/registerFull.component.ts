@@ -5,6 +5,7 @@ import {FormControl} from "@angular/forms";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {UserComponent} from "../../../com.zippyttech.access/user/user.component";
 
 declare var SystemJS:any;
 @Component({
@@ -31,14 +32,27 @@ export class RegisterFullComponent extends RestController implements OnInit{
         this.initModel();
         this.initViewOptions();
     }
+    public tempIdUser:string;
     getRestUser(){
         let data = this.userObjectInstance.getFormValues();
         let rest:IRest={
             where:[{'op':'eq','field':'id','value':data.id}],
             offset:0,
             max:0
+        };
+        if(this.tempIdUser && this.tempIdUser != data.id)
+        {
+            if(this.instanceUser){
+                this.instanceUser.instanceBase.loadDataWhere('',rest.where);
+            }
         }
+        this.tempIdUser =  data.id;
         return rest;
+    }
+
+    public instanceUser:UserComponent;
+    setInstanceUser(instance){
+        this.instanceUser = instance;
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
         if(event)
@@ -77,7 +91,7 @@ export class RegisterFullComponent extends RestController implements OnInit{
         if(this.userObjectInstance.form.valid)
             data = Object.assign({},this.userObjectInstance.getFormValues());
         else
-            data = Object.assign({},this.user.getFormValues());
+            data = Object.assign({},this.user.getFormValues({'accountLocked':false}));
         data['vehicles']=[];
         this.instanceVehicle.forEach(obj=>{
             if(obj && obj.form){

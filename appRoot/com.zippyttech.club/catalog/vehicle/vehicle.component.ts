@@ -34,12 +34,26 @@ export class VehicleComponent extends BaseViewInstance{
         this.model.rules['tags'].pathLocal=true;
         this.model.rules['tags'].model = this.tag;
 
-
         this.model.rules['tags'].callback = (value,dataSelect)=>{
             if(value.vehicleId == dataSelect.id){
                 dataSelect.tags.push(value);
             }
-        }
+        };
+
+        this.model.rules['contractCode']={
+            'type': 'eval',
+            'visible':true,
+            'eval':'data.contractCode?data.contractCode:"N/A"',
+            'title': 'Contrato',
+            'placeholder': 'Contrato',
+        };
+        this.model.rules['userName']={
+            'type': 'eval',
+            'visible':true,
+            'eval':'data.userName',
+            'title': 'Nombre',
+            'placeholder': 'Nombre',
+        };
     }
 
     initViewOptions() {

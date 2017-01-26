@@ -29,9 +29,9 @@ export class VehicleModel extends ModelBase{
 
         this.rules['tags'] = {
             'type': 'list',
-            'icon': 'fa fa-font',
             'maxLength': '35',
             'readOnly':true,
+            'prefix':'TAG',
             'value':[],
             'update': this.permissions.update,
             'search': this.permissions.filter,
@@ -41,15 +41,21 @@ export class VehicleModel extends ModelBase{
             'refreshField':{
                 'icon':'fa-refresh',
                 'endpoint':'/read/tags',
+                'tagFree':this.db.myglobal.getParams('TAG_TAG_INPUT_FREE')=='true'?true:false,
                 'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
                 'callback':function (rules,newData,control) {
                         newData.forEach(obj=> {
                             obj.tags.forEach(tag => {
-                                rules.refreshField.instance.addValue({
-                                    'id': obj.code,
-                                    'value': tag,
-                                    'title': obj.type + '(' + obj.code || 'Local' + ')'
-                                });
+                                if(rules.refreshField.tagFree){
+                                    rules.refreshField.instance.addValue(tag);
+                                }
+                                else{
+                                    rules.refreshField.instance.addValue({
+                                        'id': obj.code,
+                                        'value': tag,
+                                        'title': obj.type + '(' + obj.code || 'Local' + ')'
+                                    });
+                                }
                             })
                         });
                 },

@@ -1,6 +1,6 @@
 import {RestController, IRest} from "../com.zippyttech.rest/restController";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
-import {OnInit} from "@angular/core";
+import {OnInit,EventEmitter} from "@angular/core";
 import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
 import {DependenciesBase} from "./DependenciesBase";
 

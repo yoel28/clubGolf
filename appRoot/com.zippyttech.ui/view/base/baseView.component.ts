@@ -1,4 +1,7 @@
-import {Component, OnInit, HostBinding, trigger, state, style, transition, animate} from '@angular/core';
+import {
+    Component, OnInit, HostBinding, trigger, state, style, transition, animate, EventEmitter,
+    AfterViewInit
+} from '@angular/core';
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {AnimationsManager} from "../../animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
@@ -10,16 +13,19 @@ declare var SystemJS:any;
     templateUrl: SystemJS.map.app + '/com.zippyttech.ui/view/base/index.html',
     styleUrls: [SystemJS.map.app + '/com.zippyttech.ui/view/base/style.css'],
     inputs: ['instance'],
+    outputs:['getInstance'],
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
-export class BaseViewComponent extends ControllerBase implements OnInit {
+export class BaseViewComponent extends ControllerBase implements OnInit,AfterViewInit {
     public instance:any;
-
     public dataSelect:any = {};
     public paramsTable:any={};
+    public getInstance:any;
+
 
     constructor(public db:DependenciesBase) {
         super(db);
+        this.getInstance = new EventEmitter();
     }
     ngOnInit(){
         super.ngOnInit();
@@ -28,6 +34,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
         this.initViewOptions();
         this.loadParamsTable();
         this.loadPage();
+    }
+    ngAfterViewInit(){
+        this._getInstance();
     }
     initModel() {
         this.model = this.instance.model;
@@ -67,6 +76,8 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
             'type':'showDeleted',
             'icon': 'fa fa-trash'
         });
+
+        this.loadPreferenceViewModel();
 
     }
     loadParamsTable(){
@@ -147,7 +158,30 @@ export class BaseViewComponent extends ControllerBase implements OnInit {
             Object.assign(that.model.rules,temp);
         }
     }
-
+    public _getInstance(){
+        this.getInstance.emit(this);
+    }
+    loadPreferenceViewModel(){
+        let that = this;
+        let temp={};
+        let current=[];
+        current=this.db.myglobal.getPreferenceViewModel(this.model.constructor.name,this.model.rules);
+        current.forEach(obj=>{
+            temp[obj.key]=that.model.rules[obj.key];
+            temp[obj.key].visible = obj.visible;
+        });
+        that.model.rules={};
+        Object.assign(that.model.rules,temp);
+    }
+    savePreference(){
+        let that = this;
+        this.db.myglobal.setPreferenceViewModel(this.model.constructor.name,this.model.rules);
+        let body = {'preferences':this.db.myglobal.user.preferences};
+        let successCallback = (response)=>{
+            that.addToast('Notificación','Preferencias guardadas')
+        }
+        this.httputils.doPut('/auto/update',this.objectToString(body),successCallback,this.error)
+    }
 
 }
 

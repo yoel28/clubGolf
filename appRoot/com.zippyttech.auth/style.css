@@ -11,7 +11,7 @@
     font-weight: bolder;
 }
 .login-content{
-    background: url('assets/img/default/background-desktop.png') no-repeat center center fixed;
+    background: url('assets/img/default/background-desktop.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -38,4 +38,14 @@ div, table, section, .modal-dialog > .modal-content {
 }
 .padding-top{
     padding: 5px 0px;
+}
+@media( max-height : 420px ) {
+    .wrapper{
+        position: relative;
+    }
+}
+@media( max-width : 420px ) {
+    .wrapper {
+        position: relative;
+    }
 }
