@@ -48,8 +48,9 @@
         </div>
 
         <div class="box-footer">
-            <button *ngIf="currentStep>0" class="btn btn-red pull-left" (click)="backStep()">Anterior</button>
-            <button *ngIf="currentStep < registerSteps.length-1" [disabled]="!validForm()" class="btn btn-green pull-right" (click)="nextStep()">Siguiente</button>
+            <button *ngIf="currentStep > 0" class="btn btn-red pull-left" (click)="backStep()"><i class="fa fa-arrow-left"></i>{{" Anterior"}}</button>
+            <button *ngIf="currentStep < registerSteps.length-1" [disabled]="!validForm()" class="btn btn-green pull-right" (click)="nextStep()">{{"Siguiente "}}<i class="fa fa-arrow-right"></i></button>
+            <button *ngIf="currentStep == registerSteps.length-1" [disabled]="!validForm()" class="btn btn-green pull-right" (click)="submit()"><i class="fa fa-send"></i>{{" Enviar"}}</button>
         </div>
     </div>
 </div>

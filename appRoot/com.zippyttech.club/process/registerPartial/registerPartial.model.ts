@@ -15,6 +15,7 @@ export class RegisterPartialModel extends ModelBase
 
     public user:UserModel;
     public userSearch:any;
+    public contractSearch:any;
 
     constructor(public db:DependenciesBase){
         super(db,'REG_PARTIAL','/users/wizard');
@@ -31,6 +32,7 @@ export class RegisterPartialModel extends ModelBase
         this.tags = new TagModel(this.db);
         this.user = new UserModel(this.db);
         this.userSearch = {};
+        this.contractSearch = {};
     }
 
     initRules(){
@@ -38,6 +40,12 @@ export class RegisterPartialModel extends ModelBase
         this.userSearch.rulesSave.id = (new UserModel(this.db)).ruleObject;
         this.userSearch.rulesSave.id.key = "id";
         this.userSearch.paramsSave = {};
+
+
+        this.contractSearch.rulesSave = {};
+        this.contractSearch.rulesSave.contractCode = (new ContractModel(this.db)).ruleObject;
+        this.contractSearch.rulesSave.contractCode.key = "contractCode";
+        this.contractSearch.paramsSave = {};
 
         delete this.user.ruleObject.rulesSave['contract'];
         delete this.user.ruleObject.rulesSave['userGroup'];
