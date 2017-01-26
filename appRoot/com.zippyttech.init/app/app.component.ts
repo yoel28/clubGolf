@@ -388,14 +388,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-list',
                         'title': 'Lista registro',
                         'routerLink': '/club/catalog/record'
-                    },
-                    {
-                        'visible': true,
-                        'icon': 'fa fa-user-plus',
-                        'title': 'Formulario de registro',
-                        'routerLink': '/club/register/partial'
                     }
-
                 ]
             });
 

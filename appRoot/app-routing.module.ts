@@ -53,7 +53,6 @@ import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/lis
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
-import {RegisterPartialComponent} from "./com.zippyttech.club/process/registerPartial/registerPartial.component";
 
 const routesDefault: Routes = [
 
@@ -108,7 +107,6 @@ const routesDefault: Routes = [
     { path: 'club/process/record', component:  RecordInOutComponent},
 
     { path: 'club/register/full', component:  RegisterFullComponent},
-    { path: 'club/register/partial', component:  RegisterPartialComponent},
 
 
 
@@ -179,8 +177,7 @@ export const componentsApp = [
     RecordInOutComponent,
     RecordComponent,
     ContractComponent,
-    UserGroupComponent,
-    RegisterPartialComponent
+    UserGroupComponent
 ];
 export const componentsPublic = [
     'LoginComponent',

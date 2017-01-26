@@ -3,28 +3,21 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {checkBinding} from "@angular/core/src/linker/view_utils";
 
-const Highcharts = require('highcharts');
-/*
- const Highcharts3d = require('highcharts/highcharts-3d.src');
- Highcharts.setOptions({
- colors: ['#058DC7', '#50B432', '#ED561B']
- });
- */
 
 declare var SystemJS:any;
 declare var moment:any;
 declare var jQuery:any;
+const Highcharts = require('highcharts');
+//const Highcharts3d = require('highcharts/highcharts-3d.src');
+//Highcharts.setOptions({ colors: ['#058DC7', '#50B432', '#ED561B'] });
 
 export interface IChartData
 {
     endpoint:string;
     title:string;
-    options:{};
+    options:Highcharts.Options | {};
 }
-/*
-@NgModule({
-    imports:[XEditable,ColorPicker,SearchComponent,SaveComponent]
-})*/
+
 @Component({
     moduleId: module.id,
     selector: 'chart-view',
@@ -39,7 +32,6 @@ export class ChartViewComponent extends ControllerBase
     public chartId:string;
     public selectDate:Date;
     public currentDate:Date;
-    public chartInstance:Highcharts.ChartObject;
     public viewDeep:number;
 
     constructor(public db:DependenciesBase){
@@ -68,20 +60,19 @@ export class ChartViewComponent extends ControllerBase
 
     private validSelectPoint(month:number)
     {
-        return this.viewDeep==0 &&
-                (this.selectDate.getFullYear() < this.currentDate.getFullYear())?true:
-                (month <= this.currentDate.getMonth());
+        return this.viewDeep==0 && (
+            (this.selectDate.getFullYear() < this.currentDate.getFullYear())?
+                    true : (month <= this.currentDate.getMonth())
+            );
     }
 
     private checkChange(dir:number):boolean{
         return dir==-1 || (
-                    (this.viewDeep == 0)?
-                        (this.selectDate.getFullYear() < this.currentDate.getFullYear())
-                    :(this.viewDeep == 1)?
-                            (this.selectDate.getFullYear() < this.currentDate.getFullYear())?
-                                true
-                            :(this.selectDate.getMonth() < this.currentDate.getMonth())
-                    :false
+                (this.viewDeep == 0)?
+                    (this.selectDate.getFullYear() < this.currentDate.getFullYear()) : (this.viewDeep == 1)?
+                        (this.selectDate.getFullYear() < this.currentDate.getFullYear())?
+                            true : (this.selectDate.getMonth() < this.currentDate.getMonth())
+                :false
             );
     }
 
@@ -108,16 +99,9 @@ export class ChartViewComponent extends ControllerBase
         }
     }
 
-    public saveInstance(instance)
-    {
-        this.chartInstance = instance;
-    }
-
     public chartRefresh(){
-        let that = this;
         let callback = (response)=>{
             let data:any = {};
-            let that = this;
             Object.assign(data,response.json());
             for(let ob of data.list) {
                 let newData = {
@@ -127,14 +111,9 @@ export class ChartViewComponent extends ControllerBase
                 };
                 Object.assign(ob, newData);
             }
-            this.chartData.options["title"] = {
-                                                text: this.getTitle()
-                                            },
-            this.chartData.options["xAxis"].categories = data.categories;
+            this.chartData.options["title"] = { text: this.getTitle() },
+            this.chartData.options["xAxis"]['categories'] = data.categories;
             this.chartData.options["series"] = data.list;
-
-            console.log(this.chartData.options);
-
             this.findData = false;
         };
         this.findData = true;
