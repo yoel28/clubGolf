@@ -27,9 +27,9 @@ export class DashboardModel extends ModelRoot{
         this.guest.ruleObject.title = "Invitados";
         this.guest.setEndpoint("/guests/");
 
-        this.guest.max = 10;
-        this.record.max = 10;
-        this.trade.max = 10;
+        this.guest.rest.max = 10;
+        this.record.rest.max = 10;
+        this.trade.rest.max = 10;
 
         this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'}];
         this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];

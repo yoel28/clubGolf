@@ -57,7 +57,7 @@ export class ChartViewComponent extends ControllerBase
     public onPointSelect(event)
     {
         if(this.viewDeep == 0 && this.currentDate.getMonth() >= event.context.x) {
-            this.findData = true;
+            this.rest.findData = true;
             this.selectDate.setMonth(event.context.x);
             this.viewDeep++;
             this.chartRefresh();
@@ -110,9 +110,9 @@ export class ChartViewComponent extends ControllerBase
 
             console.log(this.chartData.options);
 
-            this.findData = false;
+            this.rest.findData = false;
         };
-        this.findData = true;
+        this.rest.findData = true;
         this.httputils.doGet(this.chartData.endpoint+this.selectDate.getFullYear()+'/'+((this.viewDeep==0)?"":(this.selectDate.getMonth()+1)),callback,null,false);
     }
 
