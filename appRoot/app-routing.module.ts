@@ -156,7 +156,7 @@ export const componentsView = [
     SearchMultipleComponent,
     FormComponent,
     ModalComponent,
-    RuleViewComponent
+    RuleViewComponent,
     ListActionComponent,
     ModalComponent,
     ChartViewComponent
