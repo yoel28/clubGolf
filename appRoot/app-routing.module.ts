@@ -51,6 +51,8 @@ import {NotificationComponent} from "./com.zippyttech.business/notification/noti
 import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
 import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
+import {RuleViewComponent} from "./com.zippyttech.ui/components/ruleView/ruleView.component";
+import {ChannelComponent} from "./com.zippyttech.business/channel/channel.component";
 import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
 
@@ -81,6 +83,7 @@ const routesDefault: Routes = [
     { path: 'business/info', component: InfoComponent},
     { path: 'business/rule', component: RuleComponent},
     { path: 'business/param', component: ParamComponent},
+    { path: 'business/channel', component: ChannelComponent},
     { path: 'business/notification', component: NotificationComponent},
 
 
@@ -139,7 +142,8 @@ export const componentsDefault = [
     AccountComponent,
     UserComponent,
     NotificationComponent,
-    TermConditionsComponent
+    TermConditionsComponent,
+    ChannelComponent
 ];
 export const componentsView = [
     ImageEditComponent,
@@ -151,6 +155,8 @@ export const componentsView = [
     SaveComponent,
     SearchMultipleComponent,
     FormComponent,
+    ModalComponent,
+    RuleViewComponent
     ListActionComponent,
     ModalComponent,
     ChartViewComponent
