@@ -49,7 +49,7 @@ export class VehicleModel extends ModelBase{
                                 rules.refreshField.instance.addValue({
                                     'id': obj.code,
                                     'value': tag,
-                                    'title': obj.type + '(' + obj.code || 'Local' + ')'
+                                    'title': obj.title + '(' + (obj.code || 'Local') + ')'
                                 });
                             })
                         });
