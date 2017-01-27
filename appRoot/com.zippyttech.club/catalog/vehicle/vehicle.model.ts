@@ -46,16 +46,11 @@ export class VehicleModel extends ModelBase{
                 'callback':function (rules,newData,control) {
                         newData.forEach(obj=> {
                             obj.tags.forEach(tag => {
-                                if(rules.refreshField.tagFree){
-                                    rules.refreshField.instance.addValue(tag);
-                                }
-                                else{
-                                    rules.refreshField.instance.addValue({
-                                        'id': obj.code,
-                                        'value': tag,
-                                        'title': obj.type + '(' + obj.code || 'Local' + ')'
-                                    });
-                                }
+                                rules.refreshField.instance.addValue({
+                                    'id': obj.code,
+                                    'value': tag,
+                                    'title': obj.type + '(' + obj.code || 'Local' + ')'
+                                });
                             })
                         });
                 },
