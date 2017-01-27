@@ -107,13 +107,14 @@ export class TradeModel extends ModelBase{
         };
 
 
-        this.rules['timeUse']={
-            'type': 'eval',
-            'key':'RULE:TRADE_TIMEUSE_:Tiempo de uso',
+        this.rules['useTimeN']={
+            'type': 'time',
+            'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'eval':this.db.myglobal.getRule('TRADE_TIMEUSE_WEB'),
+            'key':'useTimeN',
+            'keyDisplay':'useTimeS',
             'title': 'Tiempo de uso',
-            'placeholder': 'Tiempo de uso',
+            'placeholder': 'Tiempo de uso (Milisegundos)',
         };
 
         this.rules["byClient"] = {
