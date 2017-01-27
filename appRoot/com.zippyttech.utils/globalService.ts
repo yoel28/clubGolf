@@ -11,6 +11,7 @@ export class globalService extends RestController{
     params:any={};
     help:any={};
     permissions:any=[];
+    rules:any=[];
 
     public publicData:any={};
 
@@ -31,7 +32,8 @@ export class globalService extends RestController{
                         c.value.user.status  &&
                         c.value.permissions.status &&
                         c.value.params.status &&
-                        c.value.help.status
+                        c.value.help.status &&
+                        c.value.rules.status
                     )
                     {return null;}
                 }
@@ -63,6 +65,7 @@ export class globalService extends RestController{
         this.loadMyPermissions();
         this.loadParams();
         this.loadTooltips();
+        this.loadRules();
     }
     dataSesionInit():void{
         this.dataSesion.setValue({
@@ -71,6 +74,7 @@ export class globalService extends RestController{
             'permissions':  {'status':false,'title':'Consultando  permisos'},
             'params':       {'status':false,'title':'Consultando  parametros'},
             'help':         {'status':false,'title':'Consultando  ayudas'},
+            'rules':        {'status':false,'title':'Consultando  reglas'},
         });
     }
     errorGS = (err:any):void => {
@@ -135,6 +139,15 @@ export class globalService extends RestController{
         };
         this.httputils.doGet('/infos?max=1000',successCallback,this.errorGS);
     }
+    loadRules():void{
+        let that = this;
+        let successCallback= (response:any) => {
+            Object.assign(that.rules,response.json().list);
+            that.dataSesion.value.rules.status=true;
+            that.dataSesion.setValue(that.dataSesion.value);
+        };
+        this.httputils.doGet('/rules?max=1000',successCallback,this.errorGS);
+    }
 
     loadVisualData():void{
         let data:any =
@@ -164,6 +177,23 @@ export class globalService extends RestController{
         return valor;
     }
 
+    getRule(code:string):string{
+        let that = this;
+        let valor=[];
+        Object.keys(this.rules || {}).forEach(index=>{
+            if(that.rules[index].code==code){
+                valor.push(that.rules[index]);
+            }
+        });
+        if(valor.length == 0)
+            return '';
+        if(valor.length == 1)
+            return valor[0].rule;
+
+        let companyId=this.user.companyId;
+
+    }
+
     getTooltip(code:string):any{
         let that = this;
         let valor={};
@@ -178,5 +208,45 @@ export class globalService extends RestController{
     getKeys(data:any):any{
         return Object.keys(data || {});
     }
+
+    getPreferenceViewModel(model:string,rules:Object){
+        if(this.user.preferences && this.user.preferences.columns){
+            if(this.user.preferences.columns[model.replace('Model','')]){
+                if(this.checkKeysView(this.user.preferences.columns[model.replace('Model','')],Object.keys(rules))){
+                    return this.user.preferences.columns[model.replace('Model','')];
+                }
+            }
+        }
+        this.setPreferenceViewModel(model,rules);
+        return this.user.preferences.columns[model.replace('Model','')];
+    }
+    setPreferenceViewModel(model:string,rules:Object){
+        let that = this;
+        if(!this.user.preferences.columns){
+            this.user.preferences.columns={};
+        }
+        this.user.preferences.columns[model.replace('Model','')]=[];
+        Object.keys(rules).forEach(key=>{
+            that.user.preferences.columns[model.replace('Model','')].push(
+                {   'key':key,
+                    'visible':rules[key].visible,
+                    'exclude':rules[key].exclude?true:false,
+                    'display':rules[key].keyDisplay || rules[key].key,
+                }
+            )
+        });
+    }
+    private checkKeysView(saveKeys,currentKeys):boolean{
+        let equalKeys=true;
+        saveKeys.forEach(obj=>{
+            if(currentKeys.indexOf(obj.key) < 0){
+                equalKeys=false;
+            }
+        })
+        if(saveKeys.length !=  currentKeys.length)
+            equalKeys= false;
+        return equalKeys;
+    }
+
     
 }

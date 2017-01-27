@@ -269,12 +269,18 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_EVENT','MEN_INFO','MEN_PARAM','MEN_RULE','MEN_NOTIFY']),
+                'visible': this.db.myglobal.existsPermission(['MEN_EVENT', 'MEN_INFO', 'MEN_PARAM', 'MEN_RULE', 'MEN_NOTIFY','MEN_CHANNEL']),
                 'icon': 'fa fa-gears',
                 'title': 'Configuración',
                 'key': 'Configuracion',
                 'select': false,
                 'treeview': [
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_CHANNEL']),
+                        'icon': 'fa fa-user',
+                        'title': 'Canales',
+                        'routerLink': '/business/channel'
+                    },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_EVENT']),
                         'icon': 'fa fa-user',
@@ -389,7 +395,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Lista registro',
                         'routerLink': '/club/catalog/record'
                     }
-
                 ]
             });
 

@@ -25,7 +25,20 @@ export class UserModel extends ModelBase{
         this.contract = new ContractModel(this.db);
         this.group = new UserGroupModel(this.db);
     }
+
     initRules(){
+        this.rules['email']={
+            'type': 'text',
+            'email':true,
+            'required':true,
+            'setEqual':'username',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'email',
+            'title': 'Correo electrónico',
+            'placeholder': 'Correo electrónico',
+        };
 
         this.rules['id']={
             'type': 'number',
@@ -54,18 +67,6 @@ export class UserModel extends ModelBase{
             'key': 'name',
             'title': 'Nombre',
             'placeholder': 'Nombre',
-        };
-        this.rules['email']={
-            'type': 'text',
-            'email':true,
-            'required':true,
-            'setEqual':'username',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'email',
-            'title': 'Correo electrónico',
-            'placeholder': 'Correo electrónico',
         };
         this.rules['phone']={
             'type': 'text',
@@ -155,7 +156,8 @@ export class UserModel extends ModelBase{
         this.ruleObject.title="Usuario";
         this.ruleObject.placeholder="Ingrese el usuario";
         this.ruleObject.key="user";
-        this.ruleObject.keyDisplay="userEmail";
+        this.ruleObject.keyDisplay='user';
+        this.ruleObject.eval=this.db.myglobal.getRule('USER_DISPLAY_WEB');
         this.ruleObject.code="userId";
     }
     initRulesSave() {

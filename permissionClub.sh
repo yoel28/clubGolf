@@ -21,6 +21,7 @@ Otros[7,0]="DASH_QR";	            Otros[7,1]="Dashboard";    Otros[7,2]="Buscar 
 Otros[7,0]="DASH_INVITED";	        Otros[7,1]="Dashboard";    Otros[7,2]="Invitar usuarios";           Otros[7,3]="qrCode";    Otros[7,4]="invite";     Otros[7,5]="Invitar usuarios"
 
 Otros[8,0]="USER_ROLE_SAVE";	    Otros[8,1]="Usuarios";    Otros[8,2]="Actualizar Roles";    Otros[8,3]="userRole";    Otros[8,4]="save";     Otros[8,5]="Actualizar roles de usuarios"
+Otros[9,0]="VEH_TAG_FREE";	        Otros[9,1]="Vehiculos";    Otros[9,2]="Entrada manual de tags";    Otros[9,3]="vehicle";    Otros[9,4]="";     Otros[9,5]="Permitir la entrada manual de tags"
 
 #Otros[0,0]="";	        Otros[0,1]="";    Otros[0,2]="";   Otros[0,3]="";    Otros[0,4]="";     Otros[0,5]=""
 

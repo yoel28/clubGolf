@@ -5,6 +5,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 declare var SystemJS:any;
+declare var jQuery:any;
 @Component({
     moduleId:module.id,
     selector: 'form-view',
@@ -164,7 +165,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.setEndpoint(this.params.endpoint);
         let body = this.getFormValues();
         if(this.params.updateField)
-            this.httputils.onUpdate(this.endpoint+this.id,JSON.stringify(body),this.dataSelect,this.error);
+            this.httputils.onUpdate(this.endpoint+this.rest.id,JSON.stringify(body),this.dataSelect,this.error);
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
@@ -224,7 +225,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     //Al hacer click en la lupa guarda los valores del objecto
     getLoadSearch(event,data){
         event.preventDefault();
-        this.max=5;
+        this.rest.max=5;
         this.searchView=true;
         this.findControl=this.data[data.key].value || '';
         this.search=data;
@@ -245,6 +246,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             }
         });
     }
+
     loadAndSetDataSearch(searchView=false){
         if(this.dataList && this.dataList.count && this.dataList.count==1)//cuando existe un solo elemento se carga automatico
         {
@@ -270,12 +272,14 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         (<FormControl>this.form.controls[this.search.key]).setValue(data.detail);
         this.dataList=[];
     }
+
     //accion seleccionar un item de un select
     setValueSelect(data,key){
         (<FormControl>this.form.controls[key]).setValue(data);
         if(data=='-1')
             (<FormControl>this.form.controls[key]).setValue(null);
     }
+
     resetForm(){
         let that=this;
         this.search={};
@@ -291,6 +295,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 that.rules[key].readOnly=false;
         })
     }
+
     public refreshFieldKey='';
     refreshField(event,data){
         if(event)
@@ -298,10 +303,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         let that = this;
         this.refreshFieldKey=data.key;
         if(data.refreshField.endpoint){
-            this.findData=true;
+            this.rest.findData=true;
             let successCallback= response => {
                 that.refreshFieldKey = '';
-                this.findData=false;
+                that.rest.findData=false;
                 try {
                     let val = response.json()[data.refreshField.field];
                     if(data.refreshField.callback)
@@ -347,7 +352,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.resetForm();
         if(data.id)
         {
-            this.id = data.id;
+            this.rest.id = data.id;
             Object.keys(data).forEach(key=>{
                 if(that.data[key])
                 {
@@ -360,12 +365,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         }
         this.delete = _delete;
     }
+
     public getKeys(data){
         return Object.keys(data || {});
     }
+
     loadDate(data,key){
         this.data[key].setValue(data.date);
     }
+
     addListMultiple(event,key){
         if(!this.dataListMultiple[key])
             this.dataListMultiple[key]={'view':false,'data':[]};
@@ -394,6 +402,23 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             return this.params.customValidator?this.params.customValidator(this):true;
         }
         return false
+    }
+    addTagManual(event,key){
+        if(event)
+            event.preventDefault();
+        let tag=jQuery('#'+key+'manual').val();
+        if(tag && tag.length)
+        {
+            jQuery('#'+key+'manual').val('');
+            this.rules[key].refreshField.instance.addValue(
+                {
+                    'id': 0,
+                    'value': tag,
+                    'title': 'Entrada manual'
+                }
+            );
+        }
+
     }
 }
 

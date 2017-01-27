@@ -48,6 +48,8 @@ export class TagModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar tag";
         this.paramsSearch.placeholder="Ingrese el tag";
+        this.paramsSearch.label.title='Vehículo (Placa): ';
+        this.paramsSearch.label.detail='EPC (TAG): ';
     }
     initParamsSave() {
         this.paramsSave.title="Agregar tag";
@@ -57,6 +59,8 @@ export class TagModel extends ModelBase{
         this.ruleObject.placeholder="Ingrese el tag";
         this.ruleObject.key="tag";
         this.ruleObject.code="tagId";
+        this.ruleObject.exclude=true;
+
         this.ruleObject.keyDisplay = "tagCode";
 
     }

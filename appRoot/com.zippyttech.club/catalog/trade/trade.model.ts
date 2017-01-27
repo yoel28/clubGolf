@@ -34,6 +34,7 @@ export class TradeModel extends ModelBase{
     initRules(){
         this.rules['entregado']={
             'type':'filter',
+            'exclude':true,
             'search':this.permissions.filter,
             'where': {
                 'Entregados': {'op': 'isNotNull', 'field': 'receivedDate'},
@@ -106,12 +107,14 @@ export class TradeModel extends ModelBase{
         };
 
 
-        this.rules['timeUse']={
-            'type': 'eval',
+        this.rules['useTimeN']={
+            'type': 'time',
+            'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'eval':'this.formatTime(moment(data.receivedDate).valueOf() - moment(data.dateCreated).valueOf())',
+            'key':'useTimeN',
+            'keyDisplay':'useTimeS',
             'title': 'Tiempo de uso',
-            'placeholder': 'Tiempo de uso',
+            'placeholder': 'Tiempo de uso (Milisegundos)',
         };
 
         this.rules["byClient"] = {
@@ -134,16 +137,17 @@ export class TradeModel extends ModelBase{
         this.rules['usernameCreator']={
             'type': 'eval',
             'visible':this.permissions.visible,
-            'eval':'data.usernameCreator?data.usernameCreator.split("/")[1]:""',
+            'eval':this.db.myglobal.getRule('TRADE_USERNAMECREATOR_WEB'),
+            'key':'RULE:TRADE_USERNAMECREATOR_:Operador entrega',
             'title': 'Operador entrega',
             'placeholder': 'Operador entrega',
-
         };
 
         this.rules['usernameUpdater']={
             'type': 'eval',
             'visible':this.permissions.visible,
-            'eval':'data.usernameUpdater?data.usernameUpdater.split("/")[1]:""',
+            'key':'RULE:TRADE_USERNAMEUPDATER_:Operador recepción',
+            'eval':this.db.myglobal.getRule('TRADE_USERNAMEUPDATER_WEB'),
             'title': 'Operador recepción',
             'placeholder': 'Operador recepción',
 

@@ -10,11 +10,12 @@ declare var moment:any;
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
-    inputs:['params','model','dataList','deleted','findData','rest'],
+    inputs:['params','model','dataList','rest'],
     outputs:['getInstance'],
 })
 
 export class TablesComponent extends RestController implements OnInit,AfterContentChecked {
+
 
     public params:any={};
     public model:any={};
@@ -37,38 +38,37 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
 
     constructor(public db:DependenciesBase) {
         super(db);
+        this.getInstance = new EventEmitter();
     }
 
     ngOnInit()
     {
         this.keyActions=[];
-        this.loadRest();
         if(this.params && this.params.actions)
             this.keyActions=Object.keys(this.params.actions);
-        this.getInstance = new EventEmitter();
         this.setEndpoint(this.params? this.params.endpoint:'');
         this.getListObjectNotReferenceSave();
-        this.db.debugLog('1 '+this.findData);
+        //console.log('1 '+this.findData);
     }
     ngAfterContentChecked(){
-        this.db.debugLog('2 '+this.findData);
+        //console.log('2 '+this.findData);
     }
     ngOnChanges(){
-        this.db.debugLog('3 '+this.findData);
+        //console.log('3 '+this.findData);
     }
     ngDoCheck(){
-        this.db.debugLog('4 '+this.findData);
+        //console.log('4 '+this.findData);
     }
     ngAfterContentInit(){
-        this.db.debugLog('5 '+this.findData);
+        //console.log('5 '+this.findData);
     }
     ngAfterViewChecked(){
-        this.db.debugLog('6 '+this.findData);
-        if(!this.findData)
+        //console.log('6 '+this.findData);
+        if(!this.rest.findData)
             this.on = true;
     }
     ngAfterViewInit() {
-        this.db.debugLog('7 '+this.findData);
+        //console.log('7 '+this.findData);
         this.getInstance.emit(this);
     }
 
@@ -238,6 +238,20 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
         }
         return "-";
     }
+    public formatTimeView(data) {
+        if (data) {
+            if (data < 1800000)//menor a 30min
+                return this.dateHmanizer(data, {units: ['m', 's']})
+            if (data < 3600000) //menor a 1hora
+                return this.dateHmanizer(data, {units: ['m']})
+            if(data < 86400000)
+                return  this.dateHmanizer(data, {units: ['h', 'm']})
+
+            return  this.dateHmanizer(data)
+        }
+        return '-'
+
+    }
     public changeFormatDate(id) {
         if (!this.formatDateId[id])
             this.formatDateId[id] = {'value': false};
@@ -278,19 +292,26 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
 
     changeOrder(sort){
         if(sort && this.model && this.model.rules[sort] && this.model.rules[sort].search){
-            if(sort ==  this.sort){
-                this.order = this.order=='asc'?'desc':'asc';
+            if(sort ==  this.rest.sort){
+                if(this.rest.order == 'desc')
+                    this.rest.order = 'asc';
+                else{
+                    this.rest.sort=null;
+                    this.rest.order=null;
+                }
             }
             else
             {
-                this.sort =  sort;
-                this.order = 'desc'
+                this.rest.sort =  sort;
+                this.rest.order = 'desc'
             }
             this.loadData();
         }
     }
 
-
+    evalExp(data,exp){
+        return eval(exp);
+    }
 
 
 }

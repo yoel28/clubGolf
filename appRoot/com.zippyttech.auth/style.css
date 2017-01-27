@@ -45,7 +45,7 @@ div, table, section, .modal-dialog > .modal-content {
     }
 }
 @media( max-width : 420px ) {
-    .wrapper{
+    .wrapper {
         position: relative;
     }
 }
