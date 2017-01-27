@@ -41,7 +41,7 @@ export class VehicleModel extends ModelBase{
             'refreshField':{
                 'icon':'fa-refresh',
                 'endpoint':'/read/tags',
-                'tagFree':this.db.myglobal.getParams('TAG_TAG_INPUT_FREE')=='true'?true:false,
+                'tagFree':this.permissions.tagFree,
                 'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
                 'callback':function (rules,newData,control) {
                         newData.forEach(obj=> {
@@ -104,7 +104,9 @@ export class VehicleModel extends ModelBase{
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
-    initPermissions() {}
+    initPermissions() {
+        this.permissions['tagFree'] =  this.db.myglobal.existsPermission(this.prefix+'_TAG_FREE')
+    }
     initParamsSearch() {
         this.paramsSearch.title="Buscar vehículo";
         this.paramsSearch.placeholder="Ingrese vehículo";
