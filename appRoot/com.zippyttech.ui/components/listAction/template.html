@@ -101,7 +101,7 @@
         <div class="list-pager {{db.classCol(8,8,8,8)}}">
             <div class="btn-group pull-right" *ngIf="data.model.dataList && data.model.dataList.page && data.model.dataList.page.length > 1">
                 <button *ngFor="let val of data.model.dataList.page" type="button" class="btn list-pager-btn"
-                        (click)="data.model.loadData(val)" [class.btn-green]="val==((data.model.offset/data.model.max)+1)"
+                        (click)="data.model.loadData(val)" [class.btn-green]="val==((data.model.rest.offset/data.model.rest.max)+1)"
                 >
                     {{val}}
                 </button>
