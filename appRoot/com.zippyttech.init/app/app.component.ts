@@ -395,7 +395,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'title': 'Lista registro',
                         'routerLink': '/club/catalog/record'
                     }
-
                 ]
             });
 

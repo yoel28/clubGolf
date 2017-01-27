@@ -1,12 +1,15 @@
 <section class="content" *ngIf="model">
-
     <div class="chart-box">
         <div class="chart-header">
 
         </div>
-        <div class="chart-body" class="row">
-            <chart-view class="{{db.classCol(6,6,12,12)}}" [chartData] = "chvwEntries"></chart-view>
-            <chart-view class="{{db.classCol(6,6,12,12)}}" [chartData] = "chvwProducts"></chart-view>
+        <div class="chart-body">
+            <div class="chart-item {{db.classCol(6,6)}}">
+                <chart-view [chartData] = "chvwEntries"></chart-view>
+            </div>
+            <div class="chart-item {{db.classCol(6,6)}}">
+                <chart-view [chartData] = "chvwProducts"></chart-view>
+            </div>
         </div>
     </div>
 
@@ -16,9 +19,13 @@
         </button>
         <div class="box collapsed-box pull-right">
             <div class="box-header">
-                <h4 class="box-title vertical-center {{db.classCol(3,3,3,3)}}">QR:</h4>
-                <form (submit)="searchQr($event)" class="{{db.classCol(9,9,9,9)}}">
-                    <input id="validQr" class="form-control" placeholder="Validar QR" type="text" autofocus>
+                <form (submit)="searchQr($event)" class="form-horizontal">
+                    <div class="form-group">
+                        <label class=" box-title reader-title control-label {{db.classCol(2,2,2)}}" for="validQr">QR:</label>
+                        <div class="{{db.classCol(10,10,10)}}">
+                            <input class="form-control" placeholder="Validar QR" type="text"  id="validQr" autofocus>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="box-body">
@@ -26,15 +33,9 @@
                     <div *ngFor="let key of getKeys(model.qr.rules)">
                         <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
                             {{model.qr.rules[key].title}}:
-                            <span *ngIf="model.qr.rules[key].type =='date'">
-                                    {{formatDate(model.qr.dataList[key],model.qr.rules[key].format?model.qr.rules[key].format.formatView:'DD/MM/YYYY',false,model.qr.dataList.id)}}
-                                </span>
-                            <span *ngIf="model.qr.rules[key].type =='number'">
-                                    {{model.qr.dataList[key]}}
-                                </span>
-                            <span *ngIf="model.qr.rules[key].object">
-                                    {{(model.qr.dataList[model.qr.rules[key].keyDisplay])?model.qr.dataList[model.qr.rules[key].keyDisplay]:"N/A"}}
-                                </span>
+                            <span *ngIf="model.qr.rules[key].type =='date'"> {{formatDate(model.qr.dataList[key],model.qr.rules[key].format?model.qr.rules[key].format.formatView:'DD/MM/YYYY',false,model.qr.dataList.id)}} </span>
+                            <span *ngIf="model.qr.rules[key].type =='number'"> {{model.qr.dataList[key]}} </span>
+                            <span *ngIf="model.qr.rules[key].object"> {{(model.qr.dataList[model.qr.rules[key].keyDisplay])?model.qr.dataList[model.qr.rules[key].keyDisplay]:"N/A"}} </span>
                         </div>
                     </div>
                 </div>

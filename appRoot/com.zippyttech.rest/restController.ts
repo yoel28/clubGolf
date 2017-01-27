@@ -387,6 +387,7 @@ export class RestController {
             console.log('no es un objecto.. verificar');
         this.loadData();
     }
+
     loadDataWhere(id='',where:IWhere=[]){
         let that = this;
         this.rest.findData = true;
