@@ -52,6 +52,8 @@ export class RegisterFullComponent extends RestController implements OnInit{
 
     public instanceUser:UserComponent;
     setInstanceUser(instance){
+        if (this.instanceUser)
+            instance.instanceBase = this.instanceUser.instanceBase
         this.instanceUser = instance;
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
