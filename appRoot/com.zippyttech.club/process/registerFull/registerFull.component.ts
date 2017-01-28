@@ -40,20 +40,20 @@ export class RegisterFullComponent extends RestController implements OnInit{
             offset:0,
             max:0
         };
+
         if(this.tempIdUser && this.tempIdUser != data.id)
         {
-            if(this.instanceUser){
+            if(this.instanceUser && this.instanceUser.instanceBase){
                 this.instanceUser.instanceBase.loadDataWhere('',rest.where);
             }
         }
+
         this.tempIdUser =  data.id;
         return rest;
     }
 
     public instanceUser:UserComponent;
     setInstanceUser(instance){
-        if (this.instanceUser)
-            instance.instanceBase = this.instanceUser.instanceBase
         this.instanceUser = instance;
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
