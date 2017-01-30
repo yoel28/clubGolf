@@ -49,6 +49,7 @@ export class TradeModel extends ModelBase{
 
 
         this.rules['product']=this.product.ruleObject;
+        this.rules['qr']=this.qr.ruleObject;
 
         this.rules['dateCreated']={
             'type': 'date',
