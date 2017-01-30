@@ -42,12 +42,12 @@ export class AccountModel extends ModelRoot{
             'placeholder': 'Nombre',
         };
 
-        this.rules['hostname']={
+        this.rules['hostName']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'hostname',
+            'key': 'hostName',
             'title': 'Hostname',
             'placeholder': 'Hostname',
         };
