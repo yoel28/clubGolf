@@ -49,17 +49,19 @@ export class QrcodeModel extends ModelBase{
 
         this.rules['sponsor']=Object.assign({},this.sponsor.ruleObject);
         this.rules['sponsor'].title='Patrocinador';
-        this.rules['sponsor'].keyDisplay='sponsorEmail';
+        this.rules['sponsor'].keyDisplay='sponsor';
         this.rules['sponsor'].key='sponsor';
         this.rules['sponsor'].required=false;
+        this.rules['sponsor'].eval=this.db.myglobal.getRule('QR_SPONSOR_WEB');
         this.rules['sponsor'].placeholder='Patrocinador';
         this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest']=Object.assign({},this.guest.ruleObject);
         this.rules['guest'].title='Invitado';
-        this.rules['guest'].keyDisplay='guestEmail';
+        this.rules['guest'].keyDisplay='guest';
         this.rules['guest'].key='guest';
         this.rules['guest'].required=false;
+        this.rules['guest'].eval=this.db.myglobal.getRule('QR_GUEST_WEB');
         this.rules['guest'].placeholder='Invitado';
         this.rules['guest'].paramsSearch.field='guest.id';
 
