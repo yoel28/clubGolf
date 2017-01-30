@@ -124,7 +124,7 @@ export class TradeModel extends ModelBase{
             'type': 'eval',
             'visible':this.permissions.visible,
             'eval':this.db.myglobal.getRule('TRADE_USERNAMECREATOR_WEB'),
-            'key':'RULE:TRADE_USERNAMECREATOR_:Operador entrega',
+            'key':'usernameCreator',
             'title': 'Operador entrega',
             'placeholder': 'Operador entrega',
         };
@@ -132,7 +132,7 @@ export class TradeModel extends ModelBase{
         this.rules['usernameUpdater']={
             'type': 'eval',
             'visible':this.permissions.visible,
-            'key':'RULE:TRADE_USERNAMEUPDATER_:Operador recepción',
+            'key':'usernameUpdater',
             'eval':this.db.myglobal.getRule('TRADE_USERNAMEUPDATER_WEB'),
             'title': 'Operador recepción',
             'placeholder': 'Operador recepción',
