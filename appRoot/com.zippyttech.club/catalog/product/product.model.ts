@@ -24,6 +24,21 @@ export class ProductModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
+
+        this.rules["available"] = {
+            "visible": this.permissions.visible,
+            "search": this.permissions.filter,
+            "type": "boolean",
+            "disabled":"!data.enabled",
+            'source': [
+                {'value':true,'text': 'Disponible', 'class': 'btn btn-sm btn-green','title':'Disponible'},
+                {'value':false,'text': 'No disponible', 'class': 'btn btn-sm btn-red','title':'No disponible'},
+            ],
+            "key": "available",
+            "title": "Disponible",
+            "placeholder": "Producto disponible",
+        };
+
         this.rules['productType']=this.productType.ruleObject;
         this.rules['productType'].required = true;
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
