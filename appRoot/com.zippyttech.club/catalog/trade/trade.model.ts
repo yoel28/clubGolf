@@ -47,12 +47,6 @@ export class TradeModel extends ModelBase{
             'placeholder':'¿Productos entregados?'
         };
 
-        this.rules['guest'] = Object.assign({},this.guest.ruleObject);
-        this.rules['guest'].key='guest';
-        this.rules['guest'].title='Invitado';
-        this.rules['guest'].keyDisplay='guestName';
-        this.rules['guest'].placeholder='Invitado';
-        this.rules['guest'].paramsSearch.field='guest.id';
 
         this.rules['product']=this.product.ruleObject;
 
@@ -91,25 +85,17 @@ export class TradeModel extends ModelBase{
 
         this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
         this.rules['sponsor'].key='sponsor';
-        this.rules['sponsor'].title='Patrocinador';
-        this.rules['sponsor'].keyDisplay='sponsorName';
-        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].title='Usuario';
+        this.rules['sponsor'].keyDisplay='qr';
+        this.rules['sponsor'].eval=this.db.myglobal.getRule('TRADE_USER_WEB');
+        this.rules['sponsor'].placeholder='Usuario';
         this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
-
-        this.rules['title']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'visible':this.permissions.visible,
-            'key': 'title',
-            'title': 'Producto',
-            'placeholder': 'Producto',
-        };
 
 
         this.rules['useTimeN']={
             'type': 'time',
-            'search':this.permissions.filter,
+            'search':false,
             'visible':this.permissions.visible,
             'key':'useTimeN',
             'keyDisplay':'useTimeS',
@@ -203,7 +189,7 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.id;
         delete this.rulesSave.sponsor;
         delete this.rulesSave.guest;
-        delete this.rulesSave.timeUse;
+        delete this.rulesSave.useTimeN;
         delete this.rulesSave.usernameCreator;
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;
