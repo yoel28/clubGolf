@@ -3,7 +3,6 @@ import {GetbackModel} from "./getback.model";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {Validators, FormGroup, FormControl} from "@angular/forms";
 import {ProductModel} from "../../catalog/product/product.model";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
@@ -26,7 +25,7 @@ export class GetbackComponent extends ControllerBase {
     public byClientDefault=this.db.myglobal.getParams('TRADE_BYCLIENT_DEFAULT')=='true'?true:false;
 
     constructor(public db:DependenciesBase) {
-        super(db,'GETBACK','/getback/');
+        super(db);
     }
     ngOnInit():void{
         super.ngOnInit();
@@ -74,12 +73,12 @@ export class GetbackComponent extends ControllerBase {
 
                     if(that.listProduct[code].available){
                         delete that.listProduct[code];
-                        that.addToast('Error','Código '+code+' no a salido','warning',15000);
+                        that.product.addToast('Error','Código '+code+' no a salido','warning',15000);
                     }
                 }
                 else{
                     delete that.listProduct[code];
-                    that.addToast('Error','Código '+code+' no registrado','error',15000);
+                    that.product.addToast('Error','Código '+code+' no registrado','error',15000);
                 }
                 that.form.controls['data'].setValue(that.listProduct);
         });
@@ -144,7 +143,7 @@ export class GetbackComponent extends ControllerBase {
                     'state':parseFloat(that.listProduct[key].state)
                 })
         });
-        this.onSave(body).then(
+        this.model.onSave(body).then(
             response=>{
                 that.step=2;
                 that.listProduct={};
