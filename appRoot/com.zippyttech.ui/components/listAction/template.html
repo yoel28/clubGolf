@@ -53,7 +53,7 @@
                         </button>
                     </div>
                 </div>
-                <div id="edit" class="item-content-edit collapse" *ngIf="data.actions!==undefined && (actionSelect==action || getKeys(data.actions).length == 1) && dataSelect == elem">
+                <div id="edit" class="item-content-edit collapse" *ngIf="data.actions!==undefined && (actionSelect==action || getObjectKeys(data.actions).length == 1) && dataSelect == elem">
                     <ul class="list-actions list-group">
                         <li class="list-actions-item" *ngFor="let action of getActionKeys(data.actions)">
                             <div class="box action">
