@@ -2,7 +2,6 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {Component} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {RecordModel} from "../../catalog/record/record.model";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {FormComponent} from "../../../com.zippyttech.ui/components/form/form.component";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 
@@ -19,7 +18,7 @@ export class RecordInOutComponent extends ControllerBase {
     public instanceForm:FormComponent;
 
     constructor(public db:DependenciesBase){
-        super(db,'RECORD','/records/');
+        super(db);
     }
 
     initModel(){
@@ -38,7 +37,7 @@ export class RecordInOutComponent extends ControllerBase {
         let body = this.instanceForm.getFormValues();
         body['entering']=entering;
 
-        this.onSave(body);
+        this.model.onSave(body);
     }
     formValid():boolean{
         if(this.instanceForm && this.instanceForm.form){
