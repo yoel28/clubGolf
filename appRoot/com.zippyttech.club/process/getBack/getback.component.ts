@@ -73,7 +73,7 @@ export class GetbackComponent extends ControllerBase {
 
                     if(that.listProduct[code].available){
                         delete that.listProduct[code];
-                        that.product.addToast('Error','Código '+code+' no a salido','warning',15000);
+                        that.product.addToast('Error','Código '+code+' no ha salido','warning',15000);
                     }
                 }
                 else{
