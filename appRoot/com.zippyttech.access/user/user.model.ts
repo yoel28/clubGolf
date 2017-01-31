@@ -83,6 +83,7 @@ export class UserModel extends ModelBase{
         this.rules['password']={
             'type': 'password',
             'required':true,
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'password',
@@ -93,6 +94,7 @@ export class UserModel extends ModelBase{
 
         this.rules['image']={
             'type': 'image',
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'image',

@@ -53,6 +53,16 @@ import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/lis
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 import {RuleViewComponent} from "./com.zippyttech.ui/components/ruleView/ruleView.component";
 import {ChannelComponent} from "./com.zippyttech.business/channel/channel.component";
+import {AccountModel} from "./com.zippyttech.access/account/account.model";
+import {PermissionModel} from "./com.zippyttech.access/permission/permission.model";
+import {RoleModel} from "./com.zippyttech.access/role/role.model";
+import {UserModel} from "./com.zippyttech.access/user/user.model";
+import {ChannelModel} from "./com.zippyttech.business/channel/channel.model";
+import {EventModel} from "./com.zippyttech.business/event/event.model";
+import {InfoModel} from "./com.zippyttech.business/info/info.model";
+import {NotificationModel} from "./com.zippyttech.business/notification/notification.model";
+import {ParamModel} from "./com.zippyttech.business/param/param.model";
+import {RuleModel} from "./com.zippyttech.business/rule/rule.model";
 import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
 
@@ -192,3 +202,17 @@ export const componentsPublic = [
     'RecoverPasswordComponent',
     'TermConditionsComponent'
 ];
+
+export const modelsDefault=[
+    AccountModel,
+    PermissionModel,
+    RoleModel,
+    UserModel,
+    ChannelModel,
+    EventModel,
+    InfoModel,
+    NotificationModel,
+    ParamModel,
+    RuleModel
+];
+export const modelsApp=[];
