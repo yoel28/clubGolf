@@ -145,16 +145,16 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
                         that.listProduct[code]=that.product.dataList.list[0];
                         if(!that.listProduct[code].available){
                             delete that.listProduct[code];
-                            that.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
+                            that.product.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
                         }
                         else if(!that.listProduct[code].enabled){
                             delete that.listProduct[code];
-                            that.addToast('Error','El codigo '+code+' no se encuentra habilitado para su uso','warning',15000);
+                            that.product.addToast('Error','El codigo '+code+' no se encuentra habilitado para su uso','warning',15000);
                         }
                     }
                     else{
                         delete that.listProduct[code];
-                        that.addToast('Error','Código '+code+' no registrado','error',15000);
+                        that.product.addToast('Error','Código '+code+' no registrado','error',15000);
                     }
 
                 }
@@ -233,7 +233,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
 
         }catch (e){
-            this.addToast('Error','QR invalido','error');
+            this.qr.addToast('Error','QR invalido','error');
         }
 
 
