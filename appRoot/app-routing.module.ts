@@ -65,6 +65,26 @@ import {ParamModel} from "./com.zippyttech.business/param/param.model";
 import {RuleModel} from "./com.zippyttech.business/rule/rule.model";
 import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
+import {AntennaModel} from "./com.zippyttech.club/catalog/antenna/antenna.model";
+import {BrandModel} from "./com.zippyttech.club/catalog/brand/brand.model";
+import {CompanyModel} from "./com.zippyttech.club/catalog/company/company.model";
+import {ContractModel} from "./com.zippyttech.club/catalog/contract/contract.model";
+import {LocationModel} from "./com.zippyttech.club/catalog/location/location.model";
+import {ModelModel} from "./com.zippyttech.club/catalog/model/model.model";
+import {ProductModel} from "./com.zippyttech.club/catalog/product/product.model";
+import {ProductTypeModel} from "./com.zippyttech.club/catalog/productType/productType.model";
+import {QrcodeModel} from "./com.zippyttech.club/catalog/qrcode/qrcode.model";
+import {RecordModel} from "./com.zippyttech.club/catalog/record/record.model";
+import {StateModel} from "./com.zippyttech.club/catalog/state/state.model";
+import {TagModel} from "./com.zippyttech.club/catalog/tag/tag.model";
+import {TradeModel} from "./com.zippyttech.club/catalog/trade/trade.model";
+import {UserGroupModel} from "./com.zippyttech.club/catalog/userGroup/userGroup.model";
+import {UserStatusModel} from "./com.zippyttech.club/catalog/userStatus/userStatus.model";
+import {UserTypeModel} from "./com.zippyttech.club/catalog/userType/userType.model";
+import {VehicleModel} from "./com.zippyttech.club/catalog/vehicle/vehicle.model";
+import {VehicleTypeModel} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.model";
+import {GetbackModel} from "./com.zippyttech.club/process/getBack/getback.model";
+import {RegisterFullModel} from "./com.zippyttech.club/process/registerFull/registerFull.model";
 
 const routesDefault: Routes = [
 
@@ -215,4 +235,25 @@ export const modelsDefault=[
     ParamModel,
     RuleModel
 ];
-export const modelsApp=[];
+export const modelsApp=[
+    AntennaModel,
+    BrandModel,
+    CompanyModel,
+    ContractModel,
+    LocationModel,
+    ModelModel,
+    ProductModel,
+    ProductTypeModel,
+    QrcodeModel,
+    RecordModel,
+    StateModel,
+    TagModel,
+    TradeModel,
+    UserGroupModel,
+    UserStatusModel,
+    UserTypeModel,
+    VehicleModel,
+    VehicleTypeModel,
+    GetbackModel,
+    RegisterFullModel
+];
