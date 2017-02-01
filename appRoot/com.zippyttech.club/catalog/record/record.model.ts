@@ -38,6 +38,7 @@ export class RecordModel extends ModelBase{
         this.rules['user'].title='Socio';
         this.rules['user'].required=true;
         this.rules['user'].keyDisplay='userName';
+        this.rules['user'].update= this.permissions.update;
 
         this.rules['userName']={
             'type': 'text',
@@ -50,20 +51,24 @@ export class RecordModel extends ModelBase{
 
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].title = 'Placa';
+        this.rules['vehicle'].update= this.permissions.update;
 
         this.rules['userType'] = this.userType.ruleObject;
         this.rules['userType'].title = 'Tipo';
         this.rules['userType'].required = false;
+        this.rules['userType'].update= this.permissions.update;
         this.rules['userType'].hiddenOnly='(this.searchId["user"] && this.searchId["user"].id)?true:false';
 
 
         this.rules['company'] = this.company.ruleObject;
         this.rules['company'].title = 'Empresa';
         this.rules['company'].required=false;
+        this.rules['company'].update= this.permissions.update;
 
         this.rules['location']=this.location.ruleObject;
         this.rules['location'].title='Donde se dirige';
         this.rules['location'].required=false;
+        this.rules['location'].update= this.permissions.update;
 
 
 
@@ -112,12 +117,14 @@ export class RecordModel extends ModelBase{
         this.rules['antennaIn'].title="Ant. Entrada";
         this.rules['antennaIn'].key="antennaInId";
         this.rules['antennaIn'].keyDisplay="antennaInTitle";
+        this.rules['antennaIn'].update= this.permissions.update;
 
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
         this.rules['antennaOut'].title="Ant. Salida";
         this.rules['antennaOut'].key="antennaOutId";
         this.rules['antennaOut'].keyDisplay="antennaOutTitle";
+        this.rules['antennaOut'].update= this.permissions.update;
 
         this.rules['user'].objectOrSave={};
         this.rules['vehicle'].objectOrSave={};

@@ -1,4 +1,3 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {BrandModel} from "../brand/brand.model";
 import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
@@ -29,6 +28,7 @@ export class ModelModel extends ModelRoot{
         };
         this.rules['brand']=this.brand.ruleObject;
         this.rules['brand'].required=true;
+        this.rules['brand'].update= this.permissions.update;
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }

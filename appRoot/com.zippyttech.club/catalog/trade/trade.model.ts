@@ -3,7 +3,6 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {QrcodeModel} from "../qrcode/qrcode.model";
 import {StateModel} from "../state/state.model";
 import {ProductModel} from "../product/product.model";
-import {ProductTypeModel} from "../productType/productType.model";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
@@ -12,9 +11,7 @@ export class TradeModel extends ModelBase{
     private qr:any;
     private state:any;
     private product:any;
-    private productType:any;
     private sponsor:any;
-    private guest:any;
 
     constructor(public db:DependenciesBase){
         super(db,'TRADE','/trades/');
@@ -25,10 +22,8 @@ export class TradeModel extends ModelBase{
         this.qr = new QrcodeModel(this.db);
         this.state = new StateModel(this.db);
         this.product = new ProductModel(this.db);
-        this.productType = new ProductTypeModel(this.db);
 
         this.sponsor = new UserModel(this.db);
-        this.guest = new UserModel(this.db);
     }
 
     initRules(){
@@ -49,7 +44,10 @@ export class TradeModel extends ModelBase{
 
 
         this.rules['product']=this.product.ruleObject;
+        this.rules['product'].update= this.permissions.update;
+
         this.rules['qr']=this.qr.ruleObject;
+        this.rules['qr'].update= this.permissions.update;
 
         this.rules['dateCreated']={
             'type': 'date',
@@ -91,6 +89,7 @@ export class TradeModel extends ModelBase{
         this.rules['sponsor'].eval=this.db.myglobal.getRule('TRADE_USER_WEB');
         this.rules['sponsor'].placeholder='Usuario';
         this.rules['sponsor'].paramsSearch.field='sponsor.id';
+        this.rules['sponsor'].update= this.permissions.update;
 
 
 
@@ -120,6 +119,7 @@ export class TradeModel extends ModelBase{
         };
 
         this.rules['state']=Object.assign({},this.state.ruleObject);
+        this.rules['state'].update= this.permissions.update;
 
         this.rules['usernameCreator']={
             'type': 'eval',
@@ -160,6 +160,7 @@ export class TradeModel extends ModelBase{
             'title': 'Costo total',
             'placeholder': 'Costo total',
         };
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['detail'].title="Comentario";
         this.rules['detail'].placeholder="Ingrese un comentario";
@@ -189,7 +190,6 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.title;
         delete this.rulesSave.id;
         delete this.rulesSave.sponsor;
-        delete this.rulesSave.guest;
         delete this.rulesSave.useTimeN;
         delete this.rulesSave.usernameCreator;
         delete this.rulesSave.usernameUpdater;

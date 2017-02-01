@@ -1,6 +1,4 @@
-import {globalService} from "../../../com.zippyttech.utils/globalService";
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
-import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {StateModel} from "../../catalog/state/state.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
@@ -50,6 +48,7 @@ export class GetbackModel extends ModelBase{
         this.rules['state'].object = false;
         this.rules['state'].source=[];
         this.rules['state'].data={};
+        this.rules['state'].update= this.permissions.update;
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
 
