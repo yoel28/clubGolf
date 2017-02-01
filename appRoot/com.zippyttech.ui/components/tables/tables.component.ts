@@ -1,11 +1,16 @@
-import {Component, EventEmitter, OnInit, AfterContentChecked} from "@angular/core";
+import {Component, EventEmitter, OnInit, AfterContentChecked, NgModule} from "@angular/core";
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
 
 declare var SystemJS:any;
 declare var moment:any;
+
+@NgModule({
+    imports:[XFootable]
+})
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
@@ -13,31 +18,25 @@ declare var moment:any;
     inputs:['params','model','dataList','rest'],
     outputs:['getInstance'],
 })
-
 export class TablesComponent extends RestController implements OnInit,AfterContentChecked {
-
-
     public params:any={};
     public model:any={};
     public searchId:any={};
     data:any = [];
     public keys:any = [];
-    public dataDelete:any={};
     public dataSelect:any={};
-
     public modelReference :any={};//cargar data a referencias en otros metodos
 
     public keyActions =[];
     public configId=moment().valueOf();
-
     public on=false;
-
     public getInstance:any;
 
-    public formatTime=StaticFunction.formatTime;
+    private _currentPage: number;
 
     constructor(public db:DependenciesBase) {
         super(db);
+        this._currentPage = -1;
         this.getInstance = new EventEmitter();
     }
 
@@ -72,21 +71,25 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
         this.getInstance.emit(this);
     }
 
+    console(msg){ console.log(msg) }
 
-
-
-
-    console(msg){
-        console.log(msg)
+    public get currentPage(){
+        if(this._currentPage = -1)
+            this._currentPage = (this.rest.offset/this.rest.max)+1;
+        return this._currentPage;
     }
 
+    public set currentPage(value:number){
+        this._currentPage = value;
+        this.loadData(value);
+    }
 
     private instanceSearch={};
     setInstanceSearch(type,instance){
         this.instanceSearch[type] =  instance;
     }
     
-    keyVisible()
+    private keyVisible()
     {
         let data=[];
         let that=this;
@@ -96,7 +99,6 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
         });
         return data;
     }
-
 
     public searchTable:any = {};
     public searchTableData:any;
@@ -312,6 +314,5 @@ export class TablesComponent extends RestController implements OnInit,AfterConte
     evalExp(data,exp){
         return eval(exp);
     }
-
 
 }
