@@ -223,16 +223,26 @@
                             </div>
                         </div>
                         <div class="tab-pane" [class.active]="step==3" role="tabpanel" id="step3">
-                            <h1>Operacion guardada.</h1>
-
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button (click)="step=1" type="button"
-                                            class="btn btn-primary next-step">Iniciar
-                                    </button>
+                            <h1 class="text-center">Detalles de Operacion</h1>
+                            <ul class="list-product">
+                                <template [ngIf]="endDetail.list">
+                                <li  class="list-product-item" *ngFor="let detail of endDetail.list; let i=index">
+                                    <div class="item-header"  [class.bg-red]="endDetail.list[i].errors" (click)="togleElement('#item-body-'+i)">
+                                        <span>
+                                            <i class="fa fa-warning" *ngIf="endDetail.list[i].errors"></i>
+                                            {{" "+listProduct[getObjectKeys(listProduct)[i]].productTypeTitle}}
+                                        </span>
+                                        <i class="fa fa-plus pull-right"></i>
+                                    </div>
+                                    <div id="item-body-{{i}}" class="item-body">
+                                        <span class="error-detail" *ngFor="let error of endDetail.list[i].errors; let i=index">
+                                            {{error.field}}:{{" "+error.message}}
+                                        </span>
+                                    </div>
                                 </li>
+                                </template>
                             </ul>
-
+                            <button (click)="step=1" type="button" class="btn btn-primary next-step pull-right">Iniciar</button>
                         </div>
                         <div class="tab-pane" [class.active]="step==4" role="tabpanel" id="complete">
                             <h3>Complete</h3>

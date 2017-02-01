@@ -16,7 +16,7 @@ declare var jQuery:any;
     moduleId:module.id,
     selector: 'generate-output',
     templateUrl:'index.html',
-    styleUrls: ['../style.css'],
+    styleUrls: ['../style.css','style.css'],
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class GenerateOutputComponent extends ControllerBase implements OnInit,OnDestroy {
@@ -37,16 +37,20 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
     public listProduct:any={};
 
+    private endDetail:{} = {};
+
     public dataQr={
         'token':localStorage.getItem('bearer'),
         'channel':'operator'
     };
+
     public channelWS:string;
 
     constructor(public db:DependenciesBase) {
         super(db);
         this.channelWS = '/'+this.dataQr.channel+'/'+this.dataQr.token;
     }
+
     public initModel(){
         this.product = new ProductModel(this.db);
         this.qr = new QrcodeModel(this.db);
@@ -59,14 +63,17 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         this.initViewOptions();
         this.loadWebSocket();
     }
+
     initForm(){
         this.form = new FormGroup({
             'code':new FormControl ("", Validators.required)
         })
     }
+
     initViewOptions() {
         this.viewOptions["title"] = 'Generar salidas';
     }
+
     loadWebSocket(){
         let that=this;
         this.db.ws.onSocket(this.channelWS);
@@ -75,7 +82,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             this.subscribe = this.db.ws.webSocket[this.channelWS].data.valueChanges.subscribe(
                 (value:any) => {
                     if(value.id){
-                        that.listProduct={};
+                        //that.listProduct={};
                         that.dataClient = Object.assign({},value);
                         that.step=2;
                         that.closeQR();
@@ -98,6 +105,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         this.db.myglobal.qrPublic.document.write('<body>' + contents + '</body>');
         this.db.myglobal.qrPublic.document.head.innerHTML = (document.head.innerHTML);
     }
+
     closeQR(event?){
         if(event)
             event.preventDefault();
@@ -120,6 +128,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
         this.QRCam.decodeFromCamera(document.querySelector('video'), this.resultHandler);
     }
+
     resultHandler (err, result) {
         if (err)
             return console.log(err.message);
@@ -170,18 +179,20 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             return true;
         return false;
     }
+
     public get getDataQr(){
         return JSON.stringify(this.dataQr);
     }
+
     deleteKeyProduc(key){
         if(this.listProduct[key])
             delete this.listProduct[key];
     }
+
     saveProduct(event){
         if(event)
             event.preventDefault();
         if(this.trade.permissions.add){
-
             let that=this;
             let body={'qrCode':null,'list':[]};
             body.qrCode =  this.dataClient.id;
@@ -191,24 +202,26 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
                     body.list.push(that.listProduct[key].id)
             });
 
-            this.trade.onSave(body).then(response=>{
+            this.trade.onSave(body,(response)=>{
+               Object.assign(that.endDetail,response);
                 that.step=3;
-            })
+            });
         }
-
-
     }
+
     ngOnDestroy():void{
         this.db.ws.closeWebsocket(this.channelWS);
         if(this.subscribe)
             this.subscribe.unsubscribe();
         this.subscribe=null;
     }
+
     reconectWS(event){
         if(event)
             event.preventDefault();
         this.db.ws.onSocket(this.channelWS);
     }
+
     searchQr(event){
         if(event)
             event.preventDefault();
@@ -230,14 +243,16 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
                     }
                 )
             }
-
-
         }catch (e){
             this.addToast('Error','QR invalido','error');
         }
+    }
 
-
-
+    togleElement(id:string)
+    {
+        console.log("asdasd");
+        if(jQuery(id).hasClass("show")) jQuery(id).removeClass("show");
+        else jQuery(id).addClass("show");
     }
 
 }

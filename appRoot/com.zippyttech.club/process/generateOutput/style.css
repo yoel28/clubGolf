@@ -1,0 +1,52 @@
+*:not(button){
+    transition-duration: 1s;
+}
+
+button{
+    margin: 5px 0px;
+}
+
+.list-product{
+    border: none;
+    overflow: hidden;
+    border-radius: 5px;
+    width:60%;
+    margin: 0 auto;
+}
+
+.list-product-item {
+    height: auto;
+    margin: 0px 0px;
+    border-top: 1px solid #FFF;
+}
+
+.list-product{
+    padding: 0px;
+}
+
+.item-header{
+    text-align:center;
+    border-radius: 0px !important;
+    background: #488c6c;
+    color: white;
+    padding: 5px;
+    display: block;
+    cursor:pointer;
+}
+
+.item-body.show{
+    height:auto;
+}
+
+.item-body{
+    height: 0px;
+    overflow: hidden;
+}
+
+.error-detail{
+    border-radius: 0px !important;
+    padding:5px;
+    margin:5px;
+    display:block;
+    color: indianred;
+}
