@@ -31,7 +31,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public chvwProducts:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
-        super(db,'DASH','/dashboard/');
+        super(db);
     }
 
     ngOnInit():void {
@@ -67,7 +67,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         this.tradeData = {
             routerLink:"/club/process/getback",
             model: that.model.trade,
-            visibleKeys:["sponsor","product","dateCreated","guest"],
+            visibleKeys:["sponsor","product","dateCreated"],
             actions:{
                     "put":{
                         model: modelAction,
@@ -203,7 +203,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             this.model.qr.loadDataWhere(data.id,where);
 
         }catch (e){
-            this.addToast('Error','QR invalido','error');
+            this.model.qr.addToast('Error','QR invalido','error');
         }
     }
 
@@ -216,7 +216,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         if(event)
             event.preventDefault();
 
-        this.httputils.doPost('/attendings/',this.qrString,callback,this.error);
+        this.model.doPost('/attendings/',this.qrString,callback,this.model.error);
         this.model.qr.dataList = {};
     }
 

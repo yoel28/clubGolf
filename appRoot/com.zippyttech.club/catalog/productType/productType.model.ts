@@ -6,7 +6,8 @@ export class ProductTypeModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
         super(db,'PRTYPE','/type/products/');
-        this.initModel();
+        this.initModel(false);
+        this.loadDataApi();
     }
     modelExternal() {}
     initRules(){
@@ -51,9 +52,9 @@ export class ProductTypeModel extends ModelBase{
         };
         this.rules['intervalMinutes']={
             'type':'number',
-            'required':true,
+            'hiddenOnly':'this.form.controls["type"].value !="tiempo"',
             'step':'1',
-            'disabled':'data.type == "unidad"',
+            'disabled':'data.type != "tiempo"',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -72,10 +73,7 @@ export class ProductTypeModel extends ModelBase{
             'key':'type',
             'title':'Tipo',
             'placeholder':'Tipo',
-            'source':[
-                {'value':'unidad','text': 'Unidad', 'class': 'btn btn-sm btn-green'},
-                {'value':'tiempo','text': 'Tiempo', 'class': 'btn btn-sm btn-red'},
-            ]
+            'source':[]
         };
         this.rules['minPrice']={
             'type':'number',
@@ -92,9 +90,10 @@ export class ProductTypeModel extends ModelBase{
         };
         this.rules['minMinutes']={
             'type':'number',
-            'required':true,
+            'hiddenOnly':'this.form.controls["type"].value !="tiempo"',
             'double':true,
             'step':'0.1',
+            'disabled':'data.type != "tiempo"',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -141,5 +140,13 @@ export class ProductTypeModel extends ModelBase{
         delete this.rulesSave.enabled;
         delete this.rulesSave.autoReceive;
         delete this.rulesSave.icon;
+    }
+    loadDataApi(){
+        if(this.db.myglobal.publicData.productType && this.db.myglobal.publicData.productType) {
+            this.db.myglobal.publicData.productType.billTypes.forEach(obj => {
+                this.rules['type'].source.push({'value': obj.code, 'text': obj.code, 'class': 'btn btn-sm btn-green'},);
+            })
+        }
+        this.completed = true;
     }
 }

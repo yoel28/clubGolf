@@ -27,6 +27,7 @@ export class DashboardModel extends ModelRoot{
         this.guest.ruleObject.title = "Invitados";
         this.guest.setEndpoint("/guests/");
 
+
         this.guest.rest.max = 10;
         this.record.rest.max = 10;
         this.trade.rest.max = 10;

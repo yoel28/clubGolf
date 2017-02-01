@@ -8,10 +8,11 @@ import {ToastyService, ToastyConfig} from "ng2-toasty";
 @Injectable()
 export class globalService extends RestController{
     user:any={};
-    params:any={};
-    help:any={};
+    params:any=[];
+    help:any=[];
     permissions:any=[];
     rules:any=[];
+    channels:any=[];
 
     public publicData:any={};
 
@@ -33,7 +34,8 @@ export class globalService extends RestController{
                         c.value.permissions.status &&
                         c.value.params.status &&
                         c.value.help.status &&
-                        c.value.rules.status
+                        c.value.rules.status &&
+                        c.value.channels.status
                     )
                     {return null;}
                 }
@@ -57,7 +59,6 @@ export class globalService extends RestController{
         } else {
             console.log("no habemus localstorage")
         }
-        this.loadVisualData();
     }
     initSession():void{
         this.dataSesionInit();
@@ -66,6 +67,7 @@ export class globalService extends RestController{
         this.loadParams();
         this.loadTooltips();
         this.loadRules();
+        this.loadChannels();
     }
     dataSesionInit():void{
         this.dataSesion.setValue({
@@ -75,6 +77,7 @@ export class globalService extends RestController{
             'params':       {'status':false,'title':'Consultando  parametros'},
             'help':         {'status':false,'title':'Consultando  ayudas'},
             'rules':        {'status':false,'title':'Consultando  reglas'},
+            'channels':     {'status':false,'title':'Consultando  canales'},
         });
     }
     errorGS = (err:any):void => {
@@ -88,6 +91,7 @@ export class globalService extends RestController{
             window.location.href = "#/auth/login";
         }
     }
+
     loadValidToken():void{
         let that=this;
         let successCallback=(response:any) => {
@@ -119,7 +123,7 @@ export class globalService extends RestController{
             that.dataSesion.value.permissions.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
         };
-        return this.httputils.doGet('/current/permissions/',successCallback,this.errorGS);
+        return this.httputils.doGet('/current/permissions/?max=1000',successCallback,this.errorGS);
     }
     loadParams():void{
         let that = this;
@@ -148,13 +152,14 @@ export class globalService extends RestController{
         };
         this.httputils.doGet('/rules?max=1000',successCallback,this.errorGS);
     }
-
-    loadVisualData():void{
-        let data:any =
-        {
-
+    loadChannels():void{
+        let that = this;
+        let successCallback= (response:any) => {
+            Object.assign(that.channels,response.json().list);
+            that.dataSesion.value.channels.status=true;
+            that.dataSesion.setValue(that.dataSesion.value);
         };
-        this.visualData = Object.assign(data);
+        this.httputils.doGet('/channels?max=1000',successCallback,this.errorGS);
     }
 
     existsPermission(keys:any):boolean{
@@ -164,25 +169,21 @@ export class globalService extends RestController{
         return false;
     }
 
-
     getParams(code:string):string{
-        let that = this;
-        let valor="";
-        Object.keys(this.params || {}).forEach(index=>{
-            if(that.params[index].code==code){
-                valor=that.params[index].value;
-                return;
-            }
-        });
-        return valor;
+        let data = this.getByAccountData(this.params,code);
+        return data.value || '';
     }
 
     getRule(code:string):string{
-        let that = this;
-        let rule = this.getByAccount(this.rules,code);
-        return rule.rule || '';
+        let data = this.getByAccountData(this.rules,code);
+        return data.rule || '';
     }
-    getByAccount(list,code){
+
+    getTooltip(code:string):any{
+        return this.getByAccountData(this.help,code);
+    }
+
+    getByAccountData(list,code){
         let that = this;
         let value:any={};
         list.forEach(obj=>{
@@ -193,21 +194,11 @@ export class globalService extends RestController{
             if(!value.id && obj.accountId == null && obj.code ==  code){
                 value=obj;
             }
-        })
+        });
         return value;
     }
 
-    getTooltip(code:string):any{
-        let that = this;
-        let valor={};
-        Object.keys(this.help || {}).forEach(index=>{
-            if(that.help[index].code==code){
-                valor=that.help[index];
-                return;
-            }
-        });
-        return valor;
-    }
+
     getKeys(data:any):any{
         return Object.keys(data || {});
     }
@@ -245,7 +236,7 @@ export class globalService extends RestController{
             if(currentKeys.indexOf(obj.key) < 0){
                 equalKeys=false;
             }
-        })
+        });
         if(saveKeys.length !=  currentKeys.length)
             equalKeys= false;
         return equalKeys;

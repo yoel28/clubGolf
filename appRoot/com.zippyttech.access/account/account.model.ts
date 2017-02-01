@@ -12,6 +12,7 @@ export class AccountModel extends ModelRoot{
 
         this.rules['logo']={
             'type': 'image',
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'logo',
@@ -42,12 +43,12 @@ export class AccountModel extends ModelRoot{
             'placeholder': 'Nombre',
         };
 
-        this.rules['hostname']={
+        this.rules['hostName']={
             'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'hostname',
+            'key': 'hostName',
             'title': 'Hostname',
             'placeholder': 'Hostname',
         };
@@ -134,6 +135,7 @@ export class AccountModel extends ModelRoot{
 
         this.rules['miniLogo']={
             'type': 'image',
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'miniLogo',

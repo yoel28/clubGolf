@@ -24,6 +24,21 @@ export class ProductModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
+
+        this.rules["available"] = {
+            "visible": this.permissions.visible,
+            "search": this.permissions.filter,
+            "type": "boolean",
+            "disabled":"!data.enabled",
+            'source': [
+                {'value':true,'text': 'Disponible', 'class': 'btn btn-sm btn-green','title':'Disponible'},
+                {'value':false,'text': 'No disponible', 'class': 'btn btn-sm btn-red','title':'No disponible'},
+            ],
+            "key": "available",
+            "title": "Disponible",
+            "placeholder": "Producto disponible",
+        };
+
         this.rules['productType']=this.productType.ruleObject;
         this.rules['productType'].required = true;
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
@@ -37,10 +52,11 @@ export class ProductModel extends ModelBase{
         this.paramsSave.title="Agregar producto"
     }
     initRuleObject() {
-        this.ruleObject.title="Cod. Producto";
+        this.ruleObject.title="Producto";
         this.ruleObject.placeholder="Ingrese codigo del producto";
         this.ruleObject.key="product";
-        this.ruleObject.keyDisplay = "productCode";
+        this.ruleObject.keyDisplay = "product";
+        this.ruleObject.eval=this.db.myglobal.getRule('PRODUCT_DISPLAY_WEB');
         this.ruleObject.code = "productId";
     }
     initRulesSave() {

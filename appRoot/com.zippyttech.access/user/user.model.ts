@@ -25,7 +25,6 @@ export class UserModel extends ModelBase{
         this.contract = new ContractModel(this.db);
         this.group = new UserGroupModel(this.db);
     }
-
     initRules(){
         this.rules['email']={
             'type': 'text',
@@ -58,6 +57,15 @@ export class UserModel extends ModelBase{
             'title': 'Cédula',
             'placeholder': 'Cédula',
         };
+        this.rules['username']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'username',
+            'title': 'Usuario',
+            'placeholder': 'Usuario',
+        };
         this.rules['name']={
             'type': 'text',
             'required':true,
@@ -83,6 +91,7 @@ export class UserModel extends ModelBase{
         this.rules['password']={
             'type': 'password',
             'required':true,
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'password',
@@ -93,6 +102,7 @@ export class UserModel extends ModelBase{
 
         this.rules['image']={
             'type': 'image',
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'image',
@@ -133,8 +143,7 @@ export class UserModel extends ModelBase{
         this.rules['roles'].showbuttons=true;
         this.rules['roles'].source=[];
         this.rules['roles'].search=false;
-
-
+        this.rules['roles'].exclude=false;
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
