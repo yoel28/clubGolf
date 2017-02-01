@@ -26,6 +26,7 @@ export class VehicleComponent extends BaseViewInstance{
         this.model.rules['tags']=this.tag.ruleObject;
         this.model.rules['tags'].search=false;
         this.model.rules['tags'].multiple=true;
+        this.model.rules['tags'].update = this.model.permissions.update;
         this.model.rules['tags'].paramsSearch.where=[{'or':[{'op':'isNull','field':'vehicle.id'},{'op':'eq','field':'vehicle.id','value':null}]}];
         this.model.rules['tags'].paramsSearch.eval='this.model.rules[key].paramsSearch.where[0].or[1].value = data.id';
 
