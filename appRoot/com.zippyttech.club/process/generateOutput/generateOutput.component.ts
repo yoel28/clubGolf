@@ -36,8 +36,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
     public trade:TradeModel;
 
     public listProduct:any={};
+    public totalProduct:number=0;
 
-    private endDetail:{} = {};
+    private endDetail:any = {};
+    private invoice = { consumibles:[], retornables:[]};
 
     public dataQr={
         'token':localStorage.getItem('bearer'),
@@ -146,28 +148,37 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             this.form.controls['code'].setValue(null);
 
             let where=[{'op':'eq','field':'code','value':code}];
-            this.listProduct[code]={'wait':true};
-            this.product.loadDataWhere('',where).then(
-                response => {
-                    if(that.product.dataList && that.product.dataList.count==1)
-                    {
-                        that.listProduct[code]=that.product.dataList.list[0];
-                        if(!that.listProduct[code].available){
-                            delete that.listProduct[code];
-                            that.product.addToast('Error','El codigo '+code+' no esta disponible','warning',15000);
-                        }
-                        else if(!that.listProduct[code].enabled){
-                            delete that.listProduct[code];
-                            that.product.addToast('Error','El codigo '+code+' no se encuentra habilitado para su uso','warning',15000);
-                        }
-                    }
-                    else{
-                        delete that.listProduct[code];
-                        that.product.addToast('Error','Código '+code+' no registrado','error',15000);
-                    }
 
-                }
-            );
+            if(!this.listProduct[code]){
+                this.listProduct[code] = {'wait':true};
+                this.product.loadDataWhere('', where).then(response=>{
+                    if (that.product.dataList && that.product.dataList.count == 1) {
+                        that.listProduct[code] = that.product.dataList.list[0];
+                        that.listProduct[code]['count'] = 1;
+                        this.listProduct[code]['wait'] = false;
+
+                        if (!that.product.dataList.list[0].available) {
+                            delete that.listProduct[code];
+                            that.product.addToast('Error', 'El codigo ' + code + ' no esta disponible', 'warning', 15000);
+                        }
+                        else if (!that.product.dataList.list[0].enabled) {
+                            delete that.listProduct[code];
+                            that.product.addToast('Error', 'El codigo ' + code + ' no se encuentra habilitado para su uso', 'warning', 15000);
+                        }
+
+                        if (that.listProduct[code])
+                            that.totalProduct++;
+                    }
+                    else {
+                        delete that.listProduct[code];
+                        that.product.addToast('Error', 'Código ' + code + ' no registrado', 'error', 15000);
+                    }
+                });
+            }
+            else if(that.listProduct[code].productTypeType == "consumo"){
+                that.listProduct[code]['count']++;
+                that.totalProduct++;
+            }
         }
 
     }
@@ -203,7 +214,19 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             });
 
             this.trade.onSave(body,(response)=>{
-               Object.assign(that.endDetail,response);
+                Object.assign(that.endDetail,response);
+
+                Object.keys(this.listProduct).forEach((key,index)=>{
+                    if(that.listProduct[key].id){
+                        if(that.endDetail.list[index].errors)
+                            that.listProduct[key]['errors'] = that.endDetail.list[index].errors;
+
+                        if(that.listProduct[key].productTypeType == "consumo")
+                            that.invoice.consumibles.push(that.listProduct[key]);
+                        else
+                            that.invoice.retornables.push(that.listProduct[key]);
+                    }
+                });
                 that.step=3;
             });
         }
@@ -255,4 +278,13 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         else jQuery(id).addClass("show");
     }
 
+    private getInfoKeys(iproduct):string[]{
+        let keys:string[]=[];
+        Object.keys(iproduct).forEach((key)=>{
+            if(key=='code' || key=='productTypeTitle' || key=='productTypePrice'){
+                keys.push(key);
+            }
+        });
+        return keys;
+    }
 }

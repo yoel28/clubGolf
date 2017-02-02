@@ -10,11 +10,11 @@ button{
     border: none;
     overflow: hidden;
     border-radius: 5px;
-    width:60%;
+    width:90%;
     margin: 0 auto;
 }
 
-.list-product-item {
+.product-item {
     height: auto;
     margin: 0px 0px;
     border-top: 1px solid #FFF;
@@ -24,29 +24,120 @@ button{
     padding: 0px;
 }
 
-.item-header{
-    text-align:center;
+.product-item-header{
+    padding:5px 15px !important;
     border-radius: 0px !important;
     background: #488c6c;
     color: white;
-    padding: 5px;
     display: block;
     cursor:pointer;
 }
 
-.item-body.show{
+.product-item-body.show{
     height:auto;
 }
 
-.item-body{
+.product-item-body{
     height: 0px;
     overflow: hidden;
 }
 
-.error-detail{
+.error-item{
     border-radius: 0px !important;
     padding:5px;
     margin:5px;
     display:block;
     color: indianred;
 }
+
+
+.list-product{
+    margin-bottom:5px !important;
+}
+
+.list-product-title {
+    background:#0d5628;
+    color:#FFF;
+    padding:10px;
+    font-size:15px;
+}
+
+.warning-btn{
+    perspective:100px;
+    height:100%;
+    line-height:100%;
+}
+
+.warning-btn i.fa-warning{
+    color: #FFF;
+    font-size:18px;
+    animation: tock .6s cubic-bezier(0.04, -1.22, 0.72, 2.47) infinite alternate;
+}
+
+.product-item-header > span{
+    display: inline-block;
+    padding-right: 10px;
+    float: none;
+}
+
+@keyframes tock{
+    from{ transform:translateZ(0px); color: #FFF; }
+    to{ transform:translateZ(10px); color: #dc6767; }
+}
+
+.list-product-title > span{
+    float: none;
+}
+
+.items-titles{
+    background: #34694d;
+    color: #FFF;
+    padding: 0px 15px;;
+}
+
+.items-titles>span{
+    display: inline-block;
+    float: none;
+    font-size: 14px;
+}
+
+/*
+"trade":{
+       "sponsorPhone":"04247494177",
+       "accountName":"ZIPPYTTECH",
+       "sponsorId":8,
+       "sponsorName":"Jairo Pescador",
+       "stateTitle":null,
+       "title":"doritos megaqueso 60g",
+       "usePrice":2.0,
+       "accountRUC":"RUC_ZIPPYTTECH",
+       "guestName":null,
+       "dateCreated":"2017-01-31T21:11:23Z",
+       "sponsorContract":"ZIPPY100000",
+       "guestPhone":null,
+       "useTimeN":46,
+       "id":29,
+       "usernameUpdater":"ZIPPYTTECH/sysadmin",
+       "productTypePrice":2.0,
+       "receivedDate":"2017-01-31T21:11:23Z",
+       "guestId":null,
+       "useTimeS":"",
+       "sponsorUsername":"pescadorj",
+       "guestImage":null,
+       "productId":7,
+       "usernameCreator":"ZIPPYTTECH/sysadmin",
+       "stateId":null,
+       "guestUsername":null,
+       "qrId":162,
+       "received":true,
+       "dateUpdated":"2017-01-31T21:11:24Z",
+       "accountId":1,
+       "productCode":"consumo1",
+       "accountEmail":"apps@zippyttech.com",
+       "qrTimeLimit":"2017-02-01T20:10:43Z",
+       "sponsorImage":null,
+       "detail":null,
+       "byClient":false,
+       "qrPriceLimit":0.0
+       },
+*/
