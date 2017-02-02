@@ -37,6 +37,7 @@ export class TablesComponent implements OnInit {
     constructor(public db:DependenciesBase) {
         this._currentPage = -1;
         this.getInstance = new EventEmitter();
+        //Array.observe(this.model.dataList, ()=>{});
     }
 
     ngOnInit() {
