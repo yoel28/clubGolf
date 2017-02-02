@@ -30,12 +30,10 @@
             </div>
             <div class="box-body">
                 <div class="reader-detail" *ngIf="model.qr.dataList && model.qr.dataList.id">
-                    <div *ngFor="let key of getKeys(model.qr.rules)">
+                    <div *ngFor="let key of getObjectKeys(model.qr.rules)">
                         <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
-                            {{model.qr.rules[key].title}}:
-                            <span *ngIf="model.qr.rules[key].type =='date'"> {{formatDate(model.qr.dataList[key],model.qr.rules[key].format?model.qr.rules[key].format.formatView:'DD/MM/YYYY',false,model.qr.dataList.id)}} </span>
-                            <span *ngIf="model.qr.rules[key].type =='number'"> {{model.qr.dataList[key]}} </span>
-                            <span *ngIf="model.qr.rules[key].object"> {{(model.qr.dataList[model.qr.rules[key].keyDisplay])?model.qr.dataList[model.qr.rules[key].keyDisplay]:"N/A"}} </span>
+                            {{model.qr.rules[key].title+": "}}
+                            <rule-view [key]="key" [data]="model.qr.dataList" [model]="model.qr" [disabled]="true"></rule-view>
                         </div>
                     </div>
                 </div>
