@@ -1,8 +1,8 @@
-<div class="table-responsive" *ngIf="model.dataList && model.dataList.list" >
-    <table class="table table-striped table-hover">
+<div class="table-responsive" *ngIf="model.dataList && model.dataList.list && !model.rest.findData && !refreshData" >
+    <table id="footable" class="table table-striped table-hover"><!--x-footable -->
         <thead>
-        <tr>
-            <th data-type = "html" *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
+        <tr><!--[attr.data-breakpoints]="((i<2)?'':(i<=4)?'xs sm': (i<=7)?'xs sm md':'xs sm md lg')"-->
+            <th data-type = "html" *ngFor="let key of keyVisible(); let i=index" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
                 <i *ngIf="model.rest.sort==key && model.rest.order == 'asc' && !model.rest.findData" class="fa fa-caret-up text-blue"></i>
                 <i *ngIf="model.rest.sort==key && model.rest.order == 'desc' && !model.rest.findData" class="fa fa-caret-down text-blue"></i>
                 <i *ngIf="model.rest.sort==key && model.rest.findData" class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
@@ -76,7 +76,6 @@
                         </a>
                     </div>
                 </div>
-
             </td>
         </tr>
         </tbody>
@@ -84,10 +83,7 @@
         <tr>
             <td [attr.colspan]="keyVisible().length + 1">
                 <div class="btn-group pull-right">
-                    <button (click)="model.loadData(val)" [class.btn-green]="val==((model.rest.offset/model.rest.max)+1)"
-                            *ngFor="let val of model.dataList.page" type="button" class="btn btn-default">
-
-
+                    <button *ngFor="let val of model.dataList.page" type="button" class="btn btn-default" (click)="currentPage=val" [class.btn-green]="val == currentPage">
                         <span *ngIf="val==((model.rest.offset/model.rest.max)+1)">
                             <span *ngIf="model.rest.findData">
                                 <i class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
@@ -99,7 +95,6 @@
                         <span *ngIf="val!=((model.rest.offset/model.rest.max)+1)">
                             {{val}}
                         </span>
-
                     </button>
                     <tooltip-view [code]="model.prefix+'_9'"></tooltip-view>
                 </div>
@@ -108,6 +103,9 @@
         </tfoot>
     </table>
 </div>
+
+
+<!--########################################MODALS########################################-->
 
 <div *ngIf="model.permissions.delete && params && params.actions && params.actions.delete">
     <div class="modal fade" [attr.id]="params.actions.delete.idModal" tabindex="-1" role="dialog"
@@ -203,3 +201,5 @@
         </div>
     </div>
 </div>
+
+<!--######################################################################################-->
