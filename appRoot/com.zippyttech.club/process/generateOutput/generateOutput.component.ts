@@ -209,8 +209,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             body.qrCode =  this.dataClient.id;
 
             Object.keys(this.listProduct).forEach(key=>{
-                if(that.listProduct[key].id)
-                    body.list.push(that.listProduct[key].id)
+                if(that.listProduct[key].id){
+                    for(let i=0; i<that.listProduct[key]['count']; i++)
+                        body.list.push(that.listProduct[key].id);
+                }
             });
 
             this.trade.onSave(body,(response)=>{
