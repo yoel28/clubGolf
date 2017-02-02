@@ -190,11 +190,12 @@ export class RecordModel extends ModelBase{
             'required': true,
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Entrando', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Saliendo', 'class': 'btn btn-sm btn-red'},
+                {'value':'true','text': 'Entrando', 'class': 'btn btn-sm btn-green'},
+                {'value':'false','text': 'Saliendo', 'class': 'btn btn-sm btn-red'},
             ],
             "key": "entering",
             "title": "Dirección",
+            'placeholder':'¿Entrando?'
         };
 
 
