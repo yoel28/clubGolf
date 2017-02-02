@@ -28,6 +28,7 @@ export class ProductTypeModel extends ModelBase{
 
         this.rules['icon']= {
             'type': 'image',
+            'exclude':true,
             'required':false,
             'update':this.permissions.update,
             'search':this.permissions.filter,
