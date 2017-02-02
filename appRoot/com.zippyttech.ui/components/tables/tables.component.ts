@@ -1,11 +1,11 @@
-import {Component, EventEmitter, OnInit, AfterContentChecked, NgModule} from "@angular/core";
+import {Component, EventEmitter, OnInit, NgModule} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
 import {IRuleView} from "../ruleView/ruleView.component";
+import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
+
 
 declare var SystemJS:any;
 declare var moment:any;
-
 @NgModule({
     imports:[XFootable]
 })
@@ -63,11 +63,10 @@ export class TablesComponent implements OnInit {
         this.model.loadData(value);
     }
 
-
     setInstanceSearch(type,instance){
         this.paramsData.searchInstances[type] =  instance;
     }
-    
+
     private keyVisible() {
         let data=[];
         let that=this;
