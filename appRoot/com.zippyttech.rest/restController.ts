@@ -107,7 +107,10 @@ export class RestController {
         this.rest.findData = false;
         if (that.db.toastyService) {
             try {
-                if (err.json()) {
+                if(err.status==0){
+                    that.addToast('error', 'Por favor verifique su conexion a Internet', 'error');
+                }
+                else if (err.json()) {
                     if (err.json().message && err.json().message.error)
                         that.addToast('error', err.json().message.error, 'error');
                     else if (err.json()._embedded && err.json()._embedded.errors) {
@@ -323,7 +326,7 @@ export class RestController {
         return (this.httputils.onUpdate("/lock" + this.endpoint + data.id, body, data, this.error));
     }
 
-    onPatchValueProfile(field, data, value=null,event?) {
+    onPatchProfile(field, data, value=null,event?) {
         if(event)
             event.preventDefault();
 
@@ -342,6 +345,7 @@ export class RestController {
         let body = JSON.stringify(json);
 
         let successCallback = response => {
+            Object.assign(data,response.json());
             that.addToast('Notificacion','Guardado con éxito');
         };
         return (this.httputils.doPut(endpoint+data.id,body,successCallback,this.error));

@@ -23,13 +23,6 @@ export class RecordComponent extends BaseViewInstance{
         this.model.rules['tags'].search=false;
         this.model.rules['tags'].multiple=true;
         this.model.rules['tags'].permissions={};
-
-        this.model.rules['userContractCode']={
-            'type': 'text',
-            'visible':true,
-            'key': 'userContractCode',
-            'title': 'Contrato',
-        };
     }
 
     initViewOptions() {

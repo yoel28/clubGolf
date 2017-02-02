@@ -61,13 +61,13 @@ export class ListActionComponent extends ControllerBase
 
     constructor(public db:DependenciesBase) {
         super(db);
-        this.setEndpoint(this.model.endpoint);
-        this.prefix = this.model.prefix;
     }
 
     ngOnInit()
     {
         super.ngOnInit();
+
+        this.model = this.data.model;
         let that = this;
         if(this.data.observable && this.data.observable.watch){
             this.data.observable.watch.valueChanges.subscribe(

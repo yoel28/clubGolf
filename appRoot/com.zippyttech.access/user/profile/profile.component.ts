@@ -13,12 +13,10 @@ declare var SystemJS:any;
     styleUrls: [ SystemJS.map.app+'/com.zippyttech.access/user/profile/style.css'],
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
-export class ProfileComponent extends ControllerBase implements OnInit,AfterViewInit {
-
+export class ProfileComponent extends ControllerBase implements OnInit{
     public restVeh:IRest;
-
     constructor(public db:DependenciesBase) {
-        super(db,'USER','/users/');
+        super(db);
     }
     ngOnInit():any
     {
@@ -43,14 +41,11 @@ export class ProfileComponent extends ControllerBase implements OnInit,AfterView
                 })
             }
         };
-        this.httputils.doGet('/current/qr',successCallback,this.error);
-
-    }
-    ngAfterViewInit():any{
+        this.model.httputils.doGet('/current/qr',successCallback,this.model.error);
     }
 
     saveImage(data){
-        this.onPatchValue('image',this.db.myglobal.user,data);
+        this.model.onPatchProfile('image',this.db.myglobal.user,data);
     }
 
 }

@@ -31,7 +31,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public chvwProducts:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
-        super(db,'DASH','/dashboard/');
+        super(db);
     }
 
     ngOnInit():void {
@@ -48,7 +48,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         if(jQuery('#reader').hasClass('reader-hide'))
             this.qrHidden = true;
 
-        if(!(this.model.qr && this.model.qr.dataList && this.model.qr.dataList.id)) {
+        if(!(this.model['qr'] && this.model['qr'].dataList && this.model['qr'].dataList.id)) {
             jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
             jQuery('#reader').find('.box').addClass('collapsed-box');
         }
@@ -66,8 +66,8 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         let that = this;
         this.tradeData = {
             routerLink:"/club/process/getback",
-            model: that.model.trade,
-            visibleKeys:["sponsor","product","dateCreated","guest"],
+            model: that.model['trade'],
+            visibleKeys:["sponsor","product","dateCreated"],
             actions:{
                     "put":{
                         model: modelAction,
@@ -91,15 +91,15 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
 
         this.recordData = {
             routerLink:"/club/catalog/record",
-            model: that.model.record,
+            model: that.model['record'],
             actions:undefined,
             globalParams:undefined
         }
 
         this.guestData = {
-            visibleKeys:["sponsorName","sponsor","guest","timeLimit"],
+            visibleKeys:["sponsor","guest","timeLimit"],
             routerLink:"/club/catalog/qr",
-            model: that.model.guest,
+            model: that.model['guest'],
             actions:undefined,
             globalParams:undefined,
             observable:{
@@ -200,24 +200,24 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
                 where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
             else
                 where=[{join:"sponsor", where:[{'op':'isNull','field':'contractCode'}]}];
-            this.model.qr.loadDataWhere(data.id,where);
+            this.model['qr'].loadDataWhere(data.id,where);
 
         }catch (e){
-            this.addToast('Error','QR invalido','error');
+            this.model['qr'].addToast('Error','QR invalido','error');
         }
     }
 
     public loadAttendings(event){
         let that = this;
         let callback = (response)=>{
-            that.guestRemove.setValue(this.model.qr.dataList.id);
+            that.guestRemove.setValue(this.model['qr'].dataList.id);
         };
 
         if(event)
             event.preventDefault();
 
-        this.httputils.doPost('/attendings/',this.qrString,callback,this.error);
-        this.model.qr.dataList = {};
+        this.model.httputils.doPost('/attendings/',this.qrString,callback,this.model.error);
+        this.model['qr'].dataList = {};
     }
 
     private observableAction(context:ListActionComponent){

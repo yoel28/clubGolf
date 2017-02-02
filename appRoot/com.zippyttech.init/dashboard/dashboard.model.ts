@@ -27,6 +27,7 @@ export class DashboardModel extends ModelRoot{
         this.guest.ruleObject.title = "Invitados";
         this.guest.setEndpoint("/guests/");
 
+
         this.guest.rest.max = 10;
         this.record.rest.max = 10;
         this.trade.rest.max = 10;
@@ -66,14 +67,7 @@ export class DashboardModel extends ModelRoot{
                 that.qr.rules[key].visible = false;
             }
         });
-        this.guest.rules['sponsor'].title = 'Email del patrocinador';
-        this.guest.rules['sponsorName'] = {
-            'object':true,
-            'visible':true,
-            'key': 'sponsorName',
-            'keyDisplay':'sponsorName',
-            'title': 'Patrocinador',
-        };
+        this.guest.rules['sponsor'].title = 'Patrocinador';
 
     }
 

@@ -3,7 +3,6 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {QrcodeModel} from "../qrcode/qrcode.model";
 import {StateModel} from "../state/state.model";
 import {ProductModel} from "../product/product.model";
-import {ProductTypeModel} from "../productType/productType.model";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
@@ -12,9 +11,7 @@ export class TradeModel extends ModelBase{
     private qr:any;
     private state:any;
     private product:any;
-    private productType:any;
     private sponsor:any;
-    private guest:any;
 
     constructor(public db:DependenciesBase){
         super(db,'TRADE','/trades/');
@@ -25,10 +22,8 @@ export class TradeModel extends ModelBase{
         this.qr = new QrcodeModel(this.db);
         this.state = new StateModel(this.db);
         this.product = new ProductModel(this.db);
-        this.productType = new ProductTypeModel(this.db);
 
         this.sponsor = new UserModel(this.db);
-        this.guest = new UserModel(this.db);
     }
 
     initRules(){
@@ -47,14 +42,12 @@ export class TradeModel extends ModelBase{
             'placeholder':'¿Productos entregados?'
         };
 
-        this.rules['guest'] = Object.assign({},this.guest.ruleObject);
-        this.rules['guest'].key='guest';
-        this.rules['guest'].title='Invitado';
-        this.rules['guest'].keyDisplay='guestName';
-        this.rules['guest'].placeholder='Invitado';
-        this.rules['guest'].paramsSearch.field='guest.id';
 
         this.rules['product']=this.product.ruleObject;
+        this.rules['product'].update= this.permissions.update;
+
+        this.rules['qr']=this.qr.ruleObject;
+        this.rules['qr'].update= this.permissions.update;
 
         this.rules['dateCreated']={
             'type': 'date',
@@ -91,25 +84,18 @@ export class TradeModel extends ModelBase{
 
         this.rules['sponsor'] = Object.assign({},this.sponsor.ruleObject);
         this.rules['sponsor'].key='sponsor';
-        this.rules['sponsor'].title='Patrocinador';
-        this.rules['sponsor'].keyDisplay='sponsorName';
-        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].title='Usuario';
+        this.rules['sponsor'].keyDisplay='qr';
+        this.rules['sponsor'].eval=this.db.myglobal.getRule('TRADE_USER_WEB');
+        this.rules['sponsor'].placeholder='Usuario';
         this.rules['sponsor'].paramsSearch.field='sponsor.id';
+        this.rules['sponsor'].update= this.permissions.update;
 
-
-        this.rules['title']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'visible':this.permissions.visible,
-            'key': 'title',
-            'title': 'Producto',
-            'placeholder': 'Producto',
-        };
 
 
         this.rules['useTimeN']={
             'type': 'time',
-            'search':this.permissions.filter,
+            'search':false,
             'visible':this.permissions.visible,
             'key':'useTimeN',
             'keyDisplay':'useTimeS',
@@ -133,12 +119,13 @@ export class TradeModel extends ModelBase{
         };
 
         this.rules['state']=Object.assign({},this.state.ruleObject);
+        this.rules['state'].update= this.permissions.update;
 
         this.rules['usernameCreator']={
             'type': 'eval',
             'visible':this.permissions.visible,
             'eval':this.db.myglobal.getRule('TRADE_USERNAMECREATOR_WEB'),
-            'key':'RULE:TRADE_USERNAMECREATOR_:Operador entrega',
+            'key':'usernameCreator',
             'title': 'Operador entrega',
             'placeholder': 'Operador entrega',
         };
@@ -146,7 +133,7 @@ export class TradeModel extends ModelBase{
         this.rules['usernameUpdater']={
             'type': 'eval',
             'visible':this.permissions.visible,
-            'key':'RULE:TRADE_USERNAMEUPDATER_:Operador recepción',
+            'key':'usernameUpdater',
             'eval':this.db.myglobal.getRule('TRADE_USERNAMEUPDATER_WEB'),
             'title': 'Operador recepción',
             'placeholder': 'Operador recepción',
@@ -173,6 +160,7 @@ export class TradeModel extends ModelBase{
             'title': 'Costo total',
             'placeholder': 'Costo total',
         };
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['detail'].title="Comentario";
         this.rules['detail'].placeholder="Ingrese un comentario";
@@ -202,8 +190,7 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.title;
         delete this.rulesSave.id;
         delete this.rulesSave.sponsor;
-        delete this.rulesSave.guest;
-        delete this.rulesSave.timeUse;
+        delete this.rulesSave.useTimeN;
         delete this.rulesSave.usernameCreator;
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;

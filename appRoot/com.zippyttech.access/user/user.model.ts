@@ -25,7 +25,6 @@ export class UserModel extends ModelBase{
         this.contract = new ContractModel(this.db);
         this.group = new UserGroupModel(this.db);
     }
-
     initRules(){
         this.rules['email']={
             'type': 'text',
@@ -58,6 +57,15 @@ export class UserModel extends ModelBase{
             'title': 'Cédula',
             'placeholder': 'Cédula',
         };
+        this.rules['username']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'username',
+            'title': 'Usuario',
+            'placeholder': 'Usuario',
+        };
         this.rules['name']={
             'type': 'text',
             'required':true,
@@ -83,6 +91,7 @@ export class UserModel extends ModelBase{
         this.rules['password']={
             'type': 'password',
             'required':true,
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'password',
@@ -93,6 +102,7 @@ export class UserModel extends ModelBase{
 
         this.rules['image']={
             'type': 'image',
+            'exclude':true,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'image',
@@ -117,24 +127,28 @@ export class UserModel extends ModelBase{
 
         this.rules['userType']=this.type.ruleObject;
         this.rules['userType'].required=false;
+        this.rules['userType'].update= this.permissions.update;
 
         this.rules['userGroup']=this.group.ruleObject;
         this.rules['userGroup'].required=false;
+        this.rules['userGroup'].update= this.permissions.update;
 
         this.rules['contract']=this.contract.ruleObject;
         this.rules['contract'].required=false;
+        this.rules['contract'].update= this.permissions.update;
 
         this.rules['userStatus']=this.status.ruleObject;
         this.rules['userStatus'].required=false;
+        this.rules['userStatus'].update= this.permissions.update;
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
+        this.rules['roles'].update= this.permissions.update;
         this.rules['roles'].mode= 'popup';
         this.rules['roles'].showbuttons=true;
         this.rules['roles'].source=[];
         this.rules['roles'].search=false;
-
-
+        this.rules['roles'].exclude=false;
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());

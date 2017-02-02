@@ -41,14 +41,18 @@ export class RegisterFullComponent extends RestController implements OnInit{
             max:0
         };
 
+        if(this.tempIdUser === undefined){
+            this.tempIdUser =  data.id;
+        }
+
         if(this.tempIdUser && this.tempIdUser != data.id)
         {
             if(this.instanceUser && this.instanceUser.instanceBase){
-                this.instanceUser.instanceBase.loadDataWhere('',rest.where);
+                this.tempIdUser =  data.id;
+                this.instanceUser.instanceBase.model.loadDataWhere('',rest.where);
             }
         }
 
-        this.tempIdUser =  data.id;
         return rest;
     }
 
