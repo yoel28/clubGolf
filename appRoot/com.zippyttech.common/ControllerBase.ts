@@ -2,6 +2,7 @@ import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {OnInit} from "@angular/core";
 import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
 import {DependenciesBase} from "./DependenciesBase";
+import {ModelRoot} from "./modelRoot";
 
 declare var humanizeDuration:any;
 declare var moment:any;
@@ -14,8 +15,7 @@ export abstract class ControllerBase implements OnInit {
     public configId = moment().valueOf();
     public viewOptions:any = {};
     public dateHmanizer = StaticValues.dateHmanizer;
-    public model:any={};
-    public dataSelect:any = {};
+    public model:ModelRoot;
 
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
@@ -100,26 +100,6 @@ export abstract class ControllerBase implements OnInit {
         }
     }
 
-    public setDataFieldReference(model,data,setNull=false,callback)
-    {
-        let value=null;
-        let that = this;
-
-        if(!setNull)//no colocar valor nulo
-        {
-            value=this.dataSelect.id;
-            if(that.dataSelect[model.ruleObject.code]!=null && model.rules[this.model.ruleObject.key].unique)
-                model.setDataField(that.dataSelect[model.ruleObject.code],this.model.ruleObject.key,null,callback,that.dataSelect).then(
-                    response=>{
-                        model.setDataField(data.id,that.model.ruleObject.key,value,callback,that.dataSelect);
-                });
-            else
-                model.setDataField(data.id,that.model.ruleObject.key,value,callback,that.dataSelect);
-        }
-        else
-            model.setDataField(data[model.ruleObject.code],that.model.ruleObject.key,null,callback,data);
-
-    }
 
     public onDashboard(event){
         if(event)

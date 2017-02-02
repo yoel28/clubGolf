@@ -41,7 +41,7 @@ export class ProfileComponent extends ControllerBase implements OnInit{
                 })
             }
         };
-        this.model.doGet('/current/qr',successCallback,this.model.error);
+        this.model.httputils.doGet('/current/qr',successCallback,this.model.error);
     }
 
     saveImage(data){

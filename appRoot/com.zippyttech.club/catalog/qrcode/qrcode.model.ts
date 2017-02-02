@@ -51,6 +51,7 @@ export class QrcodeModel extends ModelBase{
         this.rules['sponsor'].title='Patrocinador';
         this.rules['sponsor'].keyDisplay='sponsor';
         this.rules['sponsor'].key='sponsor';
+        this.rules['sponsor'].update= this.permissions.update;
         this.rules['sponsor'].required=false;
         this.rules['sponsor'].eval=this.db.myglobal.getRule('QR_SPONSOR_WEB');
         this.rules['sponsor'].placeholder='Patrocinador';
@@ -60,6 +61,7 @@ export class QrcodeModel extends ModelBase{
         this.rules['guest'].title='Invitado';
         this.rules['guest'].keyDisplay='guest';
         this.rules['guest'].key='guest';
+        this.rules['guest'].update= this.permissions.update;
         this.rules['guest'].required=false;
         this.rules['guest'].eval=this.db.myglobal.getRule('QR_GUEST_WEB');
         this.rules['guest'].placeholder='Invitado';

@@ -127,18 +127,23 @@ export class UserModel extends ModelBase{
 
         this.rules['userType']=this.type.ruleObject;
         this.rules['userType'].required=false;
+        this.rules['userType'].update= this.permissions.update;
 
         this.rules['userGroup']=this.group.ruleObject;
         this.rules['userGroup'].required=false;
+        this.rules['userGroup'].update= this.permissions.update;
 
         this.rules['contract']=this.contract.ruleObject;
         this.rules['contract'].required=false;
+        this.rules['contract'].update= this.permissions.update;
 
         this.rules['userStatus']=this.status.ruleObject;
         this.rules['userStatus'].required=false;
+        this.rules['userStatus'].update= this.permissions.update;
 
         this.rules['roles']=this.role.ruleObject;
         this.rules['roles'].type= 'checklist';
+        this.rules['roles'].update= this.permissions.update;
         this.rules['roles'].mode= 'popup';
         this.rules['roles'].showbuttons=true;
         this.rules['roles'].source=[];

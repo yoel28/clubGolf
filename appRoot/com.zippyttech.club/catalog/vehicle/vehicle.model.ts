@@ -1,17 +1,14 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {ModelModel} from "../model/model.model";
-import {BrandModel} from "../brand/brand.model";
 import {VehicleTypeModel} from "../vehicleType/vehicleType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 export class VehicleModel extends ModelBase{
 
     public vehicleType:any;
-    public brand:any;
     public model:any;
     public user:any;
-    public tag:any;
 
 
     constructor(public db:DependenciesBase,useGlobal=true){
@@ -21,7 +18,6 @@ export class VehicleModel extends ModelBase{
     modelExternal() {
         this.user = new UserModel(this.db);
         this.model = new ModelModel(this.db);
-        this.brand = new BrandModel(this.db);
         this.vehicleType = new VehicleTypeModel(this.db);
 
     }
@@ -73,6 +69,7 @@ export class VehicleModel extends ModelBase{
         //RULE:PREFIX:TITLE
         this.rules['user'] = this.user.ruleObject;
         this.rules['user'].required=true;
+        this.rules['user'].update= this.permissions.update;
 
         this.rules['year'] = {
             'type': 'number',
@@ -98,9 +95,11 @@ export class VehicleModel extends ModelBase{
 
         this.rules['model'] = this.model.ruleObject;
         this.rules['model'].required=false;
+        this.rules['model'].update= this.permissions.update;
 
         this.rules['vehicleType'] = this.vehicleType.ruleObject;
         this.rules['vehicleType'].required=false;
+        this.rules['vehicleType'].update= this.permissions.update;
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }

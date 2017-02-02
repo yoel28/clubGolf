@@ -22,8 +22,13 @@ export class RegisterFullModel extends ModelBase{
         this.tags = new TagModel(this.db);
     }
     initRules() {
+
         this.rules['user'] =  this.user.ruleObject;
+        this.rules['user'].update= this.permissions.update;
+
         this.rules['vehicle'] =  this.vehicle.ruleObject;
+        this.rules['vehicle'].update= this.permissions.update;
+
         delete this.rules['vehicle'].rulesSave['user'];
         delete this.rules['vehicle'].rulesSave['year'];
         delete this.rules['vehicle'].rulesSave['color'];
@@ -33,6 +38,7 @@ export class RegisterFullModel extends ModelBase{
 
 
         this.rules['tags'] =  this.tags.ruleObject;
+        this.rules['tags'].update= this.permissions.update;
     }
     initPermissions() {}
     initParamsSearch() {}

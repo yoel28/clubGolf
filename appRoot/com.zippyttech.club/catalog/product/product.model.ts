@@ -41,6 +41,8 @@ export class ProductModel extends ModelBase{
 
         this.rules['productType']=this.productType.ruleObject;
         this.rules['productType'].required = true;
+        this.rules['productType'].update= this.permissions.update;
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
     initPermissions() {}

@@ -40,6 +40,7 @@ export class TagModel extends ModelBase{
         };
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
+        this.rules['vehicle'].update= this.permissions.update;
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
