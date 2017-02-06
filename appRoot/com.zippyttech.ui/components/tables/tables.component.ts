@@ -1,10 +1,12 @@
-import {Component, EventEmitter, OnInit, AfterContentChecked, NgModule} from "@angular/core";
+import {Component, EventEmitter, OnInit, AfterContentChecked, NgModule, OnChanges} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
 import {IRuleView} from "../ruleView/ruleView.component";
+import {isUndefined} from "util";
 
 declare var SystemJS:any;
 declare var moment:any;
+
 
 @NgModule({
     imports:[XFootable]
@@ -17,7 +19,7 @@ declare var moment:any;
     outputs:['getInstance'],
 })
 
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit,OnChanges {
 
     public params:any={};
     public model:any={};
@@ -34,11 +36,22 @@ export class TablesComponent implements OnInit {
     public configId=moment().valueOf();
     public getInstance:any;
     private _currentPage: number;
+    private updating:boolean = false;
 
     constructor(public db:DependenciesBase) {
         this._currentPage = -1;
         this.getInstance = new EventEmitter();
-        //Array.observe(this.model.dataList, ()=>{});
+    }
+
+    ngOnChanges(changes){
+        if(changes.model) {
+            let previousData = (changes.model.previousValue.dataList)?changes.model.previousValue.dataList:{};
+            let currentData = (changes.model.currentValue.dataList)?changes.model.currentValue.dataList:{};
+            if(JSON.stringify(previousData) !== JSON.stringify(currentData))
+                this.updating = true;
+            console.log(JSON.stringify(previousData) !== JSON.stringify(currentData));
+        }
+        console.log(changes);
     }
 
     ngOnInit() {
@@ -50,6 +63,8 @@ export class TablesComponent implements OnInit {
 
     ngAfterViewInit() {
         this.getInstance.emit(this);
+        if(this.updating)
+            this.updating = false;
     }
 
     public get currentPage(){
