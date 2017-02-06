@@ -16,11 +16,11 @@
                     <input type="range" class="cropit-image-zoom-input"  [disabled]="!image && !edit"/>
                 </div>
                 <div class="col-lg-7 group-btn">
-                    <button class="input-file"><input x-file type="file" class="cropit-image-input" [disabled]="!edit"/></button>
-                    <button class="redondo btn btn-green-club" title="Guardar" type="button" (click)="saveImage($event)" [disabled]="!edit">
+                    <input x-file type="file" [disabled]="!edit"/>
+                    <button class="btn-i redondo btn btn-green-club" title="Guardar" type="button" (click)="saveImage($event)" [disabled]="!edit">
                         <i class="fa fa-save fa-lg"></i>
                     </button>&nbsp;
-                    <button  class="redondo btn btn-green-club" title="Eliminar" type="button" (click)="changeImage()" [disabled]="!image && !edit">
+                    <button  class="btn-i redondo btn btn-green-club" title="Eliminar" type="button" (click)="changeImage()" [disabled]="!image && !edit">
                         <i class="fa fa-trash fa-lg"></i>
                     </button>
                 </div>

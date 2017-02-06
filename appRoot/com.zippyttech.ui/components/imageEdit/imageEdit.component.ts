@@ -1,10 +1,11 @@
-import {Component, EventEmitter, NgModule} from '@angular/core';
+import {Component, EventEmitter, NgModule, DoCheck, AfterContentInit} from '@angular/core';
 import {XCropit} from "../../../com.zippyttech.utils/directive/xCropit";
 import {XFile} from "../../../com.zippyttech.utils/directive/xFile";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
 declare var SystemJS:any;
 declare var moment:any;
+declare var jQuery:any;
 @NgModule({
     imports:[XCropit,XFile],
 })
@@ -15,7 +16,7 @@ declare var moment:any;
     inputs:['params','image','default','edit'],
     outputs:['out'],
 })
-export class ImageEditComponent {
+export class ImageEditComponent implements AfterContentInit{
 
     public configId=moment().valueOf();
     public out:any;
@@ -30,8 +31,10 @@ export class ImageEditComponent {
     constructor() {
         this.out = new EventEmitter();
     }
-    ngOnInit(){
 
+    ngAfterContentInit(){
+        jQuery(".file-input").addClass("btn-i");
+        console.log(jQuery(".file-input"));
     }
     saveImage(data){
         this.out.emit(this.image);
