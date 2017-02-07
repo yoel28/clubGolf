@@ -200,7 +200,8 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center border-right">CODIGO DE BARRAS</th>
-                                        <th class="text-center">PRODUCTO</th>
+                                        <th class="text-center border-right">PRODUCTO</th>
+                                        <th class="text-center">CANTIDAD</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -208,31 +209,53 @@
                                             <td class="border-right text-right">
                                                 {{code}}
                                             </td>
-                                            <td *ngIf="listProduct[code].id" class="text-right">{{listProduct[code].productTypeTitle}}</td>
-                                            <td *ngIf="listProduct[code].wait" class="text-right"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando
-                                                respuesta
+
+                                            <td *ngIf="!listProduct[code].wait && listProduct[code].id" class="border-right text-right">{{listProduct[code].productTypeTitle}}</td>
+                                            <td *ngIf="listProduct[code].wait" class="border-right text-right"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando respuesta</td>
+                                            <td *ngIf="listProduct[code].error" class="border-right text-right"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}</td>
+
+                                            <td class="text-right">
+                                                {{listProduct[code]['count']}}
                                             </td>
-                                            <td *ngIf="listProduct[code].error" class="text-right"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}</td>
                                         </tr>
                                         <tr>
                                             <td class="text-right border-right">Total de Items</td>
-                                            <td class="text-right">{{getObjectKeys(listProduct).length}}</td>
+                                            <td class="text-right border-right">{{getObjectKeys(listProduct).length}}</td>
+                                            <td class="text-right">{{totalProduct}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="tab-pane" [class.active]="step==3" role="tabpanel" id="step3">
-                            <h1>Operacion guardada.</h1>
-
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button (click)="step=1" type="button"
-                                            class="btn btn-primary next-step">Iniciar
-                                    </button>
-                                </li>
-                            </ul>
-
+                            <h1 class="text-center">Detalles de Operacion</h1>
+                            <div *ngIf="invoice">
+                                <ul class="list-product" *ngFor="let invoiceKey of getObjectKeys(invoice)">
+                                    <template [ngIf]="invoice[invoiceKey].length > 0">
+                                    <li class="list-product-title">
+                                        <span class="{{db.classCol()}}">{{"Productos "+invoiceKey}}</span>
+                                    </li>
+                                    <li class="items-titles">
+                                        <span *ngFor="let info of ['Cantidad','Codigo', 'Nombre de Producto', 'Precio Unid.']" class="{{((info=='Nombre de Producto')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{info}} </span>
+                                    </li>
+                                    <li  class="product-item" *ngFor="let iproduct of invoice[invoiceKey]; let i=index">
+                                        <div class="product-item-header">
+                                            <span *ngFor="let infoKey of ['count','code', 'productTypeTitle', 'productTypePrice']" class="{{((infoKey=='productTypeTitle')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{iproduct[infoKey]}} </span>
+                                            <div class="warning-btn pull-right" *ngIf="iproduct.errors" (click)="togleElement('#product-item-body-'+i)"><i class="fa fa-warning"></i></div>
+                                        </div>
+                                        <div id="product-item-body-{{i}}" class="product-item-body">
+                                            <div class="error-list" *ngIf="iproduct.errors">
+                                                <div class="error-item" *ngFor="let error of iproduct.errors">
+                                                    <span class="error-field"> {{error.field+': '}} </span>
+                                                    <span class="error-content"> {{error.message}} </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </template>
+                                </ul>
+                            </div>
+                            <button (click)="step=1; listProduct={}; endDetail={}; totalProduct=0" type="button" class="btn btn-primary next-step pull-right">Iniciar</button>
                         </div>
                         <div class="tab-pane" [class.active]="step==4" role="tabpanel" id="complete">
                             <h3>Complete</h3>

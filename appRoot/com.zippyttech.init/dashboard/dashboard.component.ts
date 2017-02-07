@@ -29,6 +29,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public qrHidden: boolean;
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
+    public chvwVehicles:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db);
@@ -163,6 +164,27 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             options:{
                 chart: {
                     type: 'column'
+                },
+                xAxis: {
+                    tickmarkPlacement: 'on'
+                },
+                yAxis: {
+                    title: { text: 'N° de entradas' },
+                },
+                tooltip: {
+                    valueSuffix: ' entradas',
+                    split:true,
+                    crosshairs: true
+                }
+            }
+        }
+
+        this.chvwVehicles ={
+            title: "Vehiculos",
+            endpoint: "/reports/vehicles/",
+            options:{
+                chart: {
+                    type: 'line'
                 },
                 xAxis: {
                     tickmarkPlacement: 'on'
