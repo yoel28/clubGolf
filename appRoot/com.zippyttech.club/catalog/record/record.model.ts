@@ -115,14 +115,14 @@ export class RecordModel extends ModelBase{
         this.rules['antennaIn'] = this.antennaIn.ruleObject;
         this.rules['antennaIn'].placeholder="Antena de entrada";
         this.rules['antennaIn'].title="Ant. Entrada";
-        this.rules['antennaIn'].key="antennaInId";
+        this.rules['antennaIn'].key="antennaIn";
         this.rules['antennaIn'].keyDisplay="antennaInTitle";
         this.rules['antennaIn'].update= this.permissions.update;
 
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
         this.rules['antennaOut'].title="Ant. Salida";
-        this.rules['antennaOut'].key="antennaOutId";
+        this.rules['antennaOut'].key="antennaOut";
         this.rules['antennaOut'].keyDisplay="antennaOutTitle";
         this.rules['antennaOut'].update= this.permissions.update;
 
