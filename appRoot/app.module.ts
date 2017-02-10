@@ -17,6 +17,7 @@ import {DependenciesBase} from "./com.zippyttech.common/DependenciesBase";
 import {TruncateModule} from "ng2-truncate";
 import {ChartModule} from "angular2-highcharts";
 
+
 const myFirebaseConfig = {
     apiKey: "AIzaSyD7yBfAAGV9pSCHqkqJXGW2g6R70209Kl4",
     authDomain: "club-de-golf-80558.firebaseapp.com",
@@ -32,8 +33,8 @@ const myFirebaseConfig = {
         ReactiveFormsModule,
         AppRoutingModule,
         HttpModule,
-        QRCodeModule,
         ChartModule,
+        QRCodeModule,
         AngularFireModule.initializeApp(myFirebaseConfig),
         TranslateModule.forRoot({
             provide: TranslateLoader,

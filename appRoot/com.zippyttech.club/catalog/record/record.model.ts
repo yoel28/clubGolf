@@ -115,16 +115,21 @@ export class RecordModel extends ModelBase{
         this.rules['antennaIn'] = this.antennaIn.ruleObject;
         this.rules['antennaIn'].placeholder="Antena de entrada";
         this.rules['antennaIn'].title="Ant. Entrada";
-        this.rules['antennaIn'].key="antennaInId";
+        this.rules['antennaIn'].key="antennaIn";
         this.rules['antennaIn'].keyDisplay="antennaInTitle";
         this.rules['antennaIn'].update= this.permissions.update;
+        this.rules['antennaIn'].paramsSearch.field = 'antennaIn.id';
 
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
         this.rules['antennaOut'].title="Ant. Salida";
-        this.rules['antennaOut'].key="antennaOutId";
+        this.rules['antennaOut'].key="antennaOut";
         this.rules['antennaOut'].keyDisplay="antennaOutTitle";
         this.rules['antennaOut'].update= this.permissions.update;
+        this.rules['antennaOut'].paramsSearch.field = 'antennaOut.id';
+
+
+
 
         this.rules['user'].objectOrSave={};
         this.rules['vehicle'].objectOrSave={};
@@ -190,11 +195,12 @@ export class RecordModel extends ModelBase{
             'required': true,
             "type": "boolean",
             'source': [
-                {'value':true,'text': 'Entrando', 'class': 'btn btn-sm btn-green'},
-                {'value':false,'text': 'Saliendo', 'class': 'btn btn-sm btn-red'},
+                {'value':'true','text': 'Entrando', 'class': 'btn btn-sm btn-green'},
+                {'value':'false','text': 'Saliendo', 'class': 'btn btn-sm btn-red'},
             ],
             "key": "entering",
             "title": "Dirección",
+            'placeholder':'¿Entrando?'
         };
 
 

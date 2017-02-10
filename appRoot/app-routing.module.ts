@@ -49,7 +49,6 @@ import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.compo
 import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
 import {NotificationComponent} from "./com.zippyttech.business/notification/notification.component";
 import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
-import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 import {RuleViewComponent} from "./com.zippyttech.ui/components/ruleView/ruleView.component";
 import {ChannelComponent} from "./com.zippyttech.business/channel/channel.component";
@@ -64,8 +63,9 @@ import {NotificationModel} from "./com.zippyttech.business/notification/notifica
 import {ParamModel} from "./com.zippyttech.business/param/param.model";
 import {RuleModel} from "./com.zippyttech.business/rule/rule.model";
 import {ActivateComponent} from "./com.zippyttech.auth/activate/activate.component";
-import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {ChartViewComponent} from "./com.zippyttech.ui/components/chartview/chartview.component";
+import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/listAction.component";
+import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {AntennaModel} from "./com.zippyttech.club/catalog/antenna/antenna.model";
 import {BrandModel} from "./com.zippyttech.club/catalog/brand/brand.model";
 import {CompanyModel} from "./com.zippyttech.club/catalog/company/company.model";

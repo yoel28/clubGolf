@@ -180,9 +180,9 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             }
         }
 
-        this.chvwVehicles = {
+        this.chvwVehicles ={
             title: "Vehiculos",
-            endpoint: "/reports/products/",
+            endpoint: "/reports/vehicles/",
             options:{
                 chart: {
                     type: 'line'
@@ -199,7 +199,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
                     crosshairs: true
                 }
             }
-        };
+        }
     }
 
 

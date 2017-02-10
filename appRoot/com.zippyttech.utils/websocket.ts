@@ -79,7 +79,14 @@ export class WebSocket{
                         that.webSocket[channel].status.setValue('connect');
                         if(that.checkContinue(channel)){
                             that.webSocket[channel].subscribers.client = that.webSocket[channel].client.subscribe(channel, function (message) {
-                                that.webSocket[channel].data.setValue(JSON.parse(message.body));
+
+                                try {
+                                    let data  = JSON.parse(message.body);
+                                    that.webSocket[channel].data.setValue(data);
+                                }
+                                catch (exception){
+                                    that.webSocket[channel].data.setValue(message.body);
+                                }
                                 if(eventChannel){
                                     that.eventChannel(eventChannel);
                                 }
@@ -142,26 +149,60 @@ export class WebSocket{
         });
     }
     eventChannel(eventChannel:any){
+        let that = this;
+        let body = that.webSocket[eventChannel.target].data.value;
+
         if(this.webSocket[eventChannel.target].instance){
+
             switch (eventChannel['event']) {
                 case "INSERT" :
-                    this.webSocket[eventChannel.target].instance.setLoadData(this.webSocket[eventChannel.target].data.value);
+
+                    that.webSocket[eventChannel.target].instance.setLoadData(body);
+
+                    that.webSocket[eventChannel.target].instance.setBlockField(body);
+                    setTimeout(function(){
+                        that.webSocket[eventChannel.target].instance.setBlockField(body);
+                    }, 1000);
                     break;
+
                 case "UPDATE" :
-                    this.webSocket[eventChannel.target].instance.setUpdateData(this.webSocket[eventChannel.target].data.value);
+
+                    that.webSocket[eventChannel.target].instance.setUpdateData(body);
+
+                    that.webSocket[eventChannel.target].instance.setBlockField(body);
+                    setTimeout(function(){
+                        that.webSocket[eventChannel.target].instance.setBlockField(body);
+                    }, 1000);
                     break;
+
                 case "DELETE" :
-                    this.webSocket[eventChannel.target].instance.setDeleteData(this.webSocket[eventChannel.target].data.value);
+
+                    that.webSocket[eventChannel.target].instance.setBlockField(body);
+                    setTimeout(function(){
+                        that.webSocket[eventChannel.target].instance.setDeleteData(body);
+                    }, 1000);
                     break;
+
                 default:{
 
                 }
             }
+            if(eventChannel['callback']){
+                try {
+                    eval(eventChannel['callback']);
+                }catch (exception){
+                    console.log(exception);
+                }
+            }
+
         }
         else {
             console.log('Error: not found intance for channel '+eventChannel.target);
         }
 
+    }
+    addToast(title,message,type='info',time=10000){
+        this.myglobal.addToast(title,message,type,time);
     }
 
 
