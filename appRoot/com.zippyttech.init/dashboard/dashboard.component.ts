@@ -27,8 +27,10 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public guestRemove:FormControl = new FormControl();
     public qrString:string = '';
     public qrHidden: boolean;
+
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
+    public chvwVehicles:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db);
@@ -177,6 +179,27 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
                 }
             }
         }
+
+        this.chvwVehicles = {
+            title: "Vehiculos",
+            endpoint: "/reports/products/",
+            options:{
+                chart: {
+                    type: 'line'
+                },
+                xAxis: {
+                    tickmarkPlacement: 'on'
+                },
+                yAxis: {
+                    title: { text: 'N° de entradas' },
+                },
+                tooltip: {
+                    valueSuffix: ' entradas',
+                    split:true,
+                    crosshairs: true
+                }
+            }
+        };
     }
 
 
