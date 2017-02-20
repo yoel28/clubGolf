@@ -23,9 +23,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-body {
-    line-height: 1;
-}
 ol, ul {
     list-style: none;
 }
@@ -362,4 +359,28 @@ ul.ui-autocomplete {
     border: transparent;
     background: transparent;
     outline: transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 3px !important;
+    height: 3px !important;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(72, 140, 108, 0.16) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(13, 86, 40, 0.6) !important;
+    outline: none;
+}
+
+
+body {
+    transition: .2s;
+    overflow: scroll !important;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgb(236, 240, 245) !important;
 }
