@@ -77,9 +77,8 @@
   opacity: .9;
   filter: alpha(opacity=90);
 }
-
+*/
 /* .modal-fullscreen */
-
 .modal-fullscreen {
   background: transparent;
 }
@@ -100,7 +99,6 @@
   filter: alpha(opacity=97);
 }
 
-/* .modal-fullscreen size: we use Bootstrap media query breakpoints */
 
 .modal-fullscreen .modal-dialog {
   margin: 0;
@@ -235,7 +233,7 @@ header.main-header{
   overflow:hidden;
   height:100% !important;
   border-radius:0px !important;
-  background:#0c4e24
+  background:#0c4e24;
 }
 
 .user-btns *{

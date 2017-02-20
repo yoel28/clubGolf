@@ -43,7 +43,7 @@ System.config({
     'angular2-qrcode':           'npm:angular2-qrcode',
     'qrcode-generator':          'npm:qrcode-generator/qrcode.js',
     'ng2-toasty':                'npmR:ng2-toasty/bundles/index.umd.js',
-    'angular2-highcharts':       'npmR:angular2-highcharts',
+    'angular2-highcharts':       'npm:angular2-highcharts',
     'highcharts':                'npmR:highcharts',
 
     //Dependencias
