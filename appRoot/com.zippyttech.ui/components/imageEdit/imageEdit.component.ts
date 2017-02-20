@@ -4,7 +4,7 @@ import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 declare var SystemJS:any;
 var moment = require('moment');
 var jQuery = require('jquery');
-asdasd
+
 @Component({
     selector: 'image-edit-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/index.html',
