@@ -11,7 +11,9 @@ import {UserModel} from "../../com.zippyttech.access/user/user.model";
 import {AngularFire} from "angularfire2";
 import {IModal} from "../../com.zippyttech.ui/components/modal/modal.component";
 
-declare var jQuery: any;
+var jQuery = require('jquery');
+var adminLTE = require('adminLTE');
+
 declare var SystemJS: any;
 @Component({
     selector: 'my-app',
@@ -42,6 +44,10 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.menuType = new FormControl(null);
         this.menuItems = new FormControl([]);
         this.loadPublicData();
+
+        if(this.validToken()  && !this.db.myglobal.dataSesion.valid){
+            this.goPage(null,'/init/load');
+        }
     }
 
     routerEvents(){
@@ -63,7 +69,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     that.db.router.navigate(link);
                 }
                 else if (localStorage.getItem('userTemp')){
-                    if(componentName!='AccountSelectComponent'){
+                    if(componentName!='AccountSelectComponent' && componentName!='LoadComponent'){
                         that.db.myglobal.saveUrl = event.url;
                         let link = ['/auth/accountSelect', {}];
                         that.db.router.navigate(link);
@@ -465,6 +471,10 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         }
     }
 
+    getLocalStorage(item){
+        return localStorage.getItem(item);
+    }
+
     menuItemsVisible(menu) {
         let data = [];
         menu.forEach(obj => {
@@ -493,7 +503,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.db.myglobal.objectInstance[prefix] = instance;
     }
 
-    goPage(event, url) {
+    goPage(event=null, url) {
         if (event)
             event.preventDefault();
         let link = [url, {}];

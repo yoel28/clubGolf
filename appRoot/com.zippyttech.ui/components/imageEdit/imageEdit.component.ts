@@ -1,14 +1,10 @@
-import {Component, EventEmitter, NgModule, DoCheck, AfterContentInit} from '@angular/core';
-import {XCropit} from "../../../com.zippyttech.utils/directive/xCropit";
-import {XFile} from "../../../com.zippyttech.utils/directive/xFile";
+import {Component, EventEmitter, AfterContentInit} from '@angular/core';
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 
 declare var SystemJS:any;
-declare var moment:any;
-declare var jQuery:any;
-@NgModule({
-    imports:[XCropit,XFile],
-})
+var moment = require('moment');
+var jQuery = require('jquery');
+asdasd
 @Component({
     selector: 'image-edit-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/index.html',

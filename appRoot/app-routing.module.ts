@@ -62,6 +62,7 @@ import {VehicleModel} from "./com.zippyttech.club/catalog/vehicle/vehicle.model"
 import {VehicleTypeModel} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.model";
 import {GetbackModel} from "./com.zippyttech.club/process/getBack/getback.model";
 import {RegisterFullModel} from "./com.zippyttech.club/process/registerFull/registerFull.model";
+import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accountSelect.component";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -70,6 +71,7 @@ const routesDefault: Routes = [
     { path: 'term/conditions', component: TermConditionsComponent},
 
     { path: 'auth/login', component: LoginComponent},
+    { path: 'auth/accountSelect', component: AccountSelectComponent},
     { path: 'auth/login/:company', component: LoginComponent},
     { path: 'auth/recover', component: RecoverComponent},
     { path: 'account/recoverPassword/:id/:token', component: RecoverPasswordComponent},
@@ -130,6 +132,7 @@ const routesApp: Routes = [];
 export class AppRoutingModule {}
 
 export const componentsDefault = [
+    AccountSelectComponent,
     DashboardComponent,
     LoginComponent,
     RecoverComponent,

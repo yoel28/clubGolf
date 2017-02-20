@@ -4,8 +4,8 @@ import  {FormControl, Validators, FormGroup} from '@angular/forms';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
-declare var SystemJS:any;
-declare var jQuery:any;
+var jQuery = require('jquery');
+
 @Component({
     moduleId:module.id,
     selector: 'form-view',
@@ -37,6 +37,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();
+
     }
     ngOnInit(){
         this.initForm();
@@ -111,28 +112,31 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
 
                 if(that.rules[key].object)
                 {
-                    that.data[key].valueChanges.subscribe((value: string) => {
-                        that.findControl = value;
-                        if(value && value.length > 0){
-                            that.search=that.rules[key];
-                            that.dataList=[];
-                            if( !that.searchId[key]){
-                                that.getSearch(null,value);
+                    that.data[key]
+                        .valueChanges
+                        .debounceTime(500)
+                        .subscribe((value: string) => {
+                            that.findControl = value;
+                            if(value && value.length > 0){
+                                that.search=that.rules[key];
+                                that.dataList=[];
+                                if( !that.searchId[key]){
+                                    that.getSearch(null,value);
+                                }
+                                else if(that.searchId[key].detail != value){
+                                    delete that.searchId[key];
+                                    that.getSearch(null,value);
+                                }
+                                else{
+                                    this.findControl="";
+                                    that.search = [];
+                                }
                             }
-                            else if(that.searchId[key].detail != value){
-                                delete that.searchId[key];
-                                that.getSearch(null,value);
+                            else {
+                                if(that.search && that.search.key == key)
+                                    that.getSearch(null,'');
                             }
-                            else{
-                                this.findControl="";
-                                that.search = [];
-                            }
-                        }
-                        else {
-                            if(that.search && that.search.key == key)
-                                that.getSearch(null,'');
-                        }
-                    });
+                        });
                 }
             }
 
@@ -423,4 +427,3 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
 
     }
 }
-
