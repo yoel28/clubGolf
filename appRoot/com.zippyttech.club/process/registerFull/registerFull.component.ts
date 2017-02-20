@@ -5,7 +5,6 @@ import {FormControl} from "@angular/forms";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {UserComponent} from "../../../com.zippyttech.access/user/user.component";
 
 declare var SystemJS:any;
 @Component({
@@ -47,18 +46,11 @@ export class RegisterFullComponent extends RestController implements OnInit{
 
         if(this.tempIdUser && this.tempIdUser != data.id)
         {
-            if(this.instanceUser && this.instanceUser.instanceBase){
-                this.tempIdUser =  data.id;
-                this.instanceUser.instanceBase.model.loadDataWhere('',rest.where);
-            }
+            this.tempIdUser =  data.id;
+            this.user.loadDataWhere('',rest.where);
         }
 
         return rest;
-    }
-
-    public instanceUser:UserComponent;
-    setInstanceUser(instance){
-        this.instanceUser = instance;
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
         if(event)

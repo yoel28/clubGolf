@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class PermissionModel extends ModelRoot{
 
     constructor(public db:DependenciesBase){
-        super(db,'PERM','/permissions/');
+        super(db,'/permissions/');
         this.initModel();
     }
     modelExternal() {}
@@ -81,6 +81,9 @@ export class PermissionModel extends ModelRoot{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar el permiso : ';
     }
 
 }

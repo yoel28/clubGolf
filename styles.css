@@ -239,6 +239,12 @@ table>tbody>tr>td:not(.notHidden) a:not(.notHidden) {
     100% { opacity: 1.0; }
 }
 
+ul.ui-autocomplete {
+    width: 40% !important;
+    padding: 5px !important;
+    z-index: 10000 !important;
+}
+
 
 /*#######################*/
 /*ANIMATION*/
@@ -254,6 +260,11 @@ table>tbody>tr>td:not(.notHidden) a:not(.notHidden) {
     border-radius:0px !important;
     float: left !important;
     line-height: 40px !important;
+}
+
+.user-panel>.info{
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-panel *{
@@ -346,4 +357,9 @@ table>tbody>tr>td:not(.notHidden) a:not(.notHidden) {
 .sidebar-collapse .user-panel:hover>.image>img {
     border-color: #116f34 !important;
     border-radius: 10px !important;
+}
+.btn-transparent, .btn-transparent:focus,.btn-transparent:active,.btn-transparent:visited{
+    border: transparent;
+    background: transparent;
+    outline: transparent;
 }

@@ -1,8 +1,13 @@
-<div class="table-responsive" *ngIf="model.dataList && model.dataList.list" >
-    <table id="footable" class="table table-striped table-hover"><!--x-footable -->
+<div *ngIf="model.dataList && isUnique()">
+    <data-view [model]="model" [dataParams]="{internal:true, nav:true}"></data-view>
+</div>
+<div *ngIf="model.dataList && !isUnique()" class="table-responsive">
+    <table id="footable" class="table table-striped table-hover" ><!--*ngIf="!model.updating"--><!--x-footable -->
         <thead>
-        <tr><!--[attr.data-breakpoints]="((i<2)?'':(i<=4)?'xs sm': (i<=7)?'xs sm md':'xs sm md lg')"-->
-            <th data-type = "html" *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
+        <tr>
+            <div></div><!--[attr.data-breakpoints]="((i<1)?'':(i<2)?'xs':(i<4)?'xs sm': (i<=6)?'xs sm md':'xs sm md lg')" -->
+            <th
+                data-type = "html" *ngFor="let key of keyVisible(); let i=index" [class.check]="model.rules[key].check" (click)="changeOrder(key)" class="cursor-pointer" [attr.title]="'Ordenar por la columna '+model.rules[key].title">
                 <i *ngIf="model.rest.sort==key && model.rest.order == 'asc' && !model.rest.findData" class="fa fa-caret-up text-blue"></i>
                 <i *ngIf="model.rest.sort==key && model.rest.order == 'desc' && !model.rest.findData" class="fa fa-caret-down text-blue"></i>
                 <i *ngIf="model.rest.sort==key && model.rest.findData" class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
@@ -14,69 +19,26 @@
         </tr>
         </thead>
         <tbody >
-            <tr *ngFor="let data of model.dataList.list"  [class.deleted]="data.deleted">
-                <td *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" [class.parpadea]="data.blockField">
-                    <rule-view [key]="key" [data]="data" [model]="model" [paramsData]="paramsData"></rule-view>
-                </td>
-                <td *ngIf="params && params.actions" class="notHidden">
-
-                    <div class="btn-group dropdown pull-right" *ngIf="keyActions.length > 1 && !data.deleted">
-                        <button type="button" data-toggle="dropdown"
-                                class="btn btn-box-tool dropdown-toggle"
-                                aria-haspopup="true" aria-expanded="false">
+            <tr *ngFor="let data of model.dataList.list; let i=index"  [class.deleted]="data.deleted">
+                <div *ngIf="model.getActionsArray(data)" class="notHidden">
+                    <div *ngIf="model.getActionsArray(data).length == 1">
+                        <a (click)="paramsData.select = data; model.getActionsArray(data)[0].callback(data,i);">
+                            <i class="{{model.getActionsArray(data)[0].view[0].icon}}"></i> {{model.getActionsArray(data)[0].view[0].title}}
+                        </a>
+                    </div>
+                    <div *ngIf="model.getActionsArray(data).length > 1" class="btn-group dropdown">
+                        <button type="button" data-toggle="dropdown" class="btn btn-box-tool dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-gears fa-lg"></i>
                         </button>
                         <ul role="menu" class="dropdown-menu text-left submenu-config">
-                            <li *ngFor="let key of actionPermissionKey()">
-                                <a *ngIf="key == 'delete' && data.enabled"
-                                   data-toggle="modal" [attr.data-target]="'#'+params.actions[key].idModal"
-                                   (click)="paramsData.select = data" href="#">
-                                    <i class="{{params.actions[key].icon}}"></i>
-                                    &nbsp;{{params.actions[key].title}}
-                                </a>
-                                <a *ngIf="key == 'onPatch' && params.actions[key].type=='boolean'"
-                                   (click)="model.onPatch(params.actions[key].field,data)">
-                                    <span class="{{params.actions[key].icon}}"></span>
-                                    {{data[key]?params.actions[key].titleTrue:params.actions[key].titleFalse}}
-                                </a>
-                                <a *ngIf="key == 'onLock'"
-                                   (click)="model.onLock('enabled',data)">
-                                    <span class="{{params.actions[key].icon}}"></span>
-                                    {{data.enabled?params.actions[key].titleTrue:params.actions[key].titleFalse}}
-                                </a>
-                                <a *ngIf="key == 'viewHistory'" [attr.href]="params.actions[key].path+data.id">
-                                    <span class="{{params.actions[key].icon}}"></span>
-                                    &nbsp;{{params.actions[key].title}}
-                                </a>
+                            <li *ngFor="let action of model.getActionsArray(data)" (click)="paramsData.select = data;action.callback(data,i);">
+                                <a class="cursor-pointer {{action.view[getNumber(data[action.syncKey])].colorClass}}"> <i class="{{action.view[getNumber(data[action.syncKey])].icon}}"></i>&nbsp;{{action.view[getNumber(data[action.syncKey])].title}} </a>
                             </li>
                         </ul>
                     </div>
-                    <div *ngIf="keyActions.length == 1 && !data.deleted">
-
-                        <div *ngFor="let key of actionPermissionKey()">
-                            <a *ngIf="key == 'delete'  && data.enabled"
-                               data-toggle="modal" [attr.data-target]="'#'+params.actions[key].idModal"
-                               (click)="paramsData.select = data" href="#">
-                                <i class="{{params.actions[key].icon}}"></i>
-                                &nbsp;{{params.actions[key].title}}
-                            </a>
-                            <a *ngIf="key == 'onPatch' && params.actions[key].type=='boolean'"
-                               (click)="model.onPatch(params.actions[key].field,data)">
-                                <span class="{{params.actions[key].icon}}"></span>
-                                {{data[key]?params.actions[key].titleTrue:params.actions[key].titleFalse}}
-                            </a>
-                            <a *ngIf="key == 'onLock'"
-                               (click)="model.onLock('enabled',data)">
-                                <span class="{{params.actions[key].icon}}"></span>
-                                {{data.enabled?params.actions[key].titleTrue:params.actions[key].titleFalse}}
-                            </a>
-                            <a *ngIf="key == 'viewHistory'" [attr.href]="params.actions[key].path+data.id">
-                                <span class="{{params.actions[key].icon}}"></span>
-                                &nbsp;{{params.actions[key].title}}
-                            </a>
-                        </div>
-                    </div>
-
+                </div>
+                <td *ngFor="let key of keyVisible()" [class.check]="model.rules[key].check" [class.parpadea]="data.blockField">
+                    <rule-view [key]="key" [data]="data" [model]="model" [paramsData]="paramsData"></rule-view>
                 </td>
             </tr>
         </tbody>
@@ -108,8 +70,8 @@
 
 <!--########################################MODALS########################################-->
 
-<div *ngIf="model.permissions.delete && params && params.actions && params.actions.delete">
-    <div class="modal fade" [attr.id]="params.actions.delete.idModal" tabindex="-1" role="dialog"
+<div *ngIf="model.permissions.delete && model.actions && model.actions['delete']">
+    <div class="modal fade" [attr.id]="model.actions['delete'].id" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -122,7 +84,7 @@
                     </strong></h3>
                 </div>
                 <div class="modal-body">
-                    {{params.actions.delete.message}} <strong>'{{paramsData.select[params.actions.delete.keyAction]}}'</strong>
+                    {{model.actions['delete'].message}} <strong>'{{paramsData.select[model.actions['delete'].key]}}'</strong>
                     ?
                 </div>
                 <div class="modal-footer">
@@ -202,4 +164,17 @@
         </div>
     </div>
 </div>
+
+<template [ngIf]="paramsData && paramsData.locationParams">
+    <modal-view [params]="modalLocation">
+        <div body>
+            <location-picker [params]="paramsData.locationParams"></location-picker>
+        </div>
+        <div  *ngIf="!paramsData.locationParams.disabled" footer>
+            <button class="btn btn-success" (click)="saveLocation($event)" >{{db.msg.save}}</button>
+        </div>
+    </modal-view>
+</template>
+
+
 <!--######################################################################################-->

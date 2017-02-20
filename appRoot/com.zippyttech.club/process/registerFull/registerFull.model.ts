@@ -3,6 +3,7 @@ import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {VehicleModel} from "../../catalog/vehicle/vehicle.model";
 import {TagModel} from "../../catalog/tag/tag.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 
 export class RegisterFullModel extends ModelBase{
@@ -13,7 +14,7 @@ export class RegisterFullModel extends ModelBase{
 
 
     constructor(public db:DependenciesBase){
-        super(db,'REG_FULL','/users/wizard');
+        super(db,'REG_FULL',true,'/users/wizard');
         this.initModel();
     }
     modelExternal() {
@@ -46,6 +47,10 @@ export class RegisterFullModel extends ModelBase{
     initRuleObject() {}
     initRulesSave() {
         this.rulesSave = Object.assign({});
+    }
+
+    initModelActions(params: IModelActions) {
+
     }
 
 }

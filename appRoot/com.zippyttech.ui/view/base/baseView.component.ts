@@ -9,6 +9,7 @@ import {TablesComponent} from "../../components/tables/tables.component";
 
 
 declare var SystemJS:any;
+declare var jQuery:any;
 @Component({
     selector: 'base-view',
     templateUrl: SystemJS.map.app + '/com.zippyttech.ui/view/base/index.html',
@@ -18,11 +19,9 @@ declare var SystemJS:any;
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class BaseViewComponent extends ControllerBase implements OnInit,AfterViewInit {
-    public instance:any;
-    public dataSelect:any = {};
-    public paramsTable:any={};
-    public getInstance:any;
 
+    public getInstance:any;
+    private instance:any;
 
     constructor(public db:DependenciesBase) {
         super(db);
@@ -31,17 +30,16 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
     ngOnInit(){
         super.ngOnInit();
         this.initViewOptions();
-        this.loadParamsTable();
         this.loadPage();
     }
     ngAfterViewInit(){
-        this._getInstance();
+        this.getInstance.emit(this);
     }
     initModel() {
         this.model = this.instance.model;
     }
 
-    public instanceTable:any;
+    public instanceTable:TablesComponent;
     setInstance(instance:TablesComponent){
         this.instanceTable = instance;
     }
@@ -75,30 +73,6 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
         });
 
         this.loadPreferenceViewModel();
-
-    }
-    loadParamsTable(){
-        this.paramsTable.actions={};
-
-        if(this.instance.paramsTable && this.instance.paramsTable.actions )
-        {
-            if(this.instance.paramsTable.actions.delete){
-                this.paramsTable.actions.delete = {
-                    "icon": "fa fa-trash",
-                    "exp": "",
-                    'title': 'Eliminar',
-                    'idModal': this.model.prefix+'_'+this.configId+'_DEL',
-                    'permission': this.model.permissions.delete,
-                    'message': this.instance.paramsTable.actions.delete.message,
-                    'keyAction':this.instance.paramsTable.actions.delete.keyAction
-                };
-            }
-
-            if(this.instance.paramsTable.actions.viewHistory){
-                this.paramsTable.actions.viewHistory = this.instance.paramsTable.actions.viewHistory;
-            }
-
-        }
 
     }
 
@@ -151,9 +125,6 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
             that.model.rules={};
             Object.assign(that.model.rules,temp);
         }
-    }
-    public _getInstance(){
-        this.getInstance.emit(this);
     }
     loadPreferenceViewModel(){
         let that = this;

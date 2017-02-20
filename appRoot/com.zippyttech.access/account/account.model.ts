@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class AccountModel extends ModelRoot{
 
     constructor(db:DependenciesBase){
-        super(db,'ACCOUNT','/accounts/');
+        super(db,'/accounts/');
         this.initModel();
     }
     modelExternal() {}
@@ -174,6 +174,9 @@ export class AccountModel extends ModelRoot{
         delete this.rulesSave.logo;
         delete this.rulesSave.title;
     }
-
+    initModelActions(params){
+        params['delete'].message='¿ Esta seguro de eliminar la cuenta: ';
+        params['delete'].key = 'name';
+    }
 }
 

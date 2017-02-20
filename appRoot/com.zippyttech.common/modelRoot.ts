@@ -1,11 +1,34 @@
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {RestController} from "../com.zippyttech.rest/restController";
 import {DependenciesBase} from "./DependenciesBase";
+import {FormControl} from "@angular/forms";
 
 declare var moment:any;
-export abstract class ModelRoot extends RestController{
+declare var jQuery:any;
 
-    public prefix = "DEFAULT";
+interface IParamsDelete{
+    key:string,
+    message:string
+}
+export interface IModelActions{
+    [key:string]:{
+        view:[{
+            title: string,
+            icon: string,
+            colorClass?: string;
+        }],
+        permission: boolean;
+        callback(data?:any,index?:number);
+        id?:string;
+        message?: string;
+        exp?: string;
+        key?:string;
+        syncKey?:string;
+    };
+}
+
+export abstract class ModelRoot extends RestController{
+    public prefix = ((this.constructor.name).toUpperCase()).replace('MODEL','');
     public endpoint = "DEFAULT_ENDPOINT";
     public useGlobal:boolean=true;
     public completed=false;
@@ -14,20 +37,63 @@ export abstract class ModelRoot extends RestController{
     public paramsSave:any = {};
     public ruleObject:any={};
     public rulesSave:any={};
+    public actions:IModelActions={};
+
+    public lockList:boolean = false;
+
+    private _navIndex:number=null;
+    public set navIndex(value: number|string){
+        if(value!=null) {
+            let n = (typeof value == "string") ? Number(value) : this._navIndex + value;
+            if(n < 0 && this.rest.offset+n > 0){
+                this.loadData(this.rest.offset/this.rest.max).then(function(response){
+                    this._navIndex = this.rest.max + n;
+                    this.refreshData(this.dataList.list[this.navIndex]);
+                }.bind(this));
+            }
+            else if(n > this.rest.max-1 && this.rest.offset+n < this.dataList.count){
+                this.loadData(2+this.rest.offset/this.rest.max).then(function(response){
+                    this._navIndex = n - this.rest.max;
+                    this.refreshData(this.dataList.list[this.navIndex]);
+                }.bind(this));
+            }
+            else if(n >= 0 &&  n <= this.rest.max-1 && this.rest.offset+n < this.dataList.count)
+                this._navIndex = n;
+            this.refreshData(this.dataList.list[this.navIndex]);
+        }
+        else this._navIndex = null;
+    }
+    public get navIndex(){ return this._navIndex; }
+
+
 
     public configId = moment().valueOf();
     private rulesDefault:any = {};
     public rules:Object={};
 
-    public dataList:any={};
+    private _dataList:FormControl;
+
+    public set dataList(value:any){
+        if(this._dataList)
+            this._dataList.setValue(value);
+    }
+
+    public get dataList(){
+        return this._dataList.value;
+    }
 
 
-    constructor(public db:DependenciesBase,prefix,endpoint,useGlobal=true){
+    constructor(public db:DependenciesBase,endpoint:string,useGlobal:boolean=true,prefix?:string){
         super(db);
-        this.prefix = prefix;
+        if(prefix)
+            this.prefix = prefix;
         this.endpoint = endpoint;
         this.useGlobal = useGlobal;
+        this._dataList = new FormControl({});
         this._initModel();
+        this._dataList.valueChanges.subscribe((values=>{
+            console.log("CHANGED!");
+        }).bind(this));
     }
 
     private _initModel(){
@@ -36,6 +102,7 @@ export abstract class ModelRoot extends RestController{
         this._initParamsSearch();
         this._initParamsSave();
         this._initRuleObject();
+        this._initModelActions();
     }
     public initModel(completed=true){
         this.initPermissions();
@@ -51,13 +118,19 @@ export abstract class ModelRoot extends RestController{
         this.loadParamsSearch();
 
         this.addCustomField();
+        this.initModelActions(this.actions);
+
         this.db.ws.loadChannelByModel(this.constructor.name,this);
         this.completed=completed;
     }
 
     abstract initPermissions();
     private _initPermissions() {
-        this.permissions['export'] = this.db.myglobal.existsPermission([this.prefix + '_EXPORT']);
+        this.permissions['exportPdf'] = this.db.myglobal.existsPermission([this.prefix + '_EXPORT_PDF']);
+        this.permissions['exporXls'] = this.db.myglobal.existsPermission([this.prefix + '_EXPORT_XLS']);
+
+
+        this.permissions['showAll'] = this.db.myglobal.existsPermission([this.prefix + '_SHOW_ALL']);
         this.permissions['showDelete'] = this.db.myglobal.existsPermission([this.prefix + '_SHOW_DELETED']);
         this.permissions['list'] = this.db.myglobal.existsPermission([this.prefix + '_LIST']);
         this.permissions['add'] = this.db.myglobal.existsPermission([this.prefix + '_ADD']);
@@ -68,9 +141,76 @@ export abstract class ModelRoot extends RestController{
         this.permissions['lock'] = this.db.myglobal.existsPermission([this.prefix + '_LOCK']);
         this.permissions['warning'] = this.db.myglobal.existsPermission([this.prefix + '_WARNING']);
         this.permissions['visible'] = true;//this.myglobal.existsPermission([this.prefix + '_VISIBLE']);
-        this.permissions['audit'] = this.db.myglobal.existsPermission([this.prefix + '_AUDICT']);
+        this.permissions['audit'] = this.db.myglobal.existsPermission([this.prefix + '_AUDIT']);
         this.permissions['global'] = this.db.myglobal.existsPermission(['ACCESS_GLOBAL']) && this.useGlobal;
     }
+
+    abstract initModelActions(params:IModelActions);
+    private _initModelActions(){
+
+        this.actions["view"] = {
+            view:[{ title: 'ver', icon: "fa fa-vcard" }],
+            callback:function(data?,index?){
+                this.navIndex = index;
+            }.bind(this),
+            permission: this.permissions.list,
+        };
+
+        this.actions["enabled"] = {
+            view: [
+                {icon: "fa fa-lock", title: "Deshabilitado", colorClass:"text-red"},
+                {icon: "fa fa-unlock", title: "Habilitado", colorClass:"text-green"}
+            ],
+            exp:'!data.deleted',
+            permission: this.permissions.lock && this.permissions.update,
+            callback: function (data?, index?) {
+                this.onLock('enabled',data);
+            }.bind(this),
+            syncKey: "enabled"
+        };
+
+        this.actions["editable"] = {
+            view: [
+                {icon: "fa fa-edit", title: "No Editable", colorClass:"text-red"},
+                {icon: "fa fa-pencil", title: "Editable", colorClass:"text-green"},
+            ],
+            exp:'data.enabled && !data.deleted',
+            permission: this.permissions.lock && this.permissions.update,
+            callback: function (data?, index?) {
+                this.onLock('editable',data);
+            }.bind(this),
+            syncKey: "editable"
+        }
+
+
+        this.actions["visible"] = {
+            view: [
+                {icon: "fa fa-eye-slash", title: "Oculto", colorClass:"text-red"},
+                {icon: "fa fa-eye", title: "Visible", colorClass:"text-green"}
+            ],
+            exp:'data.enabled && !data.deleted',
+            permission: this.permissions.update && this.permissions.visible,
+            callback: function (data?, index?) {
+                this.onPatch('visible',data);
+            }.bind(this),
+            syncKey: "visible"
+        }
+
+        this.actions["delete"] = {
+            id:this.prefix+'_'+this.configId+'_DEL',
+            view:[
+                { icon: "fa fa-trash", title: 'Eliminar'}
+            ],
+            exp:'data.enabled && data.editable && !data.deleted',
+            callback:function(data?,index?){
+                jQuery("#"+this.prefix+'_'+this.configId+'_DEL').modal('show');
+            }.bind(this),
+            permission: this.permissions.delete,
+            message:'¿ Esta seguro de eliminar el valor con el codigo: ',
+            key: 'code'
+        };
+    }
+
 
     abstract modelExternal();
     abstract initRules();
@@ -88,22 +228,88 @@ export abstract class ModelRoot extends RestController{
             "title": "Detalle",
             "placeholder": "Ingrese el detalle",
         };
-        this.rulesDefault["enabled"] = {
-            "update": (this.permissions.update && this.permissions.lock),
-            "visible": this.permissions.lock && this.permissions.visible,
-            "search": false,
-            'required': true,
-            'icon': 'fa fa-list',
-            "type": "boolean",
-            'source': [
-                {'value':true,'text': 'Habilitado', 'class': 'btn btn-sm btn-green','title':'Habilitado'},
-                {'value':false,'text': 'Deshabilitado', 'class': 'btn btn-sm btn-red','title':'Deshabilitado'},
-            ],
-            "key": "enabled",
-            "title": "Habilitado",
-            "placeholder": "",
-        };
+        this.loadRulesExtra();
+
     }
+    private loadRulesExtra(){
+        this.setRuleId();
+        this.setRuleIp();
+        this.setRuleUserAgent();
+        this.setRuleUsernameCreator();
+        this.setRuleUsernameUpdater();
+    }
+
+    setRuleId(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["id"] = {
+                "update": false,
+                "visible": this.permissions.visible,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "number",
+                "key": "id",
+                "title": "ID",
+                "placeholder": "Ingrese el ID",
+            };
+        }
+    }
+    setRuleIp(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["ip"] = {
+                "update": false,
+                "visible": this.permissions.visible,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "text",
+                "key": "ip",
+                "title": "IP",
+                "placeholder": "Ingrese la IP",
+            };
+        }
+    }
+    setRuleUserAgent(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["userAgent"] = {
+                "update": false,
+                "visible": this.permissions.visible,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "text",
+                "key": "userAgent",
+                "title": "userAgent",
+                "placeholder": "Ingrese el userAgent",
+            };
+        }
+    }
+    setRuleUsernameCreator(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["usernameCreator"] = {
+                "update": false,
+                "visible": this.permissions.visible,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "text",
+                "key": "usernameCreator",
+                "title": "Creador",
+                "placeholder": "Ingrese el usuario creador",
+            };
+        }
+    }
+    setRuleUsernameUpdater(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["usernameUpdater"] = {
+                "update": false,
+                "visible": this.permissions.visible,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "text",
+                "key": "usernameUpdater",
+                "title": "Actualizador",
+                "placeholder": "Ingrese el usuario que actualizo",
+            };
+        }
+    }
+
 
     abstract initParamsSearch();
     private _initParamsSearch() {
@@ -138,6 +344,7 @@ export abstract class ModelRoot extends RestController{
             'idModal': this.prefix + '_' + this.configId + '_add',
             'endpoint': this.endpoint,
             'customValidator':null,
+            'onlyRequired':false,
             'customActions':[],
         };
     }
@@ -169,6 +376,7 @@ export abstract class ModelRoot extends RestController{
     getRulesDefault(){
         return this.rulesDefault;
     }
+
     private loadObjectRule(){
         this.ruleObject.rulesSave = this.rulesSave;
         this.ruleObject.paramsSave = this.paramsSave;
@@ -181,19 +389,6 @@ export abstract class ModelRoot extends RestController{
     private loadParamsSave(){
         this.paramsSave.prefix = this.prefix+'_ADD';
     }
-
-    // public setDataField(id,key,value?,callback?,data?){
-    //     let json = {};
-    //     json[key] = value || null;
-    //     let body = JSON.stringify(json);
-    //     return (this.db.myglobal.httputils.onUpdate(this.endpoint + id, body,{}).then(response=>{
-    //         if(callback)
-    //             callback(response,data);
-    //     }));
-    // }
-    // public loadDataModel(successCallback){
-    //     return this.db.myglobal.httputils.doGet(this.endpoint,successCallback,this.myglobal.error);
-    // }
 
     public extendRulesObjectInRules(rules){
         let that = this;
@@ -214,7 +409,13 @@ export abstract class ModelRoot extends RestController{
         let that = this;
         Object.keys(this.rules).forEach(key=>{
             that.rules[key].check =  false;
-        })
+        });
+
+        delete this.rulesSave['id'];
+        delete this.rulesSave['ip'];
+        delete this.rulesSave['userAgent'];
+        delete this.rulesSave['usernameCreator'];
+        delete this.rulesSave['usernameUpdater'];
     }
     public spliceId(id:string)
     {
@@ -277,12 +478,44 @@ export abstract class ModelRoot extends RestController{
             }
         }
     }
-    public setBlockField(data){
+    public setBlockField(data,value?:boolean){
         if(data.id){
             let index = this.getIndexById(data.id);
             if(index >= 0){
-                this.dataList['list'][index].blockField=!this.dataList['list'][index].blockField;
+                this.dataList['list'][index].blockField= value==null?!this.dataList['list'][index].blockField:value;
             }
         }
     }
+
+    public refreshData(data){
+        this.setBlockField(data,true);
+        setTimeout(function(){
+            this.setBlockField(data,false);
+        }.bind(this), 1);
+    }
+
+    public refreshList(){
+        this.lockList = true;
+        setTimeout(()=>{
+            this.lockList=false;
+        },);
+    }
+
+    goPage(url:string,event?) {
+        if (event)
+            event.preventDefault();
+        let link = [url, {}];
+        this.db.router.navigate(link);
+    }
+
+    public getActionsArray(data:Object) { //data se usa en tiempo de ejecucion segun el string dentro de "eval()"
+        let action=[];
+        Object.keys(this.actions).forEach((key=>{
+            if(this.actions[key].permission && !(key=='view' && this.navIndex!=null))
+                if(eval(this.actions[key].exp || 'true'))
+                    action.push(this.actions[key]);
+        }).bind(this));
+        return action;
+    }
+
 }

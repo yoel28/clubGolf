@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
+import {ILocation} from "../locationPicker/locationPicker.component";
 
 export interface IRuleView{
     select:Object;//objecto que se selecciona
@@ -9,6 +10,7 @@ export interface IRuleView{
     searchInstances:Object,//instancias de todos los search
     viewListData:Object,//data de los multiples
     ruleReference:any,//regla para referencias
+    locationParams:ILocation
 }
 
 declare var SystemJS:any;
@@ -139,7 +141,15 @@ export class RuleViewComponent implements OnInit,AfterViewInit {
     }
 
     evalExp(data,exp){
-        return eval(exp);
+        try{
+            return eval(exp);
+        }catch (e){
+            this.db.debugLog(e);
+            this.db.debugLog('Verificar la regla en: ');
+            this.db.debugLog(data);
+            this.db.debugLog('-------------------------------------------------------------------------');
+        }
+
     }
 
     loadSaveModal(event,key,data) {
@@ -206,7 +216,38 @@ export class RuleViewComponent implements OnInit,AfterViewInit {
     }
 
     getEnabled(){
-        return (this.model.rules[this.key].update && this.data.enabled && !this.data.deleted && !this.disabled && !this.data.blockField)
+        return (this.model.rules[this.key].update && this.data.enabled && !this.data.deleted && !this.disabled && !this.data.blockField && this.data.editable)
+    }
+    loadLocationParams(event,data){
+        if(event)
+            event.preventDefault();
+
+        this.paramsData.select = data;
+
+        if(this.paramsData && this.paramsData.locationParams && this.paramsData.locationParams.instance){
+            this.paramsData.locationParams.center={
+                lat:parseFloat(data[this.model.rules[this.key].lat]),
+                lng:parseFloat(data[this.model.rules[this.key].lng])
+            };
+            this.paramsData.locationParams.disabled = !this.getEnabled();
+            this.paramsData.locationParams.instance.setMarker();
+        }
+        else {
+            this.paramsData.locationParams={
+                disabled:!this.getEnabled(),
+                center:{
+                    lat:parseFloat(data[this.model.rules[this.key].lat]),
+                    lng:parseFloat(data[this.model.rules[this.key].lng])
+                }
+            }
+        }
+        this.paramsData.locationParams.keys = {
+            lat : this.model.rules[this.key].lat,
+            lng : this.model.rules[this.key].lng
+        }
+        this.paramsData.locationParams.address = this.getEnabled();
+
+
     }
 
 

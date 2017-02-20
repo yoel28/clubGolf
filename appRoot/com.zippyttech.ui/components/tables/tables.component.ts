@@ -2,36 +2,44 @@ import {Component, EventEmitter, OnInit, NgModule, AfterContentChecked, OnChange
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
 import {IRuleView} from "../ruleView/ruleView.component";
+import {IModal} from "../modal/modal.component";
+import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 
 
 declare var SystemJS:any;
 declare var moment:any;
-@NgModule({
-    imports:[XFootable]
-})
+
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
-    inputs:['params','model'],
+    inputs:['model'],
     outputs:['getInstance'],
 })
 
-export class TablesComponent implements OnInit,OnChanges {
+export class TablesComponent implements OnInit{
 
-    public params:any={};
-    public model:any={};
+    public model:any;
 
     public paramsData:IRuleView={
         select:{},
         searchParams:{},
         searchInstances:{},
         viewListData:{},
-        ruleReference:{}
+        ruleReference:{},
+        locationParams:null
     };
 
-    public keyActions =[];
-    public configId=moment().valueOf();
+    public modalLocation:IModal={
+        id:'modalLocation',
+        header:{
+            title:'Ubicación'
+        },
+        global:{
+            size:'modal-lg'
+        }
+    };
+
     public getInstance:any;
     private _currentPage: number;
     private updating:boolean = false;
@@ -41,21 +49,7 @@ export class TablesComponent implements OnInit,OnChanges {
         this.getInstance = new EventEmitter();
     }
 
-    ngOnChanges(changes){
-        if(changes.model) {
-            let previousData = (changes.model.previousValue.dataList)?changes.model.previousValue.dataList:{};
-            let currentData = (changes.model.currentValue.dataList)?changes.model.currentValue.dataList:{};
-            if(JSON.stringify(previousData) !== JSON.stringify(currentData))
-                this.updating = true;
-            console.log(JSON.stringify(previousData) !== JSON.stringify(currentData));
-        }
-        console.log(changes);
-    }
-
     ngOnInit() {
-        this.keyActions=[];
-        if(this.params && this.params.actions)
-            this.keyActions=Object.keys(this.params.actions);
         this.getListObjectNotReferenceSave();
     }
 
@@ -96,7 +90,7 @@ export class TablesComponent implements OnInit,OnChanges {
         Object.keys(this.model.rules).forEach(key=>{
             if(that.model.rules[key].object && !that.model.rules[key].reference && that.model.rules[key].permissions.add)
                 that.modelSave[key]=that.model.rules[key];
-        })
+        });
     }
 
     getDataSave(data,key){
@@ -109,19 +103,6 @@ export class TablesComponent implements OnInit,OnChanges {
 
     getDataSearchMultiple(data){
         this.model.onPatch(this.paramsData.searchParams['field'],this.paramsData.select,data);
-    }
-
-    actionPermissionKey() {
-        let data=[];
-        let that=this;
-
-        Object.keys(this.params.actions).forEach((key)=>
-        {
-            if(that.params.actions[key].permission)
-                data.push(key);
-        });
-
-        return data;
     }
 
     getObjectKeys(data){
@@ -154,4 +135,29 @@ export class TablesComponent implements OnInit,OnChanges {
 
     }
 
+    saveLocation(event){
+        if(event)
+            event.preventDefault();
+
+        let json={};
+        json[this.paramsData.locationParams.keys.lat] =  (this.paramsData.locationParams.data.lat).toString();
+        json[this.paramsData.locationParams.keys.lng] =  (this.paramsData.locationParams.data.lng).toString();
+
+        this.model.onPatchObject(json,this.paramsData.select);
+
+    }
+
+    isUnique():boolean{
+        if(this.model.dataList.id || this.model.dataList.count==1 || this.model.navIndex != null)
+        {
+            if(this.model.navIndex == null)
+                this.model.navIndex = "0";
+            return true;
+        }
+        return false;
+    }
+
+    public getNumber(value):number{
+        return (value)?Number(value):0;
+    }
 }

@@ -1,6 +1,7 @@
 import {Component, ElementRef} from "@angular/core";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {checkBinding} from "@angular/core/src/linker/view_utils";
 import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {UserModel} from "../user.model";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
@@ -28,6 +28,7 @@ export class ProfileComponent extends ControllerBase implements OnInit{
     initModel():any{
         let that = this;
         this.model = new UserModel(this.db);
+        this.model.updateProfile();
         this.restVeh= {
             'where': [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}],
             'max': 5,

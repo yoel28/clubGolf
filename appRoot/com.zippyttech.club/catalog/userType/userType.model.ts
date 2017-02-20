@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class UserTypeModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'US_TYPE','/type/users/');
+        super(db,'US_TYPE',true,'/type/users/');
         this.initModel();
     }
     modelExternal() {}
@@ -57,6 +58,11 @@ export class UserTypeModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+
+    initModelActions(params: IModelActions){
+        params['delete'].message='¿ Esta seguro de eliminar el usuario : ';
+        params['delete'].key = 'username';
     }
 
 }

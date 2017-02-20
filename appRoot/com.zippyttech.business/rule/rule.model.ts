@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class RuleModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'RULE','/rules/');
+        super(db,'/rules/');
         this.initModel();
     }
     modelExternal() {}
@@ -64,5 +64,8 @@ export class RuleModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar la regla: ';
     }
 }

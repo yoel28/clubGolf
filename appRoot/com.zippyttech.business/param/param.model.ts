@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class ParamModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'PARAM','/params/');
+        super(db,'/params/');
         this.initModel();
     }
     modelExternal() {}
@@ -73,6 +73,9 @@ export class ParamModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar el parametro: ';
     }
 
 }
