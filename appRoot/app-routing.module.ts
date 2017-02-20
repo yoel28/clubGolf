@@ -16,28 +16,13 @@ import {SearchComponent} from "./com.zippyttech.ui/components/search/search.comp
 import {FilterComponent} from "./com.zippyttech.ui/components/filter/filter.component";
 import {SaveComponent} from "./com.zippyttech.ui/components/save/save.component";
 import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMultiple/searchMultiple.component";
-import {ProductTypeComponent} from "./com.zippyttech.club/catalog/productType/productType.component";
-import {ProductComponent} from "./com.zippyttech.club/catalog/product/product.component";
-import {StatusComponent} from "./com.zippyttech.club/catalog/state/state.component";
 import {GenerateOutputComponent} from "./com.zippyttech.club/process/generateOutput/generateOutput.component";
 import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.component";
 import {ToastyModule} from "ng2-toasty";
-import {QrcodeComponent} from "./com.zippyttech.club/catalog/qrcode/qrcode.component";
-import {TradeComponent} from "./com.zippyttech.club/catalog/trade/trade.component";
-import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
 import {VehicleTypeComponent} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.component";
-import {ModelComponent} from "./com.zippyttech.club/catalog/model/model.component";
-import {BrandComponent} from "./com.zippyttech.club/catalog/brand/brand.component";
-import {TagComponent} from "./com.zippyttech.club/catalog/tag/tag.component";
 import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
 import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
-import {UserStatusComponent} from "./com.zippyttech.club/catalog/userStatus/userStatus.component";
-import {CompanyComponent} from "./com.zippyttech.club/catalog/company/company.component";
-import {AntennaComponent} from "./com.zippyttech.club/catalog/antenna/antenna.component";
-import {LocationComponent} from "./com.zippyttech.club/catalog/location/location.component";
 import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/recordInOut";
-import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
-import {ContractComponent} from "./com.zippyttech.club/catalog/contract/contract.component";
 import {ModalComponent} from "./com.zippyttech.ui/components/modal/modal.component";
 import {TermConditionsComponent} from "./com.zippyttech.business/termConditions/termConditions.component";
 import {RuleViewComponent} from "./com.zippyttech.ui/components/ruleView/ruleView.component";
@@ -57,7 +42,6 @@ import {ListActionComponent} from "./com.zippyttech.ui/components/listAction/lis
 import {LocationPickerComponent} from "./com.zippyttech.ui/components/locationPicker/locationPicker.component";
 import {DataViewComponent} from "./com.zippyttech.ui/components/dataView/dataView.component";
 import {BasicComponent} from "./com.zippyttech.common/basicComponent";
-import {UserGroupComponent} from "./com.zippyttech.club/catalog/userGroup/userGroup.component";
 import {AntennaModel} from "./com.zippyttech.club/catalog/antenna/antenna.model";
 import {BrandModel} from "./com.zippyttech.club/catalog/brand/brand.model";
 import {CompanyModel} from "./com.zippyttech.club/catalog/company/company.model";
@@ -96,11 +80,10 @@ const routesDefault: Routes = [
     { path: 'access/permission', component: BasicComponent,data:{'model':PermissionModel}},
     { path: 'access/user', component: BasicComponent,data:{'model':UserModel}},
     { path: 'access/user/type', component: BasicComponent,data:{'model':UserTypeModel}},
-    { path: 'access/user/status', component: UserStatusComponent},
-    { path: 'access/user/group', component: UserGroupComponent},
+    { path: 'access/user/status', component: BasicComponent,data:{'model':UserStatusModel}},
+    { path: 'access/user/group', component: BasicComponent,data:{'model':UserGroupModel}},
     { path: 'access/acl', component: AclComponent},
     { path: 'access/user/profile', component: ProfileComponent},
-
 
     { path: 'business/event', component: BasicComponent, data:{'model':EventsModel}},
     { path: 'business/info', component: BasicComponent,data:{'model':InfoModel}},
@@ -110,24 +93,24 @@ const routesDefault: Routes = [
     { path: 'business/notify', component: BasicComponent,data:{'model':NotificationModel}},
 
 
-    { path: 'club/catalog/type/product', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/product', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/status', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/qr', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/trade', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/trade/:userId', component: BasicComponent,data:{'model':''}},
+    { path: 'club/catalog/type/product', component: BasicComponent,data:{'model':ProductTypeModel}},
+    { path: 'club/catalog/product', component: BasicComponent,data:{'model':ProductModel}},
+    { path: 'club/catalog/status', component: BasicComponent,data:{'model':StateModel}},
+    { path: 'club/catalog/qr', component: BasicComponent,data:{'model':QrcodeModel}},
+    { path: 'club/catalog/trade', component: BasicComponent,data:{'model':TradeModel}},
+    { path: 'club/catalog/trade/:userId', component: BasicComponent,data:{'model':TradeModel}},
 
-    { path: 'club/catalog/vehicle', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/vehicle/model', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/vehicle/brand', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/vehicle/type', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/tag', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/company', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/antenna', component: BasicComponent,data:{'model':''}},
-    { path: 'club/catalog/location', component: BasicComponent,data:{'model':''}},
+    { path: 'club/catalog/vehicle', component: BasicComponent,data:{'model':VehicleModel}},
+    { path: 'club/catalog/vehicle/model', component: BasicComponent,data:{'model':ModelModel}},
+    { path: 'club/catalog/vehicle/brand', component: BasicComponent,data:{'model':BrandModel}},
+    { path: 'club/catalog/vehicle/type', component: BasicComponent,data:{'model':VehicleTypeModel}},
+    { path: 'club/catalog/tag', component: BasicComponent,data:{'model':TagModel}},
+    { path: 'club/catalog/company', component: BasicComponent,data:{'model':CompanyModel}},
+    { path: 'club/catalog/antenna', component: BasicComponent,data:{'model':AntennaModel}},
+    { path: 'club/catalog/location', component: BasicComponent,data:{'model':LocationModel}},
 
-    { path: 'club/catalog/record', component: RecordComponent},
-    { path: 'club/catalog/contract', component: ContractComponent},
+    { path: 'club/catalog/record', component: BasicComponent,data:{'model':RecordModel}},
+    { path: 'club/catalog/contract', component: BasicComponent,data:{'model':ContractModel}},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
@@ -135,6 +118,7 @@ const routesDefault: Routes = [
 
     { path: 'club/register/full', component:  RegisterFullComponent},
 ];
+
 const routesApp: Routes = [];
 @NgModule({
     imports: [
@@ -143,8 +127,7 @@ const routesApp: Routes = [];
     ],
     exports: [RouterModule,ToastyModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
 
 export const componentsDefault = [
     DashboardComponent,
@@ -158,6 +141,7 @@ export const componentsDefault = [
     TermConditionsComponent,
     BasicComponent
 ];
+
 export const componentsView = [
     ImageEditComponent,
     BaseViewComponent,
@@ -177,29 +161,15 @@ export const componentsView = [
     ChartViewComponent,
     DataViewComponent
 ];
+
 export const componentsApp = [
-    ProductTypeComponent,
-    ProductComponent,
-    StatusComponent,
     GenerateOutputComponent,
     GetbackComponent,
-    QrcodeComponent,
-    TradeComponent,
-    VehicleComponent,
-    ModelComponent,
-    BrandComponent,
     VehicleTypeComponent,
-    TagComponent,
     RegisterFullComponent,
-    UserStatusComponent,
-    CompanyComponent,
-    AntennaComponent,
-    LocationComponent,
     RecordInOutComponent,
-    RecordComponent,
-    ContractComponent,
-    UserGroupComponent
 ];
+
 export const componentsPublic = [
     'LoginComponent',
     'ActivateComponent',
