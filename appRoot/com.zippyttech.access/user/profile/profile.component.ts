@@ -4,6 +4,7 @@ import {UserModel} from "../user.model";
 import {AnimationsManager} from "../../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {IRest} from "../../../com.zippyttech.rest/restController";
+import {VehicleModel} from "../../../com.zippyttech.club/catalog/vehicle/vehicle.model";
 
 declare var SystemJS:any;
 
@@ -14,9 +15,10 @@ declare var SystemJS:any;
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
 export class ProfileComponent extends ControllerBase implements OnInit{
-    public restVeh:IRest;
+    public vehicleModel:VehicleModel;
     constructor(public db:DependenciesBase) {
         super(db);
+        this.vehicleModel = new VehicleModel(this.db);
     }
     ngOnInit():any
     {
@@ -29,7 +31,7 @@ export class ProfileComponent extends ControllerBase implements OnInit{
         let that = this;
         this.model = new UserModel(this.db);
         this.model.updateProfile();
-        this.restVeh= {
+        this.vehicleModel.rest = {
             'where': [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}],
             'max': 5,
             'offset':0,

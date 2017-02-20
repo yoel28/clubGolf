@@ -5,7 +5,7 @@ import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 export class UserTypeModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'US_TYPE',true,'/type/users/');
+        super(db,'/type/users/');
         this.initModel();
     }
     modelExternal() {}
@@ -61,7 +61,7 @@ export class UserTypeModel extends ModelBase{
     }
 
     initModelActions(params: IModelActions){
-        params['delete'].message='¿ Esta seguro de eliminar el usuario : ';
+        params['delete'].message='¿ Esta seguro de eliminar el tipo de usuario : ';
         params['delete'].key = 'username';
     }
 

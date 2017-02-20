@@ -1,11 +1,12 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class ProductTypeModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'PRTYPE','/type/products/');
+        super(db,'/type/products/');
         this.initModel(false);
         this.loadDataApi();
     }
@@ -149,5 +150,10 @@ export class ProductTypeModel extends ModelBase{
             })
         }
         this.completed = true;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el tipo: ';
+        params['delete'].key = 'title';
     }
 }

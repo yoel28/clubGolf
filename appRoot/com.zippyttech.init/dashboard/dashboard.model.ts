@@ -1,18 +1,17 @@
-import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
+import {ModelRoot, IModelActions} from "../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model";
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {QrcodeModel} from "../../com.zippyttech.club/catalog/qrcode/qrcode.model";
 
 export class DashboardModel extends ModelRoot{
-
     public record:RecordModel;
     public trade:TradeModel;
     public guest: QrcodeModel;
     public qr: QrcodeModel;
 
     constructor(public db:DependenciesBase){
-        super(db,'DASH','/dashboard/');
+        super(db,'/dashboard/');
         this.initModel();
     }
 
@@ -90,4 +89,5 @@ export class DashboardModel extends ModelRoot{
 
     initRulesSave() {}
 
+    initModelActions(params: IModelActions){}
 }

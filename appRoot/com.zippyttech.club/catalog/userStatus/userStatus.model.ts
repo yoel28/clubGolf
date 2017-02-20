@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class UserStatusModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'US_STATUS','/statuses/');
+        super(db,'/statuses/');
         this.initModel();
     }
     modelExternal() {}
@@ -52,6 +53,11 @@ export class UserStatusModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el estado: ';
+        params['delete'].key = 'title';
     }
 
 }

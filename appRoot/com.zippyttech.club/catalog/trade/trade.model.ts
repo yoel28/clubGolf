@@ -5,6 +5,7 @@ import {StateModel} from "../state/state.model";
 import {ProductModel} from "../product/product.model";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class TradeModel extends ModelBase{
 
@@ -14,7 +15,7 @@ export class TradeModel extends ModelBase{
     private sponsor:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'TRADE','/trades/');
+        super(db,'/trades/');
         this.initModel();
     }
 
@@ -195,5 +196,10 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;
         delete this.rulesSave.usePrice;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar la operacion: ';
+        params['delete'].key = 'id';
     }
 }

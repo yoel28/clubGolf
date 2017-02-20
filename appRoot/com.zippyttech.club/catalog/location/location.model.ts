@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class LocationModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'LOC','/locations/');
+        super(db,'/locations/');
         this.initModel();
     }
     modelExternal() {}
@@ -54,4 +55,8 @@ export class LocationModel extends ModelBase{
         delete this.rulesSave.enabled;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar la ubicacion: ';
+        params['delete'].key = 'title';
+    }
 }

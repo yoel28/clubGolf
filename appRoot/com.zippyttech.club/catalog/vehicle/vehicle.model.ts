@@ -3,6 +3,7 @@ import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {ModelModel} from "../model/model.model";
 import {VehicleTypeModel} from "../vehicleType/vehicleType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class VehicleModel extends ModelBase{
 
@@ -12,7 +13,7 @@ export class VehicleModel extends ModelBase{
 
 
     constructor(public db:DependenciesBase,useGlobal=true){
-        super(db,'VEH','/vehicles/',useGlobal);
+        super(db,'/vehicles/');
         this.initModel();
     }
     modelExternal() {
@@ -130,4 +131,9 @@ export class VehicleModel extends ModelBase{
         delete this.rulesSave.tag;
     }
 
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar la placa: ';
+        params['delete'].key = 'plate';
+    }
 }

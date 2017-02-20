@@ -14,7 +14,7 @@ export class RegisterFullModel extends ModelBase{
 
 
     constructor(public db:DependenciesBase){
-        super(db,'REG_FULL',true,'/users/wizard');
+        super(db,'/users/wizard');
         this.initModel();
     }
     modelExternal() {
@@ -49,9 +49,8 @@ export class RegisterFullModel extends ModelBase{
         this.rulesSave = Object.assign({});
     }
 
-    initModelActions(params: IModelActions) {
+    initModelActions(params: IModelActions) {}
 
-    }
 
 }
 

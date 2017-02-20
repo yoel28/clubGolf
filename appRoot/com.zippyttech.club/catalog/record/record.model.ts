@@ -7,6 +7,7 @@ import {LocationModel} from "../location/location.model";
 import {CompanyModel} from "../company/company.model";
 import {UserTypeModel} from "../userType/userType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class RecordModel extends ModelBase{
 
@@ -20,7 +21,7 @@ export class RecordModel extends ModelBase{
 
 
     constructor(public db:DependenciesBase){
-        super(db,'RECORD','/records/');
+        super(db,'/records/');
         this.initModel();
     }
     modelExternal() {
@@ -213,4 +214,8 @@ export class RecordModel extends ModelBase{
         delete this.rulesSave.antennaOut;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el registro: ';
+        params['delete'].key = 'id';
+    }
 }

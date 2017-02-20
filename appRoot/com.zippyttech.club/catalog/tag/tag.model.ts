@@ -1,13 +1,14 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {VehicleModel} from "../vehicle/vehicle.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 
 export class TagModel extends ModelBase{
     private vehicle:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'TAG','/tags/');
+        super(db,'/tags/');
         this.initModel();
     }
     modelExternal() {
@@ -69,6 +70,11 @@ export class TagModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.vehicle;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el tag: ';
+        params['delete'].key = 'code';
     }
 
 }

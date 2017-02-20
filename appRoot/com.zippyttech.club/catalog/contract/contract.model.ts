@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class ContractModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'CONT','/contracts/');
+        super(db,'/contracts/');
         this.initModel();
     }
     modelExternal() {}
@@ -53,4 +54,8 @@ export class ContractModel extends ModelBase{
         delete this.rulesSave.enabled;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el contrato: ';
+        params['delete'].key = 'code';
+    }
 }

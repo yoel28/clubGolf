@@ -1,5 +1,5 @@
 import {BrandModel} from "../brand/brand.model";
-import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
+import {ModelRoot, IModelActions} from "../../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
@@ -7,7 +7,7 @@ export class ModelModel extends ModelRoot{
 
     public brand:any;
     constructor(public db:DependenciesBase){
-        super(db,'MOD','/models/');
+        super(db,'/models/');
         this.initModel();
     }
     modelExternal() {
@@ -55,4 +55,8 @@ export class ModelModel extends ModelRoot{
         delete this.rulesSave.enabled;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el modelo: ';
+        params['delete'].key = 'title';
+    }
 }
