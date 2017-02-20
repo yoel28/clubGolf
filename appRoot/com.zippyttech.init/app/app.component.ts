@@ -15,7 +15,7 @@ declare var SystemJS: any;
 var jQuery = require('jquery');
 
 @Component({
-    moduleId: module.id,
+    moduleId:module.id,
     selector: 'my-app',
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
