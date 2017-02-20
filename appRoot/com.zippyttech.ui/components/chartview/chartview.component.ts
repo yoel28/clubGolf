@@ -6,7 +6,6 @@ import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFuncti
 
 
 declare var SystemJS:any;
-var moment = require('moment');
 var jQuery = require('jquery');
 const Highcharts = require('highcharts');
 //const Highcharts3d = require('highcharts/highcharts-3d.src');
@@ -16,7 +15,7 @@ export interface IChartData
 {
     endpoint:string;
     title:string;
-    options:Highcharts.Options | {};
+    options: Highcharts.Options | {};
 }
 
 @Component({
@@ -41,10 +40,10 @@ export class ChartViewComponent extends ControllerBase
         this.currentDate = new Date();
         this.selectDate = new Date();
         this.viewDeep = 0;
+        this.chartId = StaticFunction.getRandomID("CHART");
     }
 
-    initModel() {
-        this.chartId = StaticFunction.getRandomID("CHART");
+    initModel(){
         this.chartData.options["chart"].renderTo = this.chartId;
         this.chartData.options["credits"] = false;
         this.chartRefresh();
