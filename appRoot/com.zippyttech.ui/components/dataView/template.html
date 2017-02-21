@@ -9,7 +9,7 @@
             </button>
             <template [ngIf]="dataParams.internal">
                 <button *ngFor="let action of model.getActionsArray(data)"
-                        (click)="action.callback(data,model.navIndex||0)" [attr.title]="action.view[getNumber(data[action.syncKey])||0].title">
+                        (click)="dataParams.ruleViewOptions.select=data; action.callback(data,model.navIndex||0)" [attr.title]="action.view[getNumber(data[action.syncKey])||0].title">
                     <i class="{{action.view[getNumber(data[action.syncKey])||0].icon}}"></i>
                 </button>
             </template>
