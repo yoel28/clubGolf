@@ -338,8 +338,10 @@ ul.ui-autocomplete {
 }
 
 .sidebar-collapse .user-panel>.image>img {
+    width: 30px !important;
+    height: 30px !important;
     min-width: 0px !important;
-    width: 100% !important;
+
 }
 
 .sidebar-collapse .user-panel:hover>.image {

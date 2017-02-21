@@ -1,11 +1,35 @@
-.box.box-primary {
-    border-top-color: #0d5628;
-}
 .nav-tabs-custom > .nav-tabs > li.active {
     border-top-color: #0d5628;
 }
+
+.box-header{
+    padding: 0px !important;
+}
+
 .border-bottom{
     -webkit-box-shadow:0px 1px 11px -9px rgba(0,0,0,0.6);
     -moz-box-shadow:0px 1px 11px -9px rgba(0,0,0,0.6);
     box-shadow:0px 1px 11px -9px rgba(0,0,0,0.6);
+}
+
+.tab-content {
+    background: #fff;
+    padding: 20px 15px;
+    border:none;
+    border-top: 0;
+    border-radius: 0px !important;
+}
+
+.nav-tabs-custom{
+    overflow: hidden !important;
+}
+.list-group-item{
+    height: auto;
+    overflow-y: auto;
+}
+
+.list-group-item>span{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
