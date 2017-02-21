@@ -116,7 +116,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         Object.keys(this.user.rulesSave).forEach(key=>{
             if(key!='email')
                 delete this.user.rulesSave[key];
-        })
+        });
     }
 
     public ngAfterViewInit() {

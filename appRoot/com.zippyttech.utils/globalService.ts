@@ -71,6 +71,12 @@ export class globalService extends RestController{
         this.loadChannels();
     }
     dataSesionInit(value = false):void{
+        this.user={};
+        this.params=[];
+        this.help=[];
+        this.permissions=[];
+        this.rules=[];
+        this.channels=[];
         this.dataSesion.setValue({
             'token':        {'status':value,'title':'Validando usuario'},
             'user':         {'status':value,'title':'Consultando datos del usuario'},
@@ -114,7 +120,7 @@ export class globalService extends RestController{
             that.dataSesion.setValue(that.dataSesion.value);
 
         };
-        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
+        let where = encodeURI('[["op":"eq","field":"email","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
         this.httputils.doGet('/users?where='+where, successCallback,this.errorGS);
         //        this.httputils.doGet('/current/user/', successCallback,this.errorGS);
     };
