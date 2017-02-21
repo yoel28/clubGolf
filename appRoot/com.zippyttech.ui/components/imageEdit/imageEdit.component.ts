@@ -30,7 +30,6 @@ export class ImageEditComponent implements AfterContentInit{
 
     ngAfterContentInit(){
         jQuery(".file-input").addClass("btn-i");
-        console.log(jQuery(".file-input"));
     }
     saveImage(data){
         this.out.emit(this.image);
