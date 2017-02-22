@@ -19,7 +19,6 @@ import {SearchMultipleComponent} from "./com.zippyttech.ui/components/searchMult
 import {GenerateOutputComponent} from "./com.zippyttech.club/process/generateOutput/generateOutput.component";
 import {GetbackComponent} from "./com.zippyttech.club/process/getBack/getback.component";
 import {ToastyModule} from "ng2-toasty";
-import {VehicleTypeComponent} from "./com.zippyttech.club/catalog/vehicleType/vehicleType.component";
 import {RegisterFullComponent} from "./com.zippyttech.club/process/registerFull/registerFull.component";
 import {FormComponent} from "./com.zippyttech.ui/components/form/form.component";
 import {RecordInOutComponent} from "./com.zippyttech.club/process/recordInOut/recordInOut";
@@ -63,6 +62,7 @@ import {VehicleTypeModel} from "./com.zippyttech.club/catalog/vehicleType/vehicl
 import {GetbackModel} from "./com.zippyttech.club/process/getBack/getback.model";
 import {RegisterFullModel} from "./com.zippyttech.club/process/registerFull/registerFull.model";
 import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accountSelect.component";
+import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -102,7 +102,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/trade', component: BasicComponent,data:{'model':TradeModel}},
     { path: 'club/catalog/trade/:userId', component: BasicComponent,data:{'model':TradeModel}},
 
-    { path: 'club/catalog/vehicle', component: BasicComponent,data:{'model':VehicleModel}},
+    { path: 'club/catalog/vehicle', component: VehicleComponent},
     { path: 'club/catalog/vehicle/model', component: BasicComponent,data:{'model':ModelModel}},
     { path: 'club/catalog/vehicle/brand', component: BasicComponent,data:{'model':BrandModel}},
     { path: 'club/catalog/vehicle/type', component: BasicComponent,data:{'model':VehicleTypeModel}},
@@ -168,9 +168,9 @@ export const componentsView = [
 export const componentsApp = [
     GenerateOutputComponent,
     GetbackComponent,
-    VehicleTypeComponent,
     RegisterFullComponent,
     RecordInOutComponent,
+    VehicleComponent
 ];
 
 export const componentsPublic = [
