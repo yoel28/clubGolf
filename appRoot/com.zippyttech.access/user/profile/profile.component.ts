@@ -14,23 +14,18 @@ declare var SystemJS:any;
     styleUrls: ['style.css'],
     animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
 })
-export class ProfileComponent extends ControllerBase implements OnInit{
+export class ProfileComponent extends ControllerBase{
     public vehicleModel:VehicleModel;
     constructor(public db:DependenciesBase) {
         super(db);
         this.vehicleModel = new VehicleModel(this.db);
     }
-    ngOnInit():any
-    {
-        super.ngOnInit();
-        this.loadPage();
-    }
-
     public qrList=[];
     initModel():any{
         let that = this;
         this.model = new UserModel(this.db);
         this.model.updateProfile();
+        this.vehicleModel.paramsSearch.where = [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}];
         this.vehicleModel.rest = {
             'where': [{'op': 'eq', 'field': 'user.id', 'value': this.db.myglobal.user.id}],
             'max': 5,
