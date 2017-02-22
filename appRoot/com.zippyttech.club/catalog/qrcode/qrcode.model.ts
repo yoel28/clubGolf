@@ -111,6 +111,8 @@ export class QrcodeModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar QR";
         this.paramsSearch.placeholder="Ingrese codigo del QR";
+        this.paramsSearch.label.title='ID: ';
+        this.paramsSearch.label.detail='';
     }
     initParamsSave() {
         this.paramsSave.title="Agregar QR"
@@ -118,7 +120,7 @@ export class QrcodeModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="QR";
         this.ruleObject.placeholder="Ingrese codigo del QR";
-        this.ruleObject.key="qrId";
+        this.ruleObject.key="qr";
         this.ruleObject.keyDisplay = "qrId";
         this.ruleObject.code = "qrId";
     }
