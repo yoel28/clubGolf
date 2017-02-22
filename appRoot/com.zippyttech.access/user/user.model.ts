@@ -210,8 +210,8 @@ export class UserModel extends ModelBase{
         })
     }
     initModelActions(params){
-        params['delete'].message='¿ Esta seguro de eliminar el tipo de usuario: ';
-        params['delete'].key = 'code';
+        params['delete'].message='¿ Esta seguro de eliminar el usuario: ';
+        params['delete'].key = 'username';
     }
 
 }
