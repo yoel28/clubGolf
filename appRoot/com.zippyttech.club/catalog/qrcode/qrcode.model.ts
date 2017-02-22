@@ -120,9 +120,9 @@ export class QrcodeModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="QR";
         this.ruleObject.placeholder="Ingrese codigo del QR";
-        this.ruleObject.key="qr";
-        this.ruleObject.keyDisplay = "qrId";
-        this.ruleObject.code = "qrId";
+        this.ruleObject.key="qrCode";
+        this.ruleObject.keyDisplay = "qrCodeId";
+        this.ruleObject.code = "qrCodeId";
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
