@@ -65,6 +65,7 @@ export class ProductModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.available;
     }
 
     initModelActions(params: IModelActions) {
