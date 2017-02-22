@@ -155,6 +155,7 @@ export class TradeModel extends ModelBase{
 
         this.rules['usePrice']={
             'type': 'number',
+            'double':true,
             'visible':this.permissions.visible,
             'search':this.permissions.search,
             'key': 'usePrice',
