@@ -25,7 +25,8 @@ export class VehicleModel extends ModelBase{
     initRules() {
 
         this.rules['tags'] = {
-            'type': 'list',
+            'type': 'array',
+            'typeView':'modal',
             'maxLength': '35',
             'readOnly':true,
             'prefix':'TAG',
@@ -34,7 +35,7 @@ export class VehicleModel extends ModelBase{
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
             'key': 'tags',
-            'title': 'Tag',
+            'title': 'Tags',
             'refreshField':{
                 'icon':'fa-refresh',
                 'endpoint':'/read/tags',
@@ -135,5 +136,22 @@ export class VehicleModel extends ModelBase{
     initModelActions(params: IModelActions) {
         params['delete'].message = '¿Esta seguro de eliminar la placa: ';
         params['delete'].key = 'plate';
+    }
+
+
+    public fieldToArray(data:Object,key:string):any[]{
+        if(data[key] && (data[key] instanceof Array)) {
+            let array:any[]=[];
+            switch (key) {
+                case 'tags':
+                    for (let item of data[key])
+                        array.push(item['epc']);
+                    break;
+            }
+            if(array.length <= 0)
+                array.push("N/A");
+            return array;
+        }
+        return null;
     }
 }
