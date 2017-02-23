@@ -23,7 +23,6 @@ export class globalService extends RestController{
     public channelWebsocket:any={};
 
     public navigationStart:boolean=false;
-    public accountAvailable=0;
 
     public dataSesion = new FormControl(
         null,
@@ -115,14 +114,12 @@ export class globalService extends RestController{
     loadUser():void{
         let that = this;
         let successCallback= (response:any) => {
-            Object.assign(that.user,that.user,response.json().list[0]);
+            Object.assign(that.user,that.user,response.json());
             that.dataSesion.value.user.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
 
         };
-        let where = encodeURI('[["op":"eq","field":"email","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
-        this.httputils.doGet('/users?where='+where, successCallback,this.errorGS);
-        //        this.httputils.doGet('/current/user/', successCallback,this.errorGS);
+        this.httputils.doGet('/current/user/', successCallback,this.errorGS);
     };
     loadMyPermissions():any{
         let that = this;
@@ -222,7 +219,7 @@ export class globalService extends RestController{
         this.setPreferenceViewModel(model,rules);
         return this.user.preferences.columns[model.replace('Model','')];
     }
-    setPreferenceViewModel(model:string,rules:Object){
+    setPreferenceViewModel(model:string,rules:Object,reset=false){
         let that = this;
         if(!this.user.preferences)
             this.user.preferences={};
@@ -233,6 +230,8 @@ export class globalService extends RestController{
 
         this.user.preferences.columns[model.replace('Model','')]=[];
         Object.keys(rules).forEach(key=>{
+            if(reset)
+                rules[key].visible = reset;
             that.user.preferences.columns[model.replace('Model','')].push(
                 {   'key':key,
                     'visible':rules[key].visible,

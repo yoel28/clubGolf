@@ -47,8 +47,8 @@ export class TradeModel extends ModelBase{
         this.rules['product']=this.product.ruleObject;
         this.rules['product'].update= this.permissions.update;
 
-        this.rules['qr']=this.qr.ruleObject;
-        this.rules['qr'].update= this.permissions.update;
+        this.rules['qrCode']=this.qr.ruleObject;
+        this.rules['qrCode'].update= this.permissions.update;
 
         this.rules['dateCreated']={
             'type': 'date',
@@ -155,6 +155,7 @@ export class TradeModel extends ModelBase{
 
         this.rules['usePrice']={
             'type': 'number',
+            'double':true,
             'visible':this.permissions.visible,
             'search':this.permissions.search,
             'key': 'usePrice',

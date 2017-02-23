@@ -38,6 +38,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
     initModel() {
         this.model = this.instance.model;
     }
+    get getCurrentPage(){
+        return ((this.model.rest.offset/this.model.rest.max)+1);
+    }
 
     public instanceTable:TablesComponent;
     setInstance(instance:TablesComponent){
@@ -83,6 +86,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
                 this.model.getRestParams()+
                 '&access_token='+localStorage.getItem('bearer')+
                 '&formatType='+type;
+    }
+    get getEnabledReport(){
+        return (parseFloat(this.db.myglobal.getParams('REPORT_LIMIT_ROWS')) >= this.model.dataList.count);
     }
 
     setVisibleField(event,data)
@@ -138,9 +144,9 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
         that.model.rules={};
         Object.assign(that.model.rules,temp);
     }
-    savePreference(){
+    savePreference(reset=false){
         let that = this;
-        this.db.myglobal.setPreferenceViewModel(this.model.constructor.name,this.model.rules);
+        this.db.myglobal.setPreferenceViewModel(this.model.constructor.name,this.model.rules,reset);
         let successCallback = (response)=>{
             that.model.addToast('Notificación','Preferencias guardadas')
         }

@@ -183,8 +183,8 @@ export class UserModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="Usuario";
         this.ruleObject.placeholder="Ingrese el usuario";
-        this.ruleObject.key="user";
         this.ruleObject.keyDisplay='user';
+        this.ruleObject.key='user';
         this.ruleObject.eval=this.db.myglobal.getRule('USER_DISPLAY_WEB');
         this.ruleObject.code="userId";
     }
@@ -198,20 +198,29 @@ export class UserModel extends ModelBase{
         delete this.rulesSave.username;
     }
     loadDataExternal() {
-        let that = this;
-        this.role.loadData().then(response => {
-            if(that.role.dataList && that.role.dataList.list)
-            {
-                that.role.dataList.list.forEach(obj=> {
-                    that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
-                });
-            }
-            that.completed = true;
-        })
+        if(this.db.myglobal.publicData && this.db.myglobal.publicData['roles'])
+        {
+            this.loadRoles();
+        }
+        else {
+            this.role.loadData().then((response => {
+                if(this.role.dataList && this.role.dataList.list)
+                {
+                    this.db.myglobal.publicData['roles']=this.role.dataList.list;
+                    this.loadRoles();
+                }
+            }).bind(this));
+        }
+    }
+    loadRoles(){
+        this.db.myglobal.publicData['roles'].forEach((obj=> {
+            this.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
+        }).bind(this));
+        this.completed = true;
     }
     initModelActions(params){
-        params['delete'].message='¿ Esta seguro de eliminar el tipo de usuario: ';
-        params['delete'].key = 'code';
+        params['delete'].message='¿ Esta seguro de eliminar el usuario: ';
+        params['delete'].key = 'username';
     }
 
 }
