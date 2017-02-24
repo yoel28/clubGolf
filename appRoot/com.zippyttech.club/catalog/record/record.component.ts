@@ -3,6 +3,7 @@ import {BaseViewInstance} from "../../../com.zippyttech.ui/view/base/baseView.in
 import {RecordModel} from "./record.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {TagModel} from "../tag/tag.model";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 declare var SystemJS:any;
 @Component({
@@ -18,6 +19,11 @@ export class RecordComponent extends BaseViewInstance{
 
     initModel() {
         this.model= new RecordModel(this.db);
+        this.model.rest.where =[
+            {'op': 'isNotNull', 'field':'vehicle','code':'conocidos'},
+            {'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').start, 'type':'date', 'code':'hoy'},
+            {'op': 'lt', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').end, 'type':'date', 'code':'hoy'}
+        ];
 
         this.model.rules['tags']=(new TagModel(this.db)).ruleObject;
         this.model.rules['tags'].search=false;

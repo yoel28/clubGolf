@@ -236,7 +236,7 @@ export class RecordModel extends ModelBase{
                            {'op': 'le', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').end, 'type':'date', 'code':'semana'}]
                 },
             ],
-            status:0,
+            status:1,
             permission: true,
             callback:()=>{}
         };
@@ -253,7 +253,7 @@ export class RecordModel extends ModelBase{
                   where:[{'op': 'isNotNull', 'field':'vehicle','code':'conocidos'}]
                 },
             ],
-            status:0,
+            status:2,
             permission: true,
             callback:()=>{}
         };
