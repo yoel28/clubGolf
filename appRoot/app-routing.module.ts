@@ -63,6 +63,7 @@ import {GetbackModel} from "./com.zippyttech.club/process/getBack/getback.model"
 import {RegisterFullModel} from "./com.zippyttech.club/process/registerFull/registerFull.model";
 import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accountSelect.component";
 import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
+import {MainTypeModel} from "./com.zippyttech.club/catalog/mainType/mainType.model";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -82,6 +83,7 @@ const routesDefault: Routes = [
     { path: 'access/permission', component: BasicComponent,data:{'model':PermissionModel}},
     { path: 'access/user', component: BasicComponent,data:{'model':UserModel}},
     { path: 'access/user/type', component: BasicComponent,data:{'model':UserTypeModel}},
+    { path: 'access/main/type', component: BasicComponent,data:{'model':MainTypeModel}},
     { path: 'access/user/status', component: BasicComponent,data:{'model':UserStatusModel}},
     { path: 'access/user/group', component: BasicComponent,data:{'model':UserGroupModel}},
     { path: 'access/acl', component: AclComponent},
@@ -214,5 +216,6 @@ export const modelsApp=[
     VehicleModel,
     VehicleTypeModel,
     GetbackModel,
-    RegisterFullModel
+    RegisterFullModel,
+    MainTypeModel
 ];
