@@ -3,14 +3,11 @@ import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase"
 import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class MainTypeModel extends ModelBase{
-    private mainType;
     constructor(public db:DependenciesBase){
         super(db,'/type/main/');
         this.initModel();
     }
-    modelExternal() {
-        this.mainType = new MainTypeModel(this.db);
-    }
+    modelExternal() {}
     initRules() {
         this.rules['title'] = {
             'type': 'text',
@@ -36,12 +33,6 @@ export class MainTypeModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
-
-
-        this.rules['mainType'] = this.mainType.ruleObject;
-        this.rules['mainType'].required=true;
-        this.rules['mainType'].update= this.permissions.update;
-
 
         this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
