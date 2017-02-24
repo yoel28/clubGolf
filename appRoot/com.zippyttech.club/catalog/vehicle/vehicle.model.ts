@@ -25,7 +25,7 @@ export class VehicleModel extends ModelBase{
     initRules() {
 
         this.rules['tags'] = {
-            'type': 'array',
+            'type': 'list',
             'typeView':'modal',
             'maxLength': '35',
             'readOnly':true,

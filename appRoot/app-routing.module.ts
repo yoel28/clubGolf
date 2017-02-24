@@ -64,6 +64,7 @@ import {RegisterFullModel} from "./com.zippyttech.club/process/registerFull/regi
 import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accountSelect.component";
 import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
 import {MainTypeModel} from "./com.zippyttech.club/catalog/mainType/mainType.model";
+import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -114,7 +115,7 @@ const routesDefault: Routes = [
     { path: 'club/catalog/antenna', component: BasicComponent,data:{'model':AntennaModel}},
     { path: 'club/catalog/location', component: BasicComponent,data:{'model':LocationModel}},
 
-    { path: 'club/catalog/record', component: BasicComponent,data:{'model':RecordModel}},
+    { path: 'club/catalog/record', component: RecordComponent},
     { path: 'club/catalog/contract', component: BasicComponent,data:{'model':ContractModel}},
 
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
@@ -173,7 +174,8 @@ export const componentsApp = [
     GetbackComponent,
     RegisterFullComponent,
     RecordInOutComponent,
-    VehicleComponent
+    VehicleComponent,
+    RecordComponent
 ];
 
 export const componentsPublic = [
