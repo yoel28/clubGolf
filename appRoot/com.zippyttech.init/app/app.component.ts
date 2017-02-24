@@ -238,7 +238,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_USER', 'MEN_ACL', 'MEN_PERMISSION', 'MEN_ROLE', 'MEN_ACCOUNT']),
+                'visible': this.db.myglobal.existsPermission(['MEN_USER','MEN_USERTYPE','MEN_USERSTATUS','MEN_USERGROUP','MEN_MAINTYPE', 'MEN_ACL','MEN_PERMISSION', 'MEN_ROLE', 'MEN_ACCOUNT']),
                 'icon': 'fa fa-unlock',
                 'title': 'Acceso',
                 'key': 'Acceso',
@@ -267,6 +267,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'icon': 'fa fa-users',
                         'title': 'Grupo de usuarios',
                         'routerLink': '/access/user/group'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_MAINTYPE']),
+                        'icon': 'fa fa-users',
+                        'title': 'Grupo principal',
+                        'routerLink': '/access/main/type'
                     },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_ACL']),
