@@ -18,6 +18,7 @@ export class RecordComponent extends BaseViewInstance{
 
     initModel() {
         this.model= new RecordModel(this.db);
+        this.model.rest.where =[{'op': 'isNotNull', 'field':'vehicle','code':'conocidos'}];
 
         this.model.rules['tags']=(new TagModel(this.db)).ruleObject;
         this.model.rules['tags'].search=false;
