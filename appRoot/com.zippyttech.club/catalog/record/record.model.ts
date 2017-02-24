@@ -236,7 +236,7 @@ export class RecordModel extends ModelBase{
                            {'op': 'le', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').end, 'type':'date', 'code':'semana'}]
                 },
             ],
-            status:0,
+            status:1,
             permission: true,
             callback:()=>{}
         };
