@@ -20,10 +20,15 @@ export class RecordModel extends ModelBase{
     private company:any;
 
 
+    public filters:any = {};
+
+
     constructor(public db:DependenciesBase){
         super(db,'/records/');
         this.initModel();
+        this.initModelFilters();
     }
+
     modelExternal() {
         this.vehicle = new VehicleModel(this.db);
         this.user = new UserModel(this.db);
@@ -217,5 +222,9 @@ export class RecordModel extends ModelBase{
     initModelActions(params: IModelActions) {
         params['delete'].message = '¿Esta seguro de eliminar el registro: ';
         params['delete'].key = 'id';
+    }
+
+    initModelFilters(){
+
     }
 }
