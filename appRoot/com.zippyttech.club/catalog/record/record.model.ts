@@ -224,14 +224,14 @@ export class RecordModel extends ModelBase{
     initModelFilters(){
         this.filters["time"] = {
             view:[
-                { title:"Todos las fechas",icon:"fa fa-list",colorClass:"",
+                { title:"Todos las fechas",icon:"fa fa-calendar",colorClass:"",
                     where:null
                 },
-                { title:"Hoy",icon:"fa fa-list",colorClass:"",
+                { title:"Hoy",icon:"fa fa-calendar",colorClass:"text-blue",
                   where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').start, 'type':'date', 'code':'hoy'},
                          {'op': 'lt', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').end, 'type':'date', 'code':'hoy'}]
                 },
-                { title:"Semana",icon:"fa fa-list",colorClass:"",
+                { title:"Semana",icon:"fa fa-calendar",colorClass:"text-green",
                     where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').start, 'type':'date', 'code':'semana'},
                            {'op': 'le', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').end, 'type':'date', 'code':'semana'}]
                 },
@@ -243,13 +243,13 @@ export class RecordModel extends ModelBase{
 
         this.filters["clients"] = {
             view:[
-                { title:"Todos los clientes",icon:"fa fa-list",colorClass:"",
+                { title:"Todos los clientes",icon:"fa fa-car",colorClass:"",
                     where:null
                 },
-                { title:"Desconocidos",icon:"fa fa-list",colorClass:"",
+                { title:"Desconocidos",icon:"fa fa-car",colorClass:"text-red",
                   where:[{'op': 'isNull', 'field':'vehicle','code':'desconocidos'}]
                 },
-                { title:"Conocidos",icon:"fa fa-list",colorClass:"",
+                { title:"Conocidos",icon:"fa fa-car",colorClass:"text-blue",
                   where:[{'op': 'isNotNull', 'field':'vehicle','code':'conocidos'}]
                 },
             ],
@@ -260,16 +260,18 @@ export class RecordModel extends ModelBase{
 
         this.filters["registers"] = {
             view:[
-                { title:"Todos los registros",icon:"fa fa-list",colorClass:"",
+                { title:"Todos los registros",icon:"fa fa-folder",colorClass:"",
                     where:null
                 },
-                { title:"S-E",icon:"fa fa-list",colorClass:"",
-                    where:[{'op': 'isNull', 'field':'dateIn','code':'S-E'}]
+                { title:"S-E",icon:"fa fa-folder-open",colorClass:"text-yellow",
+                    where:[{'op': 'isNull', 'field':'dateIn','code':'S-E'},
+                           {'op': 'isNull', 'field':'dateOut','code':'S-E'}]
                 },
-                { title:"E-S",icon:"fa fa-list",colorClass:"",
-                    where:[{'op': 'isNull', 'field':'dateOut','code':'E-S'}]
+                { title:"E-S",icon:"fa fa-folder-open",colorClass:"text-blue",
+                    where:[{'op': 'isNull', 'field':'dateOut','code':'E-S'},
+                           {'op': 'isNotNull', 'field':'dateIn','code':'E-S'}]
                 },
-                { title:"E+S",icon:"fa fa-list",colorClass:"",
+                { title:"E+S",icon:"fa fa-folder-open",colorClass:"text-green",
                     where:[{'op': 'isNotNull', 'field':'dateOut','code':'E+S'},
                            {'op': 'isNotNull', 'field':'dateIn','code':'E+S'}]
                 },
