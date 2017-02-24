@@ -62,7 +62,7 @@ export class UserTypeModel extends ModelBase{
 
     initModelActions(params: IModelActions){
         params['delete'].message='¿ Esta seguro de eliminar el tipo de usuario : ';
-        params['delete'].key = 'username';
+        params['delete'].key = 'title';
     }
 
 }
