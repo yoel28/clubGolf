@@ -11,12 +11,14 @@ import {UserModel} from "../../com.zippyttech.access/user/user.model";
 import {AngularFire} from "angularfire2";
 import {IModal} from "../../com.zippyttech.ui/components/modal/modal.component";
 
-declare var jQuery: any;
 declare var SystemJS: any;
+var jQuery = require('jquery');
+
 @Component({
+    moduleId:module.id,
     selector: 'my-app',
-    templateUrl: SystemJS.map.app + 'com.zippyttech.init/app/index.html',
-    styleUrls: [SystemJS.map.app + 'com.zippyttech.init/app/style.css'],
+    templateUrl: 'index.html',
+    styleUrls: ['style.css'],
     animations: AnimationsManager.getTriggers("d-fade|expand_down", 150)
 })
 export class AppComponent extends RestController implements OnInit,AfterViewInit,AfterContentChecked,DoCheck {
@@ -28,6 +30,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     public info: any;
     public user: any;
+
 
     constructor(public db: DependenciesBase, private cdRef: ChangeDetectorRef,public af: AngularFire) {
         super(db);
@@ -41,6 +44,10 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.menuType = new FormControl(null);
         this.menuItems = new FormControl([]);
         this.loadPublicData();
+
+        if(this.validToken()  && !this.db.myglobal.dataSesion.valid){
+            this.goPage(null,'/init/load');
+        }
     }
 
     routerEvents(){
@@ -61,7 +68,14 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     }
                     that.db.router.navigate(link);
                 }
-                else if (!isPublic && !that.db.myglobal.dataSesion.valid) {
+                else if (localStorage.getItem('userTemp')){
+                    if(componentName!='AccountSelectComponent' && componentName!='LoadComponent'){
+                        that.db.myglobal.saveUrl = event.url;
+                        let link = ['/auth/accountSelect', {}];
+                        that.db.router.navigate(link);
+                    }
+                }
+                else if (!isPublic && !that.db.myglobal.dataSesion.valid ) {
                     let link: any;
                     if (localStorage.getItem('bearer')) {
                         if (componentName != 'LoadComponent') {
@@ -82,9 +96,12 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     that.db.router.navigate(link);
                 }
 
-                if (that.db.myglobal.dataSesion.valid && that.db.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE')) {
-                    localStorage.setItem('VERSION_CACHE', that.db.myglobal.getParams('VERSION_CACHE'));
-                    location.reload(true);
+                if (that.db.myglobal.dataSesion.valid  && that.db.myglobal.getParams('VERSION_CACHE') != localStorage.getItem('VERSION_CACHE')) {
+                    if(!localStorage.getItem('userTemp'))
+                    {
+                        localStorage.setItem('VERSION_CACHE', that.db.myglobal.getParams('VERSION_CACHE'));
+                        location.reload(true);
+                    }
                 }
             }
         });
@@ -99,7 +116,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         Object.keys(this.user.rulesSave).forEach(key=>{
             if(key!='email')
                 delete this.user.rulesSave[key];
-        })
+        });
     }
 
     public ngAfterViewInit() {
@@ -112,6 +129,9 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     ngAfterContentChecked() {
 
+    }
+    public get sessionValid(){
+        return this.db.myglobal.dataSesion.valid && !localStorage.getItem('userTemp');
     }
 
     @HostListener('window:resize', ['$event'])
@@ -134,6 +154,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         let successCallback = (response: any) => {
             this.db.myglobal.dataSesionInit();
             localStorage.removeItem('bearer');
+            localStorage.removeItem('userTemp');
+            localStorage.removeItem('accountList');
             contentHeaders.delete('Authorization');
             that.af.auth.logout();
             this.menuItems.setValue([]);
@@ -143,6 +165,16 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             that.db.router.navigate(link);
         };
         this.httputils.doPost('/logout', null, successCallback, this.error);
+
+    }
+    public changeAccount(event){
+        if(event)
+            event.preventDefault();
+
+        localStorage.setItem('userTemp','true');
+
+        let link = ['/auth/accountSelect', {}];
+        this.db.router.navigate(link);
 
     }
 
@@ -206,35 +238,41 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_USERS','MEN_ACL','MEN_PERM','MEN_ROLE','MEN_ACCOUNT','MEN_US_TYPE','MEN_CONT','MEN_US_GROUP']),
+                'visible': this.db.myglobal.existsPermission(['MEN_USER','MEN_USERTYPE','MEN_USERSTATUS','MEN_USERGROUP','MEN_MAINTYPE', 'MEN_ACL','MEN_PERMISSION', 'MEN_ROLE', 'MEN_ACCOUNT']),
                 'icon': 'fa fa-unlock',
                 'title': 'Acceso',
                 'key': 'Acceso',
                 'select': false,
                 'treeview': [
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_USERS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USER']),
                         'icon': 'fa fa-user',
                         'title': 'Usuarios',
                         'routerLink': '/access/user'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_US_TYPE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USERTYPE']),
                         'icon': 'fa fa-male',
                         'title': 'Tipos de usuarios',
                         'routerLink': '/access/user/type'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_USER_STATUS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USERSTATUS']),
                         'icon': 'fa fa-child',
                         'title': 'Estado de usuarios',
                         'routerLink': '/access/user/status'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_US_GROUP']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_USERGROUP']),
                         'icon': 'fa fa-users',
                         'title': 'Grupo de usuarios',
                         'routerLink': '/access/user/group'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_MAINTYPE']),
+                        'icon': 'fa fa-users',
+                        'title': 'Grupo principal',
+                        'routerLink': '/access/main/type'
                     },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_ACL']),
@@ -243,8 +281,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/access/acl'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_PERM']),
-                        'icon': 'fa  fa-key',
+                        'visible': this.db.myglobal.existsPermission(['MEN_PERMISSION']),
+                        'icon': 'fa fa-key',
                         'title': 'Permisos',
                         'routerLink': '/access/permission'
                     },
@@ -261,7 +299,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/access/account'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_CONT']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_CONTRACT']),
                         'icon': 'fa  fa-edit',
                         'title': 'Contratos',
                         'routerLink': '/club/catalog/contract'
@@ -269,7 +307,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_EVENT', 'MEN_INFO', 'MEN_PARAM', 'MEN_RULE', 'MEN_NOTIFY','MEN_CHANNEL']),
+                'visible': this.db.myglobal.existsPermission(['MEN_EVENT', 'MEN_INFO', 'MEN_PARAM', 'MEN_RULE', 'MEN_NOTIFICATION','MEN_CHANNEL']),
                 'icon': 'fa fa-gears',
                 'title': 'Configuración',
                 'key': 'Configuracion',
@@ -306,40 +344,40 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/business/rule'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_NOTIFY']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_NOTIFICATION']),
                         'icon': 'fa fa-bell-o',
                         'title': 'Notificaciones',
-                        'routerLink': '/business/notification'
+                        'routerLink': '/business/notify'
                     },
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_PRTYPE','MEN_PROD','MEN_STATUS','MEN_QR']),
+                'visible': this.db.myglobal.existsPermission(['MEN_PRODUCTTYPE','MEN_PRODUCT','MEN_STATE','MEN_QRCODE']),
                 'icon': 'fa fa-newspaper-o',
                 'title': 'Catálogo',
                 'key': 'Catalogo',
                 'select' : false,
                 'treeview': [
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_PRTYPE']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PRODUCTTYPE']),
                         'icon': 'fa fa-cart-plus',
                         'title': 'Tipo de producto',
                         'routerLink': '/club/catalog/type/product'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_PROD']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_PRODUCT']),
                         'icon': 'fa fa-cube',
                         'title': 'Producto',
                         'routerLink': '/club/catalog/product'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_STATUS']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_STATE']),
                         'icon': 'fa fa-tasks',
                         'title': 'Estados',
                         'routerLink': '/club/catalog/status'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_QR']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_QRCODE']),
                         'icon': 'fa fa-qrcode',
                         'title': 'Códigos QR',
                         'routerLink': '/club/catalog/qr'
@@ -390,16 +428,15 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/club/catalog/trade'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_RECORD_LIST']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_RECORD']),
                         'icon': 'fa fa-file-text',
                         'title': 'Lista registro',
                         'routerLink': '/club/catalog/record'
                     }
                 ]
             });
-
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_VEH','MEN_VEH_TYP','MEN_MODEL','MEN_BRAND']),
+                'visible': this.db.myglobal.existsPermission(['MEN_VEHICLE','MEN_VEHICLETYPE','MEN_MODEL','MEN_BRAND']),
                 'icon': 'fa fa-car',
                 'title': 'Vehículos',
                 'key': 'vehicle',
@@ -413,13 +450,13 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/club/catalog/tag'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_VEH']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_VEHICLE']),
                         'icon': 'fa fa-bus',
                         'title': 'Vehículos',
                         'routerLink': '/club/catalog/vehicle'
                     },
                     {
-                        'visible': this.db.myglobal.existsPermission(['MEN_VEH_TYP']),
+                        'visible': this.db.myglobal.existsPermission(['MEN_VEHICLETYPE']),
                         'icon': 'fa fa-truck',
                         'title': 'Tipos de veh.',
                         'routerLink': '/club/catalog/vehicle/type'
@@ -440,6 +477,10 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
         }
+    }
+
+    getLocalStorage(item){
+        return localStorage.getItem(item);
     }
 
     menuItemsVisible(menu) {
@@ -470,7 +511,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.db.myglobal.objectInstance[prefix] = instance;
     }
 
-    goPage(event, url) {
+    goPage(event=null, url) {
         if (event)
             event.preventDefault();
         let link = [url, {}];

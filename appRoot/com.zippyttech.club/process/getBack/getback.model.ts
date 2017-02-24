@@ -1,13 +1,14 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StateModel} from "../../catalog/state/state.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 
 export class GetbackModel extends ModelBase{
     private state:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'GETBACK','/getback/');
+        super(db,'/getback/');
         this.initModel(false);
         this.loadDataExternal();
     }
@@ -90,4 +91,6 @@ export class GetbackModel extends ModelBase{
             }
         )
     }
+
+    initModelActions(params: IModelActions){}
 }

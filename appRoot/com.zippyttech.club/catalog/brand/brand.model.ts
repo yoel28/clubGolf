@@ -1,11 +1,11 @@
-import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
+import {ModelRoot, IModelActions} from "../../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 
 export class BrandModel extends ModelRoot{
 
     constructor(public db:DependenciesBase){
-        super(db,'BRAND','/brands/');
+        super(db,'/brands/');
         this.initModel();
     }
     modelExternal() {}
@@ -46,4 +46,8 @@ export class BrandModel extends ModelRoot{
         delete this.rulesSave.enabled;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar la marca: ';
+        params['delete'].key = 'title';
+    }
 }

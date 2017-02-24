@@ -1,11 +1,12 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 
 export class VehicleTypeModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'VEHTYPE','/type/vehicles/');
+        super(db,'/type/vehicles/');
         this.initModel();
     }
     modelExternal() {}
@@ -44,6 +45,11 @@ export class VehicleTypeModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el tipo: ';
+        params['delete'].key = 'title';
     }
 
 }

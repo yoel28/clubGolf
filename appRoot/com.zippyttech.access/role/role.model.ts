@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class RoleModel extends ModelRoot{
 
     constructor(public db:DependenciesBase){
-        super(db,'ROLE','/roles/');
+        super(db,'/roles/');
         this.initModel();
     }
     modelExternal() {}
@@ -42,6 +42,10 @@ export class RoleModel extends ModelRoot{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar el rol : ';
+        params['delete'].key = 'authority';
     }
 
 }

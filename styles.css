@@ -23,9 +23,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-body {
-    line-height: 1;
-}
 ol, ul {
     list-style: none;
 }
@@ -104,11 +101,11 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     max-width: none !important;
 }
 .btn.redondo {
-    -webkit-border-radius: 30px!important;
-    -moz-border-radius: 30px!important;
-    border-radius: 30px!important;
-    padding-top: 9px;
-    padding-bottom: 9px;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
 }
 .btn{
     border-radius: 3px !important;
@@ -237,4 +234,155 @@ table>tbody>tr>td:not(.notHidden) a:not(.notHidden) {
     0% { opacity: 1.0; }
     50% { opacity: 0.0; }
     100% { opacity: 1.0; }
+}
+
+ul.ui-autocomplete {
+    width: 40% !important;
+    padding: 5px !important;
+    z-index: 10000 !important;
+}
+
+
+/*#######################*/
+/*ANIMATION*/
+.user-panel {
+    height: 60px !important;
+    padding: 10px  !important;
+    position: relative  !important;
+    transition-duration:.5s  !important;
+}
+
+.user-panel>*{
+    display: inline-block  !important;
+    border-radius:0px !important;
+    float: left !important;
+    line-height: 40px !important;
+}
+
+.user-panel>.info{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-panel *{
+    position: relative  !important;
+    transition-duration:.5s  !important;
+    left: 0px !important;
+    top:0px !important;
+}
+
+.user-panel:hover{
+    background: #1e282c !important;
+}
+
+.user-panel:hover>.image{
+    transform: translateX(-60px) !important;
+    width: 0% !important;
+}
+
+.user-panel:hover>.info{
+    transform: translateX(-5px) !important;
+    width:95%  !important;
+}
+
+.user-panel:hover>.info:after, .user-panel:hover>.info:before {
+    transform: scale(1) !important;
+}
+
+.user-panel>.image {
+    height: 100%  !important;
+    width:30%  !important;
+    max-width:50px  !important;
+}
+
+.user-panel> .image > img {
+    max-width: 40px  !important;
+    min-width: 40px  !important;
+    max-height: 40px  !important;
+    border: 2px solid #FFF !important;
+}
+
+.user-panel>.info {
+    padding: 0px 10px !important;
+    height: 100% !important;
+    position: relative !important;
+    width:60% !important;
+}
+
+.user-panel>.info:before {
+    border-bottom: 1px solid #3c763d !important;
+    border-left: 1px solid #3c763d !important;
+    transform-origin: 100% 0% !important;
+}
+
+.user-panel>.info:after {
+    border-top: 1px solid #3c763d !important;
+    border-right: 1px solid #3c763d !important;
+    transform-origin: 0% 100% !important;
+}
+
+.info:before, .info::after {
+    border-radius:5px !important;
+    width: 100% !important;
+    height:100% !important;
+    content:'' !important;
+    position: absolute !important;
+    top:0 !important;
+    left:0 !important;
+    transition: 0.5s !important;
+    -webkit-transform: scale(0) !important;
+}
+
+.treeview>a{
+    transition-duration:.5s !important;
+}
+
+.sidebar-collapse .user-panel>.image>img {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 0px !important;
+
+}
+
+.sidebar-collapse .user-panel:hover>.image {
+    transform: translateX(0px) !important;
+}
+
+.sidebar-collapse .user-panel>.image {
+    width: 100% !important;
+    padding: 0px !important;
+}
+
+.sidebar-collapse .user-panel:hover>.image>img {
+    border-color: #116f34 !important;
+    border-radius: 10px !important;
+}
+.btn-transparent, .btn-transparent:focus,.btn-transparent:active,.btn-transparent:visited{
+    border: transparent;
+    background: transparent;
+    outline: transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 3px !important;
+    height: 3px !important;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(72, 140, 108, 0.16) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(13, 86, 40, 0.6) !important;
+    outline: none;
+}
+
+
+body {
+    transition: .2s;
+    overflow: scroll !important;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgb(236, 240, 245) !important;
 }

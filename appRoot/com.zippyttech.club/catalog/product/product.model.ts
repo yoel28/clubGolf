@@ -1,13 +1,14 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {ProductTypeModel} from "../productType/productType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class ProductModel extends ModelBase{
 
     public productType:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'PRODUCT','/products/');
+        super(db,'/products/');
         this.initModel();
     }
     modelExternal() {
@@ -64,5 +65,11 @@ export class ProductModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.available;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el producto: ';
+        params['delete'].key = 'code';
     }
 }

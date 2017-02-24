@@ -1,57 +1,48 @@
 import {OnInit, EventEmitter, AfterViewInit} from '@angular/core';
-import {IRest} from "../../../com.zippyttech.rest/restController";
 import {BaseViewComponent} from "./baseView.component";
+import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
+
+interface IViewOptions{
+    viewActions?:boolean;
+}
 
 export abstract class BaseViewInstance  implements OnInit,AfterViewInit {
 
     public viewActions:boolean=true;
+    public viewOptions:IViewOptions={};
+
     public getInstance:any;
     public instanceBase:BaseViewComponent;
     public instance:any={};
-    public paramsTable:any={};
-    public model:any;
-    public viewOptions:any={};
-    public rest:IRest={
-        where:[],
-        max:15,
-        offset:0,
-    };
+    public model:ModelRoot;
+
+
     constructor() {
         this.getInstance = new EventEmitter();
     }
 
     abstract initModel();
-    abstract initViewOptions();
-    abstract loadParamsTable();
+    abstract initViewOptions(params:IViewOptions);
 
     ngOnInit(){
         this.initModel();
-        this.initViewOptions();
-        this.loadParamsTable();
-        this._loadWhereInParamsFilter();
+        this.initViewOptions(this.viewOptions);
+
         this._loadInstance();
     }
     ngAfterViewInit():void{
-        this._getInstance();
+        this.getInstance.emit(this);
     }
 
     protected _loadInstance(){
         this.viewOptions['viewActions']=this.viewActions;
-        this.model.rest = this.rest;
 
         this.instance = {
             'model':this.model,
             'viewOptions':this.viewOptions,
-            'paramsTable':this.paramsTable,
         };
     }
-    protected _loadWhereInParamsFilter(){
-        this.model.paramsSearch.where = this.rest.where;
-    }
 
-    protected _getInstance(){
-        this.getInstance.emit(this);
-    }
     public setInstance(instance:BaseViewComponent){
         this.instanceBase = instance;
     }

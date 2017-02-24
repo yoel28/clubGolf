@@ -4,14 +4,14 @@ import  {FormControl, Validators, FormGroup} from '@angular/forms';
 import {RestController} from "../../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
-declare var SystemJS:any;
-declare var jQuery:any;
+var jQuery = require('jquery');
+
 @Component({
     moduleId:module.id,
     selector: 'form-view',
     templateUrl: 'index.html',
     styleUrls: [ 'style.css'],
-    inputs:['params','rules','onlyRequired'],
+    inputs:['params','rules'],
     outputs:['save','getInstance','getForm'],
 })
 export class FormComponent extends RestController implements OnInit,AfterViewInit{
@@ -31,13 +31,13 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public keys:any = {};
 
     public delete=false;
-    public onlyRequired=false;
 
     constructor(public db:DependenciesBase) {
         super(db);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();
+
     }
     ngOnInit(){
         this.initForm();
@@ -55,7 +55,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     initForm() {
         let that = this;
         Object.keys(this.rules).forEach((key)=> {
-            if((that.onlyRequired && (that.rules[key].required || that.rules[key].forceInSave)) || !that.onlyRequired){
+            if((that.params.onlyRequired && (that.rules[key].required || that.rules[key].forceInSave)) || !that.params.onlyRequired){
                 that.data[key] = [];
                 let validators=[];
                 if(that.rules[key].required)
@@ -112,28 +112,31 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
 
                 if(that.rules[key].object)
                 {
-                    that.data[key].valueChanges.subscribe((value: string) => {
-                        that.findControl = value;
-                        if(value && value.length > 0){
-                            that.search=that.rules[key];
-                            that.dataList=[];
-                            if( !that.searchId[key]){
-                                that.getSearch(null,value);
+                    that.data[key]
+                        .valueChanges
+                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SEARCH') || '500')
+                        .subscribe((value: string) => {
+                            that.findControl = value;
+                            if(value && value.length > 0){
+                                that.search=that.rules[key];
+                                that.dataList=[];
+                                if( !that.searchId[key]){
+                                    that.getSearch(null,value);
+                                }
+                                else if(that.searchId[key].detail != value){
+                                    delete that.searchId[key];
+                                    that.getSearch(null,value);
+                                }
+                                else{
+                                    this.findControl="";
+                                    that.search = [];
+                                }
                             }
-                            else if(that.searchId[key].detail != value){
-                                delete that.searchId[key];
-                                that.getSearch(null,value);
+                            else {
+                                if(that.search && that.search.key == key)
+                                    that.getSearch(null,'');
                             }
-                            else{
-                                this.findControl="";
-                                that.search = [];
-                            }
-                        }
-                        else {
-                            if(that.search && that.search.key == key)
-                                that.getSearch(null,'');
-                        }
-                    });
+                        });
                 }
             }
 
@@ -191,6 +194,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 }
                 if(that.rules[key].type == 'number' && body[key]!=""){
                     body[key]=parseFloat(body[key]);
+                }
+                if(that.rules[key].type == 'select' && body[key]=="-1"){
+                    body[key]=null;
                 }
                 if(that.rules[key].type == 'boolean' && body[key]!=""){
                     if(typeof body[key] === 'string')
@@ -421,4 +427,3 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
 
     }
 }
-

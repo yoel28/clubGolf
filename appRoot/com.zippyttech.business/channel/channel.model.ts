@@ -5,7 +5,7 @@ import {componentsApp, componentsDefault, componentsView, modelsDefault, modelsA
 export class ChannelModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'CH','/channels/');
+        super(db,'/channels/');
         this.initModel(false);
         this.loadDataModel();
     }
@@ -154,6 +154,9 @@ export class ChannelModel extends ModelBase{
                 that.rules['event'].source.push({'value':ev, 'text': ev})
             });
         }
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar el canal : ';
     }
 
 }

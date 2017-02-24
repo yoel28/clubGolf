@@ -26,10 +26,10 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <form-view [onlyRequired]="true" (getInstance)="userObjectInstance=$event"
+                                <form-view (getInstance)="userObjectInstance=$event"
                                            [params]="model.user.paramsSave" [rules]="userObject"></form-view>
                                 <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="row">
-                                    <user [rest]="getRestUser()" [viewActions]="false" (getInstance)="setInstanceUser($event)"></user>
+                                    <basic-component [model]="model.user" [viewActions]="false" ></basic-component>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="box-body" style="display: none;">
-                                <form-view [onlyRequired]="true" (getInstance)="user=$event"
+                                <form-view (getInstance)="user=$event"
                                            [params]="model.user.paramsSave" [rules]="model.user.rulesSave"></form-view>
                             </div>
                         </div>

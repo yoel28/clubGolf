@@ -1,55 +1,65 @@
-import {Component, EventEmitter, OnInit, NgModule} from "@angular/core";
+import {Component, EventEmitter, OnInit, NgModule, AfterContentChecked, OnChanges} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {IRuleView} from "../ruleView/ruleView.component";
 import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
+import {IRuleView} from "../ruleView/ruleView.component";
+import {IModal} from "../modal/modal.component";
+import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 
 
 declare var SystemJS:any;
-declare var moment:any;
-@NgModule({
-    imports:[XFootable]
-})
+var moment = require('moment');
+
 @Component({
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
-    inputs:['params','model'],
+    inputs:['model'],
     outputs:['getInstance'],
 })
 
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit{
 
-    public params:any={};
-    public model:any={};
+    public model:any;
 
     public paramsData:IRuleView={
         select:{},
         searchParams:{},
         searchInstances:{},
         viewListData:{},
-        ruleReference:{}
+        ruleReference:{},
+        locationParams:null,
+        arrayData:[]
     };
 
-    public keyActions =[];
-    public configId=moment().valueOf();
+    public modalLocation:IModal={
+        id:'modalLocation',
+        header:{ title:'Ubicación' },
+        global:{ size:'modal-lg' }
+    };
+
+    public modalRule:IModal={
+        id:'modalRule',
+        header:{ title:'' },
+        global:{ size:'modal-sm'}
+    };
+
     public getInstance:any;
     private _currentPage: number;
+    private updating:boolean = false;
 
     constructor(public db:DependenciesBase) {
         this._currentPage = -1;
         this.getInstance = new EventEmitter();
-        //Array.observe(this.model.dataList, ()=>{});
     }
 
     ngOnInit() {
-        this.keyActions=[];
-        if(this.params && this.params.actions)
-            this.keyActions=Object.keys(this.params.actions);
         this.getListObjectNotReferenceSave();
     }
 
     ngAfterViewInit() {
         this.getInstance.emit(this);
+        if(this.updating)
+            this.updating = false;
     }
 
     public get currentPage(){
@@ -83,7 +93,7 @@ export class TablesComponent implements OnInit {
         Object.keys(this.model.rules).forEach(key=>{
             if(that.model.rules[key].object && !that.model.rules[key].reference && that.model.rules[key].permissions.add)
                 that.modelSave[key]=that.model.rules[key];
-        })
+        });
     }
 
     getDataSave(data,key){
@@ -96,19 +106,6 @@ export class TablesComponent implements OnInit {
 
     getDataSearchMultiple(data){
         this.model.onPatch(this.paramsData.searchParams['field'],this.paramsData.select,data);
-    }
-
-    actionPermissionKey() {
-        let data=[];
-        let that=this;
-
-        Object.keys(this.params.actions).forEach((key)=>
-        {
-            if(that.params.actions[key].permission)
-                data.push(key);
-        });
-
-        return data;
     }
 
     getObjectKeys(data){
@@ -141,4 +138,29 @@ export class TablesComponent implements OnInit {
 
     }
 
+    saveLocation(event){
+        if(event)
+            event.preventDefault();
+
+        let json={};
+        json[this.paramsData.locationParams.keys.lat] =  (this.paramsData.locationParams.data.lat).toString();
+        json[this.paramsData.locationParams.keys.lng] =  (this.paramsData.locationParams.data.lng).toString();
+
+        this.model.onPatchObject(json,this.paramsData.select);
+
+    }
+
+    isUnique():boolean{
+        if(this.model.dataList.id || this.model.dataList.count==1 || this.model.navIndex != null)
+        {
+            if(this.model.navIndex == null)
+                this.model.navIndex = "0";
+            return true;
+        }
+        return false;
+    }
+
+    public getNumber(value):number{
+        return (value)?Number(value):0;
+    }
 }

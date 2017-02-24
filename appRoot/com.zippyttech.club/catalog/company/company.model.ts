@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class CompanyModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'COMPANY','/companies/');
+        super(db,'/companies/');
         this.initModel();
     }
     modelExternal() {}
@@ -53,4 +54,8 @@ export class CompanyModel extends ModelBase{
         delete this.rulesSave.enabled;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar la empresa: ';
+        params['delete'].key = 'title';
+    }
 }

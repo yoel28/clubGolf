@@ -1,13 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import  {FormControl, Validators, FormGroup} from '@angular/forms';
-import {Router, ActivatedRoute}           from '@angular/router';
-import {Http} from '@angular/http';
+import { ActivatedRoute}           from '@angular/router';
 import {RestController} from "../../com.zippyttech.rest/restController";
-import {globalService} from "../../com.zippyttech.utils/globalService";
 import {contentHeaders} from "../../com.zippyttech.rest/headers";
-import {StaticValues} from "../../com.zippyttech.utils/catalog/staticValues";
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
-import {ToastyService, ToastyConfig} from "ng2-toasty";
 import {AnimationsManager} from "../../com.zippyttech.ui/animations/AnimationsManager";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 
@@ -38,11 +34,18 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
         json['TokenFCM']='';
         let successCallback= response => {
             localStorage.setItem('bearer', response.json().tokenValue);
+            contentHeaders.delete('Authorization');
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
+            if(!that.context.company)
+                localStorage.setItem('userTemp','true');
             let link = ['/init/load', {}];
             that.db.router.navigate(link);
         };
-        return this.httputils.doPost(localStorage.getItem('url')+'/tokens/'+this.context.company+'/firebaseToken',JSON.stringify(json),successCallback,this.error,true)
+        if(this.context.company)
+            return this.httputils.doPost(localStorage.getItem('url')+'/tokens/'+this.context.company+'/firebaseToken',JSON.stringify(json),successCallback,this.error,true)
+        else
+            return this.httputils.doPost(localStorage.getItem('url')+'/tokens/firebaseToken',JSON.stringify(json),successCallback,this.error,true)
+
     }
     ngOnInit(){
         this.initForm();
@@ -87,7 +90,10 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
         let successCallback = (response:any) => {
             that.submitForm = false;
             localStorage.setItem('bearer', response.json().access_token);
+            contentHeaders.delete('Authorization');
             contentHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('bearer'));
+            if(!this.context.company)
+                localStorage.setItem('userTemp','true');
             let link = ['/init/load', {}];
             that.db.router.navigate(link);
         };
@@ -116,9 +122,8 @@ export class LoginComponent extends RestController implements OnInit,OnDestroy{
 
         this.subcribe=this.af.auth.subscribe(
             (response:any)=>{
-                if(that.context.company)
-                    if(response && response.auth && !localStorage.getItem('bearer'))
-                        that.loginFirebase(response.auth.kd);
+                if(response && response.auth && !localStorage.getItem('bearer'))
+                    that.loginFirebase(response.auth.kd);
             },
             error=>{
                 console.log(error.message);

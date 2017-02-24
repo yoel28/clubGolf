@@ -4,7 +4,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 export class NotificationModel extends ModelRoot{
 
     constructor(public db:DependenciesBase){
-        super(db,'NOTIFY','/notifications/');
+        super(db,'/notifications/');
         this.initModel();
     }
     modelExternal() {}
@@ -61,6 +61,10 @@ export class NotificationModel extends ModelRoot{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.image;
+    }
+    initModelActions(params){
+        params['delete'].message='¿ Esta seguro de eliminar la notificación: ';
+        params['delete'].key = 'title';
     }
 
 }

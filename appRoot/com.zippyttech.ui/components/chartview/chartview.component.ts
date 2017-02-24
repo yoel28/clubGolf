@@ -1,12 +1,12 @@
-import {Component, NgModule} from "@angular/core";
+import {Component, ElementRef} from "@angular/core";
 import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {checkBinding} from "@angular/core/src/linker/view_utils";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 
 declare var SystemJS:any;
-declare var moment:any;
-declare var jQuery:any;
+var jQuery = require('jquery');
 const Highcharts = require('highcharts');
 //const Highcharts3d = require('highcharts/highcharts-3d.src');
 //Highcharts.setOptions({ colors: ['#058DC7', '#50B432', '#ED561B'] });
@@ -15,7 +15,7 @@ export interface IChartData
 {
     endpoint:string;
     title:string;
-    options:Highcharts.Options | {};
+    options: Highcharts.Options | {};
 }
 
 @Component({
@@ -28,21 +28,22 @@ export interface IChartData
 export class ChartViewComponent extends ControllerBase
 {
 
+    public findThisData:boolean = false;
     public chartData:IChartData;
     public chartId:string;
     public selectDate:Date;
     public currentDate:Date;
     public viewDeep:number;
 
-    constructor(public db:DependenciesBase){
+    constructor(public db:DependenciesBase, public element:ElementRef){
         super(db);
         this.currentDate = new Date();
         this.selectDate = new Date();
         this.viewDeep = 0;
+        this.chartId = StaticFunction.getRandomID("CHART");
     }
 
-    initModel() {
-        this.chartId = "CHART_"+moment().valueOf();
+    initModel(){
         this.chartData.options["chart"].renderTo = this.chartId;
         this.chartData.options["credits"] = false;
         this.chartRefresh();
@@ -51,7 +52,7 @@ export class ChartViewComponent extends ControllerBase
     public onPointSelect(event)
     {
         if(this.validSelectPoint(event.context.x)) {
-            this.db.myglobal.rest.findData = true;
+            this.findThisData = true;
             this.selectDate.setMonth(event.context.x);
             this.viewDeep++;
             this.chartRefresh();
@@ -114,9 +115,9 @@ export class ChartViewComponent extends ControllerBase
             this.chartData.options["title"] = { text: this.getTitle() },
             this.chartData.options["xAxis"]['categories'] = data.categories;
             this.chartData.options["series"] = data.list;
-            this.db.myglobal.rest.findData = false;
+            this.findThisData = false;
         };
-        this.db.myglobal.rest.findData = true;
+        this.findThisData = true;
         this.db.myglobal.httputils.doGet(this.chartData.endpoint+this.selectDate.getFullYear()+'/'+((this.viewDeep==0)?"":(this.selectDate.getMonth()+1)),callback,null,false);
     }
 

@@ -175,9 +175,7 @@
 .header-tools .btn-box-tool{
     font-size: 14px !important;
 }
-.submenu-config{
-    border: 1px solid #BDBBBB !important;
-}
+
 .header-tools ul.dropdown-menu.submenu-config {
     min-width: 260px;
 }
@@ -202,4 +200,9 @@
     background: rgba(0, 0, 0, 0.38);
     border-radius: 4px !important;
     color: white !important;
+}
+.page-info{
+    font-size: 10px;
+    font-style: oblique;
+    color: #4b4b4b;
 }

@@ -27,6 +27,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public guestRemove:FormControl = new FormControl();
     public qrString:string = '';
     public qrHidden: boolean;
+
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
     public chvwVehicles:IChartData;

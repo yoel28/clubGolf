@@ -69,15 +69,21 @@ export class globalService extends RestController{
         this.loadRules();
         this.loadChannels();
     }
-    dataSesionInit():void{
+    dataSesionInit(value = false):void{
+        this.user={};
+        this.params=[];
+        this.help=[];
+        this.permissions=[];
+        this.rules=[];
+        this.channels=[];
         this.dataSesion.setValue({
-            'token':        {'status':false,'title':'Validando usuario'},
-            'user':         {'status':false,'title':'Consultando datos del usuario'},
-            'permissions':  {'status':false,'title':'Consultando  permisos'},
-            'params':       {'status':false,'title':'Consultando  parametros'},
-            'help':         {'status':false,'title':'Consultando  ayudas'},
-            'rules':        {'status':false,'title':'Consultando  reglas'},
-            'channels':     {'status':false,'title':'Consultando  canales'},
+            'token':        {'status':value,'title':'Validando usuario'},
+            'user':         {'status':value,'title':'Consultando datos del usuario'},
+            'permissions':  {'status':value,'title':'Consultando  permisos'},
+            'params':       {'status':value,'title':'Consultando  parametros'},
+            'help':         {'status':value,'title':'Consultando  ayudas'},
+            'rules':        {'status':value,'title':'Consultando  reglas'},
+            'channels':     {'status':value,'title':'Consultando  canales'},
         });
     }
     errorGS = (err:any):void => {
@@ -108,13 +114,12 @@ export class globalService extends RestController{
     loadUser():void{
         let that = this;
         let successCallback= (response:any) => {
-            Object.assign(that.user,that.user,response.json().list[0]);
+            Object.assign(that.user,that.user,response.json());
             that.dataSesion.value.user.status=true;
             that.dataSesion.setValue(that.dataSesion.value);
 
         };
-        let where = encodeURI('[["op":"eq","field":"username","value":"'+this.user.username+'"],["join":"account",where:[["op":"eq","field":"name","value":"'+this.user.account+'"]]]]');
-        this.httputils.doGet('/users?where='+where, successCallback,this.errorGS);
+        this.httputils.doGet('/current/user/', successCallback,this.errorGS);
     };
     loadMyPermissions():any{
         let that = this;
@@ -214,7 +219,7 @@ export class globalService extends RestController{
         this.setPreferenceViewModel(model,rules);
         return this.user.preferences.columns[model.replace('Model','')];
     }
-    setPreferenceViewModel(model:string,rules:Object){
+    setPreferenceViewModel(model:string,rules:Object,reset=false){
         let that = this;
         if(!this.user.preferences)
             this.user.preferences={};
@@ -225,6 +230,8 @@ export class globalService extends RestController{
 
         this.user.preferences.columns[model.replace('Model','')]=[];
         Object.keys(rules).forEach(key=>{
+            if(reset)
+                rules[key].visible = reset;
             that.user.preferences.columns[model.replace('Model','')].push(
                 {   'key':key,
                     'visible':rules[key].visible,

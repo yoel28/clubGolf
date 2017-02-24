@@ -1,18 +1,17 @@
-import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
+import {ModelRoot, IModelActions} from "../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model";
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {QrcodeModel} from "../../com.zippyttech.club/catalog/qrcode/qrcode.model";
 
 export class DashboardModel extends ModelRoot{
-
     public record:RecordModel;
     public trade:TradeModel;
     public guest: QrcodeModel;
     public qr: QrcodeModel;
 
     constructor(public db:DependenciesBase){
-        super(db,'DASH','/dashboard/');
+        super(db,'/dashboard/');
         this.initModel();
     }
 
@@ -29,21 +28,22 @@ export class DashboardModel extends ModelRoot{
 
 
         this.guest.rest.max = 10;
-        this.record.rest.max = 10;
-        this.trade.rest.max = 10;
-
-        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'}];
-        this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];
         this.guest.paramsSearch.where=[{'op':'eq','field':'attended', 'value':false}];
 
-        if(this.record.permissions.list)
+        this.record.rest.max = 10;
+        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'},{'op':'eq','field':'enabled','value':true}];
+
+        this.trade.rest.max = 10;
+        this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];
+
+        if(this.record.permissions.list && this.permissions["vehicle"])
             this.record.loadDataWhere('',this.record.paramsSearch.where);
 
-        if(this.trade.permissions.list)
-            this.trade.loadDataWhere('',this.trade.paramsSearch.where);
-
-        if(this.guest.permissions.list)
+        if(this.guest.permissions.list && this.permissions["guest"])
             this.guest.loadDataWhere('',this.guest.paramsSearch.where);
+
+        if(this.trade.permissions.list && this.permissions["trade"])
+            this.trade.loadDataWhere('',this.trade.paramsSearch.where);
 
         let that=this;
         Object.keys(this.record.rules).forEach((key)=>{
@@ -76,7 +76,7 @@ export class DashboardModel extends ModelRoot{
     initPermissions() {
         this.permissions = {};
         this.permissions["trade"] = this.db.myglobal.existsPermission(['DASH_TRADE']);
-        this.permissions["vehicle"] = this.db.myglobal.existsPermission(['DASH_VEH']);
+        this.permissions["vehicle"] = this.db.myglobal.existsPermission(['DASH_VEHICLE']);
         this.permissions["guest"] = this.db.myglobal.existsPermission(['DASH_GUEST']);
         this.permissions["qr"] = this.db.myglobal.existsPermission(['DASH_QR']);
     }
@@ -89,4 +89,5 @@ export class DashboardModel extends ModelRoot{
 
     initRulesSave() {}
 
+    initModelActions(params: IModelActions){}
 }

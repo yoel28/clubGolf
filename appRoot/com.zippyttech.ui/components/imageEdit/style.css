@@ -14,10 +14,15 @@
 .rotate {
     margin-left:35px;
 }
-.input-file{
-    background: transparent;
-    border: none;
-}
+
 .group-btn{
-    margin-top:-25px;
+    margin-top:0px !important;
+}
+
+.group-btn .btn-i{
+    max-width: 40px;
+    max-height: 40px;
+    display: inline-block !important;
+    float: right !important;
+    margin: 0px 5px;
 }

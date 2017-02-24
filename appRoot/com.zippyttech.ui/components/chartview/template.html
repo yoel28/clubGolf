@@ -10,8 +10,8 @@
                 <button [disabled]="!checkChange(1)" type="button" class="btn btn-box-tool" (click)="changeD(1)"><i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
-        <div *ngIf="!db.myglobal.rest.findData" class="box-body" [attr.id]="chartId">
-            <chart [options]="chartData.options">
+        <div *ngIf="!findThisData" class="box-body" [attr.id]="chartId">
+            <chart [options]="chartData.options" [attr.id]="chartId+'_CHART'">
                 <series>
                     <point (select)="onPointSelect($event)"></point>
                 </series>

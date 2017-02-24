@@ -7,6 +7,8 @@ import {LocationModel} from "../location/location.model";
 import {CompanyModel} from "../company/company.model";
 import {UserTypeModel} from "../userType/userType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 export class RecordModel extends ModelBase{
 
@@ -18,11 +20,12 @@ export class RecordModel extends ModelBase{
     private location:any;
     private company:any;
 
-
     constructor(public db:DependenciesBase){
-        super(db,'RECORD','/records/');
+        super(db,'/records/');
         this.initModel();
+        this.initModelFilters();
     }
+
     modelExternal() {
         this.vehicle = new VehicleModel(this.db);
         this.user = new UserModel(this.db);
@@ -115,16 +118,21 @@ export class RecordModel extends ModelBase{
         this.rules['antennaIn'] = this.antennaIn.ruleObject;
         this.rules['antennaIn'].placeholder="Antena de entrada";
         this.rules['antennaIn'].title="Ant. Entrada";
-        this.rules['antennaIn'].key="antennaInId";
+        this.rules['antennaIn'].key="antennaIn";
         this.rules['antennaIn'].keyDisplay="antennaInTitle";
         this.rules['antennaIn'].update= this.permissions.update;
+        this.rules['antennaIn'].paramsSearch.field = 'antennaIn.id';
 
         this.rules['antennaOut'] = this.antennaOut.ruleObject;
         this.rules['antennaOut'].placeholder="Antena de salida";
         this.rules['antennaOut'].title="Ant. Salida";
-        this.rules['antennaOut'].key="antennaOutId";
+        this.rules['antennaOut'].key="antennaOut";
         this.rules['antennaOut'].keyDisplay="antennaOutTitle";
         this.rules['antennaOut'].update= this.permissions.update;
+        this.rules['antennaOut'].paramsSearch.field = 'antennaOut.id';
+
+
+
 
         this.rules['user'].objectOrSave={};
         this.rules['vehicle'].objectOrSave={};
@@ -208,4 +216,69 @@ export class RecordModel extends ModelBase{
         delete this.rulesSave.antennaOut;
     }
 
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el registro: ';
+        params['delete'].key = 'id';
+    }
+
+    initModelFilters(){
+        this.filters["time"] = {
+            view:[
+                { title:"Todos las fechas",icon:"fa fa-calendar",colorClass:"",
+                    where:null
+                },
+                { title:"Hoy",icon:"fa fa-calendar",colorClass:"text-blue",
+                  where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').start, 'type':'date', 'code':'hoy'},
+                         {'op': 'lt', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').end, 'type':'date', 'code':'hoy'}]
+                },
+                { title:"Semana",icon:"fa fa-calendar",colorClass:"text-green",
+                    where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').start, 'type':'date', 'code':'semana'},
+                           {'op': 'le', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').end, 'type':'date', 'code':'semana'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
+
+        this.filters["clients"] = {
+            view:[
+                { title:"Todos los clientes",icon:"fa fa-car",colorClass:"",
+                    where:null
+                },
+                { title:"Desconocidos",icon:"fa fa-car",colorClass:"text-red",
+                  where:[{'op': 'isNull', 'field':'vehicle','code':'desconocidos'}]
+                },
+                { title:"Conocidos",icon:"fa fa-car",colorClass:"text-blue",
+                  where:[{'op': 'isNotNull', 'field':'vehicle','code':'conocidos'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
+
+        this.filters["registers"] = {
+            view:[
+                { title:"Todos los registros",icon:"fa fa-folder",colorClass:"",
+                    where:null
+                },
+                { title:"S-E",icon:"fa fa-folder-open",colorClass:"text-yellow",
+                    where:[{'op': 'isNull', 'field':'dateIn','code':'S-E'},
+                           {'op': 'isNull', 'field':'dateOut','code':'S-E'}]
+                },
+                { title:"E-S",icon:"fa fa-folder-open",colorClass:"text-blue",
+                    where:[{'op': 'isNull', 'field':'dateOut','code':'E-S'},
+                           {'op': 'isNotNull', 'field':'dateIn','code':'E-S'}]
+                },
+                { title:"E+S",icon:"fa fa-folder-open",colorClass:"text-green",
+                    where:[{'op': 'isNotNull', 'field':'dateOut','code':'E+S'},
+                           {'op': 'isNotNull', 'field':'dateIn','code':'E+S'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
+    }
 }

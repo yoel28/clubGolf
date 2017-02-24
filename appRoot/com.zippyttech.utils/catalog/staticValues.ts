@@ -1,6 +1,7 @@
-declare var moment:any;
-declare var Table2Excel:any;
-declare var humanizeDuration:any;
+var jQuery = require('jquery');
+var moment = require('moment');
+var humanizeDuration = require('humanize');
+var Table2Excel = require('table2excel');
 
 export class StaticValues {
 
@@ -181,6 +182,15 @@ export class StaticValues {
         msg.exportXls="Exportar a excel";
         msg.termConditions="Terminos y condiciones";
         msg.savePreferences="Guardar preferencias";
+        msg.address="Dirección";
+        msg.zoom="Zoom";
+        msg.viewLocation="Ver ubicación";
+        msg.basicData="Datos basicos";
+        msg.imageProfile="Imagen de Perfil";
+        msg.exportDisabled="No se puede generar el reporte, limite de ";
+        msg.page="Pagina ";
+        msg.rows="filas ";
+        msg.results="resultados";
 
         return msg;
 

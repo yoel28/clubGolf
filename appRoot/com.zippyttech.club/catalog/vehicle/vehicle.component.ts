@@ -47,16 +47,8 @@ export class VehicleComponent extends BaseViewInstance{
             }
         };
     }
-
-    initViewOptions() {
-        this.viewOptions["title"] = 'Vehículos';
+    initViewOptions(params){
+        params["title"] = 'Vehículos';
     }
 
-    loadParamsTable(){
-        this.paramsTable.actions={};
-        this.paramsTable.actions.delete = {
-            'message': '¿ Esta seguro de eliminar el vehículo con la placa : ',
-            'keyAction':'plate'
-        };
-    }
 }

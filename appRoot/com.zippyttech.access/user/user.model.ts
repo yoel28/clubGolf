@@ -14,7 +14,7 @@ export class UserModel extends ModelBase{
     private group:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'USER','/users/');
+        super(db,'/users/');
         this.initModel(false);
         this.loadDataExternal();
     }
@@ -37,15 +37,6 @@ export class UserModel extends ModelBase{
             'key': 'email',
             'title': 'Correo electrónico',
             'placeholder': 'Correo electrónico',
-        };
-
-        this.rules['id']={
-            'type': 'number',
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'id',
-            'title': 'ID',
-            'placeholder': 'ID',
         };
 
         this.rules['idCard']={
@@ -87,19 +78,6 @@ export class UserModel extends ModelBase{
             'placeholder': 'Teléfono',
         };
 
-
-        this.rules['password']={
-            'type': 'password',
-            'required':true,
-            'exclude':true,
-            'update':this.permissions.update,
-            'visible':this.permissions.visible,
-            'key': 'password',
-            'showbuttons':true,
-            'title': 'Contraseña',
-            'placeholder': 'Contraseña',
-        };
-
         this.rules['image']={
             'type': 'image',
             'exclude':true,
@@ -117,11 +95,23 @@ export class UserModel extends ModelBase{
             'icon': 'fa fa-list',
             "type": "boolean",
             'source': [
-                {'value':false,'text': 'Verificado', 'class': 'btn btn-sm btn-green'},
-                {'value':true, 'text': 'Sin verificar', 'class': 'btn btn-sm btn-red'},
+                {
+                    'value': true,
+                    'text': 'Sin verificar',
+                    'class': 'btn-transparent  text-red',
+                    'title': 'Sin verificar',
+                    'icon': 'fa fa-exclamation-circle'
+                },
+                {
+                    'value': false,
+                    'text': 'Verificado',
+                    'class': 'btn-transparent text-blue',
+                    'title': 'Verificado',
+                    'icon': 'fa fa-check-circle'
+                }
             ],
             "key": "accountLocked",
-            "title": "Cuenta",
+            "title": "Verificada",
             "placeholder": "¿Cuenta verificada?",
         };
 
@@ -150,10 +140,43 @@ export class UserModel extends ModelBase{
         this.rules['roles'].search=false;
         this.rules['roles'].exclude=true;
 
+        this.rules['password']={
+            'type': 'password',
+            'required':true,
+            'exclude':true,
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'key': 'password',
+            'showbuttons':true,
+            'title': 'Contraseña',
+            'placeholder': 'Contraseña',
+        };
+
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         delete this.rules['detail'];
     }
+    public updateProfile(){
+        this.setEndpoint('/auto/update');
+        this.rules['idCard'].update=true;
+        this.rules['name'].update=true;
+        this.rules['phone'].update=true;
+        this.rules['image'].update=true;
+        this.rules['password'].update=true;
+
+
+        if(this.rules['account'])
+            this.rules['account'].update=false;
+
+        this.rules['email'].update=false;
+        this.rules['username'].update=false;
+        this.rules['roles'].update=false;
+        this.rules['contract'].update=false;
+        this.rules['userType'].update=false;
+        this.rules['userStatus'].update=false;
+        this.rules['userGroup'].update=false;
+    }
+
     initPermissions() {
         this.permissions['roleSave']=this.db.myglobal.existsPermission(['USER_ROLE_SAVE'])
     }
@@ -169,8 +192,8 @@ export class UserModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="Usuario";
         this.ruleObject.placeholder="Ingrese el usuario";
-        this.ruleObject.key="user";
         this.ruleObject.keyDisplay='user';
+        this.ruleObject.key='user';
         this.ruleObject.eval=this.db.myglobal.getRule('USER_DISPLAY_WEB');
         this.ruleObject.code="userId";
     }
@@ -183,18 +206,30 @@ export class UserModel extends ModelBase{
         delete this.rulesSave.accountLocked;
         delete this.rulesSave.username;
     }
-    loadDataExternal()
-    {
-        let that = this;
-        this.role.loadData().then(response => {
-            if(that.role.dataList && that.role.dataList.list)
-            {
-                that.role.dataList.list.forEach(obj=> {
-                    that.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
-                });
-            }
-            that.completed = true;
-        })
+    loadDataExternal() {
+        if(this.db.myglobal.publicData && this.db.myglobal.publicData['roles'])
+        {
+            this.loadRoles();
+        }
+        else {
+            this.role.loadData().then((response => {
+                if(this.role.dataList && this.role.dataList.list)
+                {
+                    this.db.myglobal.publicData['roles']=this.role.dataList.list;
+                    this.loadRoles();
+                }
+            }).bind(this));
+        }
+    }
+    loadRoles(){
+        this.db.myglobal.publicData['roles'].forEach((obj=> {
+            this.rules['roles'].source.push({'value': obj.id, 'text': obj.authority});
+        }).bind(this));
+        this.completed = true;
+    }
+    initModelActions(params){
+        params['delete'].message='¿ Esta seguro de eliminar el usuario: ';
+        params['delete'].key = 'username';
     }
 
 }

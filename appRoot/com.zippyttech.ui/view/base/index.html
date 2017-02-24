@@ -1,15 +1,29 @@
 <div *ngIf="model.permissions.warning || !modalIn" >
     <div class="main-view-container">
-        <div [@animation_0]='(model.dataList && model.dataList.list)?"true":"false"'>
+        <div [@animation_0]='(model.dataList &&  (model.dataList.list || model.dataList.id))?"true":"false"'>
             <section class="content">
                 <div class="box">
                     <div class="box-header with-border">
                         <h4 class="box-title">
-                            {{viewOptions.title | translate }}
+                            <i class="{{model.ruleObject.icon||'fa fa-list-alt'}}"></i>{{'   '+(model.ruleObject.title | translate)}}
                             <tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
                             &nbsp;<i *ngIf="model.rest.findData" class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
+                            <span *ngIf="model && model.dataList && model.dataList.count" class="page-info">
+                                &nbsp;{{db.msg.page}}{{getCurrentPage}},&nbsp;cerca de {{model.dataList.count}} {{db.msg.results}}
+                            </span>
+
                         </h4>
                         <div class="box-tools pull-right header-tools">
+                            <template [ngIf]="model.filters">
+                                <button *ngFor="let key of getObjectKeys(model.filters)"
+                                        class="btn btn-box-tool {{model.filters[key].view[model.filters[key].status].colorClass}}" type="button"
+                                        [attr.title]="model.filters[key].view[model.filters[key].status].title | translate"
+                                        (click)="model.updateModelFilter($event,key)"
+                                >
+                                    <i class="{{model.filters[key].view[model.filters[key].status].icon}}"></i>
+                                </button>
+                                &nbsp;
+                            </template>
                             <template [ngIf]="viewOptions.viewActions">
                                 <button *ngFor="let buttom of getViewOptionsButtons('modal')"
                                         class="btn btn-box-tool {{buttom.class}} {{buttom.evalClass?evalExp(buttom.evalClass):''}}" type="button" data-toggle="modal"
@@ -34,14 +48,24 @@
                                     <i *ngIf="model.rest.findData" class="fa fa-spinner fa-spin"></i>
                                 </button>
 
-                                <template [ngIf]="model.permissions.export">
-                                    <a target="_blank" [attr.title]="db.msg.exportPdf | translate" [attr.href]="getUrlExport('pdf')">
+
+                                <template [ngIf]="getEnabledReport">
+                                    <a *ngIf="model.permissions.exportPdf" target="_blank" [attr.title]="db.msg.exportPdf | translate" [attr.href]="getUrlExport('pdf')">
                                         <i class="fa fa-file-pdf-o text-red"></i>
                                     </a>&nbsp;
-                                    <a target="_blank" [attr.title]="db.msg.exportXls | translate" [attr.href]="getUrlExport('xls')">
+                                    <a *ngIf="model.permissions.exporXls" target="_blank" [attr.title]="db.msg.exportXls | translate" [attr.href]="getUrlExport('xls')">
                                         <i class="fa fa-file-excel-o text-green"></i>
                                     </a>
                                 </template>
+                                <template [ngIf]="!getEnabledReport">
+                                    <span *ngIf="model.permissions.exportPdf" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
+                                        <i class="fa fa-file-pdf-o text-red"></i>
+                                    </span>&nbsp;
+                                    <span *ngIf="model.permissions.exporXls" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
+                                        <i class="fa fa-file-excel-o text-green"></i>
+                                    </span>
+                                </template>
+
                             </template>
 
 
@@ -70,9 +94,12 @@
                                         </span>
 
                                     </li>
-                                    <li (click)="savePreference()">
-                                        <button  class="btn btn-box-tool fa fa-save" title="Guardar">
-                                            &nbsp;{{db.msg.savePreferences}}
+                                    <li>
+                                        <button (click)="savePreference()" class="btn btn-box-tool" title="Guardar">
+                                            <i class="fa fa-save"></i>&nbsp;{{db.msg.savePreferences}}
+                                        </button>
+                                        <button (click)="savePreference(true)"  class="btn btn-box-tool" title="Borrar preferencias">
+                                            &nbsp;<i class="fa fa-trash"></i>
                                         </button>
                                     </li>
                                 </ul>
@@ -80,11 +107,11 @@
                             <tooltip-view [code]="model.prefix+'_2'"></tooltip-view>
                         </div>
                     </div>
-                    <div *ngIf="model.permissions.list" class="box-body">
-                        <div *ngIf="model.dataList && model.dataList.count>0">
-                            <tables-view [model]="model" [params]="paramsTable" (getInstance)="setInstance($event)"  ></tables-view>
+                    <div *ngIf="model.permissions.list && model.dataList" class="box-body">
+                        <div *ngIf="model.dataList.count > 0 || model.dataList.id">
+                            <tables-view  [model]="model" (getInstance)="setInstance($event)"></tables-view>
                         </div>
-                        <div *ngIf="model.dataList && model.dataList.count == 0">
+                        <div *ngIf="model.dataList.count == 0 || (!model.dataList.id && !model.dataList.list )">
                             <div class="alert alert-warning alert-dismissable">
                                 <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
                                 <strong><i class="fa fa-warning"></i></strong>&nbsp;{{db.msg.notFound | translate}}

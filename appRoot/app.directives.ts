@@ -7,6 +7,7 @@ import {SmDropdown} from "./com.zippyttech.utils/directive/smDropDown";
 import {DateRangePicker} from "./com.zippyttech.utils/directive/dateRangePicker";
 import {TagsInput} from "./com.zippyttech.utils/directive/tagsinput";
 import {XFootable} from "./com.zippyttech.utils/directive/xFootable";
+import {Knob} from "./com.zippyttech.utils/directive/knob";
 
 export const directivesDefault = [
     ColorPicker,
@@ -17,6 +18,22 @@ export const directivesDefault = [
     SmDropdown,
     DateRangePicker,
     TagsInput,
-    XFootable
+    XFootable,
+    Knob
 ];
 export const directivesApp = [];
+export function abs():string{
+    //return '/home/zippyttech/Documentos/WebStorm/default2';
+    return '';
+}
+
+export function appPath():any {
+    return {
+        'access':   abs()+'/appRoot/com.zippyttech.access/',
+        'auth':     abs()+'/appRoot/com.zippyttech.auth/',
+        'business': abs()+'/appRoot/com.zippyttech.business/',
+        'init':     abs()+'/appRoot/com.zippyttech.init/',
+        'ui':       abs()+'/appRoot/com.zippyttech.ui/',
+        'baseView': abs()+'/appRoot/com.zippyttech.ui/view/base/'
+    }
+};

@@ -7,7 +7,7 @@ export class EventModel extends ModelBase{
     public rule:RuleModel;
 
     constructor(public db:DependenciesBase){
-        super(db,'EVENT','/events/');
+        super(db,'/events/');
         this.initModel(false);
         this.loadDataPublic();
     }
@@ -147,8 +147,7 @@ export class EventModel extends ModelBase{
         delete this.rulesSave.detail;
         delete this.rulesSave.enabled;
     }
-    loadDataPublic()
-    {
+    loadDataPublic() {
         let that = this;
 
         that.db.myglobal.publicData.domains.forEach(obj=>{
@@ -161,6 +160,9 @@ export class EventModel extends ModelBase{
             that.rules['way'].source.push({'value':obj,'text':obj});
         })
         that.completed = true
+    }
+    initModelActions(params){
+        params['delete'].message = '¿ Esta seguro de eliminar el evento: ';
     }
 
 }

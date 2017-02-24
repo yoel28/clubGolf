@@ -2,6 +2,7 @@ import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {StaticValues} from "../../../com.zippyttech.utils/catalog/staticValues";
 import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class QrcodeModel extends ModelBase{
 
@@ -9,7 +10,7 @@ export class QrcodeModel extends ModelBase{
     public guest:any;
 
     constructor(public db:DependenciesBase){
-        super(db,'QRCODE','/qr/codes/');
+        super(db,'/qr/codes/');
         this.initModel();
     }
     modelExternal() {
@@ -110,6 +111,8 @@ export class QrcodeModel extends ModelBase{
     initParamsSearch() {
         this.paramsSearch.title="Buscar QR";
         this.paramsSearch.placeholder="Ingrese codigo del QR";
+        this.paramsSearch.label.title='ID: ';
+        this.paramsSearch.label.detail='';
     }
     initParamsSave() {
         this.paramsSave.title="Agregar QR"
@@ -117,9 +120,9 @@ export class QrcodeModel extends ModelBase{
     initRuleObject() {
         this.ruleObject.title="QR";
         this.ruleObject.placeholder="Ingrese codigo del QR";
-        this.ruleObject.key="qrId";
-        this.ruleObject.keyDisplay = "qrId";
-        this.ruleObject.code = "qrId";
+        this.ruleObject.key="qrCode";
+        this.ruleObject.keyDisplay = "qrCodeId";
+        this.ruleObject.code = "qrCodeId";
     }
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
@@ -131,5 +134,10 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.guest;
         delete this.rulesSave.id;
         delete this.rulesSave.priceUptake;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el qr: ';
+        params['delete'].key = 'id';
     }
 }

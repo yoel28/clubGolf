@@ -13,6 +13,7 @@ interface WhereOp {
     field:string;
     value?:string | boolean | number;
     type?:string;
+    code?:string //codigo identificador para busquedas mas sencillas
 }
 
 export interface IRest{
@@ -302,6 +303,9 @@ export class RestController {
             }
         );
     }
+    onPatchObject(body:Object, data) {
+        return (this.httputils.onUpdate(this.endpoint + data.id,JSON.stringify(body), data, this.error));
+    }
 
     onPatch(field, data, value?) {
         let json = {};
@@ -348,7 +352,10 @@ export class RestController {
             Object.assign(data,response.json());
             that.addToast('Notificacion','Guardado con éxito');
         };
-        return (this.httputils.doPut(endpoint+data.id,body,successCallback,this.error));
+        if(endpoint == '/auto/update')
+            return (this.httputils.doPut(endpoint,body,successCallback,this.error));
+        else
+            return (this.httputils.doPut(endpoint+data.id,body,successCallback,this.error));
     }
 
     onEditableRole(field, data, value, endpoint) {
@@ -410,7 +417,7 @@ export class RestController {
     changeOrder(sort){
         if(sort ==  this.rest.sort){
             this.rest.order = this.rest.order=='desc'?'asc':null;
-            if(this.rest.order)
+            if(!this.rest.order)
                 this.rest.sort=null;
         }
         else

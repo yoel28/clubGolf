@@ -1,10 +1,11 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
 
 export class StateModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
-        super(db,'STATE','/states/');
+        super(db,'/states/');
         this.initModel();
     }
     modelExternal() {}
@@ -120,5 +121,10 @@ export class StateModel extends ModelBase{
         delete this.rulesSave.qrDisabling;
         delete this.rulesSave.billAdd;
         delete this.rulesSave.mustComment;
+    }
+
+    initModelActions(params: IModelActions) {
+        params['delete'].message = '¿Esta seguro de eliminar el estado: ';
+        params['delete'].key = 'code';
     }
 }

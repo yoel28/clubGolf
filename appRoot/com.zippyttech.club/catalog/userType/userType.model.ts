@@ -1,13 +1,17 @@
 import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
+import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {MainTypeModel} from "../mainType/mainType.model";
 
 export class UserTypeModel extends ModelBase{
-
+    private mainType;
     constructor(public db:DependenciesBase){
-        super(db,'US_TYPE','/type/users/');
+        super(db,'/type/users/');
         this.initModel();
     }
-    modelExternal() {}
+    modelExternal() {
+        this.mainType = new MainTypeModel(this.db);
+    }
     initRules() {
         this.rules['title'] = {
             'type': 'text',
@@ -33,6 +37,11 @@ export class UserTypeModel extends ModelBase{
             'title': 'Código',
             'placeholder': 'Código',
         };
+
+        this.rules['mainType'] = this.mainType.ruleObject;
+        this.rules['mainType'].required=true;
+        this.rules['mainType'].update= this.permissions.update;
+
         this.globalOptional();
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
     }
@@ -57,6 +66,11 @@ export class UserTypeModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+    }
+
+    initModelActions(params: IModelActions){
+        params['delete'].message='¿ Esta seguro de eliminar el tipo de usuario : ';
+        params['delete'].key = 'title';
     }
 
 }
