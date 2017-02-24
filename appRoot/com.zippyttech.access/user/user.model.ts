@@ -158,14 +158,23 @@ export class UserModel extends ModelBase{
     }
     public updateProfile(){
         this.setEndpoint('/auto/update');
-        this.rules['email'].update=true;
         this.rules['idCard'].update=true;
-        this.rules['username'].update=true;
         this.rules['name'].update=true;
         this.rules['phone'].update=true;
         this.rules['image'].update=true;
-        this.rules['roles'].update=true;
         this.rules['password'].update=true;
+
+
+        if(this.rules['account'])
+            this.rules['account'].update=false;
+
+        this.rules['email'].update=false;
+        this.rules['username'].update=false;
+        this.rules['roles'].update=false;
+        this.rules['contract'].update=false;
+        this.rules['userType'].update=false;
+        this.rules['userStatus'].update=false;
+        this.rules['userGroup'].update=false;
     }
 
     initPermissions() {
