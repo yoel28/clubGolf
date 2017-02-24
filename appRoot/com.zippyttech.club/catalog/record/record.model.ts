@@ -8,6 +8,7 @@ import {CompanyModel} from "../company/company.model";
 import {UserTypeModel} from "../userType/userType.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {StaticFunction} from "../../../com.zippyttech.utils/catalog/staticFunction";
 
 export class RecordModel extends ModelBase{
 
@@ -18,10 +19,6 @@ export class RecordModel extends ModelBase{
     private antennaOut:any;
     private location:any;
     private company:any;
-
-
-    public filters:any = {};
-
 
     constructor(public db:DependenciesBase){
         super(db,'/records/');
@@ -225,6 +222,61 @@ export class RecordModel extends ModelBase{
     }
 
     initModelFilters(){
+        this.filters["time"] = {
+            view:[
+                { title:"Todos las fechas",icon:"fa fa-list",colorClass:"",
+                    where:null
+                },
+                { title:"Hoy",icon:"fa fa-list",colorClass:"",
+                  where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').start, 'type':'date', 'code':'hoy'},
+                         {'op': 'lt', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('1').end, 'type':'date', 'code':'hoy'}]
+                },
+                { title:"Semana",icon:"fa fa-list",colorClass:"",
+                    where:[{'op': 'ge', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').start, 'type':'date', 'code':'semana'},
+                           {'op': 'le', 'field': 'dateCreated', 'value':StaticFunction.getDateRange('2').end, 'type':'date', 'code':'semana'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
 
+        this.filters["clients"] = {
+            view:[
+                { title:"Todos los clientes",icon:"fa fa-list",colorClass:"",
+                    where:null
+                },
+                { title:"Desconocidos",icon:"fa fa-list",colorClass:"",
+                  where:[{'op': 'isNull', 'field':'vehicle','code':'desconocidos'}]
+                },
+                { title:"Conocidos",icon:"fa fa-list",colorClass:"",
+                  where:[{'op': 'isNotNull', 'field':'vehicle','code':'conocidos'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
+
+        this.filters["registers"] = {
+            view:[
+                { title:"Todos los registros",icon:"fa fa-list",colorClass:"",
+                    where:null
+                },
+                { title:"S-E",icon:"fa fa-list",colorClass:"",
+                    where:[{'op': 'isNull', 'field':'dateIn','code':'S-E'}]
+                },
+                { title:"E-S",icon:"fa fa-list",colorClass:"",
+                    where:[{'op': 'isNull', 'field':'dateOut','code':'E-S'}]
+                },
+                { title:"E+S",icon:"fa fa-list",colorClass:"",
+                    where:[{'op': 'isNotNull', 'field':'dateOut','code':'E+S'},
+                           {'op': 'isNotNull', 'field':'dateIn','code':'E+S'}]
+                },
+            ],
+            status:0,
+            permission: true,
+            callback:()=>{}
+        };
     }
 }
