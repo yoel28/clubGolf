@@ -95,6 +95,9 @@ i{
     font-size:16px;
     color:#000;
     height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .view-item-detail-content,
@@ -200,4 +203,23 @@ a:not(.editable-empty){
 
 .view-tools-group>*:hover>i {
     transform: scale(.9);
+}
+
+@media(max-width: 425px){
+    .view-item, .view-item-detail-content{
+        height: auto !important;
+    }
+    .view-tools-group{
+        display:none;
+    }
+    .view-body{
+        width:100%;
+    }
+    .view{
+        padding:0;
+    }
+    .view-data-internal{
+        border:none;
+        padding: 0;
+    }
 }
