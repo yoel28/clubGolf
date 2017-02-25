@@ -36,7 +36,7 @@
                     </div>
                     <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
                         <div *ngFor="let veh of vehicle;let i=index"
-                             class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
+                             class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid && instanceVehicle[i].form.value['tags'].length>0)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">
                                     Veh&iacute;culo&nbsp;
