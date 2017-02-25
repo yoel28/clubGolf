@@ -19,9 +19,13 @@ export class RegisterFullModel extends ModelBase{
     }
     modelExternal() {
         this.user = new UserModel(this.db);
+        Object.keys(this.user.rules).forEach(((k)=>{
+            if(k != 'email' && k != 'username' && k != 'name')
+                delete this.user.rules[k];
+        }).bind(this));
         this.vehicle = new VehicleModel(this.db,false);
         this.tags = new TagModel(this.db);
-        this.vehicle.rules['tags'].required = true;
+        this.vehicle.rules['tags'].showAsRequired = true;
     }
     initRules() {
 
