@@ -47,11 +47,10 @@ export class RegisterFullComponent extends RestController implements OnInit{
         if(this.tempIdUser && this.tempIdUser != data.id)
         {
             this.tempIdUser =  data.id;
-            this.user.loadDataWhere('',rest.where);
         }
 
         //TODO: cambiar esto
-        if(this.model.user.rest.where!=[] || this.model.user.rest.where[0].value != rest.where[0]['value'])
+        if((this.model.user.rest.where.length==0) || this.model.user.rest.where[0].value != rest.where[0]['value'])
             this.model.user.rest = rest;
 
         return rest;
@@ -118,7 +117,7 @@ export class RegisterFullComponent extends RestController implements OnInit{
             return false;
 
         this.instanceVehicle.forEach(obj=>{
-            if(obj && obj.form && !obj.form.valid){
+            if(obj && obj.form && (!obj.form.valid || obj.form.value['tags'].length==0)){
                 count ++;
                 return;
             }
