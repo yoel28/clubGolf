@@ -37,7 +37,7 @@ export class RegisterFullComponent extends RestController implements OnInit{
         let rest:IRest={
             where:[{'op':'eq','field':'id','value':data.id}],
             offset:0,
-            max:0
+            max:1
         };
 
         if(this.tempIdUser === undefined){
@@ -49,6 +49,10 @@ export class RegisterFullComponent extends RestController implements OnInit{
             this.tempIdUser =  data.id;
             this.user.loadDataWhere('',rest.where);
         }
+
+        //TODO: cambiar esto
+        if(this.model.user.rest.where!=[] || this.model.user.rest.where[0].value != rest.where[0]['value'])
+            this.model.user.rest = rest;
 
         return rest;
     }

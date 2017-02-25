@@ -28,7 +28,7 @@
                             <div class="box-body">
                                 <form-view (getInstance)="userObjectInstance=$event"
                                            [params]="model.user.paramsSave" [rules]="userObject"></form-view>
-                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="row">
+                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid && getRestUser())" class="row">
                                     <basic-component [model]="model.user" [viewActions]="false" ></basic-component>
                                 </div>
                             </div>

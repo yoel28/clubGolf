@@ -21,6 +21,7 @@ export class RegisterFullModel extends ModelBase{
         this.user = new UserModel(this.db);
         this.vehicle = new VehicleModel(this.db,false);
         this.tags = new TagModel(this.db);
+        this.vehicle.rules['tags'].required = true;
     }
     initRules() {
 

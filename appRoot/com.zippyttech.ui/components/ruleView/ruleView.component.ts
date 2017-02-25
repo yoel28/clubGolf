@@ -133,9 +133,10 @@ export class RuleViewComponent implements OnInit,AfterViewInit {
         this.paramsData.viewListData['data'] =  data[key];
         if(typeof data[key] === 'string'){
             try{
-                this.paramsData.viewListData['data'] = JSON.parse(data[key])
+                this.paramsData.viewListData['data'] = JSON.parse(data[key]);
             }
             catch (exception){
+                this.paramsData.viewListData['data'] = [];
                 console.log(exception);
             }
         }
