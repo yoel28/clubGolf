@@ -39,6 +39,32 @@ export class TagModel extends ModelBase{
             'title': 'EPC',
             'placeholder': 'EPC',
         };
+
+        this.rules['vehicleUserContractCode'] = {
+            'type': 'text',
+            'icon': 'fa fa-font',
+            'required':false,
+            'maxLength': '150',
+            'update': false,
+            'search': false,
+            'visible': this.permissions.visible,
+            'key': 'vehicleUserContractCode',
+            'title': 'Contrato',
+            'placeholder': 'Contrato',
+        };
+        this.rules['vehicleUserName'] = {
+            'type': 'text',
+            'icon': 'fa fa-user',
+            'required':false,
+            'maxLength': '150',
+            'update': false,
+            'search': false,
+            'visible': this.permissions.visible,
+            'key': 'vehicleUserName',
+            'title': 'Usuario',
+            'placeholder': 'Usuario',
+        };
+
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
         this.rules['vehicle'].update= this.permissions.update;
