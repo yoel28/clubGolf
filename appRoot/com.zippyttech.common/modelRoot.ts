@@ -507,10 +507,20 @@ export abstract class ModelRoot extends RestController{
     }
 
     public refreshList(){
-        this.lockList = true;
-        setTimeout(()=>{
-            this.lockList=false;
-        },);
+        // this.lockList = true;
+        // setTimeout(()=>{
+        //     this.lockList=false;
+        // },100);
+        if(this.dataList) {
+            if (this.dataList.list) {
+                this.dataList.list.forEach(function (data) {
+                    this.refreshData(data);
+                }.bind(this));
+            }
+            else
+                this.refreshData(this.dataList);
+        }
+
     }
 
     goPage(url:string,event?) {
