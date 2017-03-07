@@ -12,7 +12,7 @@
                                         <div class="input-group input-icon right">
                                             <i class="{{rules[key].icon}} z-index"></i>
                                             <span class="input-group-addon" [attr.id]="key">{{rules[key].title}}
-                                                <label *ngIf="rules[key].required || rules[key].showAsRequired" class="text-red">&nbsp;*</label>
+                                                <label *ngIf="rules[key].required " class="text-red">&nbsp;*</label>
                                             </span>
 
                                             <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'"
@@ -39,7 +39,6 @@
                                                     <input placeholder="{{rules[key].placeholder}} Manual"
                                                            type="text"
                                                            [attr.aria-describedby]="key"
-                                                           [attr.id]="key+'manual'"
                                                            class="form-control"
                                                     >
                                                 </form>
