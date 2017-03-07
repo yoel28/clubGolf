@@ -3,6 +3,7 @@ import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model";
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {QrcodeModel} from "../../com.zippyttech.club/catalog/qrcode/qrcode.model";
+import {StaticFunction} from "../../com.zippyttech.utils/catalog/staticFunction";
 
 export class DashboardModel extends ModelRoot{
     public record:RecordModel;
@@ -31,7 +32,11 @@ export class DashboardModel extends ModelRoot{
         this.guest.paramsSearch.where=[{'op':'eq','field':'attended', 'value':false}];
 
         this.record.rest.max = 10;
-        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'},{'op':'eq','field':'enabled','value':true}];
+        this.record.paramsSearch.where=[{'op':'isNull','field':'dateOut'},{'op':'isNotNull','field':'vehicle'},
+                                        {'op':'eq','field':'enabled','value':true},
+                                        {'op': 'ge', 'field': 'dateIn', 'value':StaticFunction.getDateRange('1').start, 'type':'date'},
+                                        {'op': 'lt', 'field': 'dateIn', 'value':StaticFunction.getDateRange('1').end, 'type':'date'}
+                                        ];
 
         this.trade.rest.max = 10;
         this.trade.paramsSearch.where=[{'op':'isNull','field':'receivedDate'}];
