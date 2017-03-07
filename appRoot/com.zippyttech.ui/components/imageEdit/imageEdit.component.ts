@@ -6,9 +6,10 @@ var moment = require('moment');
 var jQuery = require('jquery');
 
 @Component({
+    moduleId:module.id,
     selector: 'image-edit-view',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/index.html',
-    styleUrls: [ SystemJS.map.app+'/com.zippyttech.ui/components/imageEdit/style.css'],
+    templateUrl: 'index.html',
+    styleUrls: [ 'style.css'],
     inputs:['params','image','default','edit'],
     outputs:['out'],
 })

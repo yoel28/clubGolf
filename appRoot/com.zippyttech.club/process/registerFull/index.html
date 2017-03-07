@@ -28,7 +28,8 @@
                             <div class="box-body">
                                 <form-view (getInstance)="userObjectInstance=$event"
                                            [params]="model.user.paramsSave" [rules]="userObject"></form-view>
-                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid && getRestUser())" class="row">
+                                <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="row">
+                                    {{getRestUser()}}
                                     <basic-component [model]="model.user" [viewActions]="false" ></basic-component>
                                 </div>
                             </div>
@@ -36,7 +37,7 @@
                     </div>
                     <div class="{{db.classCol(10,10,10,10)}}{{db.classOffset(1,1,1,1)}}" style="margin-top:15px">
                         <div *ngFor="let veh of vehicle;let i=index"
-                             class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid && instanceVehicle[i].form.value['tags'].length>0)?'valid':'error' }}">
+                             class="box box-block {{ (instanceVehicle[i] && instanceVehicle[i].form && instanceVehicle[i].form.valid)?'valid':'error' }}">
                             <div class="box-header">
                                 <h3 class="box-title letra-grande">
                                     Veh&iacute;culo&nbsp;
