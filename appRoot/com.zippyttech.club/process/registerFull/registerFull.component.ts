@@ -34,26 +34,16 @@ export class RegisterFullComponent extends RestController implements OnInit{
     public tempIdUser:string;
     getRestUser(){
         let data = this.userObjectInstance.getFormValues();
-        let rest:IRest={
-            where:[{'op':'eq','field':'id','value':data.id}],
-            offset:0,
-            max:1
-        };
-
-        if(this.tempIdUser === undefined){
+        if(this.tempIdUser === undefined || (this.tempIdUser && this.tempIdUser != data.id)){
             this.tempIdUser =  data.id;
-        }
-
-        if(this.tempIdUser && this.tempIdUser != data.id)
-        {
-            this.tempIdUser =  data.id;
-        }
-
-        //TODO: cambiar esto
-        if((this.model.user.rest.where.length==0) || this.model.user.rest.where[0].value != rest.where[0]['value'])
+            let rest:IRest={
+                where:[{'op':'eq','field':'id','value':data.id}],
+                offset:0,
+                max:15
+            };
             this.model.user.rest = rest;
-
-        return rest;
+            this.model.user.loadData();
+        }
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
         if(event)
@@ -117,11 +107,12 @@ export class RegisterFullComponent extends RestController implements OnInit{
             return false;
 
         this.instanceVehicle.forEach(obj=>{
-            if(obj && obj.form && (!obj.form.valid || obj.form.value['tags'].length==0)){
+            if(obj && obj.form && !obj.form.valid){
                 count ++;
                 return;
             }
         });
+
         return count==0?true:false;
     }
 }
