@@ -102,8 +102,14 @@ export class RegisterFullComponent extends RestController implements OnInit{
         let successCallback= response => {
             that.addToast('Notificacion','Guardado con éxito');
             that.resetForm();
+            this.rest.findData = false;
         };
-        this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,this.error);
+        let miError= err => {
+            this.error(err);
+            this.rest.findData = false;
+        }
+        this.rest.findData = true;
+        this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,miError);
     }
     public dataOk:boolean=false;
     public resetForm(){
@@ -113,7 +119,10 @@ export class RegisterFullComponent extends RestController implements OnInit{
     }
     isValidForm():boolean{
         let count=0;
-        if( !(this.user && this.user.form && this.user.form.valid) && !(this.userObjectInstance && this.userObjectInstance.form && this.userObjectInstance.form.valid))
+        if(this.rest.findData)
+            return false;
+
+        if(!(this.user && this.user.form && this.user.form.valid) && !(this.userObjectInstance && this.userObjectInstance.form && this.userObjectInstance.form.valid))
             return false;
 
         this.instanceVehicle.forEach(obj=>{
