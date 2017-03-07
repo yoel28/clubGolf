@@ -2,10 +2,12 @@ import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {VehicleModel} from "../vehicle/vehicle.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 
 
 export class TagModel extends ModelBase{
     private vehicle:any;
+    private user:any;
 
     constructor(public db:DependenciesBase){
         super(db,'/tags/');
@@ -13,6 +15,7 @@ export class TagModel extends ModelBase{
     }
     modelExternal() {
         this.vehicle = new VehicleModel(this.db);
+        this.user = new UserModel(this.db);
     }
     initRules() {
         this.rules['code'] = {
@@ -40,30 +43,13 @@ export class TagModel extends ModelBase{
             'placeholder': 'EPC',
         };
 
-        this.rules['vehicleUserContractCode'] = {
-            'type': 'text',
-            'icon': 'fa fa-font',
-            'required':false,
-            'maxLength': '150',
-            'update': false,
-            'search': false,
-            'visible': this.permissions.visible,
-            'key': 'vehicleUserContractCode',
-            'title': 'Contrato',
-            'placeholder': 'Contrato',
-        };
-        this.rules['vehicleUserName'] = {
-            'type': 'text',
-            'icon': 'fa fa-user',
-            'required':false,
-            'maxLength': '150',
-            'update': false,
-            'search': false,
-            'visible': this.permissions.visible,
-            'key': 'vehicleUserName',
-            'title': 'Usuario',
-            'placeholder': 'Usuario',
-        };
+        this.rules['vehicleUser']=this.user.ruleObject;
+        this.rules['vehicleUser'].update = false;
+        this.rules['vehicleUser'].key='vehicleUser';
+        this.rules['vehicleUser'].keyDisplay='vehicleUser';
+        this.rules['vehicleUser'].code='vehicleUserId';
+        this.rules['vehicleUser'].eval=this.db.myglobal.getRule('VEHICLE_USER_DISPLAY_WEB');
+
 
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
@@ -96,6 +82,7 @@ export class TagModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.vehicle;
+        delete this.rulesSave.vehicleUser;
     }
 
     initModelActions(params: IModelActions) {
