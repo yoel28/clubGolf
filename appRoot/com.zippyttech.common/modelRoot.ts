@@ -83,16 +83,16 @@ export abstract class ModelRoot extends RestController{
     private rulesDefault:any = {};
     public rules:Object={};
 
-    private _dataList:FormControl;
-
-    public set dataList(value:any){
-        if(this._dataList)
-            this._dataList.setValue(value);
-    }
-
-    public get dataList(){
-        return this._dataList.value;
-    }
+    // private _dataList:FormControl;
+    //
+    // public set dataList(value:any){
+    //     if(this._dataList)
+    //         this._dataList.setValue(value);
+    // }
+    //
+    // public get dataList(){
+    //     return this._dataList.value;
+    // }
 
 
     constructor(public db:DependenciesBase,endpoint:string,useGlobal:boolean=true,prefix?:string){
@@ -101,11 +101,11 @@ export abstract class ModelRoot extends RestController{
             this.prefix = prefix;
         this.endpoint = endpoint;
         this.useGlobal = useGlobal;
-        this._dataList = new FormControl({});
+        // this._dataList = new FormControl({});
         this._initModel();
-        this._dataList.valueChanges.subscribe((values=>{
-            console.log("CHANGED!");
-        }).bind(this));
+        // this._dataList.valueChanges.subscribe((values=>{
+        //     console.log("CHANGED!");
+        // }).bind(this));
     }
 
     private _initModel(){
@@ -133,6 +133,8 @@ export abstract class ModelRoot extends RestController{
         this.initModelActions(this.actions);
 
         this.db.ws.loadChannelByModel(this.constructor.name,this);
+
+        this.removeRuleExtraSave();
         this.completed=completed;
     }
 
@@ -234,6 +236,7 @@ export abstract class ModelRoot extends RestController{
             "visible": this.permissions.visible,
             "search": this.permissions.filter,
             "showbuttons": true,
+            "mode":"popup",
             'icon': 'fa fa-list',
             "type": "textarea",
             "key": "detail",
@@ -249,6 +252,8 @@ export abstract class ModelRoot extends RestController{
         this.setRuleUserAgent();
         this.setRuleUsernameCreator();
         this.setRuleUsernameUpdater();
+        this.setRuleDateCreated();
+        this.setRuleDateUpdated();
     }
 
     setRuleId(force=false){
@@ -320,6 +325,46 @@ export abstract class ModelRoot extends RestController{
                 "placeholder": "Ingrese el usuario que actualizo",
             };
         }
+    }
+    setRuleDateCreated(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["dateCreated"] = {
+                "update": false,
+                "visible": false,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "combodate",
+                "date":"datetime",
+                "key": "dateCreated",
+                "title": "Creación",
+                "placeholder": "Ingrese la fecha de creación",
+            };
+        }
+    }
+    setRuleDateUpdated(force=false){
+        if(this.permissions.audit || force){
+            this.rulesDefault["dateUpdated"] = {
+                "update": false,
+                "visible": false,
+                "search": this.permissions.filter,
+                'icon': 'fa fa-list',
+                "type": "combodate",
+                "date":"datetime",
+                "key": "dateUpdated",
+                "title": "Actualización",
+                "placeholder": "Ingrese la fecha de actualización",
+            };
+        }
+    }
+
+    private removeRuleExtraSave(){
+        delete this.rulesSave['id'];
+        delete this.rulesSave['ip'];
+        delete this.rulesSave['userAgent'];
+        delete this.rulesSave['usernameCreator'];
+        delete this.rulesSave['usernameUpdater'];
+        delete this.rulesSave['dateCreated'];
+        delete this.rulesSave['dateUpdated'];
     }
 
 
@@ -422,12 +467,6 @@ export abstract class ModelRoot extends RestController{
         Object.keys(this.rules).forEach(key=>{
             that.rules[key].check =  false;
         });
-
-        delete this.rulesSave['id'];
-        delete this.rulesSave['ip'];
-        delete this.rulesSave['userAgent'];
-        delete this.rulesSave['usernameCreator'];
-        delete this.rulesSave['usernameUpdater'];
     }
     public spliceId(id:string)
     {
