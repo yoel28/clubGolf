@@ -144,6 +144,7 @@ export class UserModel extends ModelBase{
             'type': 'password',
             'required':true,
             'exclude':true,
+            'minLength':6,
             'update':this.permissions.update,
             'visible':this.permissions.visible,
             'key': 'password',
