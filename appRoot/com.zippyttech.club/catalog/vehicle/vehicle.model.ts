@@ -28,6 +28,7 @@ export class VehicleModel extends ModelBase{
             'type': 'list',
             'typeView':'modal',
             'maxLength': '35',
+            'required':true,
             'readOnly':true,
             'prefix':'TAG',
             'value':[],
