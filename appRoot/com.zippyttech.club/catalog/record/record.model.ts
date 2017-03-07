@@ -76,8 +76,8 @@ export class RecordModel extends ModelBase{
 
 
         this.rules['dateIn']={
-            'type': 'date',
-            'format':StaticValues.formatDatePickerDDMMYYYYLT,
+            'type': 'combodate',
+            'date':'datetime',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -86,7 +86,8 @@ export class RecordModel extends ModelBase{
             'placeholder': 'Fecha de entrada',
         };
         this.rules['dateOut']={
-            'type': 'date',
+            'type': 'combodate',
+            'date':'datetime',
             'format':StaticValues.formatDatePickerDDMMYYYYLT,
             'update':this.permissions.update,
             'search':this.permissions.filter,
