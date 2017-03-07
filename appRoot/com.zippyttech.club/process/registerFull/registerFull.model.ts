@@ -3,7 +3,7 @@ import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 import {VehicleModel} from "../../catalog/vehicle/vehicle.model";
 import {TagModel} from "../../catalog/tag/tag.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {IModelActions, ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 
 
 export class RegisterFullModel extends ModelBase{
@@ -19,13 +19,9 @@ export class RegisterFullModel extends ModelBase{
     }
     modelExternal() {
         this.user = new UserModel(this.db);
-        Object.keys(this.user.rules).forEach(((k)=>{
-            if(k != 'email' && k != 'username' && k != 'name')
-                delete this.user.rules[k];
-        }).bind(this));
+        this.user.rules = (<ModelRoot>this.user).getIncludeKeys(['email','username','name']);
         this.vehicle = new VehicleModel(this.db,false);
         this.tags = new TagModel(this.db);
-        this.vehicle.rules['tags'].showAsRequired = true;
     }
     initRules() {
 
