@@ -13,14 +13,14 @@ var moment = require('moment');
     selector: 'tables-view',
     templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
     styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
-    inputs:['model'],
+    inputs:['model','viewActions'],
     outputs:['getInstance'],
 })
 
 export class TablesComponent implements OnInit{
 
     public model:any;
-
+    public viewActions:boolean;
     public paramsData:IRuleView={
         select:{},
         searchParams:{},
