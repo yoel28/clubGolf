@@ -1,26 +1,22 @@
-import {Component, EventEmitter, OnInit, NgModule, AfterContentChecked, OnChanges} from "@angular/core";
+import {Component, EventEmitter, OnInit} from "@angular/core";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
-import {XFootable} from "../../../com.zippyttech.utils/directive/xFootable";
 import {IRuleView} from "../ruleView/ruleView.component";
 import {IModal} from "../modal/modal.component";
-import {ModelRoot} from "../../../com.zippyttech.common/modelRoot";
 
-
-declare var SystemJS:any;
 var moment = require('moment');
 
 @Component({
+    moduleId:module.id,
     selector: 'tables-view',
-    templateUrl: SystemJS.map.app+'/com.zippyttech.ui/components/tables/index.html',
-    styleUrls: [SystemJS.map.app+'/com.zippyttech.ui/components/tables/style.css'],
+    templateUrl: 'index.html',
+    styleUrls: ['style.css'],
     inputs:['model','viewActions'],
     outputs:['getInstance'],
 })
-
-export class TablesComponent implements OnInit{
+export class TablesComponent implements OnInit {
 
     public model:any;
-    public viewActions:boolean;
+
     public paramsData:IRuleView={
         select:{},
         searchParams:{},
@@ -45,7 +41,6 @@ export class TablesComponent implements OnInit{
 
     public getInstance:any;
     private _currentPage: number;
-    private updating:boolean = false;
 
     constructor(public db:DependenciesBase) {
         this._currentPage = -1;
@@ -58,8 +53,6 @@ export class TablesComponent implements OnInit{
 
     ngAfterViewInit() {
         this.getInstance.emit(this);
-        if(this.updating)
-            this.updating = false;
     }
 
     public get currentPage(){
