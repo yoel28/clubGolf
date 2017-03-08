@@ -386,3 +386,12 @@ body {
 body::-webkit-scrollbar-track {
     background: rgb(236, 240, 245) !important;
 }
+
+
+register-full .nav-btn:disabled{
+    display:none !important;
+}
+
+register-full .view-data-internal{
+    border-radius: 10px !important;
+}
