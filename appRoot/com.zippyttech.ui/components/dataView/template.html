@@ -9,7 +9,7 @@
             </button>
             <template [ngIf]="dataParams.internal && dataParams.viewActions">
                 <button *ngFor="let action of model.getActionsArray(data)"
-                        (click)="dataParams.ruleViewOptions.select=data; action.callback(data,model.navIndex||0)" [attr.title]="action.view[getNumber(data[action.syncKey])||0].title">
+                        (click)="dataParams.ruleViewParams.select=data; action.callback(data,model.navIndex||0)" [attr.title]="action.view[getNumber(data[action.syncKey])||0].title">
                     <i class="{{action.view[getNumber(data[action.syncKey])||0].icon}}"></i>
                 </button>
             </template>
@@ -33,7 +33,7 @@
                     <div class="view-item-detail {{db.classCol(10,10,10,10)}}">
                         <div class="view-item-detail-title">{{model.rules[key].title+": "}}</div>
                         <div class="view-item-detail-content">
-                            <rule-view [model]="model" [data]="data"  [key]="key" [paramsData]="dataParams.paramsData"> </rule-view>
+                            <rule-view [model]="model" [data]="data"  [key]="key" [paramsData]="dataParams.ruleViewParams"> </rule-view>
                         </div>
                     </div>
                 </div>
