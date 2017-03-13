@@ -157,5 +157,10 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
         return eval(exp);
     }
 
+    applyFilter(where){
+        this.model.loadWhere(where).then((()=>{
+            this.model.navIndex = null;
+        }).bind(this));
+    }
 }
 
