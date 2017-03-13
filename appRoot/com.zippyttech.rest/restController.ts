@@ -396,7 +396,7 @@ export class RestController {
             this.rest.where = where;
         else
             console.log('no es un objecto.. verificar');
-        this.loadData();
+        return this.loadData();
     }
 
     loadDataWhere(id='',where:IWhere=[]){
