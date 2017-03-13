@@ -77,7 +77,32 @@ export abstract class ModelRoot extends RestController{
     }
     public get navIndex(){ return this._navIndex; }
 
+    loadWhere(where:IWhere,event?,code?:string){
+        let promise = super.loadWhere(where,event,code);
+        let codes:string[]=[];
 
+        if(Object.keys(this.filters).length > 0) {
+            (<any>this.rest.where).forEach((whereRest) => {
+                if(whereRest.code)
+                    codes.push(whereRest.code);
+            });
+
+            Object.keys(this.filters).forEach((key) => {
+                let exist:boolean = false;
+                codes.forEach((code)=>{
+                    let whereFilter = this.filters[key].view[this.filters[key].status].where;
+                    if(whereFilter && whereFilter[0]['code'] == code)
+                        exist =true;
+                });
+                if(!exist)
+                    this.filters[key].status = 0;
+
+                console.log(key+": "+this.filters[key].status);
+            });
+        }
+
+        return promise;
+    }
 
     public configId = moment().valueOf();
     private rulesDefault:any = {};

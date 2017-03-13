@@ -163,7 +163,7 @@ export class BaseViewComponent extends ControllerBase implements OnInit,AfterVie
     }
 
     applyFilter(where){
-        this.model.loadWhere(where).then((()=>{
+        this.model.loadWhere(where,null,'filter').then((()=>{
             this.model.navIndex = null;
         }).bind(this));
     }

@@ -78,6 +78,21 @@ export class RestController {
         }).bind(this))
     }
 
+    public removeEqualFilters(where:IWhere){
+        let indexs=[];
+        if(this.rest.where){
+            (<any>this.rest.where).forEach((where1,index1)=>{
+                (<any>where).forEach((where2,index2)=>{
+                    if(where1.field == where2.field)
+                        indexs.unshift(index1);
+                });
+            });
+        }
+        indexs.forEach((i=>{
+            (<any>this.rest.where).splice(i,1);
+        }).bind(this))
+    }
+
     addToast(title,message,type='info',time=10000) {
 
         var toastOptions:ToastOptions = {
@@ -409,6 +424,7 @@ export class RestController {
         if(code)
             this.removedCodeFilter(code);
 
+        this.removeEqualFilters(where);
         if(typeof where === 'object'){
 
             if((<any>where).length){
