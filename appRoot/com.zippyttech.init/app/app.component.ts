@@ -241,6 +241,41 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'routerLink': '/init/dashboard'
 
             });
+
+            this.menuItems.value.push({
+                'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
+                'icon': 'fa fa-wrench',
+                'select' : false,
+                'title': 'Operaciones',
+                'key': 'Operaciones',
+                'treeview': [
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_TRADE']),
+                        'icon': 'glyphicon glyphicon-list-alt',
+                        'title': 'Lista de Op.',
+                        'routerLink': '/club/catalog/trade'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT']),
+                        'icon': 'fa fa-qrcode',
+                        'title': 'Generar salida',
+                        'routerLink': '/club/process/generate/output'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_GETBACK']),
+                        'icon': 'fa fa-download',
+                        'title': 'Generar entrada',
+                        'routerLink': '/club/process/getback'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_RECORD']),
+                        'icon': 'fa fa-file-text',
+                        'title': 'Lista registro',
+                        'routerLink': '/club/catalog/record'
+                    }
+                ]
+            });
+
             this.menuItems.value.push({
                 'visible': this.db.myglobal.existsPermission(['MEN_USER','MEN_USERTYPE','MEN_USERSTATUS','MEN_USERGROUP','MEN_MAINTYPE', 'MEN_ACL','MEN_PERMISSION', 'MEN_ROLE', 'MEN_ACCOUNT']),
                 'icon': 'fa fa-unlock',
@@ -311,51 +346,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 ]
             });
             this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_EVENT', 'MEN_INFO', 'MEN_PARAM', 'MEN_RULE', 'MEN_NOTIFICATION','MEN_CHANNEL']),
-                'icon': 'fa fa-gears',
-                'title': 'Configuración',
-                'key': 'Configuracion',
-                'select': false,
-                'treeview': [
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_CHANNEL']),
-                        'icon': 'fa fa-code-fork',
-                        'title': 'Canales',
-                        'routerLink': '/business/channel'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_EVENT']),
-                        'icon': 'fa fa-calendar',
-                        'title': 'Eventos',
-                        'routerLink': '/business/event'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_INFO']),
-                        'icon': 'fa fa-file-word-o',
-                        'title': 'Información',
-                        'routerLink': '/business/info'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_PARAM']),
-                        'icon': 'fa fa-sliders',
-                        'title': 'Parámetros',
-                        'routerLink': '/business/param'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_RULE']),
-                        'icon': 'fa fa-book',
-                        'title': 'Reglas',
-                        'routerLink': '/business/rule'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_NOTIFICATION']),
-                        'icon': 'fa fa-bell-o',
-                        'title': 'Notificaciones',
-                        'routerLink': '/business/notify'
-                    },
-                ]
-            });
-            this.menuItems.value.push({
                 'visible': this.db.myglobal.existsPermission(['MEN_PRODUCTTYPE','MEN_PRODUCT','MEN_STATE','MEN_QRCODE']),
                 'icon': 'fa fa-newspaper-o',
                 'title': 'Catálogo',
@@ -406,39 +396,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                     }
                 ]
             });
-            this.menuItems.value.push({
-                'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT','MEN_GETBACK','MEN_TRADE']),
-                'icon': 'fa fa-wrench',
-                'select' : false,
-                'title': 'Operaciones',
-                'key': 'Operaciones',
-                'treeview': [
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_GENE_OUT']),
-                        'icon': 'fa fa-qrcode',
-                        'title': 'Generar salida',
-                        'routerLink': '/club/process/generate/output'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_GETBACK']),
-                        'icon': 'fa fa-download',
-                        'title': 'Generar entrada',
-                        'routerLink': '/club/process/getback'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_TRADE']),
-                        'icon': 'glyphicon glyphicon-list-alt',
-                        'title': 'Lista de Op.',
-                        'routerLink': '/club/catalog/trade'
-                    },
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_RECORD']),
-                        'icon': 'fa fa-file-text',
-                        'title': 'Lista registro',
-                        'routerLink': '/club/catalog/record'
-                    }
-                ]
-            });
+
             this.menuItems.value.push({
                 'visible': this.db.myglobal.existsPermission(['MEN_VEHICLE','MEN_VEHICLETYPE','MEN_MODEL','MEN_BRAND']),
                 'icon': 'fa fa-car',
@@ -446,18 +404,17 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 'key': 'vehicle',
                 'select': false,
                 'treeview': [
-
-                    {
-                        'visible': this.db.myglobal.existsPermission(['MEN_TAG']),
-                        'icon': 'fa fa-tags',
-                        'title': 'Tag',
-                        'routerLink': '/club/catalog/tag'
-                    },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_VEHICLE']),
                         'icon': 'fa fa-bus',
                         'title': 'Vehículos',
                         'routerLink': '/club/catalog/vehicle'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_TAG']),
+                        'icon': 'fa fa-tags',
+                        'title': 'Tag',
+                        'routerLink': '/club/catalog/tag'
                     },
                     {
                         'visible': this.db.myglobal.existsPermission(['MEN_VEHICLETYPE']),
@@ -478,6 +435,52 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                         'routerLink': '/club/catalog/vehicle/brand'
                     }
 
+                ]
+            });
+
+            this.menuItems.value.push({
+                'visible': this.db.myglobal.existsPermission(['MEN_EVENT', 'MEN_INFO', 'MEN_PARAM', 'MEN_RULE', 'MEN_NOTIFICATION','MEN_CHANNEL']),
+                'icon': 'fa fa-gears',
+                'title': 'Configuración',
+                'key': 'Configuracion',
+                'select': false,
+                'treeview': [
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_CHANNEL']),
+                        'icon': 'fa fa-code-fork',
+                        'title': 'Canales',
+                        'routerLink': '/business/channel'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_EVENT']),
+                        'icon': 'fa fa-calendar',
+                        'title': 'Eventos',
+                        'routerLink': '/business/event'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_INFO']),
+                        'icon': 'fa fa-file-word-o',
+                        'title': 'Información',
+                        'routerLink': '/business/info'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_PARAM']),
+                        'icon': 'fa fa-sliders',
+                        'title': 'Parámetros',
+                        'routerLink': '/business/param'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_RULE']),
+                        'icon': 'fa fa-book',
+                        'title': 'Reglas',
+                        'routerLink': '/business/rule'
+                    },
+                    {
+                        'visible': this.db.myglobal.existsPermission(['MEN_NOTIFICATION']),
+                        'icon': 'fa fa-bell-o',
+                        'title': 'Notificaciones',
+                        'routerLink': '/business/notify'
+                    },
                 ]
             });
         }
