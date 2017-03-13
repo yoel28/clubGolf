@@ -330,7 +330,7 @@ export abstract class ModelRoot extends RestController{
         if(this.permissions.audit || force){
             this.rulesDefault["dateCreated"] = {
                 "update": false,
-                "visible": false,
+                "visible": this.permissions.audit,
                 "search": this.permissions.filter,
                 'icon': 'fa fa-list',
                 "type": "combodate",
@@ -345,7 +345,7 @@ export abstract class ModelRoot extends RestController{
         if(this.permissions.audit || force){
             this.rulesDefault["dateUpdated"] = {
                 "update": false,
-                "visible": false,
+                "visible": this.permissions.audit,
                 "search": this.permissions.filter,
                 'icon': 'fa fa-list',
                 "type": "combodate",
