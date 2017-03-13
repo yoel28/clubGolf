@@ -255,6 +255,7 @@ export class FilterComponent extends RestController implements OnInit{
                 let whereTemp:any = {};//Fila de where para un solo elemento
                 let whereTemp2:any;//Fila para codificiones multiples
 
+                whereTemp.code = 'filter';
                 whereTemp.op = that.form.value[key + 'Cond'];//condicion
                 whereTemp.field = that.rules[key].key || key;//columna
 
@@ -293,7 +294,7 @@ export class FilterComponent extends RestController implements OnInit{
                         }
                     }
 
-                    if (that.rules[key].type == 'date')//si es tipo date..
+                    if (that.rules[key].type == 'date' || that.rules[key].type == 'combodate')//si es tipo date..
                     {
                         whereTemp.type='date';
 
@@ -305,6 +306,7 @@ export class FilterComponent extends RestController implements OnInit{
 
                             whereTemp2.value = that.form.value[key].end;
                             whereTemp2.op='le';
+                            whereTemp2.code = 'filter';
 
                             whereTemp2.field = whereTemp.field;
                             whereTemp2.type = whereTemp.type;

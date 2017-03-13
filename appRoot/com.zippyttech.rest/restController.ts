@@ -65,6 +65,19 @@ export class RestController {
         return prefix+encodeURI('[]');
     }
 
+    public removedCodeFilter(code:string){
+        let indexs=[];
+        if(this.rest.where){
+            (<any>this.rest.where).forEach((where,index)=>{
+                if(where.code && where.code ==  code)
+                    indexs.unshift(index);
+            });
+        }
+        indexs.forEach((i=>{
+            (<any>this.rest.where).splice(i,1);
+        }).bind(this))
+    }
+
     addToast(title,message,type='info',time=10000) {
 
         var toastOptions:ToastOptions = {
@@ -389,11 +402,21 @@ export class RestController {
         return (this.httputils.onUpdate(this.endpoint + dataSelect.id, body, dataSelect, this.error));
     }
 
-    loadWhere(where:IWhere,event?) {
+    loadWhere(where:IWhere,event?,code?:string) {
         if(event)
             event.preventDefault();
-        if(typeof where === 'object')
-            this.rest.where = where;
+
+        if(code)
+            this.removedCodeFilter(code);
+
+        if(typeof where === 'object'){
+
+            if((<any>where).length){
+                let whereTemp:IWhere;
+                whereTemp = (<any>this.rest.where).concat(where);
+                this.rest.where = whereTemp;
+            }
+        }
         else
             console.log('no es un objecto.. verificar');
         return this.loadData();

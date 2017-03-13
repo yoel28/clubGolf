@@ -94,12 +94,8 @@ export class RegisterFullComponent extends RestController implements OnInit{
             that.resetForm();
             this.rest.findData = false;
         };
-        let miError= err => {
-            this.error(err);
-            this.rest.findData = false;
-        }
         this.rest.findData = true;
-        this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,miError);
+        this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,this.error);
     }
     public dataOk:boolean=false;
     public resetForm(){

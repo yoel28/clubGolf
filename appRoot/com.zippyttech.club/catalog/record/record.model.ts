@@ -78,6 +78,8 @@ export class RecordModel extends ModelBase{
         this.rules['dateIn']={
             'type': 'combodate',
             'date':'datetime',
+            "showbuttons": true,
+            "mode":"popup",
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -88,7 +90,8 @@ export class RecordModel extends ModelBase{
         this.rules['dateOut']={
             'type': 'combodate',
             'date':'datetime',
-            'format':StaticValues.formatDatePickerDDMMYYYYLT,
+            "showbuttons": true,
+            "mode":"popup",
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
