@@ -361,7 +361,7 @@ export abstract class ModelRoot extends RestController{
                 "type": "combodate",
                 "date":"datetime",
                 "key": "dateCreated",
-                "title": "Creación",
+                "title": "Fecha de creación",
                 "placeholder": "Ingrese la fecha de creación",
             };
         }
@@ -376,7 +376,7 @@ export abstract class ModelRoot extends RestController{
                 "type": "combodate",
                 "date":"datetime",
                 "key": "dateUpdated",
-                "title": "Actualización",
+                "title": "Fecha de actualización",
                 "placeholder": "Ingrese la fecha de actualización",
             };
         }

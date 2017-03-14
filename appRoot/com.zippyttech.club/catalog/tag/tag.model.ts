@@ -39,8 +39,22 @@ export class TagModel extends ModelBase{
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
             'key': 'epc',
-            'title': 'EPC',
-            'placeholder': 'EPC',
+            'title': 'Tag',
+            'placeholder': 'Tag',
+        };
+
+        this.rules['userName'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'user.name',
+            'placeholder': 'Nombre de usuario',
+        };
+
+        this.rules['contract'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'user.contractCode',
+            'placeholder': 'Código de contrado del usuario',
         };
 
         this.rules['vehicleUser']=this.user.ruleObject;
@@ -54,6 +68,13 @@ export class TagModel extends ModelBase{
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
         this.rules['vehicle'].update= this.permissions.update;
+
+        this.rules['plate'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'vehicle.plate',
+            'placeholder': 'Placa del vehículo',
+        };
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault())

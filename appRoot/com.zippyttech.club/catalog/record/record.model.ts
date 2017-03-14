@@ -56,6 +56,16 @@ export class RecordModel extends ModelBase{
         this.rules['vehicle'].title = 'Placa';
         this.rules['vehicle'].update= this.permissions.update;
 
+        this.rules['placa'] = {
+            'type': 'text',
+            'search': true,
+            'key': 'plate',
+            'join': 'vehicle',
+            'icon': 'fa fa-clock-o',
+            'title': 'placa S.',
+            'placeholder': 'placa',
+        }
+
         this.rules['userType'] = this.userType.ruleObject;
         this.rules['userType'].title = 'Tipo';
         this.rules['userType'].required = false;
