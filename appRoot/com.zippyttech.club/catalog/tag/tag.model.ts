@@ -59,12 +59,12 @@ export class TagModel extends ModelBase{
             'ghostRule':true
         };
 
-        this.rules['vehicleUser']=this.user.ruleObject;
-        this.rules['vehicleUser'].update = false;
-        this.rules['vehicleUser'].key='vehicleUser';
-        this.rules['vehicleUser'].keyDisplay='vehicleUser';
-        this.rules['vehicleUser'].code='vehicleUserId';
-        this.rules['vehicleUser'].eval=this.db.myglobal.getRule('VEHICLE_USER_DISPLAY_WEB');
+        // this.rules['vehicleUser']=this.user.ruleObject;
+        // this.rules['vehicleUser'].update = false;
+        // this.rules['vehicleUser'].key='vehicleUser';
+        // this.rules['vehicleUser'].keyDisplay='vehicleUser';
+        // this.rules['vehicleUser'].code='vehicleUserId';
+        // this.rules['vehicleUser'].eval=this.db.myglobal.getRule('VEHICLE_USER_DISPLAY_WEB');
 
 
         this.rules['vehicle'] = this.vehicle.ruleObject;
@@ -107,6 +107,9 @@ export class TagModel extends ModelBase{
         delete this.rulesSave.enabled;
         delete this.rulesSave.vehicle;
         delete this.rulesSave.vehicleUser;
+        delete this.rulesSave.userName;
+        delete this.rulesSave.contract;
+        delete this.rulesSave.plate;
     }
 
     initModelActions(params: IModelActions) {
