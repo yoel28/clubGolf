@@ -31,6 +31,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
     public chvwVehicles:IChartData;
+    public chvwTypes:IChartData;
 
     constructor(public myglobal:globalService,public http:Http,public db:DependenciesBase) {
         super(db);
@@ -183,6 +184,27 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         this.chvwVehicles ={
             title: "Vehiculos",
             endpoint: "/reports/vehicles/",
+            options:{
+                chart: {
+                    type: 'line'
+                },
+                xAxis: {
+                    tickmarkPlacement: 'on'
+                },
+                yAxis: {
+                    title: { text: 'N° de entradas' },
+                },
+                tooltip: {
+                    valueSuffix: ' entradas',
+                    split:true,
+                    crosshairs: true
+                }
+            }
+        }
+
+        this.chvwTypes = {
+            title: "Vehiculos por tipos de usuario",
+            endpoint: "/reports/types/",
             options:{
                 chart: {
                     type: 'line'

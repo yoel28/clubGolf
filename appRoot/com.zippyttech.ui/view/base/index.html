@@ -49,22 +49,21 @@
                                 </button>
 
 
-                                <template [ngIf]="getEnabledReport">
-                                    <a *ngIf="model.permissions.exportPdf" target="_blank" [attr.title]="db.msg.exportPdf | translate" [attr.href]="getUrlExport('pdf')">
-                                        <i class="fa fa-file-pdf-o text-red"></i>
-                                    </a>&nbsp;
-                                    <a *ngIf="model.permissions.exporXls" target="_blank" [attr.title]="db.msg.exportXls | translate" [attr.href]="getUrlExport('xls')">
-                                        <i class="fa fa-file-excel-o text-green"></i>
-                                    </a>
-                                </template>
-                                <template [ngIf]="!getEnabledReport">
-                                    <span *ngIf="model.permissions.exportPdf" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
-                                        <i class="fa fa-file-pdf-o text-red"></i>
-                                    </span>&nbsp;
-                                    <span *ngIf="model.permissions.exporXls" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
-                                        <i class="fa fa-file-excel-o text-green"></i>
-                                    </span>
-                                </template>
+
+                                <a *ngIf="model.permissions.exportPdf && getEnabledReport('PDF')" target="_blank" [attr.title]="db.msg.exportPdf | translate" [attr.href]="getUrlExport('pdf')">
+                                    <i class="fa fa-file-pdf-o text-red"></i>
+                                </a>&nbsp;
+                                <a *ngIf="model.permissions.exporXls && getEnabledReport('EXCEL')" target="_blank" [attr.title]="db.msg.exportXls | translate" [attr.href]="getUrlExport('xls')">
+                                    <i class="fa fa-file-excel-o text-green"></i>
+                                </a>
+
+                                <span *ngIf="model.permissions.exportPdf && !getEnabledReport('PDF')" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS_PDF')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
+                                    <i class="fa fa-file-pdf-o text-red"></i>
+                                </span>&nbsp;
+                                <span *ngIf="model.permissions.exporXls && !getEnabledReport('EXCEL')" [attr.title]="(db.msg.exportDisabled | translate)+db.myglobal.getParams('REPORT_LIMIT_ROWS_EXCEL')+' '+(db.msg.rows | translate)" style="cursor: no-drop;">
+                                    <i class="fa fa-file-excel-o text-green"></i>
+                                </span>
+
 
                             </template>
 
@@ -75,25 +74,25 @@
                                     <i class="fa fa-wrench"></i>
                                 </button>
                                 <ul class="dropdown-menu submenu-config" role="menu">
-                                    <li *ngFor="let key of getObjectKeys(model.rules)" class="text-blue flex" [class.check]="model.rules[key].check">
+                                    <template ngFor let-key [ngForOf]="getObjectKeys(model.rules)" let-i="index">
+                                        <li *ngIf="!model.rules[key].ghostRule" class="text-blue flex" [class.check]="model.rules[key].check">
+                                            <button class="btn btn-box-tool fa"
+                                                    [class.fa-eye-slash]="!model.rules[key].visible"
+                                                    [class.text-red]="!model.rules[key].visible"
+                                                    [class.fa-eye]="model.rules[key].visible"
+                                                    [class.text-green]="model.rules[key].visible"
+                                                    (click)="setVisibleField($event,model.rules[key])"
+                                                    title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
+                                            >
 
-                                        <button class="btn btn-box-tool fa"
-                                                [class.fa-eye-slash]="!model.rules[key].visible"
-                                                [class.text-red]="!model.rules[key].visible"
-                                                [class.fa-eye]="model.rules[key].visible"
-                                                [class.text-green]="model.rules[key].visible"
-                                                (click)="setVisibleField($event,model.rules[key])"
-                                                title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
-                                        >
-
-                                        </button>
-                                        <button (click)="changePosition($event,key,'up')" class="btn btn-box-tool fa fa-angle-up" title="Subir"></button>&nbsp;
-                                        <button (click)="changePosition($event,key,'down')" class="btn btn-box-tool fa fa-angle-down" title="Bajar"></button>&nbsp;
-                                        <span class="btn" (click)="setCheckField($event,model.rules[key])">
-                                            {{model.rules[key].title}}
-                                        </span>
-
-                                    </li>
+                                            </button>
+                                            <button (click)="changePosition($event,key,'up')" class="btn btn-box-tool fa fa-angle-up" title="Subir"></button>&nbsp;
+                                            <button (click)="changePosition($event,key,'down')" class="btn btn-box-tool fa fa-angle-down" title="Bajar"></button>&nbsp;
+                                            <span class="btn" (click)="setCheckField($event,model.rules[key])">
+                                                {{model.rules[key].title}}
+                                            </span>
+                                        </li>
+                                    </template>
                                     <li>
                                         <button (click)="savePreference()" class="btn btn-box-tool" title="Guardar">
                                             <i class="fa fa-save"></i>&nbsp;{{db.msg.savePreferences}}
@@ -109,7 +108,7 @@
                     </div>
                     <div *ngIf="model.permissions.list && model.dataList" class="box-body">
                         <div *ngIf="model.dataList.count > 0 || model.dataList.id">
-                            <tables-view  [model]="model" (getInstance)="setInstance($event)"></tables-view>
+                            <tables-view  [model]="model" (getInstance)="setInstance($event)" [viewActions]="viewOptions.viewActions"></tables-view>
                         </div>
                         <div *ngIf="model.dataList.count == 0 || (!model.dataList.id && !model.dataList.list )">
                             <div class="alert alert-warning alert-dismissable">
@@ -141,7 +140,7 @@
         <save-view [params]="model.paramsSave" [rules]="model.rulesSave" (save)="model.setLoadData($event)"></save-view>
     </div>
     <div *ngIf="model.permissions.filter">
-        <filter-view [params]="model.paramsSearch" [rules]="model.rules" (whereFilter)="model.loadWhere($event)"></filter-view>
+        <filter-view [params]="model.paramsSearch" [rules]="model.rules" (whereFilter)="applyFilter($event)"></filter-view>
     </div>
 </div>
 

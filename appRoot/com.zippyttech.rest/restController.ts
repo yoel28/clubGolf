@@ -30,7 +30,7 @@ export interface IRest{
 
 export class RestController {
 
-    dataList:any = [];
+    dataList:any = {};
     httputils:HttpUtils;
     endpoint:string;
     rest:IRest= {
@@ -63,6 +63,34 @@ export class RestController {
             return prefix+encodeURI(JSON.stringify(where).split('{').join('[').split('}').join(']'));
         }
         return prefix+encodeURI('[]');
+    }
+
+    public removedCodeFilter(code:string){
+        let indexs=[];
+        if(this.rest.where){
+            (<any>this.rest.where).forEach((where,index)=>{
+                if(where.code && where.code ==  code)
+                    indexs.unshift(index);
+            });
+        }
+        indexs.forEach((i=>{
+            (<any>this.rest.where).splice(i,1);
+        }).bind(this))
+    }
+
+    public removeEqualFilters(where:IWhere){
+        let indexs=[];
+        if(this.rest.where){
+            (<any>this.rest.where).forEach((where1,index1)=>{
+                (<any>where).forEach((where2,index2)=>{
+                    if(where1.field == where2.field)
+                        indexs.unshift(index1);
+                });
+            });
+        }
+        indexs.forEach((i=>{
+            (<any>this.rest.where).splice(i,1);
+        }).bind(this))
     }
 
     addToast(title,message,type='info',time=10000) {
@@ -389,14 +417,25 @@ export class RestController {
         return (this.httputils.onUpdate(this.endpoint + dataSelect.id, body, dataSelect, this.error));
     }
 
-    loadWhere(where:IWhere,event?) {
+    loadWhere(where:IWhere,event?,code?:string) {
         if(event)
             event.preventDefault();
-        if(typeof where === 'object')
-            this.rest.where = where;
+
+        if(code)
+            this.removedCodeFilter(code);
+
+        this.removeEqualFilters(where);
+        if(typeof where === 'object'){
+
+            if((<any>where).length){
+                let whereTemp:IWhere;
+                whereTemp = (<any>this.rest.where).concat(where);
+                this.rest.where = whereTemp;
+            }
+        }
         else
             console.log('no es un objecto.. verificar');
-        this.loadData();
+        return this.loadData();
     }
 
     loadDataWhere(id='',where:IWhere=[]){

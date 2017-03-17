@@ -84,7 +84,7 @@ export class ListActionComponent extends ControllerBase
         let data=[];
         let that=this;
         Object.keys(this.data.model.rules).forEach((key)=>{
-            if(that.data.model.rules[key].visible)
+            if(that.data.model.rules[key].visible && !that.data.model.rules[key].ghostRule)
                 data.push(key)
         });
         return data;

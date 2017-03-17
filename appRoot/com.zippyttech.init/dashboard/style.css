@@ -22,6 +22,7 @@
 .reader-title{
     line-height: 30px;
     padding: 0px;
+    font-size: 14px;
 }
 
 .reader-input{
@@ -52,28 +53,24 @@
     transform: translateX(85%);
 }
 
+.section{ overflow-y: auto; }
 
-
-.chart-box{
-    padding: 20px;
-    margin: 15px;
-}
-
-.chart-body{
-    width: 90%;
-    margin: 0 auto;
-    height: 300px;
-
-}
-
-.chart-item{
-    height: 100%;
-    display: inline-block;
-    margin: 0px;
-    padding: 10px;
+.section>*{
+    padding: 5px;
     overflow: hidden;
+    display: flex;
 }
 
-.form-horizontal .form-group {
-    margin: 0px;
+chart-view{
+    height: 350px;
+    margin: 0;
+}
+
+.form-horizontal .form-group { margin: 0px; }
+
+@media (max-width: 425px){
+    .reader-title{
+        display: none;
+    }
+
 }

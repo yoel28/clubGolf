@@ -56,6 +56,18 @@ export class RecordModel extends ModelBase{
         this.rules['vehicle'].title = 'Placa';
         this.rules['vehicle'].update= this.permissions.update;
 
+        this.rules['placa'] = {
+            'type': 'text',
+            'search': true,
+            'visible':false,
+            'ghostRule':true,
+            'key': 'plate',
+            'join': 'vehicle',
+            'icon': 'fa fa-clock-o',
+            'title': 'Placa',
+            'placeholder': 'placa',
+        }
+
         this.rules['userType'] = this.userType.ruleObject;
         this.rules['userType'].title = 'Tipo';
         this.rules['userType'].required = false;
@@ -76,8 +88,10 @@ export class RecordModel extends ModelBase{
 
 
         this.rules['dateIn']={
-            'type': 'date',
-            'format':StaticValues.formatDatePickerDDMMYYYYLT,
+            'type': 'combodate',
+            'date':'datetime',
+            "showbuttons": true,
+            "mode":"popup",
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -86,8 +100,10 @@ export class RecordModel extends ModelBase{
             'placeholder': 'Fecha de entrada',
         };
         this.rules['dateOut']={
-            'type': 'date',
-            'format':StaticValues.formatDatePickerDDMMYYYYLT,
+            'type': 'combodate',
+            'date':'datetime',
+            "showbuttons": true,
+            "mode":"popup",
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -214,6 +230,7 @@ export class RecordModel extends ModelBase{
         delete this.rulesSave.lotValOut;
         delete this.rulesSave.antennaIn;
         delete this.rulesSave.antennaOut;
+        delete this.rulesSave.placa;
     }
 
     initModelActions(params: IModelActions) {

@@ -29,6 +29,7 @@
                                 <form-view (getInstance)="userObjectInstance=$event"
                                            [params]="model.user.paramsSave" [rules]="userObject"></form-view>
                                 <div *ngIf="(userObjectInstance && userObjectInstance.form && userObjectInstance.form.valid)" class="row">
+                                    {{getRestUser()}}
                                     <basic-component [model]="model.user" [viewActions]="false" ></basic-component>
                                 </div>
                             </div>

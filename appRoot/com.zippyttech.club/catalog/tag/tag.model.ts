@@ -2,10 +2,12 @@ import {ModelBase} from "../../../com.zippyttech.common/modelBase";
 import {VehicleModel} from "../vehicle/vehicle.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 import {IModelActions} from "../../../com.zippyttech.common/modelRoot";
+import {UserModel} from "../../../com.zippyttech.access/user/user.model";
 
 
 export class TagModel extends ModelBase{
     private vehicle:any;
+    private user:any;
 
     constructor(public db:DependenciesBase){
         super(db,'/tags/');
@@ -13,6 +15,7 @@ export class TagModel extends ModelBase{
     }
     modelExternal() {
         this.vehicle = new VehicleModel(this.db);
+        this.user = new UserModel(this.db);
     }
     initRules() {
         this.rules['code'] = {
@@ -36,12 +39,45 @@ export class TagModel extends ModelBase{
             'search': this.permissions.filter,
             'visible': this.permissions.visible,
             'key': 'epc',
-            'title': 'EPC',
-            'placeholder': 'EPC',
+            'title': 'Tag',
+            'placeholder': 'Tag',
         };
+
+        this.rules['userName'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'user.name',
+            'placeholder': 'Nombre de usuario',
+            'ghostRule':true
+        };
+
+        this.rules['contract'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'user.contractCode',
+            'placeholder': 'Código de contrado del usuario',
+            'ghostRule':true
+        };
+
+        // this.rules['vehicleUser']=this.user.ruleObject;
+        // this.rules['vehicleUser'].update = false;
+        // this.rules['vehicleUser'].key='vehicleUser';
+        // this.rules['vehicleUser'].keyDisplay='vehicleUser';
+        // this.rules['vehicleUser'].code='vehicleUserId';
+        // this.rules['vehicleUser'].eval=this.db.myglobal.getRule('VEHICLE_USER_DISPLAY_WEB');
+
+
         this.rules['vehicle'] = this.vehicle.ruleObject;
         this.rules['vehicle'].required=false;
         this.rules['vehicle'].update= this.permissions.update;
+
+        this.rules['plate'] = {
+            'type': 'text',
+            'search': this.permissions.filter,
+            'key': 'vehicle.plate',
+            'placeholder': 'Placa del vehículo',
+            'ghostRule':true
+        };
 
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
@@ -70,6 +106,10 @@ export class TagModel extends ModelBase{
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
         delete this.rulesSave.vehicle;
+        delete this.rulesSave.vehicleUser;
+        delete this.rulesSave.userName;
+        delete this.rulesSave.contract;
+        delete this.rulesSave.plate;
     }
 
     initModelActions(params: IModelActions) {

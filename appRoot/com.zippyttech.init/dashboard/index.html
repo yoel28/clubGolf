@@ -1,19 +1,16 @@
 <section class="content" *ngIf="model">
-    <div class="chart-box">
-        <div class="chart-header">
 
-        </div>
-        <div class="chart-body">
-            <div class="chart-item {{db.classCol(6,6)}}">
-                <chart-view [chartData] = "chvwEntries"></chart-view>
-            </div>
-            <div class="chart-item {{db.classCol(6,6)}}">
-                <chart-view [chartData] = "chvwProducts"></chart-view>
-            </div>
-            <div class="chart-item {{db.classCol()}}">
-                <chart-view [chartData] = "chvwVehicles"></chart-view>
-            </div>
-        </div>
+    <div class="section">
+        <chart-view [chartData] = "chvwEntries"  class="{{db.classCol(6,6)}}"></chart-view>
+        <chart-view [chartData] = "chvwProducts" class="{{db.classCol(6,6)}}"></chart-view>
+        <chart-view [chartData] = "chvwVehicles" class="{{db.classCol()}}"></chart-view>
+        <chart-view [chartData] = "chvwTypes"    class="{{db.classCol()}}"></chart-view>
+    </div>
+
+    <div class="section">
+        <list-action [data]="guestData"  *ngIf="model.permissions['guest']"></list-action>
+        <list-action [data]="recordData" *ngIf="model.permissions['vehicle']"></list-action>
+        <list-action [data]="tradeData"  *ngIf="model.permissions['trade']"></list-action>
     </div>
 
     <div id="reader" class="reader-hide" *ngIf="model.permissions['qr'] && model.qr">
@@ -47,18 +44,6 @@
                 </button>
             </div>
         </div>
-    </div>
-
-    <div class = "" *ngIf="model.permissions['guest']">
-        <list-action [data]="guestData"></list-action>
-    </div>
-
-    <div class = "" *ngIf="model.permissions['vehicle']">
-        <list-action [data]="recordData"></list-action>
-    </div>
-
-    <div class = "" *ngIf="model.permissions['trade']">
-        <list-action [data]="tradeData"></list-action>
     </div>
 
 </section>

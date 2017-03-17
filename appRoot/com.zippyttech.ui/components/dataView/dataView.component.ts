@@ -17,7 +17,8 @@ interface IDataView{
         dir:boolean;
         back:boolean;
     } | boolean;
-    paramsData?:IRuleView
+    viewActions?:boolean;
+    ruleViewParams?:IRuleView
 }
 
 
@@ -48,10 +49,10 @@ export class DataViewComponent implements OnInit{
         let keys:string[]=[];
         if(this.data)
             Object.keys(this.model.rules).forEach((key=>{
-                if(this.model.rules[key].visible)
+                if(this.model.rules[key].visible && !this.model.rules[key].ghostRule)
                     keys.push(key);
             }).bind(this));
-       return keys;
+        return keys;
     }
 
     public getNumber(value):number{

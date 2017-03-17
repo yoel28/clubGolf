@@ -34,23 +34,16 @@ export class RegisterFullComponent extends RestController implements OnInit{
     public tempIdUser:string;
     getRestUser(){
         let data = this.userObjectInstance.getFormValues();
-        let rest:IRest={
-            where:[{'op':'eq','field':'id','value':data.id}],
-            offset:0,
-            max:0
-        };
-
-        if(this.tempIdUser === undefined){
+        if(this.tempIdUser === undefined || (this.tempIdUser && this.tempIdUser != data.id)){
             this.tempIdUser =  data.id;
+            let rest:IRest={
+                where:[{'op':'eq','field':'id','value':data.id}],
+                offset:0,
+                max:15
+            };
+            this.model.user.rest = rest;
+            this.model.user.loadData();
         }
-
-        if(this.tempIdUser && this.tempIdUser != data.id)
-        {
-            this.tempIdUser =  data.id;
-            this.user.loadDataWhere('',rest.where);
-        }
-
-        return rest;
     }
     prueba(event){ //TODO:Prueba para cambiar validadores
         if(event)
@@ -99,7 +92,9 @@ export class RegisterFullComponent extends RestController implements OnInit{
         let successCallback= response => {
             that.addToast('Notificacion','Guardado con éxito');
             that.resetForm();
+            this.rest.findData = false;
         };
+        this.rest.findData = true;
         this.httputils.doPost(this.model.endpoint,JSON.stringify(data),successCallback,this.error);
     }
     public dataOk:boolean=false;
@@ -110,7 +105,10 @@ export class RegisterFullComponent extends RestController implements OnInit{
     }
     isValidForm():boolean{
         let count=0;
-        if( !(this.user && this.user.form && this.user.form.valid) && !(this.userObjectInstance && this.userObjectInstance.form && this.userObjectInstance.form.valid))
+        if(this.rest.findData)
+            return false;
+
+        if(!(this.user && this.user.form && this.user.form.valid) && !(this.userObjectInstance && this.userObjectInstance.form && this.userObjectInstance.form.valid))
             return false;
 
         this.instanceVehicle.forEach(obj=>{
@@ -119,6 +117,7 @@ export class RegisterFullComponent extends RestController implements OnInit{
                 return;
             }
         });
+
         return count==0?true:false;
     }
 }

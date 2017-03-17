@@ -50,22 +50,14 @@ export class TradeModel extends ModelBase{
         this.rules['qrCode']=this.qr.ruleObject;
         this.rules['qrCode'].update= this.permissions.update;
 
-        this.rules['dateCreated']={
-            'type': 'date',
-            'required':true,
-            'format':StaticValues.formatDatePickerDDMMYYYY,
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'dateCreated',
-            'title': 'Fecha del pedido',
-            'placeholder': 'Fecha del pedido',
-        };
+        this.rules['dateCreated']={};
 
         this.rules['receivedDate']={
-            'type': 'date',
+            'type': 'combodate',
+            'date':'datetime',
+            "showbuttons": true,
+            "mode":"popup",
             'required':true,
-            'format':StaticValues.formatDatePickerDDMMYYYY,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -162,11 +154,15 @@ export class TradeModel extends ModelBase{
             'title': 'Costo total',
             'placeholder': 'Costo total',
         };
-
+        this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['detail'].title="Comentario";
         this.rules['detail'].placeholder="Ingrese un comentario";
 
+
+        this.rules['dateCreated'].title = 'Fecha del pedido';
+        this.rules['dateCreated'].placeholder = 'Fecha del pedido';
+        this.rules['dateCreated'].visible = this.permissions.visible;
     }
     initPermissions() {}
     initParamsSearch() {
@@ -197,6 +193,7 @@ export class TradeModel extends ModelBase{
         delete this.rulesSave.usernameUpdater;
         delete this.rulesSave.entregado;
         delete this.rulesSave.usePrice;
+        delete this.rulesSave.receivedDate;
     }
 
     initModelActions(params: IModelActions) {

@@ -5,12 +5,12 @@
     height: inherit;
 }
 
-.box
-{
+.box{
     border-radius: 5px !important;
     height: inherit;
     overflow: hidden;
     border-top: none;
+    margin: 0px !important;
 }
 
 .box-header

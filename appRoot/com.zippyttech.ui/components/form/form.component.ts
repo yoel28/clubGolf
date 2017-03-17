@@ -105,6 +105,17 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                         });
                 }
 
+                if(that.rules[key].required && that.rules[key].type == 'list')
+                {
+                    validators.push(
+                        (c:FormControl)=> {
+                            if(c.value && c.value.length > 0){
+                                return null;
+                            }
+                            return {listError: {valid: false}};
+                        });
+                }
+
                 that.data[key] = new FormControl('',Validators.compose(validators));
                 if(that.rules[key].value)
                     that.data[key].setValue(that.rules[key].value);
@@ -138,6 +149,33 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                             }
                         });
                 }
+
+
+                if(that.rules[key].events && that.rules[key].events.valueChange){
+                    that.data[key]
+                        .valueChanges
+                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SAVE') || '500')
+                        .subscribe(((value: string) => {
+                            this.rules[key].events.valueChange(this,value)
+                        }).bind(this))
+
+                }
+
+                if(that.rules[key].url && that.rules[key].url=='image'){
+                    that.data[key]
+                        .valueChanges
+                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SEARCH') || '500')
+                        .subscribe((value: string) => {
+                            let img = new Image();
+                            img.onerror = (()=>{
+                                this.data[key].setErrors({'imageError': {'valid': false}});
+                                console.log(key);
+                            }).bind(this);
+                            img.src = value;
+                            return null;
+                        });
+                }
+
             }
 
         });
@@ -412,10 +450,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     addTagManual(event,key){
         if(event)
             event.preventDefault();
-        let tag=jQuery('#'+key+'manual').val();
+        let tag=event.target[0].value;
         if(tag && tag.length)
         {
-            jQuery('#'+key+'manual').val('');
+            event.target[0].value='';
             this.rules[key].refreshField.instance.addValue(
                 {
                     'id': 0,

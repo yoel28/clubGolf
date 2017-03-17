@@ -28,6 +28,7 @@ export class VehicleModel extends ModelBase{
             'type': 'list',
             'typeView':'modal',
             'maxLength': '35',
+            'required':true,
             'readOnly':true,
             'prefix':'TAG',
             'value':[],
@@ -88,7 +89,7 @@ export class VehicleModel extends ModelBase{
             'icon':'fa fa-font',
             'maxLength':'35',
             'update':this.permissions.update,
-            'search':this.permissions.filter,
+            'search':false,
             'visible':this.permissions.visible,
             'key': 'color',
             'title': 'Color',
@@ -102,8 +103,11 @@ export class VehicleModel extends ModelBase{
         this.rules['vehicleType'] = this.vehicleType.ruleObject;
         this.rules['vehicleType'].required=false;
         this.rules['vehicleType'].update= this.permissions.update;
+        this.rules['vehicleType'].search = false;
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['detail'].search = false;
+        this.rules['ip'].search = false;
     }
     initPermissions() {
         this.permissions['tagFree'] =  this.db.myglobal.existsPermission(this.prefix+'_TAG_FREE')
