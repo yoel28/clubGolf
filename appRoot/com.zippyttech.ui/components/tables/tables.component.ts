@@ -74,7 +74,7 @@ export class TablesComponent implements OnInit {
         let data=[];
         let that=this;
         Object.keys(this.model.rules).forEach((key)=>{
-            if(that.model.rules[key].visible)
+            if(that.model.rules[key].visible && !that.model.rules[key].ghostRule)
                 data.push(key)
         });
         return data;

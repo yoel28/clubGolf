@@ -48,6 +48,7 @@ export class TagModel extends ModelBase{
             'search': this.permissions.filter,
             'key': 'user.name',
             'placeholder': 'Nombre de usuario',
+            'ghostRule':true
         };
 
         this.rules['contract'] = {
@@ -55,6 +56,7 @@ export class TagModel extends ModelBase{
             'search': this.permissions.filter,
             'key': 'user.contractCode',
             'placeholder': 'Código de contrado del usuario',
+            'ghostRule':true
         };
 
         this.rules['vehicleUser']=this.user.ruleObject;
@@ -74,6 +76,7 @@ export class TagModel extends ModelBase{
             'search': this.permissions.filter,
             'key': 'vehicle.plate',
             'placeholder': 'Placa del vehículo',
+            'ghostRule':true
         };
 
 

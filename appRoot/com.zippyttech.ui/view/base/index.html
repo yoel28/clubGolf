@@ -74,25 +74,25 @@
                                     <i class="fa fa-wrench"></i>
                                 </button>
                                 <ul class="dropdown-menu submenu-config" role="menu">
-                                    <li *ngFor="let key of getObjectKeys(model.rules)" class="text-blue flex" [class.check]="model.rules[key].check">
+                                    <template ngFor let-key [ngForOf]="getObjectKeys(model.rules)" let-i="index">
+                                        <li *ngIf="!model.rules[key].ghostRule" class="text-blue flex" [class.check]="model.rules[key].check">
+                                            <button class="btn btn-box-tool fa"
+                                                    [class.fa-eye-slash]="!model.rules[key].visible"
+                                                    [class.text-red]="!model.rules[key].visible"
+                                                    [class.fa-eye]="model.rules[key].visible"
+                                                    [class.text-green]="model.rules[key].visible"
+                                                    (click)="setVisibleField($event,model.rules[key])"
+                                                    title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
+                                            >
 
-                                        <button class="btn btn-box-tool fa"
-                                                [class.fa-eye-slash]="!model.rules[key].visible"
-                                                [class.text-red]="!model.rules[key].visible"
-                                                [class.fa-eye]="model.rules[key].visible"
-                                                [class.text-green]="model.rules[key].visible"
-                                                (click)="setVisibleField($event,model.rules[key])"
-                                                title="{{model.rules[key].visible?'Ocultar':'Ver'}}"
-                                        >
-
-                                        </button>
-                                        <button (click)="changePosition($event,key,'up')" class="btn btn-box-tool fa fa-angle-up" title="Subir"></button>&nbsp;
-                                        <button (click)="changePosition($event,key,'down')" class="btn btn-box-tool fa fa-angle-down" title="Bajar"></button>&nbsp;
-                                        <span class="btn" (click)="setCheckField($event,model.rules[key])">
-                                            {{model.rules[key].title}}
-                                        </span>
-
-                                    </li>
+                                            </button>
+                                            <button (click)="changePosition($event,key,'up')" class="btn btn-box-tool fa fa-angle-up" title="Subir"></button>&nbsp;
+                                            <button (click)="changePosition($event,key,'down')" class="btn btn-box-tool fa fa-angle-down" title="Bajar"></button>&nbsp;
+                                            <span class="btn" (click)="setCheckField($event,model.rules[key])">
+                                                {{model.rules[key].title}}
+                                            </span>
+                                        </li>
+                                    </template>
                                     <li>
                                         <button (click)="savePreference()" class="btn btn-box-tool" title="Guardar">
                                             <i class="fa fa-save"></i>&nbsp;{{db.msg.savePreferences}}

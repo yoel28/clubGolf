@@ -59,10 +59,12 @@ export class RecordModel extends ModelBase{
         this.rules['placa'] = {
             'type': 'text',
             'search': true,
+            'visible':false,
+            'ghostRule':true,
             'key': 'plate',
             'join': 'vehicle',
             'icon': 'fa fa-clock-o',
-            'title': 'placa S.',
+            'title': 'Placa',
             'placeholder': 'placa',
         }
 
