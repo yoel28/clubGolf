@@ -62,6 +62,9 @@ export class XEditable extends RestController implements OnInit {
             validate: function (newValue) {
                 if(that.function)
                 {
+                    if(newValue && newValue.constructor && newValue.constructor.name == 'Moment'){
+                        newValue = newValue.format('YYYY-MM-DD HH:mm:ss');
+                    }
                     that.function(that.field, that.data, newValue, that.endpoint).then(
                         function (value) {
                             return;
@@ -140,6 +143,8 @@ export class XEditable extends RestController implements OnInit {
         let _currentRule =  this.getRule;
         switch (this.getType) {
             case "combodate" :
+                if(this.data[this.field])
+                    return moment(this.data[this.field]);
                 return this.data[this.field];
             case "password" :
                 return '';
