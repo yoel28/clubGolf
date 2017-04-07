@@ -2,8 +2,6 @@
 
     <i *ngIf="model.rules[key].iconVisible" class="{{model.rules[key].iconVisible}}">&nbsp;</i>
     <i *ngIf="isCurrentType(['icon'])" class="{{data[key]}}">&nbsp;</i>
-    <div ng-include src="p.html"></div>
-
     <template [ngIf]="model.rules[key]">
 
         <template [ngIf]="!model.rules[key].object">

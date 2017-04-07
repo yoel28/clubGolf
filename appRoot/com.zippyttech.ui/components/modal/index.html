@@ -13,9 +13,10 @@
                     <ng-content select="[body]"></ng-content>
                 </div>
                 <div class="modal-footer">
-                    <button *ngFor="let footer of params.footer" data-dismiss="modal" type="button" class="{{footer.class || 'btn btn-primary'}}">
-                        <i class="{{footer.icon || 'fa fa-list'}}"></i>
-                        &nbsp;{{footer.title}}
+                    <button *ngFor="let btn of params.footer" data-dismiss="modal" type="button"
+                            class="{{btn.class || 'btn btn-primary'}}" (click)="btn.click()">
+                        <i class="{{ btn.icon || 'fa fa-list'}}"></i>
+                        &nbsp;{{btn.title}}
                     </button>
                     <ng-content select="[footer]"></ng-content>
                 </div>
