@@ -230,6 +230,7 @@ export class RecordModel extends ModelBase{
         delete this.rulesSave.lotValOut;
         delete this.rulesSave.antennaIn;
         delete this.rulesSave.antennaOut;
+        delete this.rulesSave.placa;
     }
 
     initModelActions(params: IModelActions) {
