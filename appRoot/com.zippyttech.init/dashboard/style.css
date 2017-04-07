@@ -48,7 +48,7 @@
 
 }
 
-.reader-hide
+.reader-hidden
 {
     transform: translateX(85%);
 }

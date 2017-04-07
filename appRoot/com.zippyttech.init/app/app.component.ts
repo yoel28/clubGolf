@@ -218,8 +218,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.loadMenu();
             this.initModels();
             this.menuType.setValue({
-                'list': this.db.myglobal.getParams('MENU_LIST') == '1' ? true : false,
-                'modal': this.db.myglobal.getParams('MENU_MODAL') == '1' ? true : false,
+                'list': this.db.myglobal.getParams('MENU_LIST') == 'true' ? true : false,
+                'modal': this.db.myglobal.getParams('MENU_MODAL') == 'true' ? true : false,
             });
 
             if (!this.menuType.value.list) {

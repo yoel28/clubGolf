@@ -39,12 +39,12 @@
                         </div>
                     </div>
                     <div class="data-detail-item">
-                        <button *ngIf="data.actions!==undefined && getActionKeys(data.actions).length" class="{{db.classCol(1,1,1,1)}} btn btn-box-tool text-green text-center" (click)="dataSelect = (dataSelect==elem)?{}:elem" data-toggle="collapse" data-target="#edit">
+                        <button *ngIf="data.actions && getActionKeys(data.actions).length" class="{{db.classCol(1,1,1,1)}} btn btn-box-tool text-green text-center" (click)="dataSelect = (dataSelect==elem)?{}:elem" data-toggle="collapse" data-target="#edit">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div id="edit" class="item-content-edit collapse" *ngIf="data.actions!==undefined && (actionSelect==action || getObjectKeys(data.actions).length == 1) && dataSelect == elem">
+                <div id="edit" class="item-content-edit collapse" *ngIf="data.actions && (actionSelect==action || getObjectKeys(data.actions).length == 1) && dataSelect == elem">
                     <ul class="list-actions list-group">
                         <li class="list-actions-item" *ngFor="let action of getActionKeys(data.actions)">
                             <div class="box action">

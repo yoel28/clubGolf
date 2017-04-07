@@ -1,0 +1,19 @@
+<div class="frame" (submit)="submitQr()" *ngIf="model">
+    <form #form [class.open]="isOpen">
+        <span class="icon" (click)="open($event)"><i class="fa fa-qrcode"></i></span>
+        <input #input type="text"/>
+        <a class="cross" (click)="compress($event)"></a>
+    </form>
+    <h4 class="message" #message>&nbsp;</h4>
+</div>
+
+<modal-view [params]="qrModal" *ngIf="model">
+    <div body class="qr-detail" *ngIf="model.dataList && model.dataList.id">
+        <div class="qr-field" *ngFor="let key of getKeysDataVisible(model.rules)">
+            <template [ngIf]="model.rules[key] && model.rules[key].visible">
+                <span>{{model.rules[key].title+": "}}</span>
+                <rule-view [key]="key" [data]="model.dataList" [model]="model" [disabled]="true"></rule-view>
+            </template>
+        </div>
+    </div>
+</modal-view>

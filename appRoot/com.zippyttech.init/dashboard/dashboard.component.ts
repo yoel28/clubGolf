@@ -26,7 +26,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
 
     public guestRemove:FormControl = new FormControl();
     public qrString:string = '';
-    public qrHidden: boolean;
+    public qrHidden: boolean = true;
 
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
@@ -48,16 +48,14 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     }
 
     ngDoCheck() {
-        if(jQuery('#reader').hasClass('reader-hide'))
-            this.qrHidden = true;
-
+        let $reader = jQuery('#reader');
         if(!(this.model['qr'] && this.model['qr'].dataList && this.model['qr'].dataList.id)) {
-            jQuery('#reader').find('.box-body,.box-footer').collapse('hide');
-            jQuery('#reader').find('.box').addClass('collapsed-box');
+            $reader.find('.box-body,.box-footer').collapse('hide');
+            $reader.find('.box').addClass('collapsed-box');
         }
         else{
-            jQuery('#reader').find('.box').removeClass('collapsed-box');
-            jQuery('#reader').find('.box-body,.box-footer').collapse('show');
+            $reader.find('.box').removeClass('collapsed-box');
+            $reader.find('.box-body,.box-footer').collapse('show');
         }
     }
 
@@ -76,7 +74,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
                         model: modelAction,
                         action : that.outAction,
                         title: "Generar entrada",
-                        permission: modelAction.permissions.add
+                        permission: that.model['trade'].permissions.getback
                     }
                 },
             globalParams:{
@@ -94,17 +92,13 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
 
         this.recordData = {
             routerLink:"/club/catalog/record",
-            model: that.model['record'],
-            actions:undefined,
-            globalParams:undefined
+            model: that.model['record']
         }
 
         this.guestData = {
             visibleKeys:["sponsor","guest","timeLimit"],
             routerLink:"/club/catalog/qr",
             model: that.model['guest'],
-            actions:undefined,
-            globalParams:undefined,
             observable:{
                 watch:that.guestRemove,
                 _function:that.observableAction
@@ -122,7 +116,6 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             context.data.actions['put'].model.onSave(body).then(
                 response=>{
                     context.data.model.dataList.list.splice(context.data.model.dataList.list.indexOf(context.dataSelect),1);
-                    console.log('guAARDO');
                 }
             );
         }
@@ -224,32 +217,27 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
     }
 
-
-
-
-
     //QR READER
     searchQr(event){
-        if(event)
-            event.preventDefault();
-
+        if(event) event.preventDefault();
+        //TODO: Check that exist the qr model on model service and use it from service
         try {
-            let that=this;
-            let val = jQuery('#validQr').val();
-            val = val.replace(/'/g, '"');
-            this.qrString = val;
-            jQuery('#validQr').val('');
-            let data = JSON.parse(val);
-            let where = [];
-            if (data.sponsorContract)
-                where=[{join:"sponsor", where:[{'op':'eq','field':'contractCode','value':data.sponsorContract}]}];
-            else
-                where=[{join:"sponsor", where:[{'op':'isNull','field':'contractCode'}]}];
+            let $qr:HTMLElement = document.getElementById('validQr');
+            this.qrString = $qr.nodeValue.replace(/'/g, '"');
+            $qr.nodeValue = '';
+            let data = JSON.parse($qr.nodeValue);
+            let where=[{
+                join:"sponsor",
+                where:(data.sponsorContract)
+                    ?[{'op':'eq', 'field':'contractCode', 'value':data.sponsorContract}]
+                    :[{'op':'isNull','field':'contractCode'}]
+            }];
             this.model['qr'].loadDataWhere(data.id,where);
+        }catch (e){ this.model['qr'].addToast('Error','QR invalido','error'); }
+    }
 
-        }catch (e){
-            this.model['qr'].addToast('Error','QR invalido','error');
-        }
+    toggleQr(){
+        this.qrHidden = !this.qrHidden;
     }
 
     public loadAttendings(event){
@@ -266,23 +254,10 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     }
 
     private observableAction(context:ListActionComponent){
-
         if(context.data.observable.watch.value)
             context.data.model.spliceId(context.data.observable.watch.value);
     }
-
-    private readerClick(){
-        let reader = jQuery('#reader');
-        if(reader.hasClass('reader-hide')) {
-            reader.removeClass('reader-hide');
-            this.qrHidden = false;
-        }
-        else {
-            reader.addClass('reader-hide');
-            this.qrHidden = true;
-        }
-    }
-
+//https://codepen.io/riveram/pen/BWeJBy
 }
 
 

@@ -23,6 +23,18 @@
   margin-top: -2px !important;
   display: block;
   overflow: hidden;
+  transition: .5s;
+  height: 0;
+  padding: 0px !important;
+}
+
+.treeview.active>.treeview-menu{
+  height: auto;
+}
+
+.content-wrapper>*:not(router-outlet) {
+  height: inherit;
+  display: block;
 }
 
 .tab-content {
@@ -233,4 +245,20 @@ header.main-header{
   .user-menu .dropdown-toggle{
     width: 50px !important;
   }
+}
+
+nav.navbar.navbar-static-top {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.navbar>a {
+  font-size: 25px;
+  padding: 7px 15px;
+}
+
+.navbar-custom-menu {
+  margin-left: auto;
 }

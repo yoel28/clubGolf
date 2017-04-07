@@ -73,12 +73,12 @@ export class QrcodeModel extends ModelBase{
 
 
         this.rules['timeLimit']={
-            'type': 'date',
+            'type': 'combodate',
+            'date':'datetime',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'timeLimit',
-            'format':StaticValues.formatDatePickerDDMMYYYY,
             'title': 'Tiempo limite',
             'placeholder': 'Tiempo limite',
         };
