@@ -7,9 +7,9 @@ import {ControllerBase} from "../../../com.zippyttech.common/ControllerBase";
 
 const jQuery = require('jquery');
 @Component({
-    selector: './qr-reader',
+    selector: 'qr-reader',
     templateUrl: './template.html',
-    styleUrls: ['style.css'],
+    styleUrls: ['./style.css'],
 })
 export class QrReader extends ControllerBase implements OnInit{
     @ViewChild('form') form:ElementRef;
