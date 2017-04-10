@@ -1,10 +1,24 @@
+.main-view-container>section.content{
+    transform: translateY(800px);
+    transition: 1s 2s;
+    opacity: 0;
+}
+
+.main-view-container.shown>section.content{
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.main-view-container{
+   /*overflow: hidden;*/
+}
+
 /* PRELOAD!!!! -CAMBIAR A OTRO ARCHIVO */
 
 
 .preload {
     width: 100%;
     height: auto;
-    transform: translateY(-50%);
     overflow: hidden;
     justify-content: center;
 }

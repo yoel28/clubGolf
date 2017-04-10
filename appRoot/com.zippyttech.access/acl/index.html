@@ -1,4 +1,4 @@
-<div [@animation_0]="(!modalIn)?'true':'false'">
+<div *ngIf="(!modalIn)">
     <section class="content">
         <div class="box" *ngIf="permissions.menu">
             <div class="box-header with-border">
@@ -100,7 +100,7 @@
     </section>
 </div>
 
-<div [@animation_1]="(modalIn)?'true':'false'" class="modal" [class.in]="modalIn" tabindex="-1" role="dialog"
+<div class="modal fade" [class.in]="modalIn" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" [style.display]="modalIn?'block':'none'">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

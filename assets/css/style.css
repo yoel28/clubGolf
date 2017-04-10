@@ -47,7 +47,11 @@
   color: #d9534f;
 }
 .dropdown-menu {
-  z-index: 10000 !important;
+    position:fixed;
+    top:initial;
+    left:52px;
+    margin-top:27px;
+    z-index: 10000 !important;
 }
 .object-invalid{
   border-left: 3px solid #a94442 !important; /* red */

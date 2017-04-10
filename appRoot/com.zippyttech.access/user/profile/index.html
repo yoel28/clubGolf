@@ -1,62 +1,61 @@
-<div [@animation_0]="'true'">
-    <section class="content">
-        <div class="row" *ngIf="model.completed">
-            <div class="{{db.classCol(3,4,12,12)}}">
-                <div class="box ">
-                    <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src='{{db.myglobal.user["image"]}}'>
-                        <h3 class="profile-username text-center">  <span>{{db.myglobal.user["name"]}}</span></h3>
-                        <p class="text-muted text-center">{{db.myglobal.user["account"]}}</p>
-                        <ul class="list-group list-group-unbordered">
-                            <li class="list-group-item">
-                                <b>{{model.rules["idCard"].title}}</b> <span class="pull-right">{{db.myglobal.user["idCard"]}}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <b>{{model.rules["email"].title}}</b> <span class="pull-right">{{db.myglobal.user["email"]}}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <b>{{model.rules["phone"].title}}</b> <span class="pull-right">{{db.myglobal.user["phone"]}}</span>
-                            </li>
-                        </ul>
-                    </div>
+
+<section class="content">
+    <div class="row" *ngIf="model.completed">
+        <div class="{{db.classCol(3,4,12,12)}}">
+            <div class="box ">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src='{{db.myglobal.user["image"]}}'>
+                    <h3 class="profile-username text-center">  <span>{{db.myglobal.user["name"]}}</span></h3>
+                    <p class="text-muted text-center">{{db.myglobal.user["account"]}}</p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>{{model.rules["idCard"].title}}</b> <span class="pull-right">{{db.myglobal.user["idCard"]}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{model.rules["email"].title}}</b> <span class="pull-right">{{db.myglobal.user["email"]}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{model.rules["phone"].title}}</b> <span class="pull-right">{{db.myglobal.user["phone"]}}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div class="{{db.classCol(7,6,12,12)}}">
-                <div class="box  nav-tabs-custom">
-                    <ul class="box-header nav nav-tabs">
-                        <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">{{db.msg.basicData}}</a></li>
-                        <li class=""><a href="#imagen" data-toggle="tab" aria-expanded="false">{{db.msg.imageProfile}}</a></li>
-                        <li class=""><a href="#qr" data-toggle="tab" aria-expanded="false">{{"QR"}}</a></li>
-                        <li class=""><a href="#veh" data-toggle="tab" aria-expanded="false">{{"Vehículos"}}</a></li>
-                    </ul>
-                    <div class="box-body tab-content">
-                        <div class="tab-pane active" id="settings">
-                            <div *ngFor="let key of getObjectKeys(model.rules)">
-                                <p class="psalto" *ngIf="model.rules[key].type != 'boolean' && model.rules[key].type != 'image'">
-                                    <strong>{{model.rules[key].title}}:</strong>&nbsp;&nbsp;
-                                    <rule-view [key]="key" [model]="model" [data]="db.myglobal.user"></rule-view>
-                                </p>
-                            </div>
+        <div class="{{db.classCol(7,6,12,12)}}">
+            <div class="box  nav-tabs-custom">
+                <ul class="box-header nav nav-tabs">
+                    <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">{{db.msg.basicData}}</a></li>
+                    <li class=""><a href="#imagen" data-toggle="tab" aria-expanded="false">{{db.msg.imageProfile}}</a></li>
+                    <li class=""><a href="#qr" data-toggle="tab" aria-expanded="false">{{"QR"}}</a></li>
+                    <li class=""><a href="#veh" data-toggle="tab" aria-expanded="false">{{"Vehículos"}}</a></li>
+                </ul>
+                <div class="box-body tab-content">
+                    <div class="tab-pane active" id="settings">
+                        <div *ngFor="let key of getObjectKeys(model.rules)">
+                            <p class="psalto" *ngIf="model.rules[key].type != 'boolean' && model.rules[key].type != 'image'">
+                                <strong>{{model.rules[key].title}}:</strong>&nbsp;&nbsp;
+                                <rule-view [key]="key" [model]="model" [data]="db.myglobal.user"></rule-view>
+                            </p>
                         </div>
-                        <div class="tab-pane" id="imagen">
-                            <image-edit-view *ngIf="model.rules.image"
-                                             [image]="db.myglobal.user.image"
-                                             [default]="model.rules.image.default"
-                                             [edit]="model.rules.image.update"
-                                             (out)="saveImage($event)"
-                            ></image-edit-view>
-                        </div>
-                        <div class="tab-pane" id="qr">
-                            <h1>QR Activo</h1>
-                            <qr-code [data]="objectToString(qr)" [level]="'L'" [type]="4" [size]="300" ></qr-code>
-                        </div>
-                        <div class="tab-pane" id="veh">
-                            <basic-component [model]="vehicleModel"></basic-component>
-                        </div>
+                    </div>
+                    <div class="tab-pane" id="imagen">
+                        <image-edit-view *ngIf="model.rules.image"
+                                         [image]="db.myglobal.user.image"
+                                         [default]="model.rules.image.default"
+                                         [edit]="model.rules.image.update"
+                                         (out)="saveImage($event)"
+                        ></image-edit-view>
+                    </div>
+                    <div class="tab-pane" id="qr">
+                        <h1>QR Activo</h1>
+                        <qr-code [data]="objectToString(qr)" [level]="'L'" [type]="4" [size]="300" ></qr-code>
+                    </div>
+                    <div class="tab-pane" id="veh">
+                        <basic-component [model]="vehicleModel"></basic-component>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>

@@ -6,7 +6,7 @@ declare var SystemJS:any;
 export interface IModal{
     id:string
     global?:{
-        size?:'modal-sm' | 'modal-lg';
+        size?:'modal-sm' | 'modal-md' | 'modal-lg';
     }
     header:{
         title:string;
@@ -21,7 +21,7 @@ interface IAction{
     title:string;
     icon?:string;
     class?:string;
-
+    click:()=>any;
 }
 
 @Component({
@@ -44,18 +44,6 @@ export class ModalComponent extends RestController{
     }
     ngOnInit(){
         this.getInstance.emit(this);
-    }
-    private test(){
-        this.params={
-            id:'id',
-            header:{
-                title:'title'
-            },
-            footer:[
-                {title:'ti'},
-                {title:'ti'},
-            ]
-        }
     }
 }
 

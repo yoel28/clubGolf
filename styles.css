@@ -127,6 +127,10 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     opacity: 1;
 }
 
+.modal-backdrop{
+    z-index: -1;
+}
+
 .modal-dialog .close:focus
 {
     border-width: 0px;

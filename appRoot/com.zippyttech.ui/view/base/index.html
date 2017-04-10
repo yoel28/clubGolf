@@ -1,16 +1,15 @@
 <div *ngIf="model.permissions.warning || !modalIn" >
-    <div class="main-view-container">
-        <div [@animation_0]='(model.dataList &&  (model.dataList.list || model.dataList.id))?"true":"false"'>
-            <section class="content">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h4 class="box-title">
-                            <i class="{{model.ruleObject.icon||'fa fa-list-alt'}}"></i>{{'   '+(model.ruleObject.title | translate)}}
-                            <tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
-                            &nbsp;<i *ngIf="model.rest.findData" class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
-                            <span *ngIf="model && model.dataList && model.dataList.count" class="page-info">
-                                &nbsp;{{db.msg.page}}{{getCurrentPage}},&nbsp;cerca de {{model.dataList.count}} {{db.msg.results}}
-                            </span>
+    <div class="main-view-container" [class.shown]="(model.dataList &&  (model.dataList.list || model.dataList.id))">
+        <section class="content">
+            <div class="box" *ngIf='(model.dataList && model.dataList.list)'>
+                <div class="box-header with-border">
+                    <h4 class="box-title">
+                        <i class="{{model.ruleObject.icon||'fa fa-list-alt'}}"></i>{{'   '+(model.ruleObject.title | translate)}}
+                        <tooltip-view [code]="model.prefix+'_1'"></tooltip-view>
+                        &nbsp;<i *ngIf="model.rest.findData" class="fa fa-spinner fa-spin" [attr.title]="db.msg.pleaseWait"></i>
+                        <span *ngIf="model && model.dataList && model.dataList.count" class="page-info">
+                            &nbsp;{{db.msg.page}}{{getCurrentPage}},&nbsp;cerca de {{model.dataList.count}} {{db.msg.results}}
+                        </span>
 
                         </h4>
                         <div class="box-tools pull-right header-tools">
@@ -106,26 +105,25 @@
                             <tooltip-view [code]="model.prefix+'_2'"></tooltip-view>
                         </div>
                     </div>
-                    <div *ngIf="model.permissions.list && model.dataList" class="box-body">
-                        <div *ngIf="model.dataList.count > 0 || model.dataList.id">
-                            <tables-view  [model]="model" (getInstance)="setInstance($event)" [viewActions]="viewOptions.viewActions"></tables-view>
-                        </div>
-                        <div *ngIf="model.dataList.count == 0 || (!model.dataList.id && !model.dataList.list )">
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
-                                <strong><i class="fa fa-warning"></i></strong>&nbsp;{{db.msg.notFound | translate}}
-                            </div>
+                <div *ngIf="model.permissions.list && model.dataList" class="box-body">
+                    <div *ngIf="model.dataList.count > 0 || model.dataList.id">
+                        <tables-view  [model]="model" (getInstance)="setInstance($event)" [viewActions]="viewOptions.viewActions"></tables-view>
+                    </div>
+                    <div *ngIf="model.dataList.count == 0 || (!model.dataList.id && !model.dataList.list )">
+                        <div class="alert alert-warning alert-dismissable">
+                            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                            <strong><i class="fa fa-warning"></i></strong>&nbsp;{{db.msg.notFound | translate}}
                         </div>
                     </div>
-                    <div *ngIf="!model.permissions.list">
+                </div>
+                <div *ngIf="!model.permissions.list">
                         <div class="btn-red padding-error">
                             <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="model.prefix+'_3'"></tooltip-view></strong></h5>
                             {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{model.prefix}}_LIST
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
+            </div>
+        </section>
         <div class="preload" *ngIf='!(model.dataList && model.dataList.list)'>
             <div id="screen">
                 <div id="course">
@@ -145,7 +143,7 @@
 </div>
 
 
-<div [@animation_1]="(modalIn)?'true':'false'" *ngIf="!model.permissions.warning && modalIn" class="modal" [class.in]="modalIn" tabindex="-1" role="dialog"
+<div *ngIf="!model.permissions.warning && modalIn" class="modal fade" [class.in]="modalIn" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" [style.display]="modalIn?'block':'none'">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

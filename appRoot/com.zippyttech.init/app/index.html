@@ -21,7 +21,7 @@
             >
             </a>
 
-
+            <qr-reader></qr-reader>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
@@ -77,7 +77,7 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-                    <ul [@animation_0] = 'item.select?"true":"false"' *ngIf="item.treeview" class="treeview-menu">
+                    <ul *ngIf="item.treeview" class="treeview-menu">
                         <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
                             <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
                                 <i class="{{subItem.icon}}"></i>

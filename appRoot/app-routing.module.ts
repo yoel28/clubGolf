@@ -65,6 +65,7 @@ import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accoun
 import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
 import {MainTypeModel} from "./com.zippyttech.club/catalog/mainType/mainType.model";
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
+import {QrReader} from "./com.zippyttech.ui/components/qrReader/qrReader.component";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -175,6 +176,7 @@ export const componentsApp = [
     RegisterFullComponent,
     RecordInOutComponent,
     VehicleComponent,
+    QrReader,
     RecordComponent
 ];
 
