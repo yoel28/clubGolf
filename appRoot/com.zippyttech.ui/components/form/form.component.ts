@@ -29,7 +29,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public form:FormGroup;
     public data:any = {};
     public keys:any = {};
-
+    private image64:string;
     public delete=false;
 
     constructor(public db:DependenciesBase) {
@@ -50,6 +50,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             this.db.myglobal.objectInstance[this.params.prefix]={};
             this.db.myglobal.objectInstance[this.params.prefix]=this;
         }
+    }
+
+    saveImage(event,key:string){
+        this.image64 = event;
     }
 
     initForm() {
@@ -238,7 +242,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 }
                 if(that.rules[key].type == 'boolean' && body[key]!=""){
                     if(typeof body[key] === 'string')
-                        body[key]=body[key]=='true'?true:false;
+                        body[key] = (body[key]=='true');
                 }
                 if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
                 {
@@ -253,6 +257,11 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                         data.push(obj.value || obj);
                     });
                     body[key]=data;
+                }
+                if(that.rules[key].type=='image'){
+                    body[key] = this.image64;
+                    console.log('body : ',body[key]);
+                    console.log('image: ',this.image64);
                 }
             }
         });
