@@ -152,8 +152,9 @@
                                 </div>
 
                                 <div class="row padding-bottom-4" *ngIf="rules[key].type=='image'">
-                                    <div class="col-lg-10 col-lg-offset-1">
+                                    <div class="{{db.classCol(12,12,12,12)}}">
                                         <image-edit-view [default]="rules[key].default"
+                                                         [type]="'inline'"
                                                          (out)="saveImage($event,key)"
                                         >
                                         </image-edit-view>
