@@ -1,23 +1,16 @@
 import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
+import {ModelBase} from "../../com.zippyttech.common/modelBase";
 
-export class NotificationModel extends ModelRoot{
+export class NotificationModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
         super(db,'/notifications/');
         this.initModel();
+        this.loadDataPublic();
     }
     modelExternal() {}
     initRules(){
-        this.rules['image']={
-            'type': 'image',
-            'update':this.permissions.update,
-            'visible':this.permissions.visible,
-            'key': 'image',
-            'default':this.db.pathElements.robot,
-            'title': 'Imagen',
-            'placeholder': 'Imagen',
-        };
         this.rules['title']={
             'type': 'text',
             'update':this.permissions.update,
@@ -27,19 +20,63 @@ export class NotificationModel extends ModelRoot{
             'title': 'Título',
             'placeholder': 'Título',
         };
-        this.rules['icon']={
-            'type': 'select',
+
+        this.rules['target']={
+            'type': 'text',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'source': [
-                {'value': 'fa fa-question-circle', 'text': 'Icono 1'},
-                {'value': 'fa fa-question', 'text': 'Icono 2'},
-            ],
-            'key': 'icon',
-            'title': 'Icono',
-            'placeholder': 'Seleccione un icono',
+            'key': 'target',
+            'icon': 'fa fa-key',
+            'title': 'Target',
+            'placeholder': 'Destino donde se enviara la notificacion'
         };
+
+        this.rules['targetType']={
+            'type': 'select',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'source': [],
+            'key': 'targetType',
+            'title': 'Tipo de destino',
+            'placeholder': 'Seleccione un tipo'
+        };
+
+        this.rules['wayType']={
+            'type': 'select',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'source': [],
+            'key': 'wayType',
+            'title': 'Canal',
+            'placeholder': 'Seleccione un canal'
+        };
+
+        this.rules['code']={
+            'type': 'text',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'code',
+            'icon': 'fa fa-key',
+            'title': 'Codigo',
+            'placeholder': 'Ingrese codigo'
+        };
+
+        this.rules['image']={
+            'type': 'image',
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'key': 'image',
+            'default':this.db.pathElements.robot,
+            'title': 'Imagen',
+            'placeholder': 'Imagen',
+        };
+
         this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}
@@ -60,11 +97,24 @@ export class NotificationModel extends ModelRoot{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
-        delete this.rulesSave.image;
+        //delete this.rulesSave.image;
     }
     initModelActions(params){
         params['delete'].message='¿ Esta seguro de eliminar la notificación: ';
         params['delete'].key = 'title';
     }
 
+    loadDataPublic() {
+        if(this.db.myglobal.publicData.notification) {
+            if (this.db.myglobal.publicData.notification.wayTypes)
+                this.db.myglobal.publicData.notification.wayTypes.forEach(obj => {
+                    this.rules['wayType'].source.push({'value': obj, 'text': obj});
+                });
+            if (this.db.myglobal.publicData.notification.targetType)
+                this.db.myglobal.publicData.notification.targetType.forEach(obj => {
+                    this.rules['targetType'].source.push({'value': obj.name, 'text': obj.code});
+                });
+        }
+        this.completed = true
+    }
 }
