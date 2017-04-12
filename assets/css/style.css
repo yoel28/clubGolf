@@ -49,8 +49,8 @@
 .dropdown-menu {
     position:fixed;
     top:initial;
-    left:52px;
-    margin-top:27px;
+    left:25px;
+    margin-top:25px;
     z-index: 10000 !important;
 }
 .object-invalid{

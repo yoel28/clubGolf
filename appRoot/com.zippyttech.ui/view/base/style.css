@@ -1,11 +1,12 @@
 .main-view-container>section.content{
-    transform: translateY(800px);
-    transition: 1s 2s;
+    position: relative;
+    bottom: -1000px;
+    transition: 1s;
     opacity: 0;
 }
 
 .main-view-container.shown>section.content{
-    transform: translateY(0px);
+    bottom: 0;
     opacity: 1;
 }
 
@@ -14,8 +15,6 @@
 }
 
 /* PRELOAD!!!! -CAMBIAR A OTRO ARCHIVO */
-
-
 .preload {
     width: 100%;
     height: auto;
