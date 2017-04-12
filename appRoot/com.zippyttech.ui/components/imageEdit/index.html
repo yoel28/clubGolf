@@ -1,4 +1,4 @@
-<div class="row text-right image-profile">
+<div class="row text-right image-profile" *ngIf="type=='block'">
     <figure>
         <div [imageSrc]="image" x-cropit [attr.id]="configId+'_IMAGE'" (saveImagen)="changeImage($event)">
             <div [hidden]="!image" class="cropit-preview center-block"></div>
@@ -27,4 +27,15 @@
             </div>
         </div>
     </figure>
+</div>
+<div *ngIf="type=='inline'">
+    <input type="file" id="img-file" (change)="changeFilePath($event)">
+    <div class="img-view">
+        <img [src]="image || pathElements.warning" alt="imagen">
+        <span class="img-path" #name></span>
+        <label class="img-btn" for="img-file">
+            <span>Seleccionar</span>
+            <i class="fa fa-file-image-o"></i>
+        </label>
+    </div>
 </div>
