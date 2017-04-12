@@ -30,12 +30,17 @@
 </div>
 <div *ngIf="type=='inline'">
     <input type="file" id="img-file" (change)="changeFilePath($event)">
-    <div class="img-view">
-        <img [src]="image || pathElements.warning" alt="imagen">
-        <span class="img-path" #name></span>
+    <div class="img-view" #inlineview>
+        <div class="img-preview">
+            <img [src]="image || pathElements.warning" alt="imagen">
+        </div>
+        <div class="img-info">
+            <span class="img-name" #name></span>
+            <span class="img-size" #size></span>
+        </div>
         <label class="img-btn" for="img-file">
-            <span>Seleccionar</span>
-            <i class="fa fa-file-image-o"></i>
+            <span>Cargar imagen</span>
+            <i class="fa fa-upload"></i>
         </label>
     </div>
 </div>

@@ -21,7 +21,7 @@
             >
             </a>
 
-            <qr-reader></qr-reader>
+            <qr-reader *ngIf="db.myglobal.existsPermission(['DASH_QR'])"></qr-reader>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
@@ -159,6 +159,7 @@
 </div>
 
 <div *ngIf="db.myglobal.dataSesion.valid" class="block-float">
+    <button *ngIf="db.myglobal.existsPermission(['NOTIFICATION_ADD'])" title="Enviar notificación" class="redondo btn btn-yellow" (click)="goPage($event,'club/process/notification')"><i class="fa fa-bell" ></i></button>
     <button *ngIf="db.myglobal.existsPermission(['DASH_INVITE'])" title="Enviar invitación" class="redondo btn btn-success" data-toggle="modal" data-target="#invitacion"><i class="fa fa-envelope-o" ></i></button>
     <button *ngIf="db.myglobal.existsPermission(['REGISTERFULL_ADD'])" (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue "><i class="fa fa-user-plus"></i></button>
 </div>

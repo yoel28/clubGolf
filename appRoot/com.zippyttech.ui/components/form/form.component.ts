@@ -29,7 +29,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public form:FormGroup;
     public data:any = {};
     public keys:any = {};
-    private image64:string;
+    public image64:string;
     public delete=false;
 
     constructor(public db:DependenciesBase) {
