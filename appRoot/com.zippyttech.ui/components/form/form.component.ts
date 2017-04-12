@@ -260,8 +260,6 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 }
                 if(that.rules[key].type=='image'){
                     body[key] = this.image64;
-                    console.log('body : ',body[key]);
-                    console.log('image: ',this.image64);
                 }
             }
         });
