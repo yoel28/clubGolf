@@ -14,8 +14,8 @@ export class QrcodeModel extends ModelBase{
         this.initModel();
     }
     modelExternal() {
-        this.sponsor = new UserModel(this.db);
-        this.guest = new UserModel(this.db);
+        this.sponsor = new UserModel(this.db,false);
+        this.guest = new UserModel(this.db,false);
     }
     initRules(){
 
