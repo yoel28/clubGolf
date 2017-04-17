@@ -17,7 +17,7 @@ export class VehicleModel extends ModelBase{
         this.initModel();
     }
     modelExternal() {
-        this.user = new UserModel(this.db);
+        this.user = new UserModel(this.db,false);
         this.model = new ModelModel(this.db);
         this.vehicleType = new VehicleTypeModel(this.db);
 
