@@ -86,11 +86,23 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 {
                     validators.push(
                         (c:FormControl)=> {
-                            if(c.value && c.value.length > 0) {
-                                let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-                                return EMAIL_REGEXP.test(c.value) ? null : {'email': {'valid': true}};
-                            }
-                            return null;
+                            let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+                            let error;
+                           if(c.value && c.value.length && typeof c.value == 'string'){
+                               return EMAIL_REGEXP.test(c.value) ? null : {'email': {'valid': true}};
+                           }
+                           else if((c.value && c.value.length && typeof c.value == 'object')) {
+                                c.value.forEach(data=>{
+                                    if(!EMAIL_REGEXP.test(data))
+                                    {
+                                        error={'email': {'valid': true}};
+                                        return;
+                                    }
+
+
+                                })
+                           }
+                           return error;
                         });
                 }
                 if(that.rules[key].customValidator){
