@@ -13,10 +13,11 @@ export class UserModel extends ModelBase{
     private contract:any;
     private group:any;
 
-    constructor(public db:DependenciesBase){
+    constructor(public db:DependenciesBase,loadRole:boolean=true){
         super(db,'/users/');
-        this.initModel(false);
-        this.loadDataExternal();
+        this.initModel(!loadRole);
+        if(loadRole)
+            this.loadDataExternal();
     }
     modelExternal() {
         this.role= new RoleModel(this.db);
@@ -233,6 +234,26 @@ export class UserModel extends ModelBase{
     initModelActions(params){
         params['delete'].message='¿ Esta seguro de eliminar el usuario: ';
         params['delete'].key = 'username';
+    }
+
+    inviteAll(body:Object){
+        let callback=(response)=>{
+            let data=response.json().response;
+            //{"response":{"sended":["yo3l.m18@gmail.com"],"failed":[{"email":"adrian.and1@gmail.com","message":"Luis Adrian Gonzalez Benavides ya es un socio del club"}]}}
+            if(!data.failed || (!data.failed.length)){
+                this.addToast('Notificación','Invitaciones enviadas con exito.')
+            }
+            else{
+                data.sended.forEach(email=>{
+                    this.addToast('Notificación','Invitación enviada a '+email)
+                });
+                data.failed.forEach(obj=>{
+                    this.addToast('No enviada','el '+obj.email+' '+obj.message,'error')
+                })
+
+            }
+        };
+        this.httputils.doPost('/inviteAll',JSON.stringify({list:body['email']}),callback,this.error)
     }
 
 }
