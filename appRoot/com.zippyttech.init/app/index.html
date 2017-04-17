@@ -172,8 +172,6 @@
             </div>
             <div class="modal-body" *ngIf="user && user.completed">
                 <form-view [params]="user.paramsSave" (getInstance)="setEmailInstance($event)" [rules]="user.rulesSave"></form-view>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">
