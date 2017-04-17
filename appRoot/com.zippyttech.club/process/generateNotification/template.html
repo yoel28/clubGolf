@@ -1,0 +1,17 @@
+<div class="frame">
+    <div class="view">
+        <section class="view-header">
+            <i class="fa fa-bell"></i><h2>Generar notificación</h2>
+        </section>
+        <section class="view-content">
+            <div class="img-view">
+                <img [src]="image || pathElements.warning" alt="imagen">
+            </div>
+            <div class="form">
+                <form-view [params]="model.paramsSave" [rules]="model.rulesSave"
+                           (getInstance)="setForm($event)"></form-view>
+            </div>
+        </section>
+        <button class="submit-btn" (click)="sendNotification($event)">Generar</button>
+    </div>
+</div>

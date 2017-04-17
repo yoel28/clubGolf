@@ -115,9 +115,9 @@ export class QrReader extends ControllerBase implements OnInit{
                 jQuery('#qr-modal').modal('show');
             };
             let error = err=>{
-               console.error(err);
+                let e = err.json();
             }
-            this.model.httputils.doGet(endpoint,successCallback,error);
+            this.model.httputils.doGet(endpoint,successCallback,this.model.error);
         }catch (e){
             this.showMessage('Formato de QR invalido!');//TODO:Change!, use data validation
             //this.model.addToast('Error','QR invalido','error');
@@ -125,7 +125,7 @@ export class QrReader extends ControllerBase implements OnInit{
     }
 
     showMessage(msg:string){
-        this.message.nativeElement.innerHTML = msg;
+        setTimeout(()=>this.message.nativeElement.innerHTML = msg , 0);
         this.form.nativeElement.classList.add('explode');
         this.message.nativeElement.classList.add('show');
         setTimeout(()=>{
