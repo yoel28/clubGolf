@@ -111,12 +111,14 @@ export class QrReader extends ControllerBase implements OnInit{
                 if(!(data.id && data.id==''))
                     this.model.loadPager(this.model.dataList);
                 this.showMessage('El QR es valido!');
-                this.qrModal.header.title = response['guestName']+': '+response['guestEmail'];
+                let val = response.json();
+                this.qrModal.header.title = val['guestName']+': '+val['guestEmail'];
                 jQuery('#qr-modal').modal('show');
             };
             let error = err=>{
                 let e = err.json();
             }
+            this.model.dataList={};
             this.model.httputils.doGet(endpoint,successCallback,this.model.error);
         }catch (e){
             this.showMessage('Formato de QR invalido!');//TODO:Change!, use data validation
