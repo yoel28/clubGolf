@@ -11,37 +11,17 @@ export class NotificationModel extends ModelBase{
     }
     modelExternal() {}
     initRules(){
-        this.rules['title']={
-            'type': 'text',
-            'update':this.permissions.update,
-            'visible':this.permissions.visible,
-            'search' :this.permissions.filter,
-            'key': 'title',
-            'title': 'Título',
-            'placeholder': 'Título',
-        };
 
-        this.rules['target']={
+        this.rules['code']={
             'type': 'text',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'target',
-            'icon': 'fa fa-key',
-            'title': 'Target',
-            'placeholder': 'Destino donde se enviara la notificacion'
-        };
-
-        this.rules['targetType']={
-            'type': 'select',
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'source': [],
-            'key': 'targetType',
-            'title': 'Tipo de destino',
-            'placeholder': 'Seleccione un tipo'
+            'key': 'code',
+            'icon': 'fa fa-key',
+            'title': 'Codigo',
+            'placeholder': 'Ingrese codigo'
         };
 
         this.rules['wayType']={
@@ -56,17 +36,43 @@ export class NotificationModel extends ModelBase{
             'placeholder': 'Seleccione un canal'
         };
 
-        this.rules['code']={
+        this.rules['title']={
             'type': 'text',
+            'required':true,
+            'update':this.permissions.update,
+            'visible':this.permissions.visible,
+            'search' :this.permissions.filter,
+            'key': 'title',
+            'title': 'Título',
+            'placeholder': 'Título',
+        };
+
+        this.rules['targetType']={
+            'type': 'select',
+            'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
-            'key': 'code',
-            'icon': 'fa fa-key',
-            'title': 'Codigo',
-            'placeholder': 'Ingrese codigo'
+            'source': [],
+            'key': 'targetType',
+            'title': 'Tipo de destino',
+            'placeholder': 'Seleccione un tipo'
         };
 
+        this.rules['target']={
+            'type': 'text',
+            'required':true,
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'target',
+            'icon': 'fa fa-key',
+            'title': 'Target',
+            'placeholder': 'Destino donde se enviara la notificacion'
+        };
+
+        this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['detail'].required = true;
         this.rules['image']={
             'type': 'image',
             'update':this.permissions.update,
@@ -76,8 +82,6 @@ export class NotificationModel extends ModelBase{
             'title': 'Imagen',
             'placeholder': 'Imagen',
         };
-
-        this.rules = Object.assign({},this.rules,this.getRulesDefault())
     }
     initPermissions() {}
     initParamsSearch() {
@@ -108,7 +112,7 @@ export class NotificationModel extends ModelBase{
         if(this.db.myglobal.publicData.notification) {
             if (this.db.myglobal.publicData.notification.wayTypes)
                 this.db.myglobal.publicData.notification.wayTypes.forEach(obj => {
-                    this.rules['wayType'].source.push({'value': obj, 'text': obj});
+                    this.rules['wayType'].source.push({'value': obj.name, 'text': obj.code});
                 });
             if (this.db.myglobal.publicData.notification.targetType)
                 this.db.myglobal.publicData.notification.targetType.forEach(obj => {

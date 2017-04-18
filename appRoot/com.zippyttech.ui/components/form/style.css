@@ -16,7 +16,9 @@
 .alert{
     margin-bottom: 0px !important;
 }
-
+.input-group{
+    width: 100%;
+}
 @media(max-width: 425px){
     .input-group-addon{
         display: block;

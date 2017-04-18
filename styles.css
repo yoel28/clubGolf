@@ -246,6 +246,15 @@ ul.ui-autocomplete {
     z-index: 10000 !important;
 }
 
+generate-notification .img-preview{
+    display: none !important;
+}
+
+@media(max-width: 765px){
+    generate-notification .img-preview{
+        display: flex !important;
+    }
+}
 
 /*#######################*/
 /*ANIMATION*/

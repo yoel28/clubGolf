@@ -15,7 +15,6 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
     public pathElements=StaticValues.pathElements;
     public params:any={};
     public image:string;
-    public path:string;
     public instanceForm:FormComponent;
 
     constructor(public db:DependenciesBase){
@@ -47,6 +46,9 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
 
     setForm(event){
         this.instanceForm = event;
-        this.image = this.instanceForm.image64;
+    }
+
+    changeImage(image:string){
+        this.image = image;
     }
 }

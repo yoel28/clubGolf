@@ -11,7 +11,7 @@ var jQuery = require('jquery');
     templateUrl: 'index.html',
     styleUrls: [ 'style.css'],
     inputs:['params','image','default','edit','type'],
-    outputs:['out']
+    outputs:['out','getInstance']
 })
 export class ImageEditComponent implements AfterContentInit{
     @ViewChild('name') name:ElementRef;
@@ -20,6 +20,7 @@ export class ImageEditComponent implements AfterContentInit{
 
     public configId=moment().valueOf();
     public out:any;
+    public getInstance:any;
     public pathElements=StaticValues.pathElements;
     public edit:boolean = true;
     public type:string = 'block';
@@ -30,18 +31,20 @@ export class ImageEditComponent implements AfterContentInit{
 
     constructor() {
         this.out = new EventEmitter();
+        this.getInstance = new EventEmitter();
     }
 
     ngAfterContentInit(){
         let f1 = document.querySelector('.file-input');
         if(f1)
             f1.classList.add("btn-i");
+        this.getInstance.emit(this);
     }
     saveImage(event){
         this.out.emit(this.image);
     }
-    changeImage(data=null){
-        this.image=data;
+    changeImage(image=null){
+        this.image=image;
     }
     changeFilePath(event){
         let file = event.srcElement.files[0];
@@ -66,5 +69,14 @@ export class ImageEditComponent implements AfterContentInit{
             this.inlineview.nativeElement.classList.remove('valid');
             this.inlineview.nativeElement.classList.add('invalid');
         }
+    }
+
+    clear(){
+        this.image = null;
+        this.name.nativeElement.textContent = '';
+        this.size.nativeElement.textContent = '';
+        this.inlineview.nativeElement.classList.remove('valid');
+        this.inlineview.nativeElement.classList.remove('invalid');
+        this.out.emit(this.image);
     }
 }

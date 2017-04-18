@@ -156,6 +156,7 @@
                                         <image-edit-view [default]="rules[key].default"
                                                          [type]="'inline'"
                                                          (out)="saveImage($event,key)"
+                                                         (getInstance)="imgInstance=$event"
                                         >
                                         </image-edit-view>
                                     </div>
