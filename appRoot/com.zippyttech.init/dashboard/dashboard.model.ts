@@ -6,7 +6,7 @@ import {QrcodeModel} from "../../com.zippyttech.club/catalog/qrcode/qrcode.model
 import {StaticFunction} from "../../com.zippyttech.utils/catalog/staticFunction";
 import {OnInit} from "@angular/core";
 
-export class DashboardModel extends ModelRoot implements OnInit{
+export class DashboardModel extends ModelRoot{
     public record:RecordModel;
     public trade:TradeModel;
     public guest: QrcodeModel;
