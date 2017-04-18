@@ -127,6 +127,7 @@ export class UserModel extends ModelBase{
         this.rules['contract']=this.contract.ruleObject;
         this.rules['contract'].required=false;
         this.rules['contract'].update= this.permissions.update;
+        this.rules['contract'].forceInSave = true;
 
         this.rules['userStatus']=this.status.ruleObject;
         this.rules['userStatus'].required=false;

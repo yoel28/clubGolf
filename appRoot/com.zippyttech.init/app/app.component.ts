@@ -122,8 +122,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
                 this.user.rulesSave[key].tag = 'text';
                 this.user.rulesSave[key].value=[];
                 this.user.rulesSave[key].refreshField={};
+                this.user.rulesSave[key].help = "Para agregar un correo pulse ENTER";
             }
-
         });
     }
 
