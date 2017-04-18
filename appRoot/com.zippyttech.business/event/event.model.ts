@@ -157,7 +157,7 @@ export class EventModel extends ModelBase{
             that.rules['actionType'].source.push({'value':obj,'text':obj});
         });
         that.db.myglobal.publicData.event.wayTypes.forEach(obj=>{
-            that.rules['way'].source.push({'value':obj,'text':obj});
+            that.rules['way'].source.push({'value':obj.name,'text':obj.code});
         })
         that.completed = true
     }

@@ -47,9 +47,9 @@
   color: #d9534f;
 }
 .dropdown-menu {
-    position:fixed;
-    top:initial;
-    left:25px;
+    position:absolute;
+    top:0;
+    left:0;
     margin-top:25px;
     z-index: 10000 !important;
 }
