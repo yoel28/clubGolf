@@ -21,7 +21,7 @@
             >
             </a>
 
-            <qr-reader *ngIf="db.myglobal.existsPermission(['DASH_QR'])"></qr-reader>
+            <qr-reader *ngIf="db.myglobal.existsPermission(['DASH_QR'])" (getInstance)="saveQrInstance($event)"></qr-reader>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">

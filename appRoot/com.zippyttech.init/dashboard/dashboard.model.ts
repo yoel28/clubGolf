@@ -4,12 +4,12 @@ import {RecordModel} from "../../com.zippyttech.club/catalog/record/record.model
 import {TradeModel} from "../../com.zippyttech.club/catalog/trade/trade.model";
 import {QrcodeModel} from "../../com.zippyttech.club/catalog/qrcode/qrcode.model";
 import {StaticFunction} from "../../com.zippyttech.utils/catalog/staticFunction";
+import {OnInit} from "@angular/core";
 
-export class DashboardModel extends ModelRoot{
+export class DashboardModel extends ModelRoot implements OnInit{
     public record:RecordModel;
     public trade:TradeModel;
     public guest: QrcodeModel;
-    public qr: QrcodeModel;
 
     constructor(public db:DependenciesBase){
         super(db,'/dashboard/');
@@ -20,7 +20,6 @@ export class DashboardModel extends ModelRoot{
         this.record = new RecordModel(this.db);
         this.trade = new TradeModel(this.db);
         this.guest = new QrcodeModel(this.db);
-        this.qr = new QrcodeModel(this.db);
 
         this.record.ruleObject.title = "Vehiculos";
         this.trade.ruleObject.title = "Operaciones pendientes";
@@ -69,7 +68,6 @@ export class DashboardModel extends ModelRoot{
             if(key != "sponsor" && key != "guest" && key != "timeLimit") {
                 that.guest.rules[key].visible = false;
                 that.guest.rules[key].search = false;
-                that.qr.rules[key].visible = false;
             }
         });
         this.guest.rules['sponsor'].title = 'Patrocinador';
@@ -83,7 +81,6 @@ export class DashboardModel extends ModelRoot{
         this.permissions["trade"] = this.db.myglobal.existsPermission(['DASH_TRADE']);
         this.permissions["vehicle"] = this.db.myglobal.existsPermission(['DASH_VEHICLE']);
         this.permissions["guest"] = this.db.myglobal.existsPermission(['DASH_GUEST']);
-        this.permissions["qr"] = this.db.myglobal.existsPermission(['DASH_QR']);
     }
 
     initParamsSearch() {}

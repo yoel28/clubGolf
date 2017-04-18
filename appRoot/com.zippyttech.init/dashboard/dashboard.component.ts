@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck} from '@angular/core';
+import {Component, OnInit, DoCheck, AfterContentInit, AfterViewInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {globalService} from "../../com.zippyttech.utils/globalService";
 import {ControllerBase} from "../../com.zippyttech.common/ControllerBase";
@@ -19,14 +19,12 @@ declare var jQuery:any;
     templateUrl: SystemJS.map.app+'com.zippyttech.init/dashboard/index.html',
     styleUrls: [ SystemJS.map.app+'com.zippyttech.init/dashboard/style.css']
 })
-export class DashboardComponent extends ControllerBase implements OnInit, DoCheck{
+export class DashboardComponent extends ControllerBase implements OnInit, AfterViewInit{
     private recordData:IListActionData;
     private tradeData:IListActionData;
     private guestData:IListActionData;
 
     public guestRemove:FormControl = new FormControl();
-    public qrString:string = '';
-    public qrHidden: boolean = true;
 
     public chvwEntries:IChartData;
     public chvwProducts:IChartData;
@@ -46,19 +44,6 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
     initModel(){
         this.model = new DashboardModel(this.db);
     }
-
-    ngDoCheck() {
-        let $reader = jQuery('#reader');
-        if(!(this.model['qr'] && this.model['qr'].dataList && this.model['qr'].dataList.id)) {
-            $reader.find('.box-body,.box-footer').collapse('hide');
-            $reader.find('.box').addClass('collapsed-box');
-        }
-        else{
-            $reader.find('.box').removeClass('collapsed-box');
-            $reader.find('.box-body,.box-footer').collapse('show');
-        }
-    }
-
 
     //LIST-ACTION GROUP
     private initActions() {
@@ -106,7 +91,6 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
 
     }
-
     private outAction(context:ListActionComponent){
         if(context.dataSelect && context.dataSelect.productCode){
             context.dataForm["state"] = parseInt(context.dataForm["state"]);
@@ -120,8 +104,6 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
             );
         }
     }
-
-
 
     //CHART-VIEW
     public initChartView(){
@@ -217,47 +199,16 @@ export class DashboardComponent extends ControllerBase implements OnInit, DoChec
         }
     }
 
-    //QR READER
-    searchQr(event){
-        if(event) event.preventDefault();
-        //TODO: Check that exist the qr model on model service and use it from service
-        try {
-            let $qr:HTMLElement = document.getElementById('validQr');
-            this.qrString = $qr.nodeValue.replace(/'/g, '"');
-            $qr.nodeValue = '';
-            let data = JSON.parse($qr.nodeValue);
-            let where=[{
-                join:"sponsor",
-                where:(data.sponsorContract)
-                    ?[{'op':'eq', 'field':'contractCode', 'value':data.sponsorContract}]
-                    :[{'op':'isNull','field':'contractCode'}]
-            }];
-            this.model['qr'].loadDataWhere(data.id,where);
-        }catch (e){ this.model['qr'].addToast('Error','QR invalido','error'); }
-    }
-
-    toggleQr(){
-        this.qrHidden = !this.qrHidden;
-    }
-
-    public loadAttendings(event){
-        let that = this;
-        let callback = (response)=>{
-            that.guestRemove.setValue(this.model['qr'].dataList.id);
-        };
-
-        if(event)
-            event.preventDefault();
-
-        this.model.httputils.doPost('/attendings/',this.qrString,callback,this.model.error);
-        this.model['qr'].dataList = {};
-    }
-
     private observableAction(context:ListActionComponent){
         if(context.data.observable.watch.value)
             context.data.model.spliceId(context.data.observable.watch.value);
     }
-//https://codepen.io/riveram/pen/BWeJBy
+
+    ngAfterViewInit(){
+        if(this.db.qrReader)
+            this.db.qrReader.open(null);
+    }
+    //https://codepen.io/riveram/pen/BWeJBy
 }
 
 

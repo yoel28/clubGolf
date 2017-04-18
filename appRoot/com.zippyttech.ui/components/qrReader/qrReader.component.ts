@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, OnInit} from "@angular/core";
+import {Component, ViewChild, ElementRef, OnInit, EventEmitter} from "@angular/core";
 import {FormControl} from "@angular/forms";
 import {QrcodeModel} from "../../../com.zippyttech.club/catalog/qrcode/qrcode.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
@@ -11,6 +11,7 @@ const jQuery = require('jquery');
     selector: 'qr-reader',
     templateUrl: 'template.html',
     styleUrls: ['style.css'],
+    outputs: ['getInstance']
 })
 export class QrReader extends ControllerBase implements OnInit{
     @ViewChild('form') form:ElementRef;
@@ -23,11 +24,12 @@ export class QrReader extends ControllerBase implements OnInit{
     public qrString:string = '';
     public qrHidden: boolean = true;
     public guestRemove:FormControl;
-
+    private getInstance:any;
     private qrModal:IModal;
 
     constructor(public db:DependenciesBase){
         super(db);
+        this.getInstance = new EventEmitter();
         this.guestRemove = new FormControl();
         this.qrModal = {
             id:'qr-modal',
@@ -53,6 +55,7 @@ export class QrReader extends ControllerBase implements OnInit{
     }
     ngOnInit(){
         this.initModel();
+        this.getInstance.emit(this);
     }
 
     toggleQr(){
