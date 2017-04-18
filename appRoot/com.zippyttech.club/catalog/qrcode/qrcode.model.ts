@@ -89,8 +89,8 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'guestAdd',
-            'title': 'Invitados',
-            'placeholder': 'Invitados',
+            'title': 'Invitados permitidos',
+            'placeholder': 'Invitados permitidos',
         };
         this.rules['priceLimit']={
             'type': 'number',

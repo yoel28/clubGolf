@@ -26,6 +26,8 @@ export class QrReader extends ControllerBase implements OnInit{
     public guestRemove:FormControl;
     private getInstance:any;
     private qrModal:IModal;
+    public processing:boolean = false;
+    public submitTime:number;
 
     constructor(public db:DependenciesBase){
         super(db);
@@ -42,6 +44,7 @@ export class QrReader extends ControllerBase implements OnInit{
                 {   title:'procesar',icon:'fa fa-send', class:'btn btn-green',
                     click:()=>{
                         this.loadAttendings(null);
+                        this.processing = true;
                     }
                 }
             ]
@@ -56,6 +59,11 @@ export class QrReader extends ControllerBase implements OnInit{
     ngOnInit(){
         this.initModel();
         this.getInstance.emit(this);
+        let paramtime = this.db.myglobal.getParams('QR_SUBMIT');
+        if(paramtime != '')
+            this.submitTime = parseFloat(paramtime);
+        else
+            this.submitTime = -1;
     }
 
     toggleQr(){
@@ -115,8 +123,19 @@ export class QrReader extends ControllerBase implements OnInit{
                     this.model.loadPager(this.model.dataList);
                 this.showMessage('El QR es valido!');
                 let val = response.json();
-                this.qrModal.header.title = val['guestName']+': '+val['guestEmail'];
-                jQuery('#qr-modal').modal('show');
+                this.qrModal.header.title = val['sponsorName']+' ('+val['sponsorContract']+')';
+                this.processing=true;
+
+                if(this.submitTime != -1){
+                    if (this.submitTime != 0)
+                        jQuery('#qr-modal').modal('show');
+
+                    setTimeout((t) => {
+                        jQuery('#qr-modal').modal('hide');
+                        this.loadAttendings(null);
+                    }, this.submitTime);
+                }
+                else jQuery('#qr-modal').modal('show');
             };
             let error = err=>{
                 let e = err.json();

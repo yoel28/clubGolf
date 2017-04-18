@@ -12,7 +12,7 @@
                     <a x-editable [disabled]="false" [endpoint]="model.endpoint"
                        [class.notHidden]="isCurrentType(['checklist'])"
                        [function]="model.onEditable" [data]="data" [rules]="model.rules" [field]="key">
-                        {{data[key] || 'N/A'}}
+                        {{data[key] || (isCurrentType(['number'])?'0':'N/A') }}
                     </a>
 
                     <template [ngIf]="isCurrentType(['select']) && !model.rules[key].required && data[key]">
@@ -25,7 +25,8 @@
                 </template>
                 <template [ngIf]="!getEnabled()">
                     <a x-editable [disabled]="true" [class.notHidden]="isCurrentType(['checklist'])"
-                       [data]="data" [rules]="model.rules" [field]="key">{{data[key] || 'N/A'}}
+                       [data]="data" [rules]="model.rules" [field]="key">
+                        {{data[key] || (isCurrentType(['number'])?'0':'N/A') }}
                     </a>
                 </template>
             </template>
