@@ -24,7 +24,7 @@ export class TradeModel extends ModelBase{
         this.state = new StateModel(this.db);
         this.product = new ProductModel(this.db);
 
-        this.sponsor = new UserModel(this.db);
+        this.sponsor = new UserModel(this.db,false);
     }
 
     initRules(){

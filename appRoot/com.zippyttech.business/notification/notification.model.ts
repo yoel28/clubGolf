@@ -106,6 +106,14 @@ export class NotificationModel extends ModelBase{
     initModelActions(params){
         params['delete'].message='¿ Esta seguro de eliminar la notificación: ';
         params['delete'].key = 'title';
+
+        params["resend"] = {
+            view:[{ title: 'Reenviar', icon: "fa fa-vcard" }],
+            callback:(data?,index?) =>{
+                this.httputils.onSave(this.endpoint+'resend/'+ data.id, {}, data, this.error)
+            },
+            permission: this.permissions.list,
+        };
     }
 
     loadDataPublic() {

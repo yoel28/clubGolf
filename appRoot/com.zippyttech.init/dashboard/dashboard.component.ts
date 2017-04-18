@@ -81,7 +81,7 @@ export class DashboardComponent extends ControllerBase implements OnInit, AfterV
         }
 
         this.guestData = {
-            visibleKeys:["sponsor","guest","timeLimit"],
+            visibleKeys:["sponsor","guest","timeLimit",'dateCreated'],
             routerLink:"/club/catalog/qr",
             model: that.model['guest'],
             observable:{

@@ -65,7 +65,7 @@ export class DashboardModel extends ModelRoot implements OnInit{
         });
 
         Object.keys(this.guest.rules).forEach((key)=>{
-            if(key != "sponsor" && key != "guest" && key != "timeLimit") {
+            if(key != "sponsor" && key != "guest" && key != "timeLimit" && key != "dateCreate") {
                 that.guest.rules[key].visible = false;
                 that.guest.rules[key].search = false;
             }

@@ -117,6 +117,13 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         Object.keys(this.user.rulesSave).forEach(key=>{
             if(key!='email')
                 delete this.user.rulesSave[key];
+            else{
+                this.user.rulesSave[key].type = 'list';
+                this.user.rulesSave[key].tag = 'text';
+                this.user.rulesSave[key].value=[];
+                this.user.rulesSave[key].refreshField={};
+            }
+
         });
     }
 
@@ -537,14 +544,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     searchUser(event){
         if(event)
             event.preventDefault();
-
-        let that = this;
-        let body = this.emailInstance.getFormValues()
-        let callback=(response)=>{
-            let data=response.json();
-            that.addToast('Notificación',data.message)
-        };
-        this.httputils.doPost('/invite',JSON.stringify(body),callback,this.error)
+        let body = this.emailInstance.getFormValues();
+        this.user.inviteAll(body);
     }
 
 
