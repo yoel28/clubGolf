@@ -145,12 +145,11 @@ export class HttpUtils {
     }
 
     onSave(endpoint:string, body,list, errorCallback = null,isEndpointAbsolute = false) {
-        let that = this;
-        let successCallback= response => {
+        let successCallback = response=>{
             if(list != null)
-                list.unshift( response.json());
-            if (that.toastyService)
-                that.addToast('Notificacion','Guardado con éxito');
+                list.unshift(response.json());
+            if(this.toastyService)
+                this.addToast('Notificacion','Guardado con éxito');
         };
         return this.doPost(endpoint,body,successCallback,errorCallback,isEndpointAbsolute)
     }

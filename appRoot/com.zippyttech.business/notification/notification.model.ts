@@ -108,9 +108,13 @@ export class NotificationModel extends ModelBase{
         params['delete'].key = 'title';
 
         params["resend"] = {
-            view:[{ title: 'Reenviar', icon: "fa fa-vcard" }],
+            view:[{ title: 'Reenviar', icon: "fa fa-send" }],
             callback:(data?,index?) =>{
-                this.httputils.onSave(this.endpoint+'resend/'+ data.id, {}, data, this.error)
+                let successCallback = response=>{
+                    if(this.httputils.toastyService)
+                        this.httputils.addToast('Notificacion','Guardado con éxito');
+                };
+                this.httputils.doPost(this.endpoint+'resend/'+ data.id,{},successCallback,this.error);
             },
             permission: this.permissions.list,
         };

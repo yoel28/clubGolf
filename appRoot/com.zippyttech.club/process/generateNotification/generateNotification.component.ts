@@ -23,7 +23,9 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
 
     initModel() {
         this.model = new NotificationModel(this.db);
-        delete this.model.rules.image;
+        delete this.model.rulesSave.code;
+        delete this.model.rulesSave.wayType;
+        delete this.model.rulesSave.targetType;
     }
 
     sendNotification(event){
