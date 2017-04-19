@@ -101,7 +101,8 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     submitQr(event){
         if(event) event.preventDefault();
 
-        this.qrString = this.input.nativeElement.value.replace(/'/g,'"');
+        this.qrString = (this.input.nativeElement.value.replace(/'|”|“/g,'"')).replace(/[^a-zA-Z 0-9:,"\{\}]+/g,'');
+
         this.input.nativeElement.value = '';
         try {
             let data = JSON.parse(this.qrString);
