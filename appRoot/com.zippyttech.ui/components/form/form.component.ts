@@ -202,6 +202,8 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.keys = Object.keys(this.data);
         this.form = new FormGroup(this.data);
     }
+
+    //###########################################COMPROBAR ESTO ############################//
     @HostListener('keydown', ['$event'])
     keyboardInput(event: any) {
         if(event.code=="Enter" || event.code=="NumpadEnter"){

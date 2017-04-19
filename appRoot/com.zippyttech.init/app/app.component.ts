@@ -570,10 +570,6 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         return iModalTerm;
     }
 
-    saveQrInstance(instance){
-        this.db.qrReader = instance;
-    }
-
     @HostListener('window:offline') offline() {
         this.addToast('Offline','Se a detectado un problema con el Internet, Por favor conectarse a la red','error');
     }

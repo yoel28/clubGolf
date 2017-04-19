@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, OnInit, EventEmitter} from "@angular/core";
+import {Component, ViewChild, ElementRef, OnInit, EventEmitter, AfterContentInit, AfterViewInit} from "@angular/core";
 import {FormControl} from "@angular/forms";
 import {QrcodeModel} from "../../../com.zippyttech.club/catalog/qrcode/qrcode.model";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
@@ -13,7 +13,7 @@ const jQuery = require('jquery');
     styleUrls: ['style.css'],
     outputs: ['getInstance']
 })
-export class QrReader extends ControllerBase implements OnInit{
+export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     @ViewChild('form') form:ElementRef;
     @ViewChild('message') message:ElementRef;
     @ViewChild('input') input:ElementRef;
@@ -24,14 +24,12 @@ export class QrReader extends ControllerBase implements OnInit{
     public qrString:string = '';
     public qrHidden: boolean = true;
     public guestRemove:FormControl;
-    private getInstance:any;
     private qrModal:IModal;
     public processing:boolean = false;
     public submitTime:number;
 
     constructor(public db:DependenciesBase){
         super(db);
-        this.getInstance = new EventEmitter();
         this.guestRemove = new FormControl();
         this.qrModal = {
             id:'qr-modal',
@@ -49,6 +47,7 @@ export class QrReader extends ControllerBase implements OnInit{
                 }
             ]
         }
+        this.db.qrReader = this;
     }
 
 
@@ -58,7 +57,6 @@ export class QrReader extends ControllerBase implements OnInit{
     }
     ngOnInit(){
         this.initModel();
-        this.getInstance.emit(this);
         let paramtime = this.db.myglobal.getParams('QR_SUBMIT');
         if(paramtime != '')
             this.submitTime = parseFloat(paramtime);
@@ -144,7 +142,6 @@ export class QrReader extends ControllerBase implements OnInit{
             this.model.httputils.doGet(endpoint,successCallback,this.model.error);
         }catch (e){
             this.showMessage('Formato de QR invalido!');//TODO:Change!, use data validation
-            //this.model.addToast('Error','QR invalido','error');
         }
     }
 
@@ -157,5 +154,9 @@ export class QrReader extends ControllerBase implements OnInit{
             this.message.nativeElement.classList.remove('show');
             this.message.nativeElement.innerHTML = '';
         }, 1500);
+    }
+
+    ngAfterViewInit(){
+        this.open(null);
     }
 }
