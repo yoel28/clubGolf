@@ -19,6 +19,22 @@ export class QrcodeModel extends ModelBase{
     }
     initRules(){
 
+
+        this.rules['attended']={
+            'type':'filter',
+            'exclude':true,
+            'search':this.permissions.filter,
+            'where': {
+                'true': {'op': 'eq', 'field': 'attended', 'value':true},
+                'false': {'op': 'eq', 'field': 'attended', 'value':false}
+            },
+            'source':[
+                {'value':'true','text':'Atendido'},
+                {'value':'false','text':'No atendido'}
+            ],
+            'placeholder':'¿QR atendido?'
+        };
+
         this.rules['id']={
             'type': 'number',
             'visible':this.permissions.visible,
@@ -103,21 +119,6 @@ export class QrcodeModel extends ModelBase{
             'key': 'timeLimit',
             'title': 'Tiempo limite',
             'placeholder': 'Tiempo limite',
-        };
-
-        this.rules['attended']={
-            'type':'filter',
-            'exclude':true,
-            'search':this.permissions.filter,
-            'where': {
-                'true': {'op': 'eq', 'field': 'attended', 'value':'true'},
-                'false': {'op': 'eq', 'field': 'attended', 'value':'false'}
-            },
-            'source':[
-                {'value':true,'text':'Atendido'},
-                {'value':false,'text':'No atendido'}
-            ],
-            'placeholder':'¿QR atendido?'
         };
 
         delete this.rules['detail'];
