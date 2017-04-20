@@ -110,8 +110,8 @@ export class QrcodeModel extends ModelBase{
             'exclude':true,
             'search':this.permissions.filter,
             'where': {
-                'true': {'op': 'isNotNull', 'field': 'attended'},
-                'false': {'op': 'isNull', 'field': 'attended'}
+                'true': {'op': 'eq', 'field': 'attended', 'value':'true'},
+                'false': {'op': 'eq', 'field': 'attended', 'value':'false'}
             },
             'source':[
                 {'value':true,'text':'Atendido'},
