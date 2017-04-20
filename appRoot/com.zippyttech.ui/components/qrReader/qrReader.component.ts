@@ -54,6 +54,9 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     initModel() {
         //TODO: Check that exist the qr model on model service and use it from service
         this.model = new QrcodeModel(this.db);
+        delete this.model.rules['account'];
+        delete this.model.rules['priceLimit'];
+        delete this.model.rules['guestAdd'];
     }
     ngOnInit(){
         this.initModel();
@@ -106,14 +109,15 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
         this.input.nativeElement.value = '';
         try {
             let data = JSON.parse(this.qrString);
-            let where=[ {'op':'eq','field':'attended', 'value':false},
-                {
-                join:"sponsor",
-                where:(data.sponsorContract)?[{'op':'eq', 'field':'contractCode', 'value':data.sponsorContract}]
-                                            :[{'op':'isNull','field':'contractCode'}]
-            }];
+            let where=[
+               // {'op':'eq','field':'attended', 'value':false},
+                {join:"sponsor", where:(data.sponsorContract)
+                    ?[{'op':'eq', 'field':'contractCode', 'value':data.sponsorContract}]
+                    :[{'op':'isNull','field':'contractCode'}] }
+            ];
+            this.model.dataList={};
             this.showMessage('Consultando...<span><i class="fa fa-refresh fa-spin"></iclas></span>');
-            let endpoint = this.model.endpoint+data.id+'?offset=0'+this.model.setWhere(this.model.rest.where);
+            let endpoint = this.model.endpoint+data.id+'?offset=0'+this.model.setWhere(where);
 
             let successCallback = response=>{
                 this.model.rest.findData=false;
@@ -122,7 +126,7 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
                     this.model.loadPager(this.model.dataList);
                 this.showMessage('El QR es valido!');
                 let val = response.json();
-                this.qrModal.header.title = val['sponsorName']+' ('+val['sponsorContract']+')';
+                this.qrModal.header.title = val['guestName']?val['guestName']:val['sponsorName'] ;
                 this.processing=true;
 
                 if(this.submitTime != -1){
