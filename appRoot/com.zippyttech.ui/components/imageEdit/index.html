@@ -29,7 +29,7 @@
     </figure>
 </div>
 <div *ngIf="type=='inline'">
-    <input type="file" id="img-file" (change)="changeFilePath($event)">
+    <input #input type="file" id="img-file" (change)="changeFilePath($event)">
     <div class="img-view" #inlineview>
         <div class="img-preview">
             <img [src]="image || pathElements.warning" alt="imagen">
