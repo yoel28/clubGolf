@@ -39,8 +39,13 @@
             <span class="img-size" #size></span>
         </div>
         <label class="img-btn" for="img-file">
-            <span>Cargar imagen</span>
+            <span>Cargar</span>
             <i class="fa fa-upload"></i>
+        </label>
+
+        <label class="img-btn bg-red" (click)="clear()">
+            <span>Borrar</span>
+            <i class="fa fa-trash"></i>
         </label>
     </div>
 </div>
