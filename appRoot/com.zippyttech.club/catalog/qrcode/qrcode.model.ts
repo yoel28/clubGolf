@@ -105,6 +105,21 @@ export class QrcodeModel extends ModelBase{
             'placeholder': 'Tiempo limite',
         };
 
+        this.rules['attended']={
+            'type':'filter',
+            'exclude':true,
+            'search':this.permissions.filter,
+            'where': {
+                'true': {'op': 'isNotNull', 'field': 'attended'},
+                'false': {'op': 'isNull', 'field': 'attended'}
+            },
+            'source':[
+                {'value':true,'text':'Atendido'},
+                {'value':false,'text':'No atendido'}
+            ],
+            'placeholder':'¿QR atendido?'
+        };
+
         delete this.rules['detail'];
     }
     initPermissions() {}
