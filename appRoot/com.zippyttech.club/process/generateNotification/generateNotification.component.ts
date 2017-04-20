@@ -23,6 +23,7 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
 
     initModel() {
         this.model = new NotificationModel(this.db);
+        this.model.rulesSave.target.title = "Email";
         delete this.model.rulesSave.code;
         delete this.model.rulesSave.wayType;
         delete this.model.rulesSave.targetType;
@@ -54,3 +55,5 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
         this.image = image;
     }
 }
+
+

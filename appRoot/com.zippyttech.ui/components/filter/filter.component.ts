@@ -255,21 +255,18 @@ export class FilterComponent extends RestController implements OnInit{
                 let whereTemp:any = {};//Fila de where para un solo elemento
                 let whereTemp2:any;//Fila para codificiones multiples
 
-                whereTemp.code = 'filter';
                 whereTemp.op = that.form.value[key + 'Cond'];//condicion
                 whereTemp.field = that.rules[key].key || key;//columna
 
                 if(that.rules[key].type=='filter'){
                     whereTemp = that.rules[key].where[this.form.value[key]];
                 }
-
-
                 if (that.rules[key].subType)//si existe un subtype lo agregamos
                 {
                     whereTemp.type = that.rules[key].subType;
                 }
 
-                if (whereTemp.op != 'isNull' && whereTemp.op != 'isNotNull')// si es diferente de nulo, carge el value
+                if (whereTemp.op != 'isNull' && whereTemp.op != 'isNotNull' && that.rules[key].type != 'filter')// si es diferente de nulo, carge el value
                 {
                     whereTemp.value = that.form.value[key];//valor
 
@@ -347,7 +344,7 @@ export class FilterComponent extends RestController implements OnInit{
                     }
 
                     if(that.rules[key].type == 'boolean'){
-                        whereTemp.value = whereTemp.value=='true'?true:false;
+                        whereTemp.value = (whereTemp.value=='true');
                     }
                 }
 
@@ -362,6 +359,7 @@ export class FilterComponent extends RestController implements OnInit{
                         whereTemp2=Object.assign({},{'join':that.rules[key].join,'where':[whereTemp2]});
                 }
 
+                whereTemp.code = 'filter';
                 dataWhere.push(whereTemp);
                 if(whereTemp2)
                 {

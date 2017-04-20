@@ -14,6 +14,7 @@ var jQuery = require('jquery');
     outputs:['out','getInstance']
 })
 export class ImageEditComponent implements AfterContentInit{
+    @ViewChild('input') input:ElementRef;
     @ViewChild('name') name:ElementRef;
     @ViewChild('size') size:ElementRef;
     @ViewChild('inlineview') inlineview:ElementRef;
@@ -46,6 +47,7 @@ export class ImageEditComponent implements AfterContentInit{
     changeImage(image=null){
         this.image=image;
     }
+
     changeFilePath(event){
         let file = event.srcElement.files[0];
         let kbsize = file.size/1024;
@@ -77,6 +79,7 @@ export class ImageEditComponent implements AfterContentInit{
         this.size.nativeElement.textContent = '';
         this.inlineview.nativeElement.classList.remove('valid');
         this.inlineview.nativeElement.classList.remove('invalid');
+        this.input.nativeElement.value = '';
         this.out.emit(this.image);
     }
 }

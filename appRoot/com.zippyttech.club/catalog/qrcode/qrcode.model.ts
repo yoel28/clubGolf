@@ -19,6 +19,21 @@ export class QrcodeModel extends ModelBase{
     }
     initRules(){
 
+        this.rules['attended']={
+            'type':'filter',
+            'exclude':true,
+            'search':this.permissions.filter,
+            'where': {
+                'true': {'op': 'eq', 'field': 'attended', 'value':true},
+                'false': {'op': 'eq', 'field': 'attended', 'value':false}
+            },
+            'source':[
+                {'value':'true','text':'Atendido'},
+                {'value':'false','text':'No atendido'}
+            ],
+            'placeholder':'¿QR atendido?'
+        };
+
         this.rules['id']={
             'type': 'number',
             'visible':this.permissions.visible,
@@ -37,15 +52,6 @@ export class QrcodeModel extends ModelBase{
             'key': 'email',
             'title': 'Correo',
             'placeholder': 'Correo',
-        };
-
-        this.rules['priceUptake']={
-            'type': 'number',
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'priceUptake',
-            'title': 'Consumo',
-            'placeholder': 'Consumo',
         };
 
         this.rules['sponsor']=Object.assign({},this.sponsor.ruleObject);
@@ -67,6 +73,17 @@ export class QrcodeModel extends ModelBase{
         this.rules['guest'].eval=this.db.myglobal.getRule('QR_GUEST_WEB');
         this.rules['guest'].placeholder='Invitado';
         this.rules['guest'].paramsSearch.field='guest.id';
+
+        this.rules['guestPhone']={
+            'type': 'number',
+            'required':false,
+            'update':false,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'guestPhone',
+            'title': 'Telefono del invitado',
+            'placeholder': 'Telefono del invitado',
+        };
 
         this.rules['guestAdd']={
             'type': 'number',
@@ -90,6 +107,16 @@ export class QrcodeModel extends ModelBase{
             'title': 'Precio limite',
             'placeholder': 'Precio limite',
         };
+
+        this.rules['priceUptake']={
+            'type': 'number',
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'priceUptake',
+            'title': 'Consumo',
+            'placeholder': 'Consumo',
+        };
+
         this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['dateCreated'].visible = true;
@@ -134,6 +161,7 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.guest;
         delete this.rulesSave.id;
         delete this.rulesSave.priceUptake;
+        delete this.rulesSave.guestPhone;
     }
 
     initModelActions(params: IModelActions) {
