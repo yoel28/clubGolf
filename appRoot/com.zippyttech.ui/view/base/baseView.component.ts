@@ -15,8 +15,7 @@ var moment = require('moment');
     templateUrl: 'index.html',
     styleUrls: ['style.css'],
     inputs: ['instance'],
-    outputs:['getInstance'],
-    animations: AnimationsManager.getTriggers("d-slide_up|fade-fade",200)
+    outputs:['getInstance']
 })
 export class BaseViewComponent extends ControllerBase implements OnInit,AfterViewInit {
 

@@ -117,11 +117,19 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         Object.keys(this.user.rulesSave).forEach(key=>{
             if(key!='email')
                 delete this.user.rulesSave[key];
+            else{
+                this.user.rulesSave[key].type = 'list';
+                this.user.rulesSave[key].tag = 'text';
+                this.user.rulesSave[key].value=[];
+                this.user.rulesSave[key].refreshField={};
+                this.user.rulesSave[key].help = "Para agregar un correo pulse ENTER";
+            }
         });
     }
 
     public ngAfterViewInit() {
-
+        if(this.db.qrReader)
+            this.db.qrReader.open(null);
     }
 
     ngDoCheck() {
@@ -218,8 +226,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
             this.loadMenu();
             this.initModels();
             this.menuType.setValue({
-                'list': this.db.myglobal.getParams('MENU_LIST') == '1' ? true : false,
-                'modal': this.db.myglobal.getParams('MENU_MODAL') == '1' ? true : false,
+                'list': this.db.myglobal.getParams('MENU_LIST') == 'true' ? true : false,
+                'modal': this.db.myglobal.getParams('MENU_MODAL') == 'true' ? true : false,
             });
 
             if (!this.menuType.value.list) {
@@ -536,14 +544,8 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
     searchUser(event){
         if(event)
             event.preventDefault();
-
-        let that = this;
-        let body = this.emailInstance.getFormValues()
-        let callback=(response)=>{
-            let data=response.json();
-            that.addToast('Notificación',data.message)
-        };
-        this.httputils.doPost('/invite',JSON.stringify(body),callback,this.error)
+        let body = this.emailInstance.getFormValues();
+        this.user.inviteAll(body);
     }
 
 
@@ -567,6 +569,7 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         };
         return iModalTerm;
     }
+
     @HostListener('window:offline') offline() {
         this.addToast('Offline','Se a detectado un problema con el Internet, Por favor conectarse a la red','error');
     }

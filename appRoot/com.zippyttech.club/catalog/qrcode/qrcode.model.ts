@@ -14,8 +14,8 @@ export class QrcodeModel extends ModelBase{
         this.initModel();
     }
     modelExternal() {
-        this.sponsor = new UserModel(this.db);
-        this.guest = new UserModel(this.db);
+        this.sponsor = new UserModel(this.db,false);
+        this.guest = new UserModel(this.db,false);
     }
     initRules(){
 
@@ -68,20 +68,6 @@ export class QrcodeModel extends ModelBase{
         this.rules['guest'].placeholder='Invitado';
         this.rules['guest'].paramsSearch.field='guest.id';
 
-
-
-
-
-        this.rules['timeLimit']={
-            'type': 'date',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'timeLimit',
-            'format':StaticValues.formatDatePickerDDMMYYYY,
-            'title': 'Tiempo limite',
-            'placeholder': 'Tiempo limite',
-        };
         this.rules['guestAdd']={
             'type': 'number',
             'required':true,
@@ -89,9 +75,10 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'guestAdd',
-            'title': 'Invitados',
-            'placeholder': 'Invitados',
+            'title': 'Invitados permitidos',
+            'placeholder': 'Invitados permitidos',
         };
+
         this.rules['priceLimit']={
             'type': 'number',
             'double':true,
@@ -103,8 +90,21 @@ export class QrcodeModel extends ModelBase{
             'title': 'Precio limite',
             'placeholder': 'Precio limite',
         };
-
+        this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
+        this.rules['dateCreated'].visible = true;
+
+        this.rules['timeLimit']={
+            'type': 'combodate',
+            'date':'datetime',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'timeLimit',
+            'title': 'Tiempo limite',
+            'placeholder': 'Tiempo limite',
+        };
+
         delete this.rules['detail'];
     }
     initPermissions() {}

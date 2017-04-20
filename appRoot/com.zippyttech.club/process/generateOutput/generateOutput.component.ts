@@ -254,7 +254,7 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             if(this.qr.permissions.list) {
                 let that = this;
                 let val = jQuery('#validQr').val();
-                val = val.replace(/'/g, '"');
+                val = (val.replace(/'|”|“/g,'"')).replace(/[^a-zA-Z 0-9:,"\{\}]+/g,'');
                 jQuery('#validQr').val('');
                 let data = JSON.parse(val);
                 let where = [{

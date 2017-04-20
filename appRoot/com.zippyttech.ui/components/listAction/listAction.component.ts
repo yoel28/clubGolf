@@ -11,8 +11,8 @@ var jQuery = require('jquery');
 
 
 export interface IListActionData {
-    actions: IAction;
-    globalParams:IActionParams;
+    actions?: IAction;
+    globalParams?:IActionParams;
     model: any;
     visibleKeys?: string[];
     routerLink: string;
@@ -66,7 +66,6 @@ export class ListActionComponent extends ControllerBase
     ngOnInit()
     {
         super.ngOnInit();
-
         this.model = this.data.model;
         let that = this;
         if(this.data.observable && this.data.observable.watch){
@@ -76,15 +75,13 @@ export class ListActionComponent extends ControllerBase
                 }
             )
         }
-
     }
 
     public getVisibleDataKeys()
     {
         let data=[];
-        let that=this;
-        Object.keys(this.data.model.rules).forEach((key)=>{
-            if(that.data.model.rules[key].visible && !that.data.model.rules[key].ghostRule)
+        Object.keys(this.data.model.rules).forEach(key=>{
+            if(this.data.model.rules[key].visible && !this.data.model.rules[key].ghostRule)
                 data.push(key)
         });
         return data;
@@ -102,7 +99,7 @@ export class ListActionComponent extends ControllerBase
         Object.keys(actions).forEach(k=>{
             if(actions[k].permission)
                 keys.push(k);
-        })
+        });
         return keys;
     }
 
@@ -162,7 +159,7 @@ export class ListActionComponent extends ControllerBase
     private permissionValid(permission:string):boolean
     {
         if(this.data.model && this.data.model.permissions)
-            return (this.data.model.permissions["list"]);
+            return (this.data.model.permissions.list);
         return true;
     }
 

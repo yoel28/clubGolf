@@ -45,7 +45,6 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
     }
 
     submitForm(event,addBody=null){
-
         let that = this;
         let successCallback= response => {
             that.addToast('Notificacion','Guardado con éxito');
@@ -59,6 +58,7 @@ export class SaveComponent extends RestController implements OnInit,AfterViewIni
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
+
     formActions(){
         if(this.params.updateField)
             return [{'title':'Actualizar','class':'btn btn-blue','icon':'fa fa-save','addBody':null}];

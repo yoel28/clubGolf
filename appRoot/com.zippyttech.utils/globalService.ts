@@ -252,6 +252,4 @@ export class globalService extends RestController{
             equalKeys= false;
         return equalKeys;
     }
-
-    
 }

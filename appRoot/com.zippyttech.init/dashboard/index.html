@@ -1,5 +1,4 @@
 <section class="content" *ngIf="model">
-
     <div class="section">
         <chart-view [chartData] = "chvwEntries"  class="{{db.classCol(6,6)}}"></chart-view>
         <chart-view [chartData] = "chvwProducts" class="{{db.classCol(6,6)}}"></chart-view>
@@ -12,38 +11,4 @@
         <list-action [data]="recordData" *ngIf="model.permissions['vehicle']"></list-action>
         <list-action [data]="tradeData"  *ngIf="model.permissions['trade']"></list-action>
     </div>
-
-    <div id="reader" class="reader-hide" *ngIf="model.permissions['qr'] && model.qr">
-        <button class="btn btn-hide btn-green" (click)="readerClick()">
-            <i [class]="'fa fa-chevron-'+((qrHidden)?'left':'right')"></i>
-        </button>
-        <div class="box collapsed-box pull-right">
-            <div class="box-header">
-                <form (submit)="searchQr($event)" class="form-horizontal">
-                    <div class="form-group">
-                        <label class=" box-title reader-title control-label {{db.classCol(2,2,2)}}" for="validQr">QR:</label>
-                        <div class="{{db.classCol(10,10,10)}}">
-                            <input class="form-control" placeholder="Validar QR" type="text"  id="validQr" autofocus>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="box-body">
-                <div class="reader-detail" *ngIf="model.qr.dataList && model.qr.dataList.id">
-                    <div *ngFor="let key of getObjectKeys(model.qr.rules)">
-                        <div *ngIf="model.qr.rules[key] && model.qr.rules[key].visible">
-                            {{model.qr.rules[key].title+": "}}
-                            <rule-view [key]="key" [data]="model.qr.dataList" [model]="model.qr" [disabled]="true"></rule-view>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-footer">
-                <button class="btn btn-green" *ngIf="model.qr.dataList && model.qr.dataList.id" (click)="loadAttendings($event)">
-                    Procesar
-                </button>
-            </div>
-        </div>
-    </div>
-
 </section>

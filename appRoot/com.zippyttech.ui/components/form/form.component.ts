@@ -12,7 +12,7 @@ var jQuery = require('jquery');
     templateUrl: 'index.html',
     styleUrls: [ 'style.css'],
     inputs:['params','rules'],
-    outputs:['save','getInstance','getForm'],
+    outputs:['save','getInstance','getForm','imgChanged'],
 })
 export class FormComponent extends RestController implements OnInit,AfterViewInit{
 
@@ -25,18 +25,21 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
     public save:any;
     public getInstance:any;
     public getForm:any;
+    public imgChanged:EventEmitter<string>;
 
     public form:FormGroup;
     public data:any = {};
     public keys:any = {};
-
+    public image64:string;
     public delete=false;
+    private imgInstance;
 
     constructor(public db:DependenciesBase) {
         super(db);
         this.save = new EventEmitter();
         this.getInstance = new EventEmitter();
         this.getForm = new EventEmitter();
+        this.imgChanged = new EventEmitter<string>();
 
     }
     ngOnInit(){
@@ -50,6 +53,11 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             this.db.myglobal.objectInstance[this.params.prefix]={};
             this.db.myglobal.objectInstance[this.params.prefix]=this;
         }
+    }
+
+    saveImage(event,key:string){
+        this.image64 = event;
+        this.imgChanged.emit(this.image64);
     }
 
     initForm() {
@@ -82,11 +90,23 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 {
                     validators.push(
                         (c:FormControl)=> {
-                            if(c.value && c.value.length > 0) {
-                                let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-                                return EMAIL_REGEXP.test(c.value) ? null : {'email': {'valid': true}};
-                            }
-                            return null;
+                            let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+                            let error;
+                           if(c.value && c.value.length && typeof c.value == 'string'){
+                               return EMAIL_REGEXP.test(c.value) ? null : {'email': {'valid': true}};
+                           }
+                           else if((c.value && c.value.length && typeof c.value == 'object')) {
+                                c.value.forEach(data=>{
+                                    if(!EMAIL_REGEXP.test(data))
+                                    {
+                                        error={'email': {'valid': true}};
+                                        return;
+                                    }
+
+
+                                })
+                           }
+                           return error;
                         });
                 }
                 if(that.rules[key].customValidator){
@@ -182,6 +202,8 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.keys = Object.keys(this.data);
         this.form = new FormGroup(this.data);
     }
+
+    //###########################################COMPROBAR ESTO ############################//
     @HostListener('keydown', ['$event'])
     keyboardInput(event: any) {
         if(event.code=="Enter" || event.code=="NumpadEnter"){
@@ -238,7 +260,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 }
                 if(that.rules[key].type == 'boolean' && body[key]!=""){
                     if(typeof body[key] === 'string')
-                        body[key]=body[key]=='true'?true:false;
+                        body[key] = (body[key]=='true');
                 }
                 if(that.rules[key].prefix && that.rules[key].type=='text' && body[key]!="" && !that.rules[key].object)
                 {
@@ -253,6 +275,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                         data.push(obj.value || obj);
                     });
                     body[key]=data;
+                }
+                if(that.rules[key].type=='image'){
+                    body[key] = this.image64;
                 }
             }
         });
@@ -337,7 +362,9 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
             that.data[key]._pristine=true;
             if(that.rules[key].readOnly)
                 that.rules[key].readOnly=false;
-        })
+        });
+        if(this.imgInstance)
+            this.imgInstance.clear();
     }
 
     public refreshFieldKey='';

@@ -21,7 +21,7 @@
             >
             </a>
 
-
+            <qr-reader *ngIf="db.myglobal.existsPermission(['DASH_QR'])"></qr-reader>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
@@ -77,7 +77,7 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-                    <ul [@animation_0] = 'item.select?"true":"false"' *ngIf="item.treeview" class="treeview-menu">
+                    <ul *ngIf="item.treeview" class="treeview-menu">
                         <li *ngFor="let subItem of menuItemsVisible(item.treeview)">
                             <a *ngIf="subItem.routerLink" href="#" [routerLink]="[subItem.routerLink]">
                                 <i class="{{subItem.icon}}"></i>
@@ -159,6 +159,7 @@
 </div>
 
 <div *ngIf="db.myglobal.dataSesion.valid" class="block-float">
+    <button *ngIf="db.myglobal.existsPermission(['NOTIFICATION_ADD'])" title="Enviar notificación" class="redondo btn btn-yellow" (click)="goPage($event,'club/process/notification')"><i class="fa fa-bell" ></i></button>
     <button *ngIf="db.myglobal.existsPermission(['DASH_INVITE'])" title="Enviar invitación" class="redondo btn btn-success" data-toggle="modal" data-target="#invitacion"><i class="fa fa-envelope-o" ></i></button>
     <button *ngIf="db.myglobal.existsPermission(['REGISTERFULL_ADD'])" (click)="goPage($event,'club/register/full')" title="Agregar usuario" class="redondo btn btn-blue "><i class="fa fa-user-plus"></i></button>
 </div>
@@ -171,8 +172,6 @@
             </div>
             <div class="modal-body" *ngIf="user && user.completed">
                 <form-view [params]="user.paramsSave" (getInstance)="setEmailInstance($event)" [rules]="user.rulesSave"></form-view>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outlined btn-red fa fa-close" data-dismiss="modal">

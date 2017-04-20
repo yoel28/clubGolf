@@ -1,270 +1,268 @@
-<div [@animation_0] = '"true"'>
-    <section class="content container">
-        <div class="background-grandient {{db.classCol(10,10,11,12)}}">
-            <div class="{{db.classCol(10,10,12,12)}}{{db.classOffset(1,1)}} margin-top-5">
-                <form role="form">
-                    <div class="tab-content">
-                        <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
-                            <div class="row">
-                                <div class="{{db.classCol(6,6,6,12)}} text-center margin-top-5">
-                                    <h2 hidden>
-                                        <i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando al usuario
-                                        <button (click)="openQR($event)" class="btn btn-success"
-                                                title="Abrir en otra pestaña">
-                                            <i class="glyphicon glyphicon-qrcode"></i>
-                                        </button>
-                                    </h2>
-                                    <div class="text-center img-responsive">
-                                        <div [class.opacity-qr]="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
-                                            <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
-                                        </div>
-                                        <div class="center-load" *ngIf="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
-                                            <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="db.ws.webSocket[channelWS.ws].reconnect<=5"></i><br/>
-                                            <button *ngIf="db.ws.webSocket[channelWS.ws].reconnect > 5" class="btn btn-blue" (click)="reconectdb.ws($event)">
-                                                <i class="fa fa-qrcode"></i>
-                                                &nbsp;Reintentar
-                                            </button>
-                                        </div>
+<section class="content container">
+    <div class="background-grandient {{db.classCol(10,10,11,12)}}">
+        <div class="{{db.classCol(10,10,12,12)}}{{db.classOffset(1,1)}} margin-top-5">
+            <form role="form">
+                <div class="tab-content">
+                    <div class="tab-pane" [class.active]="step==1" role="tabpanel" id="step1">
+                        <div class="row">
+                            <div class="{{db.classCol(6,6,6,12)}} text-center margin-top-5">
+                                <h2 hidden>
+                                    <i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando al usuario
+                                    <button (click)="openQR($event)" class="btn btn-success"
+                                            title="Abrir en otra pestaña">
+                                        <i class="glyphicon glyphicon-qrcode"></i>
+                                    </button>
+                                </h2>
+                                <div class="text-center img-responsive">
+                                    <div [class.opacity-qr]="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
+                                        <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="400" ></qr-code>
                                     </div>
-                                    <div class="form-group input-icon right" style="margin-top: 15px">
-                                        <div class="{{db.classCol(12,12,12,12)}}">
-                                            <div class="input-icon right">
-                                                <i class="fa fa-qrcode"></i>
-                                                <form (submit)="searchQr($event)">
-                                                    <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
-                                                    <div *ngIf="!qr.permissions.list">
-                                                        <div class="btn-red padding-error">
-                                                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="qr.prefix+'_3'"></tooltip-view></strong></h5>
-                                                            {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{qr.prefix}}_LIST
-                                                        </div>
+                                    <div class="center-load" *ngIf="db.ws.webSocket[channelWS.ws] && db.ws.webSocket[channelWS.ws].status.value != 'connect'">
+                                        <i class="fa  fa-circle-o-notch fa-4x text-green" [class.fa-spin]="db.ws.webSocket[channelWS.ws].reconnect<=5"></i><br/>
+                                        <button *ngIf="db.ws.webSocket[channelWS.ws].reconnect > 5" class="btn btn-blue" (click)="reconectdb.ws($event)">
+                                            <i class="fa fa-qrcode"></i>
+                                            &nbsp;Reintentar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group input-icon right" style="margin-top: 15px">
+                                    <div class="{{db.classCol(12,12,12,12)}}">
+                                        <div class="input-icon right">
+                                            <i class="fa fa-qrcode"></i>
+                                            <form (submit)="searchQr($event)">
+                                                <input id="validQr" class="form-control" placeholder="Validación QR" type="text"  autofocus>
+                                                <div *ngIf="!qr.permissions.list">
+                                                    <div class="btn-red padding-error">
+                                                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{db.msg.warningTitle | translate}} <tooltip-view [code]="qr.prefix+'_3'"></tooltip-view></strong></h5>
+                                                        {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{qr.prefix}}_LIST
                                                     </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="{{db.classCol(6,6,6,12)}} margin-top-5">
-                                    <h1><strong class="letra-grande">CDGApp</strong></h1>
-                                    <h1>Usa CDGApp en tu teléfono para escanear el código</h1>
-                                </div>
-                            </div>
-                            <div class="row margin-top-5">
-                                <div class="{{db.classCol(6,6,6,12)}}">
-                                    <div class="margin-top-5 row">
-                                            <div class="{{db.classCol(3,4,5,5)}}">
-                                                <img class="img-responsive" [attr.src]="db.pathElements.btnUsuario">
-                                            </div>
-                                            <div class="{{db.classCol(9,8,7,7)}}">
-                                                <strong>Usuarios</strong><br>
-                                                Abre App-Menú-CDG
-                                            </div>
-                                    </div>
-                                    <div class="margin-top-5 row">
-                                        <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="db.pathElements.btnFamilia">
-                                        </div>
-                                        <div class="{{db.classCol(9,8,7,7)}}">
-                                            <strong>Familia</strong><br>
-                                            Abre App-Menú-CDG
-                                        </div>
-                                    </div>
-                                    <div class="margin-top-5 row">
-                                        <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="db.pathElements.btnToallas">
-                                        </div>
-                                        <div class="{{db.classCol(9,8,7,7)}}">
-                                            <strong>Toallas</strong><br>
-                                            Abre App-Menú-CDG
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="{{db.classCol(6,6,6,12)}}">
-                                    <div class="margin-top-5 row">
-                                        <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="db.pathElements.btnInvitados">
-                                        </div>
-                                        <div class="{{db.classCol(9,8,7,7)}}">
-                                            <strong>Invitados</strong><br>
-                                            Abre App-Menú-CDG
-                                        </div>
-                                    </div>
-                                    <div class="margin-top-5 row">
-                                        <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="db.pathElements.btnCarrito">
-                                        </div>
-                                        <div class="{{db.classCol(9,8,7,7)}}">
-                                            <strong>Carros de Golf</strong><br>
-                                            Escanea el servicio
-                                        </div>
-                                    </div>
-                                    <div class="margin-top-5 row">
-                                        <div class="{{db.classCol(3,4,5,5)}}">
-                                            <img class="img-responsive" [attr.src]="db.pathElements.btnServicios">
-                                        </div>
-                                        <div class="{{db.classCol(9,8,7,7)}}">
-                                            <strong>Servicios</strong><br>
-                                            Abre App-Menú-CDG
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div hidden class="row">
-                                <div class="col-lg-6 text-center">
-                                    <h2>
-                                        <i class="fa fa-camera"></i>
-                                        &nbsp;Leer por camara
-                                    </h2>
-                                    <div>
-                                        <video autoplay width="300" height="300"
-                                               poster="assets/img/clubGolf/webcam.png"></video>
+                            <div class="{{db.classCol(6,6,6,12)}} margin-top-5">
+                                <h1><strong class="letra-grande">CDGApp</strong></h1>
+                                <h1>Usa CDGApp en tu teléfono para escanear el código</h1>
+                            </div>
+                        </div>
+                        <div class="row margin-top-5">
+                            <div class="{{db.classCol(6,6,6,12)}}">
+                                <div class="margin-top-5 row">
+                                        <div class="{{db.classCol(3,4,5,5)}}">
+                                            <img class="img-responsive" [attr.src]="db.pathElements.btnUsuario">
+                                        </div>
+                                        <div class="{{db.classCol(9,8,7,7)}}">
+                                            <strong>Usuarios</strong><br>
+                                            Abre App-Menú-CDG
+                                        </div>
+                                </div>
+                                <div class="margin-top-5 row">
+                                    <div class="{{db.classCol(3,4,5,5)}}">
+                                        <img class="img-responsive" [attr.src]="db.pathElements.btnFamilia">
                                     </div>
-                                    <div>
-                                        <button [disabled]="QRCam" class="btn btn-success" (click)="openCam(event)">
-                                            Iniciar
-                                        </button>
+                                    <div class="{{db.classCol(9,8,7,7)}}">
+                                        <strong>Familia</strong><br>
+                                        Abre App-Menú-CDG
+                                    </div>
+                                </div>
+                                <div class="margin-top-5 row">
+                                    <div class="{{db.classCol(3,4,5,5)}}">
+                                        <img class="img-responsive" [attr.src]="db.pathElements.btnToallas">
+                                    </div>
+                                    <div class="{{db.classCol(9,8,7,7)}}">
+                                        <strong>Toallas</strong><br>
+                                        Abre App-Menú-CDG
                                     </div>
                                 </div>
                             </div>
-                            <div id="myqr" hidden>
-                                <div id="qr" class="row text-center vertical-center">
-                                    <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="500"></qr-code>
+                            <div class="{{db.classCol(6,6,6,12)}}">
+                                <div class="margin-top-5 row">
+                                    <div class="{{db.classCol(3,4,5,5)}}">
+                                        <img class="img-responsive" [attr.src]="db.pathElements.btnInvitados">
+                                    </div>
+                                    <div class="{{db.classCol(9,8,7,7)}}">
+                                        <strong>Invitados</strong><br>
+                                        Abre App-Menú-CDG
+                                    </div>
+                                </div>
+                                <div class="margin-top-5 row">
+                                    <div class="{{db.classCol(3,4,5,5)}}">
+                                        <img class="img-responsive" [attr.src]="db.pathElements.btnCarrito">
+                                    </div>
+                                    <div class="{{db.classCol(9,8,7,7)}}">
+                                        <strong>Carros de Golf</strong><br>
+                                        Escanea el servicio
+                                    </div>
+                                </div>
+                                <div class="margin-top-5 row">
+                                    <div class="{{db.classCol(3,4,5,5)}}">
+                                        <img class="img-responsive" [attr.src]="db.pathElements.btnServicios">
+                                    </div>
+                                    <div class="{{db.classCol(9,8,7,7)}}">
+                                        <strong>Servicios</strong><br>
+                                        Abre App-Menú-CDG
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" [class.active]="step==2" role="tabpanel" id="step2">
-                            <div class="row margin-top-5">
-                                <div class="{{db.classCol(6,6,6,12)}} table-responsive">
-                                    <table class="table color-golf">
-                                        <thead>
-                                        <tr>
-                                            <th colspan="2" class="text-center"><strong>OPERACIÓN</strong></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td width="50%" class="border-right">Fecha</td>
-                                            <td>{{getFecha}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="border-right">Hora</td>
-                                            <td>{{getHora}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="border-right">Número de contrato</td>
-                                            <td>{{dataClient.sponsorContract}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="border-right">Usuario</td>
-                                            <td>{{dataClient.sponsorName}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="border-right">Despachador</td>
-                                            <td>{{db.myglobal.user.username}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="border-right">Invitado</td>
-                                            <td>{{dataClient.guestName || 'N/A'}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
 
+                        <div hidden class="row">
+                            <div class="col-lg-6 text-center">
+                                <h2>
+                                    <i class="fa fa-camera"></i>
+                                    &nbsp;Leer por camara
+                                </h2>
+                                <div>
+                                    <video autoplay width="300" height="300"
+                                           poster="assets/img/clubGolf/webcam.png"></video>
                                 </div>
-                                <div class="{{db.classCol(6,6,6,12)}} ">
-                                    <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
-                                        <div class="form-group input-icon right">
-                                            <i class="fa fa-qrcode text-white"></i>
-                                            <input formControlName="code" class="form-control input-control"
-                                                   placeholder="ESCANEAR PRODUCTO" type="text">
-                                        </div>
-                                        <div *ngIf="!product.permissions.list">
-                                            <div class="btn-red padding-error">
-                                                <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
-                                                {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{product.prefix}}_LIST
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <button class="btn btn-green btn-block" (click)="saveProduct($event)" [disabled]="disableSubmit()">
-                                        TERMINAR
+                                <div>
+                                    <button [disabled]="QRCam" class="btn btn-success" (click)="openCam(event)">
+                                        Iniciar
                                     </button>
-                                    <div *ngIf="!trade.permissions.add">
-                                        <div class="btn-red padding-error">
-                                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
-                                            {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{trade.prefix}}_ADD
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="{{db.classCol(8,8,10,10)}}{{db.classOffset(2,2,1,1)}} margin-top-5 table-responsive">
+                        </div>
+                        <div id="myqr" hidden>
+                            <div id="qr" class="row text-center vertical-center">
+                                <qr-code [data]="getDataQr" [level]="'L'" [type]="4" [size]="500"></qr-code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" [class.active]="step==2" role="tabpanel" id="step2">
+                        <div class="row margin-top-5">
+                            <div class="{{db.classCol(6,6,6,12)}} table-responsive">
                                 <table class="table color-golf">
                                     <thead>
                                     <tr>
-                                        <th class="text-center border-right">CODIGO DE BARRAS</th>
-                                        <th class="text-center border-right">PRODUCTO</th>
-                                        <th class="text-center">CANTIDAD</th>
+                                        <th colspan="2" class="text-center"><strong>OPERACIÓN</strong></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let code of getObjectKeys(listProduct)">
-                                            <td class="border-right text-right">
-                                                {{code}}
-                                            </td>
-
-                                            <td *ngIf="!listProduct[code].wait && listProduct[code].id" class="border-right text-right">{{listProduct[code].productTypeTitle}}</td>
-                                            <td *ngIf="listProduct[code].wait" class="border-right text-right"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando respuesta</td>
-                                            <td *ngIf="listProduct[code].error" class="border-right text-right"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}</td>
-
-                                            <td class="text-right">
-                                                {{listProduct[code]['count']}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right border-right">Total de Items</td>
-                                            <td class="text-right border-right">{{getObjectKeys(listProduct).length}}</td>
-                                            <td class="text-right">{{totalProduct}}</td>
-                                        </tr>
+                                    <tr>
+                                        <td width="50%" class="border-right">Fecha</td>
+                                        <td>{{getFecha}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="border-right">Hora</td>
+                                        <td>{{getHora}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="border-right">Número de contrato</td>
+                                        <td>{{dataClient.sponsorContract}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="border-right">Usuario</td>
+                                        <td>{{dataClient.sponsorName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="border-right">Despachador</td>
+                                        <td>{{db.myglobal.user.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="border-right">Invitado</td>
+                                        <td>{{dataClient.guestName || 'N/A'}}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
+
+                            </div>
+                            <div class="{{db.classCol(6,6,6,12)}} ">
+                                <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
+                                    <div class="form-group input-icon right">
+                                        <i class="fa fa-qrcode text-white"></i>
+                                        <input formControlName="code" class="form-control input-control"
+                                               placeholder="ESCANEAR PRODUCTO" type="text">
+                                    </div>
+                                    <div *ngIf="!product.permissions.list">
+                                        <div class="btn-red padding-error">
+                                            <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
+                                            {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{product.prefix}}_LIST
+                                        </div>
+                                    </div>
+                                </form>
+                                <button class="btn btn-green btn-block" (click)="saveProduct($event)" [disabled]="disableSubmit()">
+                                    TERMINAR
+                                </button>
+                                <div *ngIf="!trade.permissions.add">
+                                    <div class="btn-red padding-error">
+                                        <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>
+                                        {{ (db.msg.notAuthorized || 'Acceso no autorizado') | translate}},&nbsp;{{db.msg.contactAdminPermission | translate}} {{trade.prefix}}_ADD
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="tab-pane" [class.active]="step==3" role="tabpanel" id="step3">
-                            <h1 class="text-center">Detalles de Operacion</h1>
-                            <div *ngIf="invoice">
-                                <ul class="list-product" *ngFor="let invoiceKey of getObjectKeys(invoice)">
-                                    <template [ngIf]="invoice[invoiceKey].length > 0">
-                                    <li class="list-product-title">
-                                        <span class="{{db.classCol()}}">{{"Productos "+invoiceKey}}</span>
-                                    </li>
-                                    <li class="items-titles">
-                                        <span *ngFor="let info of ['Cantidad','Codigo', 'Nombre de Producto', 'Precio Unid.']" class="{{((info=='Nombre de Producto')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{info}} </span>
-                                    </li>
-                                    <li  class="product-item" *ngFor="let iproduct of invoice[invoiceKey]; let i=index">
-                                        <div class="product-item-header">
-                                            <span *ngFor="let infoKey of ['count','code', 'productTypeTitle', 'productTypePrice']" class="{{((infoKey=='productTypeTitle')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{iproduct[infoKey]}} </span>
-                                            <div class="warning-btn pull-right" *ngIf="iproduct.errors" (click)="togleElement('#product-item-body-'+i)"><i class="fa fa-warning"></i></div>
-                                        </div>
-                                        <div id="product-item-body-{{i}}" class="product-item-body">
-                                            <div class="error-list" *ngIf="iproduct.errors">
-                                                <div class="error-item" *ngFor="let error of iproduct.errors">
-                                                    <span class="error-field"> {{error.field+': '}} </span>
-                                                    <span class="error-content"> {{error.message}} </span>
-                                                </div>
+                        <div class="{{db.classCol(8,8,10,10)}}{{db.classOffset(2,2,1,1)}} margin-top-5 table-responsive">
+                            <table class="table color-golf">
+                                <thead>
+                                <tr>
+                                    <th class="text-center border-right">CODIGO DE BARRAS</th>
+                                    <th class="text-center border-right">PRODUCTO</th>
+                                    <th class="text-center">CANTIDAD</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let code of getObjectKeys(listProduct)">
+                                        <td class="border-right text-right">
+                                            {{code}}
+                                        </td>
+
+                                        <td *ngIf="!listProduct[code].wait && listProduct[code].id" class="border-right text-right">{{listProduct[code].productTypeTitle}}</td>
+                                        <td *ngIf="listProduct[code].wait" class="border-right text-right"><i class="fa fa-spinner fa-spin"></i>&nbsp;Esperando respuesta</td>
+                                        <td *ngIf="listProduct[code].error" class="border-right text-right"><i class="fa fa-warning"></i>&nbsp;{{listProduct[code].error}}</td>
+
+                                        <td class="text-right">
+                                            {{listProduct[code]['count']}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right border-right">Total de Items</td>
+                                        <td class="text-right border-right">{{getObjectKeys(listProduct).length}}</td>
+                                        <td class="text-right">{{totalProduct}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" [class.active]="step==3" role="tabpanel" id="step3">
+                        <h1 class="text-center">Detalles de Operacion</h1>
+                        <div *ngIf="invoice">
+                            <ul class="list-product" *ngFor="let invoiceKey of getObjectKeys(invoice)">
+                                <template [ngIf]="invoice[invoiceKey].length > 0">
+                                <li class="list-product-title">
+                                    <span class="{{db.classCol()}}">{{"Productos "+invoiceKey}}</span>
+                                </li>
+                                <li class="items-titles">
+                                    <span *ngFor="let info of ['Cantidad','Codigo', 'Nombre de Producto', 'Precio Unid.']" class="{{((info=='Nombre de Producto')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{info}} </span>
+                                </li>
+                                <li  class="product-item" *ngFor="let iproduct of invoice[invoiceKey]; let i=index">
+                                    <div class="product-item-header">
+                                        <span *ngFor="let infoKey of ['count','code', 'productTypeTitle', 'productTypePrice']" class="{{((infoKey=='productTypeTitle')?db.classCol(5,5,5,5):db.classCol(2,2,2,2))}}"> {{iproduct[infoKey]}} </span>
+                                        <div class="warning-btn pull-right" *ngIf="iproduct.errors" (click)="togleElement('#product-item-body-'+i)"><i class="fa fa-warning"></i></div>
+                                    </div>
+                                    <div id="product-item-body-{{i}}" class="product-item-body">
+                                        <div class="error-list" *ngIf="iproduct.errors">
+                                            <div class="error-item" *ngFor="let error of iproduct.errors">
+                                                <span class="error-field"> {{error.field+': '}} </span>
+                                                <span class="error-content"> {{error.message}} </span>
                                             </div>
                                         </div>
-                                    </li>
-                                    </template>
-                                </ul>
-                            </div>
-                            <button (click)="step=1; listProduct={}; endDetail={}; totalProduct=0" type="button" class="btn btn-primary next-step pull-right">Iniciar</button>
+                                    </div>
+                                </li>
+                                </template>
+                            </ul>
                         </div>
-                        <div class="tab-pane" [class.active]="step==4" role="tabpanel" id="complete">
-                            <h3>Complete</h3>
-                            <p>You have successfully completed all steps.</p>
-                        </div>
-                        <div class="clearfix"></div>
+                        <button (click)="step=1; listProduct={}; endDetail={}; totalProduct=0" type="button" class="btn btn-primary next-step pull-right">Iniciar</button>
                     </div>
-                </form>
-            </div>
+                    <div class="tab-pane" [class.active]="step==4" role="tabpanel" id="complete">
+                        <h3>Complete</h3>
+                        <p>You have successfully completed all steps.</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
         </div>
-    </section>
-</div>
+    </div>
+</section>

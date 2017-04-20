@@ -107,6 +107,7 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     line-height: 40px;
     padding: 0px;
 }
+
 .btn{
     border-radius: 3px !important;
 }
@@ -125,6 +126,10 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
 {
     color: #FFF;
     opacity: 1;
+}
+
+.modal-backdrop{
+    z-index: -1;
 }
 
 .modal-dialog .close:focus
@@ -242,6 +247,15 @@ ul.ui-autocomplete {
     z-index: 10000 !important;
 }
 
+generate-notification .img-preview{
+    display: none !important;
+}
+
+@media(max-width: 765px){
+    generate-notification .img-preview{
+        display: flex !important;
+    }
+}
 
 /*#######################*/
 /*ANIMATION*/

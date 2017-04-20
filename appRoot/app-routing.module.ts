@@ -65,6 +65,8 @@ import {AccountSelectComponent} from "./com.zippyttech.auth/accountSelect/accoun
 import {VehicleComponent} from "./com.zippyttech.club/catalog/vehicle/vehicle.component";
 import {MainTypeModel} from "./com.zippyttech.club/catalog/mainType/mainType.model";
 import {RecordComponent} from "./com.zippyttech.club/catalog/record/record.component";
+import {QrReader} from "./com.zippyttech.ui/components/qrReader/qrReader.component";
+import {GenerateNotificationComponent} from "./com.zippyttech.club/process/generateNotification/generateNotification.component";
 
 const routesDefault: Routes = [
     { path: '', redirectTo: 'init/dashboard', pathMatch: 'full'},
@@ -121,6 +123,7 @@ const routesDefault: Routes = [
     { path: 'club/process/generate/output', component: GenerateOutputComponent},
     { path: 'club/process/getback', component:  GetbackComponent},
     { path: 'club/process/record', component:  RecordInOutComponent},
+    { path: 'club/process/notification', component:  GenerateNotificationComponent},
 
     { path: 'club/register/full', component:  RegisterFullComponent},
 ];
@@ -175,7 +178,9 @@ export const componentsApp = [
     RegisterFullComponent,
     RecordInOutComponent,
     VehicleComponent,
-    RecordComponent
+    QrReader,
+    RecordComponent,
+    GenerateNotificationComponent
 ];
 
 export const componentsPublic = [

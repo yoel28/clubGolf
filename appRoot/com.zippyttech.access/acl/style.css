@@ -73,19 +73,13 @@ tbody tr, thead tr {
     padding: 5px;
     border: 2px solid rgb(232, 231, 231);
 }
-.btn.redondo {
-    -webkit-border-radius: 30px!important;
-    -moz-border-radius: 30px!important;
-    border-radius: 30px!important;
-    padding-top: 9px;
-    padding-bottom: 9px;
-}
+
 .block-float{
     position: fixed;
     z-index: 2000;
-    bottom: 6%;
-    right: 1.5%;
+    bottom: 15px;
 }
+
 .border-head{
     background-color: rgba(20, 31, 11, 0.53);
     color: white;

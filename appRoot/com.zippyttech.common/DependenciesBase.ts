@@ -6,6 +6,7 @@ import {Injectable} from "@angular/core";
 import {StaticValues} from "../com.zippyttech.utils/catalog/staticValues";
 import {StaticFunction} from "../com.zippyttech.utils/catalog/staticFunction";
 import {WebSocket} from "../com.zippyttech.utils/websocket";
+import {QrReader} from "../com.zippyttech.ui/components/qrReader/qrReader.component";
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class DependenciesBase {
     public classCol=StaticFunction.classCol;
     public classOffset=StaticFunction.classOffset;
     public pathElements=StaticValues.pathElements;
+    public qrReader:QrReader;
 
     constructor(
                 public router: Router,

@@ -24,7 +24,7 @@ export class TradeModel extends ModelBase{
         this.state = new StateModel(this.db);
         this.product = new ProductModel(this.db);
 
-        this.sponsor = new UserModel(this.db);
+        this.sponsor = new UserModel(this.db,false);
     }
 
     initRules(){
@@ -164,7 +164,9 @@ export class TradeModel extends ModelBase{
         this.rules['dateCreated'].placeholder = 'Fecha del pedido';
         this.rules['dateCreated'].visible = this.permissions.visible;
     }
-    initPermissions() {}
+    initPermissions() {
+        this.permissions['getback'] = this.db.myglobal.existsPermission([this.prefix + '_GETBACK']);
+    }
     initParamsSearch() {
         this.paramsSearch.title="Buscar operación";
         this.paramsSearch.placeholder="Ingrese codigo de la operación";
@@ -199,5 +201,55 @@ export class TradeModel extends ModelBase{
     initModelActions(params: IModelActions) {
         params['delete'].message = '¿Esta seguro de eliminar la operacion: ';
         params['delete'].key = 'id';
+
+        params['generateOut'] = {
+            view: [ {icon: "fa fa-sign-in", title: "Entregar", colorClass:"text-yellow"}],
+            exp:'data.receivedDate==null',
+            permission: this.permissions.update,
+            callback:(data?, index?)=>{
+                if(data && data.productCode){
+                    let body={
+                        list:[{
+                            code: data.productCode,
+                            state:parseFloat(this.db.myglobal.getParams('TRADE_CODE_LOST')),
+                            byClient:(this.db.myglobal.getParams('TRADE_BYCLIENT_LOST')=='true'),
+                            detail: "Entrada automatica"
+                        }]
+                    };
+                    this.httputils.onSave('/getback/',body, this.dataList.list, this.error);
+                }
+            }
+        }
     }
 }
+
+/**
+ *
+ *
+ * {list: [{code: "codx", byClient: true, state: 8, detail: ""}]}
+ Access-Control-Allow-Credentials:true
+ Access-Control-Allow-Origin:http://localhost:8000
+ Access-Control-Expose-Headers:Cookie
+ Content-Type:application/json;charset=UTF-8
+ Cookie:1490813474
+ Date:Wed, 05 Apr 2017 18:09:20 GMT
+ Server:Apache-Coyote/1.1
+ Transfer-Encoding:chunked
+ X-Application-Context:application:test
+ Request Headers
+ view source
+ Accept:application/json
+ Accept-Encoding:gzip, deflate, br
+ Accept-Language:es-419,es;q=0.8
+ Authorization:Bearer 9vs13kdmlkstk857tpe7skeumnlug3m9
+ Cache-Control:no-cache
+ Connection:keep-alive
+ Content-Length:64
+ Content-Type:application/json
+ Host:cdg.zippyttech.com:8080
+ Origin:http://localhost:8000
+ Pragma:no-cache
+ Referer:http://localhost:8000/
+ User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36
+ x-TimeZone:-0400
+ */

@@ -28,7 +28,7 @@ export class RecordModel extends ModelBase{
 
     modelExternal() {
         this.vehicle = new VehicleModel(this.db);
-        this.user = new UserModel(this.db);
+        this.user = new UserModel(this.db,false);
         this.userType = new UserTypeModel(this.db);
         this.antennaIn = new AntennaModel(this.db);
         this.antennaOut = new AntennaModel(this.db);

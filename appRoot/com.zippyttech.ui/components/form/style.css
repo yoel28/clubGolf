@@ -16,6 +16,34 @@
 .alert{
     margin-bottom: 0px !important;
 }
+.input-group{
+    width: 100%;
+}
+
+label.field-info {
+    padding: 10px;
+    position: relative;
+    background: #4f94a5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    color: #FFF !important;
+    margin: 0 !important;
+}
+
+label.field-info>i {
+    position: relative;
+    margin: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    color: #FFF !important;
+}
+
 
 @media(max-width: 425px){
     .input-group-addon{

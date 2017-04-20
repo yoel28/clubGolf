@@ -1,0 +1,19 @@
+<div class="frame">
+    <div class="view">
+        <section class="view-header">
+            <i class="fa fa-bell"></i>&nbsp;&nbsp;<h2>Generar notificación</h2>
+        </section>
+        <section class="view-content">
+            <div class="image-view">
+                <img [src]="image || pathElements.warning" alt="imagen">
+            </div>
+            <div class="form">
+                <form-view [params]="model.paramsSave" [rules]="model.rulesSave"
+                           (getInstance)="setForm($event)"
+                           (imgChanged) = "changeImage($event)"
+                ></form-view>
+            </div>
+        </section>
+        <button class="submit-btn" (click)="sendNotification($event)" [disabled]="!(instanceForm && instanceForm.isValidForm())">Generar</button>
+    </div>
+</div>
