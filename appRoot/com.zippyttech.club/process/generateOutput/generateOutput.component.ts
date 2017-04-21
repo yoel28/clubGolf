@@ -289,4 +289,15 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         });
         return keys;
     }
+
+    end(){
+        this.step=1;
+        this.listProduct={};
+        this.endDetail={};
+        this.totalProduct=0;
+        this.invoice = {
+            consumibles:[],
+            retornables:[]
+        };
+    }
 }
