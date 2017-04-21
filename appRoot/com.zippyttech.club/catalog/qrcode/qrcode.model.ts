@@ -34,6 +34,17 @@ export class QrcodeModel extends ModelBase{
             'placeholder':'¿QR atendido?'
         };
 
+        this.rules['timeLimit']={
+            'type': 'combodate',
+            'date':'datetime',
+            'update':this.permissions.update,
+            'search':this.permissions.filter,
+            'visible':this.permissions.visible,
+            'key': 'timeLimit',
+            'title': 'Tiempo limite',
+            'placeholder': 'Tiempo limite',
+        };
+
         this.rules['id']={
             'type': 'number',
             'visible':this.permissions.visible,
@@ -120,17 +131,6 @@ export class QrcodeModel extends ModelBase{
         this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['dateCreated'].visible = true;
-
-        this.rules['timeLimit']={
-            'type': 'combodate',
-            'date':'datetime',
-            'update':this.permissions.update,
-            'search':this.permissions.filter,
-            'visible':this.permissions.visible,
-            'key': 'timeLimit',
-            'title': 'Tiempo limite',
-            'placeholder': 'Tiempo limite',
-        };
 
         delete this.rules['detail'];
     }

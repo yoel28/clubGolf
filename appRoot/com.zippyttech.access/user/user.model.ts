@@ -254,7 +254,7 @@ export class UserModel extends ModelBase{
 
             }
         };
-        this.httputils.doPost('/inviteAll',JSON.stringify({list:body['email']}),callback,this.error)
+        this.httputils.doPost('/inviteAll',JSON.stringify({list:body['email'],timeLimit:body['timeLimit']}),callback,this.error)
     }
 
 }

@@ -13,6 +13,7 @@ import {IModal} from "../../com.zippyttech.ui/components/modal/modal.component";
 
 declare var SystemJS: any;
 var jQuery = require('jquery');
+const moment = require('moment');
 
 @Component({
     moduleId:module.id,
@@ -114,10 +115,28 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         this.info.paramsSave.updateField = true;
 
         this.user = new UserModel(this.db);
+        this.user.rulesSave['timeLimit']={
+            'type': 'combodate',
+            'date':'datetime',
+            'update':this.user.permissions.update,
+            'search':this.user.permissions.filter,
+            'visible':this.user.permissions.visible,
+            'key': 'timeLimit',
+            'title': 'Tiempo limite',
+            'placeholder': 'Tiempo limite',
+            'customValidator': (f:FormControl)=>{
+                let dif = moment(f.value,"DD/MM/YYYY HH:mm").valueOf() - (moment().valueOf() + parseInt(this.db.myglobal.getParams('MIN_TIMELIMIT_INVITE')));
+                return (f.value)
+                        ?(dif < 0)
+                            ?{ timeLimit:{ valid:false }} :null
+                        :null
+            },
+        };
+
         Object.keys(this.user.rulesSave).forEach(key=>{
-            if(key!='email')
+            if(key!='email' && key!='timeLimit')
                 delete this.user.rulesSave[key];
-            else{
+            else if(key=='email'){
                 this.user.rulesSave[key].type = 'list';
                 this.user.rulesSave[key].tag = 'text';
                 this.user.rulesSave[key].value=[];
@@ -545,9 +564,10 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
         if(event)
             event.preventDefault();
         let body = this.emailInstance.getFormValues();
+        if(body['timeLimit']==null)
+             delete body['timeLimit'];
         this.user.inviteAll(body);
     }
-
 
     loadPublicData(){
         let that = this;
