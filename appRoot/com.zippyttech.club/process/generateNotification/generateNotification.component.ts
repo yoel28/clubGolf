@@ -23,10 +23,16 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
 
     initModel() {
         this.model = new NotificationModel(this.db);
-        this.model.rulesSave.target.title = "Email";
-        delete this.model.rulesSave.code;
-        delete this.model.rulesSave.wayType;
-        delete this.model.rulesSave.targetType;
+        if(!this.db.myglobal.existsPermission('NOTIFICATION_SEND_CODE'))
+            delete this.model.rulesSave.code;
+
+        if(!this.db.myglobal.existsPermission('NOTIFICATION_SEND_WAY'))
+            delete this.model.rulesSave.wayType;
+
+        if(!this.db.myglobal.existsPermission('NOTIFICATION_SEND_TARGETTYPE')) {
+            delete this.model.rulesSave.targetType;
+            this.model.rulesSave.target.title = "Email";
+        }
     }
 
     sendNotification(event){
