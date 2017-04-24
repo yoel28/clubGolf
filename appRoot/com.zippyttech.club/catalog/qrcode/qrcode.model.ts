@@ -128,6 +128,16 @@ export class QrcodeModel extends ModelBase{
             'placeholder': 'Consumo',
         };
 
+        this.rules['visit']={
+            'type': 'eval',
+            'eval':"'Mes actual: '+data.countMonhtly+' Año actual: '+data.countYearly",
+            'visible':this.permissions.visible,
+            'key': 'visit',
+            'title': 'Visitas',
+            'placeholder': 'Visitas',
+        };
+
+
         this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
         this.rules['dateCreated'].visible = true;
@@ -162,6 +172,7 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.id;
         delete this.rulesSave.priceUptake;
         delete this.rulesSave.guestPhone;
+        delete this.rulesSave.visit;
     }
 
     initModelActions(params: IModelActions) {
