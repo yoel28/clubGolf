@@ -130,7 +130,7 @@ export class QrcodeModel extends ModelBase{
 
         this.rules['visit']={
             'type': 'eval',
-            'eval':"'Mes actual: '+data.countMonhtly+' Año actual: '+data.countYearly",
+            'eval':this.db.myglobal.getRule('QR_VISIT_WEB'),
             'visible':this.permissions.visible,
             'key': 'visit',
             'title': 'Visitas',
@@ -173,6 +173,7 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.priceUptake;
         delete this.rulesSave.guestPhone;
         delete this.rulesSave.visit;
+        delete this.rulesSave.attended;
     }
 
     initModelActions(params: IModelActions) {
