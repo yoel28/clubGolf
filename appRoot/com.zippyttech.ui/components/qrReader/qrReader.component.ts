@@ -54,9 +54,13 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     initModel() {
         //TODO: Check that exist the qr model on model service and use it from service
         this.model = new QrcodeModel(this.db);
-        delete this.model.rules['account'];
-        delete this.model.rules['priceLimit'];
-        delete this.model.rules['guestAdd'];
+        let val = ['dateCreated','timeLimit','guest','sponsor','priceLimit','visit'];
+        let rule={};
+        val.forEach(key=>{
+            rule[key]=this.model.rules[key];
+        });
+        this.model.rules = Object.assign({},rule);
+
     }
     ngOnInit(){
         this.initModel();
@@ -126,7 +130,7 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
                     this.model.loadPager(this.model.dataList);
                 this.showMessage('El QR es valido!');
                 let val = response.json();
-                this.qrModal.header.title = val['guestName']?val['guestName']:val['sponsorName'] ;
+                this.qrModal.header.title = (val['guestName']?val['guestName']+' | ':'')+val['sponsorName'] ;
                 this.processing=true;
 
                 if(this.submitTime != -1){

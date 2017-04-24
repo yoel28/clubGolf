@@ -126,6 +126,7 @@ export class UserModel extends ModelBase{
 
         this.rules['contract']=this.contract.ruleObject;
         this.rules['contract'].required=false;
+        this.rules['contract'].objectOrSave={};
         this.rules['contract'].update= this.permissions.update;
         this.rules['contract'].forceInSave = true;
 
@@ -254,7 +255,7 @@ export class UserModel extends ModelBase{
 
             }
         };
-        this.httputils.doPost('/inviteAll',JSON.stringify({list:body['email']}),callback,this.error)
+        this.httputils.doPost('/inviteAll',JSON.stringify({list:body['email'],timeLimit:body['timeLimit']}),callback,this.error)
     }
 
 }

@@ -193,6 +193,7 @@ export class StaticValues {
         msg.results="resultados";
         msg.imageError="Por favor ingrese una imagen valida";
         msg.listError="Lista vacia";
+        msg.timeLimit = "La fecha ingresada debe ser superior a la actual";
 
         return msg;
 
