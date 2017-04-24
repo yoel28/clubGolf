@@ -41,6 +41,8 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'timeLimit',
+            'showbuttons':true,
+            'mode':'popup',
             'title': 'Fecha limite',
             'placeholder': 'Fecha limite',
         };
