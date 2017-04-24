@@ -5,6 +5,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 var jQuery = require('jquery');
+var moment = require('moment');
 
 @Component({
     moduleId:module.id,
@@ -252,6 +253,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     }
 
                 }
+                if(that.rules[key].type == 'combodate' && body[key]!=""){
+                    if(that.rules[key].date == 'date'){
+                        body[key] = moment(body[key],'DD/MM/YYYY').format('YYYY-MM-DD')
+                    }
+                    if(that.rules[key].date == 'datetime'){
+                        body[key] = moment(body[key],'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mmZZ')
+                    }
+                }
+
                 if(that.rules[key].type == 'number' && body[key]!=""){
                     body[key]=parseFloat(body[key]);
                 }
