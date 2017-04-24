@@ -41,8 +41,8 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'timeLimit',
-            'title': 'Tiempo limite',
-            'placeholder': 'Tiempo limite',
+            'title': 'Fecha limite',
+            'placeholder': 'Fecha limite',
         };
 
         this.rules['id']={
@@ -115,8 +115,8 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'priceLimit',
-            'title': 'Precio limite',
-            'placeholder': 'Precio limite',
+            'title': 'Limite de consumo',
+            'placeholder': 'limite de consumo',
         };
 
         this.rules['priceUptake']={
