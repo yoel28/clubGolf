@@ -54,9 +54,14 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     initModel() {
         //TODO: Check that exist the qr model on model service and use it from service
         this.model = new QrcodeModel(this.db);
-        delete this.model.rules['account'];
-        delete this.model.rules['priceLimit'];
-        delete this.model.rules['guestAdd'];
+        let val = ['dateCreated','timeLimit','guest','sponsor','priceLimit'];
+        let rule={};
+
+        val.forEach(key=>{
+            rule[key]=this.model.rules[key];
+        })
+        this.model.rules = Object.assign({},rule);
+
     }
     ngOnInit(){
         this.initModel();
