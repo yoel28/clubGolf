@@ -146,6 +146,7 @@ export class NotificationModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.code;
         //delete this.rulesSave.image;
     }
     initModelActions(params){
