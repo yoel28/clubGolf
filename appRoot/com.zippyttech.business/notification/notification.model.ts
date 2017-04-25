@@ -1,14 +1,15 @@
-import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
+import {FormComponent} from "../../com.zippyttech.ui/components/form/form.component";
 
 export class NotificationModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
         super(db,'/notifications/');
-        this.initModel();
+        this.initModel(false);
         this.loadDataPublic();
     }
+
     modelExternal() {}
     initRules(){
 
@@ -20,17 +21,17 @@ export class NotificationModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'code',
             'icon': 'fa fa-key',
-            'title': 'Codigo',
-            'placeholder': 'Ingrese codigo'
+            'title': 'Código',
+            'placeholder': 'Ingrese código'
         };
 
         this.rules['wayType']={
             'type': 'select',
-            'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'source': [],
+            'value':'FCM',
             'key': 'wayType',
             'title': 'Canal',
             'placeholder': 'Seleccione un canal'
@@ -50,6 +51,13 @@ export class NotificationModel extends ModelBase{
         this.rules['targetType']={
             'type': 'select',
             'required':true,
+            'events':{
+                'valueChange':(form:FormComponent,value)=>{
+                    if(form.getFormValue('target') && form.getFormValue('target').trim().length)
+                        form.form.controls['target'].setValue(form.getFormValue('target'));
+                }
+            },
+            'value':'BY_USER_EMAIL',
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -61,18 +69,55 @@ export class NotificationModel extends ModelBase{
 
         this.rules['target']={
             'type': 'text',
+            'hiddenOnly':'this.getFormValue("targetType") ==  "EVERY_BODY"',
+            'events':{
+                'valueChange':(form:FormComponent,value)=>{
+                    if(!this._targetTouch){
+                        let target = form.getFormValue('targetType');
+                        switch (target){
+                            case 'BY_USER_EMAIL':
+                                break;
+                            case 'BY_ROLE_AUTHORITY':
+                                this._loadCheckTarget(form,'/roles/',value);
+                                break;
+                            case 'BY_USER_TYPE':
+                                this._loadCheckTarget(form,'/type/users/',value);
+                                break;
+                            case 'BY_CONTRACT_CODE':
+                                this._loadCheckTarget(form,'/contracts/',value);
+                                break;
+                            case 'BY_USER_STATUS_CODE':
+                                this._loadCheckTarget(form,'/type/users/',value);
+                                break;
+                            case 'BY_USER_GROUP_CODE':
+                                this._loadCheckTarget(form,'/groups/',value);
+                                break;
+                            case 'BY_MAIN_TYPE':
+                                this._loadCheckTarget(form,'/type/main/',value);
+                                break;
+                            case 'EVERY_BODY':
+                                this._targetTouch=true;
+                                form.form.controls['target'].setValue('n/a');
+                                break;
+                        }
+                    }
+                    else
+                        this._targetTouch = false;
+
+                }
+            },
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'target',
             'icon': 'fa fa-key',
-            'title': 'Target',
+            'title': 'Destino',
             'placeholder': 'Destino donde se enviara la notificacion'
         };
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
-        this.rules['detail'].required = true;
+
         this.rules['image']={
             'type': 'image',
             'update':this.permissions.update,
@@ -132,5 +177,23 @@ export class NotificationModel extends ModelBase{
                 });
         }
         this.completed = true
+    }
+
+    private _targetTouch:boolean;
+    private _loadCheckTarget(form:FormComponent,endpoint:string,value=''){
+        let successCallback = response =>{
+            response = response.json();
+            if(response.count == 1){
+                if(form.getFormValue('target')==value)
+                {
+                    this._targetTouch=true;
+                    form.form.controls['target'].setValue(response.list[0].title);
+                    return;
+                }
+
+            }
+            form.form.controls['target'].setErrors({object:{valid:false}});
+        };
+        this.httputils.doGet('/search'+endpoint+value+'?offset=0&max=1',successCallback,this.error)
     }
 }
