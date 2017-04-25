@@ -175,7 +175,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 if(that.rules[key].events && that.rules[key].events.valueChange){
                     that.data[key]
                         .valueChanges
-                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SAVE') || '500')
+                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SAVE') || '1000')
                         .subscribe(((value: string) => {
                             this.rules[key].events.valueChange(this,value)
                         }).bind(this))
@@ -233,6 +233,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
+    public getFormValue(key:string){
+        return this.form.value[key];
+    }
+
     public getFormValues(addBody=null){
         let that = this;
         let body = Object.assign({},this.form.value);
@@ -367,7 +371,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.delete=false;
         this.params.updateField=false;
         Object.keys(this.data).forEach(key=>{
-            (<FormControl>that.data[key]).setValue(null);
+            (<FormControl>that.data[key]).setValue(this.rules[key].value || null);
             (<FormControl>that.data[key]).setErrors(null);
             that.data[key]._pristine=true;
             if(that.rules[key].readOnly)
