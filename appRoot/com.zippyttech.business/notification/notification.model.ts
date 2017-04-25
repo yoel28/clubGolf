@@ -31,7 +31,7 @@ export class NotificationModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'source': [],
-            'value':'FCM',
+            'value':this.db.myglobal.getParams('NOTIFICATION_WAY_TYPE_DEFAULT'),
             'key': 'wayType',
             'title': 'Canal',
             'placeholder': 'Seleccione un canal'
@@ -57,7 +57,7 @@ export class NotificationModel extends ModelBase{
                         form.form.controls['target'].setValue(form.getFormValue('target'));
                 }
             },
-            'value':'BY_USER_EMAIL',
+            'value':this.db.myglobal.getParams('NOTIFICATION_TARGET_TYPE_DEFAULT'),
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
