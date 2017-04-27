@@ -218,6 +218,13 @@ export class AppComponent extends RestController implements OnInit,AfterViewInit
 
     }
 
+    onDashboard(event?: Event): void {
+        if (event)
+            event.preventDefault();
+        this.db.router.navigate(['/init/dashboard', {}]);
+
+    }
+
     activeMenu(event, id) {
 
         this.menuItems.value.forEach((v) => {
