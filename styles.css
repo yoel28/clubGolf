@@ -316,6 +316,7 @@ generate-notification .img-preview{
     max-height: 40px  !important;
     min-height: 40px !important;
     border: 2px solid #FFF !important;
+    background: #EAEAEA;
 }
 
 .user-panel>.info {
@@ -430,7 +431,7 @@ register-full .view-data-internal{
 aside.main-sidebar {
     transition: all 0.3s ease-in-out;
     padding-top: 0px;
-    box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.5);
+    box-shadow: 1px -5px 5px 0px rgba(0,0,0,0.5);
     z-index: 950 !important;
 }
 
