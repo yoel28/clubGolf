@@ -44,6 +44,12 @@ main{
     width: 100%;
     height: 100%;
 }
+.main-header{
+    display: flex !important;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
 .skin-blue .wrapper{
     background-color: #e1e7da !important;
 }
@@ -153,7 +159,7 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     height: auto;
 }
 .content-wrapper{
-    background-image: url('assets/img/clubGolf/BolaGolf.png'), url('assets/img/clubGolf/RobotTransparent.png');
+    background-image: url('/assets/img/clubGolf/BolaGolf.png'), url('/assets/img/clubGolf/RobotTransparent.png');
     background-position: left bottom, right bottom;
     background-repeat: no-repeat, no-repeat;
     background-size: 15% ,25%;
@@ -259,77 +265,91 @@ generate-notification .img-preview{
 
 /*#######################*/
 /*ANIMATION*/
-.user-panel {
-    height: 60px !important;
-    padding: 10px  !important;
-    position: relative  !important;
-    transition-duration:.5s  !important;
+.logo-panel {
+    transition-duration: .5s !important;
+    padding: 5px;
+    border-radius: 0px !important;
+    position: relative;
+    width: 230px;
+    overflow: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 16px;
+    background: #222d32;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 50px;
+    color: #FFF;
 }
 
-.user-panel>*{
-    display: inline-block  !important;
+.logo-panel>*{
     border-radius:0px !important;
     float: left !important;
     line-height: 40px !important;
 }
 
-.user-panel>.info{
+.logo-panel>.info{
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1 0;
 }
 
-.user-panel *{
+.logo-panel *{
     position: relative  !important;
     transition-duration:.5s  !important;
     left: 0px !important;
     top:0px !important;
 }
 
-.user-panel:hover{
+.logo-panel:hover{
     background: #1e282c !important;
 }
 
-.user-panel:hover>.image{
+.logo-panel:hover>.image{
     transform: translateX(-60px) !important;
     width: 0% !important;
 }
 
-.user-panel:hover>.info{
+.logo-panel:hover>.info{
     transform: translateX(-5px) !important;
     width:95%  !important;
+    padding-left: 20px !important;
 }
 
-.user-panel:hover>.info:after, .user-panel:hover>.info:before {
+.logo-panel:hover>.info:after, .logo-panel:hover>.info:before {
     transform: scale(1) !important;
 }
 
-.user-panel>.image {
+.logo-panel>.image {
     height: 100%  !important;
     width:30%  !important;
-    max-width:50px  !important;
+    max-width: 45px  !important;
 }
 
-.user-panel> .image > img {
-    max-width: 40px  !important;
-    min-width: 40px  !important;
-    max-height: 40px  !important;
+.logo-panel> .image > img {
+    max-width: 40px !important;
+    min-width: 40px !important;
+    max-height: 40px !important;
+    min-height: 40px !important;
     border: 2px solid #FFF !important;
 }
 
-.user-panel>.info {
+.logo-panel>.info {
     padding: 0px 10px !important;
     height: 100% !important;
     position: relative !important;
     width:60% !important;
 }
 
-.user-panel>.info:before {
+.logo-panel>.info:before {
     border-bottom: 1px solid #3c763d !important;
     border-left: 1px solid #3c763d !important;
     transform-origin: 100% 0% !important;
 }
 
-.user-panel>.info:after {
+.logo-panel>.info:after {
     border-top: 1px solid #3c763d !important;
     border-right: 1px solid #3c763d !important;
     transform-origin: 0% 100% !important;
@@ -351,23 +371,20 @@ generate-notification .img-preview{
     transition-duration:.5s !important;
 }
 
-.sidebar-collapse .user-panel>.image>img {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 0px !important;
-
+.sidebar-collapse .logo-panel{
+    width: 50px !important;
 }
 
-.sidebar-collapse .user-panel:hover>.image {
+.sidebar-collapse .logo-panel:hover>.image {
     transform: translateX(0px) !important;
 }
 
-.sidebar-collapse .user-panel>.image {
+.sidebar-collapse .logo-panel>.image {
     width: 100% !important;
     padding: 0px !important;
 }
 
-.sidebar-collapse .user-panel:hover>.image>img {
+.sidebar-collapse .logo-panel:hover>.image>img {
     border-color: #116f34 !important;
     border-radius: 10px !important;
 }
@@ -408,4 +425,35 @@ register-full .nav-btn:disabled{
 
 register-full .view-data-internal{
     border-radius: 10px !important;
+}
+
+
+.navbar-custom-menu {
+    margin-left: auto;
+}
+
+.navbar{
+    flex: 1 0;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sidebar-collapse .logo-panel>.info {
+    display: none;
+}
+
+.sidebar-collapse .logo-panel {
+    width: 50px !important;
+    padding: 5px;
+}
+
+.sidebar-collapse .logo-panel>.image {
+    width: 100% !important;
+    padding: 0px !important;
+}
+
+.sidebar-collapse .logo-panel>.info {
+    display: none;
 }
