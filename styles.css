@@ -157,7 +157,7 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
     background-position: left bottom, right bottom;
     background-repeat: no-repeat, no-repeat;
     background-size: 15% ,25%;
-    transition:  all 0.3s ease-in-out;
+    transition:  margin 0.3s ease-in-out;
 }
 .focus-error{
     border-bottom: 1px solid red !important;
