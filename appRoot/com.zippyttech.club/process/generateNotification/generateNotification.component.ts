@@ -42,15 +42,24 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
     }
 
     submitForm(){
+        this.model.rest.findData = true;
         let successCallback= response => {
-            this.model.addToast('Notificacion','Guardado con éxito');
+            this.model.rest.findData = false;
+            this.model.addToast('Notificación','Guardado con éxito');
             this.instanceForm.resetForm();
         };
         let body = this.instanceForm.getFormValues();
-        if(this.params.updateField)
-            this.model.httputils.onUpdate(this.model.endpoint+this.instanceForm.rest.id,JSON.stringify(body),this.instanceForm.dataSelect,this.model.error);
-        else
-            this.model.httputils.doPost(this.model.endpoint,JSON.stringify(body),successCallback,this.model.error);
+        this.model.httputils.doPost(this.model.endpoint,JSON.stringify(body),successCallback,this.model.error);
+    }
+    private get _enableForm():boolean{
+        if(this.instanceForm && this.instanceForm.isValidForm())
+            if(!this.model.rest.findData){
+                if(this.instanceForm.form.value['detail'] && this.instanceForm.form.value['detail'].trim().length)
+                    return true;
+                if(this.instanceForm.form.value['image'] && this.instanceForm.form.value['image'].trim().length)
+                    return true;
+            }
+        return false;
     }
 
     setForm(event){
@@ -59,6 +68,7 @@ export class GenerateNotificationComponent extends ControllerBase implements OnI
 
     changeImage(image:string){
         this.image = image;
+        this.instanceForm.form.controls['image'].setValue(image);
     }
 }
 

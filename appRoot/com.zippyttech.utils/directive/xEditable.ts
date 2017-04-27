@@ -63,7 +63,7 @@ export class XEditable extends RestController implements OnInit {
                 if(that.function)
                 {
                     if(newValue && newValue.constructor && newValue.constructor.name == 'Moment'){
-                        newValue = newValue.format('YYYY-MM-DD HH:mm:ss');
+                        newValue = newValue.format('YYYY-MM-DD HH:mm:ssZZ');
                     }
                     that.function(that.field, that.data, newValue, that.endpoint).then(
                         function (value) {

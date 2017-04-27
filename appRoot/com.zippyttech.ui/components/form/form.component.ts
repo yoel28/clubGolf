@@ -5,6 +5,7 @@ import {RestController} from "../../../com.zippyttech.rest/restController";
 import {DependenciesBase} from "../../../com.zippyttech.common/DependenciesBase";
 
 var jQuery = require('jquery');
+var moment = require('moment');
 
 @Component({
     moduleId:module.id,
@@ -174,7 +175,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                 if(that.rules[key].events && that.rules[key].events.valueChange){
                     that.data[key]
                         .valueChanges
-                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SAVE') || '500')
+                        .debounceTime(this.db.myglobal.getParams('WAIT_TIME_SAVE') || '1000')
                         .subscribe(((value: string) => {
                             this.rules[key].events.valueChange(this,value)
                         }).bind(this))
@@ -232,6 +233,10 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         else
             this.httputils.doPost(this.endpoint,JSON.stringify(body),successCallback,this.error);
     }
+    public getFormValue(key:string){
+        return this.form.value[key];
+    }
+
     public getFormValues(addBody=null){
         let that = this;
         let body = Object.assign({},this.form.value);
@@ -252,6 +257,15 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     }
 
                 }
+                if(that.rules[key].type == 'combodate' && body[key]!=""){
+                    if(that.rules[key].date == 'date'){
+                        body[key] = moment(body[key],'DD/MM/YYYY').format('YYYY-MM-DD')
+                    }
+                    if(that.rules[key].date == 'datetime'){
+                        body[key] = moment(body[key],'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mmZZ')
+                    }
+                }
+
                 if(that.rules[key].type == 'number' && body[key]!=""){
                     body[key]=parseFloat(body[key]);
                 }
@@ -357,7 +371,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         this.delete=false;
         this.params.updateField=false;
         Object.keys(this.data).forEach(key=>{
-            (<FormControl>that.data[key]).setValue(null);
+            (<FormControl>that.data[key]).setValue(this.rules[key].value || null);
             (<FormControl>that.data[key]).setErrors(null);
             that.data[key]._pristine=true;
             if(that.rules[key].readOnly)

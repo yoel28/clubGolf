@@ -41,8 +41,10 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'timeLimit',
-            'title': 'Tiempo limite',
-            'placeholder': 'Tiempo limite',
+            'showbuttons':true,
+            'mode':'popup',
+            'title': 'Fecha limite',
+            'placeholder': 'Fecha limite',
         };
 
         this.rules['id']={
@@ -115,8 +117,8 @@ export class QrcodeModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'priceLimit',
-            'title': 'Precio limite',
-            'placeholder': 'Precio limite',
+            'title': 'Limite de consumo',
+            'placeholder': 'limite de consumo',
         };
 
         this.rules['priceUptake']={
@@ -127,6 +129,16 @@ export class QrcodeModel extends ModelBase{
             'title': 'Consumo',
             'placeholder': 'Consumo',
         };
+
+        this.rules['visit']={
+            'type': 'eval',
+            'eval':this.db.myglobal.getRule('QR_VISIT_WEB'),
+            'visible':this.permissions.visible,
+            'key': 'visit',
+            'title': 'Visitas',
+            'placeholder': 'Visitas',
+        };
+
 
         this.setRuleDateCreated(true);
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
@@ -162,6 +174,8 @@ export class QrcodeModel extends ModelBase{
         delete this.rulesSave.id;
         delete this.rulesSave.priceUptake;
         delete this.rulesSave.guestPhone;
+        delete this.rulesSave.visit;
+        delete this.rulesSave.attended;
     }
 
     initModelActions(params: IModelActions) {
