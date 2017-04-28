@@ -249,6 +249,7 @@ header.main-header{
 }
 
 nav.navbar.navbar-static-top {
+  flex: 1 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -258,8 +259,10 @@ nav.navbar.navbar-static-top {
 .navbar>a {
   font-size: 25px;
   padding: 7px 15px;
+  color: #FFF;
 }
 
 .navbar-custom-menu {
   margin-left: auto;
+  color: #FFF;
 }

@@ -198,21 +198,6 @@ body.no-menu .content-wrapper, body.no-menu .main-footer {
 .label.label-radius{
     border-radius: 50px !important;
 }
-@media (max-width: 768px) {
-    .btn {
-        padding: 1px 5px 2px 5px !important;
-    }
-}
-@media (max-width: 425px) {
-    .sidebar-mini .main-header{
-        margin-left: 0px !important;
-    }
-
-    .sidebar-open .main-header{
-        margin-left: 230px !important;
-    }
-
-}
 table>tbody>tr>td:not(.notHidden) a:not(.notHidden) {
     display: inline-block;
     overflow: hidden;
@@ -271,10 +256,11 @@ generate-notification .img-preview{
 /*#######################*/
 /*ANIMATION*/
 .user-panel {
+    flex: 0 0 230px;
     height: 50px !important;
     padding: 5px 10px  !important;
     position: relative  !important;
-    transition-duration:.5s  !important;
+    transition: all 0.3s ease-in-out  !important;
     background: #0d5628;
     border-radius:0px !important;
     box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.5);
@@ -282,7 +268,7 @@ generate-notification .img-preview{
 }
 
 .user-panel>*{
-    display: inline-block  !important;
+    display: inline-block;
     border-radius:0px !important;
     float: left !important;
     line-height: 40px !important;
@@ -295,7 +281,7 @@ generate-notification .img-preview{
 
 .user-panel *{
     position: relative  !important;
-    transition-duration:.5s  !important;
+    transition-duration:.5s !important;
     left: 0px !important;
     top:0px !important;
 }
@@ -305,7 +291,7 @@ generate-notification .img-preview{
 }
 
 .user-panel:hover>.image{
-    transform: translateX(-60px) !important;
+    transform: translateX(-60px);
     width: 0% !important;
 }
 
@@ -319,16 +305,16 @@ generate-notification .img-preview{
 }
 
 .user-panel>.image {
-    height: 100%  !important;
-    width:30%  !important;
-    max-width:50px  !important;
+    height: 100%;
+    width:30%;
+    max-width:50px;
 }
 
 .user-panel> .image > img {
-    max-width: 40px  !important;
-    min-width: 40px  !important;
-    max-height: 40px  !important;
-    min-height: 40px !important;
+    max-width: 40px !important;
+    min-width: 40px;
+    max-height: 40px !important;
+    min-height: 40px;
     border: 2px solid #FFF !important;
     background: #EAEAEA;
 }
@@ -366,6 +352,11 @@ generate-notification .img-preview{
 
 .treeview>a{
     transition-duration:.5s !important;
+}
+
+
+.sidebar-collapse .user-panel{
+    flex-basis: 50px !important;
 }
 
 .sidebar-collapse .user-panel>.image>img {
@@ -428,25 +419,25 @@ register-full .view-data-internal{
     border-radius: 10px !important;
 }
 
-.sidebar-collapse .main-header {
-    margin-left: 50px;
-}
-
 .main-header {
-    margin-left: 230px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     transition: all 0.3s ease-in-out;
     z-index: 900 !important;
 }
 
 .navbar {
     margin-left: 0px !important;
+    border-left: 1px solid #0c4e24 !important;
+    border-right: 1px solid #0c4e24 !important;
 }
 
 aside.main-sidebar {
     transition: all 0.3s ease-in-out;
-    padding-top: 0px;
     box-shadow: 1px -5px 3px 0px rgba(0,0,0,0.4);
-    z-index: 950 !important;
+    z-index: 750 !important;
+    padding-top: 50px !important;
 }
 
 .content-wrapper {
@@ -456,3 +447,56 @@ aside.main-sidebar {
 .user-panel:hover>.info {
     text-align: center;
 }
+
+.sidebar-collapse .user-panel:hover>.info {
+    display: none;
+}
+
+a.dropdown-toggle {
+    color: #FFF;
+}
+
+a.dropdown-toggle:hover, a.dropdown-toggle:active, .open a.dropdown-toggle {
+    background: #0c4e24 !important;
+    color: #FFF !important;
+}
+
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 1px 5px 2px 5px !important;
+    }
+}
+
+@media (max-width: 425px) {
+    .user-panel{
+        flex-basis: 50px !important;
+    }
+
+    .user-panel:hover>.info {
+        display: none;
+    }
+
+    .user-panel>.image>img {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 0px !important;
+        min-height: 0px !important;
+    }
+
+    .user-panel:hover>.image {
+        transform: translateX(0px) !important;
+    }
+
+    .user-panel>.image {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0px !important;
+    }
+
+    .user-panel:hover>.image>img {
+        border-color: #116f34 !important;
+        border-radius: 10px !important;
+    }
+}
+
