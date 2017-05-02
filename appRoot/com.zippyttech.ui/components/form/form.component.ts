@@ -495,14 +495,13 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         if(tag && tag.length)
         {
             event.target[0].value='';
-            this.rules[key].refreshField.instance.addValue(
-                {
-                    'id': 0,
-                    'value': tag,
-                    'title': 'Entrada manual'
-                }
-            );
-        }
 
+            if(this.rules[key].events && this.rules[key].events.addTag && false){
+                this.rules[key].events.addTag(this,tag,this.rules[key].instance);
+            }
+            else{
+                this.rules[key].instance.addValue({ 'id': 0, 'value': tag, 'title': 'Entrada manual'});
+            }
+        }
     }
 }
