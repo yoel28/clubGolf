@@ -496,7 +496,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
         {
             event.target[0].value='';
 
-            if(this.rules[key].events && this.rules[key].events.addTag && false){
+            if(this.rules[key].events && this.rules[key].events.addTag){
                 this.rules[key].events.addTag(this,tag,this.rules[key].instance);
             }
             else{
