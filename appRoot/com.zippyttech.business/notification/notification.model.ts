@@ -190,6 +190,12 @@ export class NotificationModel extends ModelBase{
                 if (!exist)
                     this.rules["target"].instance.addValue(tag);
             }
+            else if(response.count > 1){
+                this.addToast('Demaciadas coincidencias!','Ingrese un valor mas especifico','warning',5000);
+            }
+            else if(response.count == 0){
+                this.addToast('No hay coincidencias','Ingrese otro valor','error',5000);
+            }
         };
         this.httputils.doGet('/search'+endpoint+value+'?offset=0&max=1',successCallback,this.error);
     }
