@@ -1,4 +1,5 @@
 import {ElementRef, Directive, EventEmitter, OnInit} from "@angular/core";
+import {StaticValues} from "../catalog/staticValues";
 
 var jQuery = require('jquery');
 var cropit = require('cropit');
@@ -6,18 +7,52 @@ var cropit = require('cropit');
 @Directive({
     selector: "[x-cropit]",
     inputs: ['imageSrc'],
-    outputs:   ['saveImagen'],
+    outputs: ['saveImagen'],
 })
 export class XCropit implements OnInit{
-    public saveImagen:any;
+    public saveImagen:EventEmitter<string>;
     public imageSrc:string;
+    public $element;
+
     constructor(public el:ElementRef) {
-        this.saveImagen = new EventEmitter();
+        this.saveImagen = new EventEmitter<string>();
+        this.$element = jQuery(this.el.nativeElement);
     }
     ngOnInit() {
-        let that = jQuery(this.el.nativeElement);
-        let _this = this;
-        that.find('.cropit-preview').css({
+        this.applyCSS();
+        this.$element.cropit({
+            onImageLoaded:(event)=>{
+                console.log(event);
+                this.emit64();
+            },
+            onOffsetChange:(event)=>{
+                console.log(event);
+                this.emit64();
+            },
+            imageState: { src: this.imageSrc || StaticValues.pathElements.warning },
+            imageBackground: true,
+            imageBackgroundBorderWidth: 15
+        });
+
+        this.$element.find('.rotate-cw').click((event)=>{
+            event.preventDefault();
+            this.$element.cropit('rotateCW');
+            this.emit64();
+        });
+
+        this.$element.find('.rotate-ccw').click((event)=>{
+            event.preventDefault();
+            this.$element.cropit('rotateCCW');
+            this.emit64();
+        });
+    }
+
+    private applyCSS(){
+        this.$element.find('.cropit-preview-image-container').css({'cursor': 'move'});
+        this.$element.find('.image-size-label').css({'margin-top': '10px'});
+        this.$element.find('input, .export').css({'display':'block'});
+        this.$element.find('button').css({'margin-top':'10px'});
+        this.$element.find('.cropit-preview').css({
             'background-color': '#f8f8f8',
             'background-size': 'cover',
             'border': '1px solid #ccc',
@@ -26,37 +61,12 @@ export class XCropit implements OnInit{
             'width': '150px',
             'height': '150px',
         });
-        that.find('.cropit-preview-image-container').css({'cursor': 'move'});
-        that.find('.image-size-label').css({'margin-top': '10px'});
-        that.find('input, .export').css({'display':'block'});
-        that.find('button').css({'margin-top':'10px'});
+    }
 
-        that.cropit({
-            onImageLoaded:function () {
-                let imageData = that.cropit('export');
-                if(imageData)
-                    _this.saveImagen.emit(imageData);
-            },
-            onOffsetChange:function () {
-                let imageData = that.cropit('export');
-                if(imageData)
-                    _this.saveImagen.emit(imageData);
-            },
-            imageState: { src: _this.imageSrc || "" }
-        });
-        that.find('.rotate-cw').click(function(event) {
-            event.preventDefault();
-            that.cropit('rotateCW');
-            let imageData = that.cropit('export');
-            if(imageData)
-                _this.saveImagen.emit(imageData);
-        });
-        that.find('.rotate-ccw').click(function(event) {
-            event.preventDefault();
-            that.cropit('rotateCCW');
-            let imageData = that.cropit('export');
-            if(imageData)
-                _this.saveImagen.emit(imageData);
-        });
+    private emit64(){
+        let imageData = this.$element.cropit('export');
+        console.log({status:(imageData!=null),image:imageData});
+        if(imageData)
+            this.saveImagen.emit(imageData);
     }
 }

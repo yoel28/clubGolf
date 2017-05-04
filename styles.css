@@ -506,3 +506,14 @@ a.dropdown-toggle:hover, a.dropdown-toggle:active, .open a.dropdown-toggle {
     border: 1px solid #e5e5e5;
     box-shadow: unset;
 }
+
+
+div[x-cropit], div[x-cropit] * {
+    border-radius: 0px !important;
+}
+.cropit-preview-background {
+    opacity: .2;
+}
+.cropit-image-zoom-input {
+    position: relative;
+}
