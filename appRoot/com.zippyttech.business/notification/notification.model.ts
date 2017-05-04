@@ -76,6 +76,11 @@ export class NotificationModel extends ModelBase{
                     let target = form.getFormValue('targetType');
                     switch (target){
                         case 'BY_USER_EMAIL':
+                            this.rules["target"].instance.addValue({
+                                'id': 0,
+                                'value': value,
+                                'title': 'Entrada manual'
+                            });
                             break;
                         case 'BY_ROLE_AUTHORITY':
                             this._loadCheckTarget(form,'/roles/',value,instance);
