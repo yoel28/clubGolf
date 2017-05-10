@@ -73,4 +73,8 @@ export class TagsInput implements OnInit{
             this.control.setValue(jQuery(this.el.nativeElement).tagsinput('items'));
         }.bind(this));
     }
+
+    public removeAll(){
+        jQuery(this.el.nativeElement).tagsinput('removeAll');
+    }
 }

@@ -17,7 +17,6 @@
 
                                             <input *ngIf="rules[key].type == 'text' || rules[key].type == 'number' || rules[key].type == 'email' || rules[key].type == 'password'"
                                                    formControlName="{{key}}" class="form-control"
-                                                   formControlName="{{key}}"
                                                    placeholder="{{rules[key].placeholder}}"
                                                    type="{{rules[key].type}}"
                                                    [attr.aria-describedby]="key"
@@ -35,10 +34,10 @@
                                                        [readonly]="rules[key].readOnly"
                                                        [control]="form.controls[key]"
                                                        [type]="rules[key].tag||'object'"
-                                                       (instance)="rules[key].refreshField ?(rules[key].refreshField.instance=$event||null):null"
+                                                       (instance)="rules[key]?(rules[key].instance=$event||null):null"
                                                 >
-                                                <form (submit)="addTagManual($event,key)" *ngIf="rules[key].refreshField.tagFree">
-                                                    <input placeholder="Presione Enter para agregar un {{rules[key].placeholder}} manual"
+                                                <form (submit)="addTagManual($event,key)" *ngIf="rules[key].tagFree">
+                                                    <input placeholder="Presione Enter para agregar un {{rules[key].placeholder}}"
                                                            type="text"
                                                            [attr.aria-describedby]="key"
                                                            class="form-control"

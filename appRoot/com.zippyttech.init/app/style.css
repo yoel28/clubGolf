@@ -23,13 +23,14 @@
   margin-top: -2px !important;
   display: block;
   overflow: hidden;
-  transition: .5s;
-  height: 0;
+  transition: .2s;
+  height: auto;
+  max-height: 0;
   padding: 0px !important;
 }
 
 .treeview.active>.treeview-menu{
-  height: auto;
+    max-height: 700px;
 }
 
 .content-wrapper>*:not(router-outlet) {
@@ -248,17 +249,20 @@ header.main-header{
 }
 
 nav.navbar.navbar-static-top {
+  flex: 1 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .navbar>a {
   font-size: 25px;
   padding: 7px 15px;
+  color: #FFF;
 }
 
 .navbar-custom-menu {
   margin-left: auto;
+  color: #FFF;
 }

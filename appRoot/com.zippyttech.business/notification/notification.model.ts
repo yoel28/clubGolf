@@ -27,6 +27,7 @@ export class NotificationModel extends ModelBase{
 
         this.rules['wayType']={
             'type': 'select',
+            'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -53,8 +54,8 @@ export class NotificationModel extends ModelBase{
             'required':true,
             'events':{
                 'valueChange':(form:FormComponent,value)=>{
-                    if(form.getFormValue('target') && form.getFormValue('target').trim().length)
-                        form.form.controls['target'].setValue(form.getFormValue('target'));
+                    console.log("value change!!");
+                    this.rules["target"].instance.removeAll();
                 }
             },
             'value':this.db.myglobal.getParams('NOTIFICATION_TARGET_TYPE_DEFAULT'),
@@ -68,42 +69,42 @@ export class NotificationModel extends ModelBase{
         };
 
         this.rules['target']={
-            'type': 'text',
+            'type': 'list',
             'hiddenOnly':'this.getFormValue("targetType") ==  "EVERY_BODY"',
             'events':{
-                'valueChange':(form:FormComponent,value)=>{
-                    if(!this._targetTouch){
-                        let target = form.getFormValue('targetType');
-                        switch (target){
-                            case 'BY_USER_EMAIL':
-                                break;
-                            case 'BY_ROLE_AUTHORITY':
-                                this._loadCheckTarget(form,'/roles/',value);
-                                break;
-                            case 'BY_USER_TYPE':
-                                this._loadCheckTarget(form,'/type/users/',value);
-                                break;
-                            case 'BY_CONTRACT_CODE':
-                                this._loadCheckTarget(form,'/contracts/',value);
-                                break;
-                            case 'BY_USER_STATUS_CODE':
-                                this._loadCheckTarget(form,'/type/users/',value);
-                                break;
-                            case 'BY_USER_GROUP_CODE':
-                                this._loadCheckTarget(form,'/groups/',value);
-                                break;
-                            case 'BY_MAIN_TYPE':
-                                this._loadCheckTarget(form,'/type/main/',value);
-                                break;
-                            case 'EVERY_BODY':
-                                this._targetTouch=true;
-                                form.form.controls['target'].setValue('n/a');
-                                break;
-                        }
+                'addTag':(form:FormComponent,value,instance)=>{
+                    let target = form.getFormValue('targetType');
+                    switch (target){
+                        case 'BY_USER_EMAIL':
+                            this.rules["target"].instance.addValue({
+                                'id': 0,
+                                'value': value,
+                                'title': 'Entrada manual'
+                            });
+                            break;
+                        case 'BY_ROLE_AUTHORITY':
+                            this._loadCheckTarget(form,'/roles/',value,instance);
+                            break;
+                        case 'BY_USER_TYPE':
+                            this._loadCheckTarget(form,'/type/users/',value,instance);
+                            break;
+                        case 'BY_CONTRACT_CODE':
+                            this._loadCheckTarget(form,'/contracts/',value,instance);
+                            break;
+                        case 'BY_USER_STATUS_CODE':
+                            this._loadCheckTarget(form,'/type/users/',value,instance);
+                            break;
+                        case 'BY_USER_GROUP_CODE':
+                            this._loadCheckTarget(form,'/groups/',value,instance);
+                            break;
+                        case 'BY_MAIN_TYPE':
+                            this._loadCheckTarget(form,'/type/main/',value,instance);
+                            break;
+                        case 'EVERY_BODY':
+                            this._targetTouch=true;
+                            form.form.controls['target'].setValue('n/a');
+                            break;
                     }
-                    else
-                        this._targetTouch = false;
-
                 }
             },
             'required':true,
@@ -113,11 +114,14 @@ export class NotificationModel extends ModelBase{
             'key': 'target',
             'icon': 'fa fa-key',
             'title': 'Destino',
-            'placeholder': 'Destino donde se enviara la notificacion'
+            'placeholder': 'Destino',
+            'value':[],
+            'tagFree':true,
+            'instance':null
         };
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
-
+        this.rules["detail"].required = true;
         this.rules['image']={
             'type': 'image',
             'update':this.permissions.update,
@@ -181,20 +185,23 @@ export class NotificationModel extends ModelBase{
     }
 
     private _targetTouch:boolean;
-    private _loadCheckTarget(form:FormComponent,endpoint:string,value=''){
+
+    private _loadCheckTarget(form:FormComponent,endpoint:string,value='',instance){
         let successCallback = response =>{
             response = response.json();
             if(response.count == 1){
-                if(form.getFormValue('target')==value)
-                {
-                    this._targetTouch=true;
-                    form.form.controls['target'].setValue(response.list[0].title);
-                    return;
-                }
-
+                let tag = {'id': 0, 'value': response.list[0].title, 'title': 'Entrada manual'};
+                let exist = (this.rules["target"].instance.control.value.indexOf(tag) != -1);
+                if (!exist)
+                    this.rules["target"].instance.addValue(tag);
             }
-            form.form.controls['target'].setErrors({object:{valid:false}});
+            else if(response.count > 1){
+                this.addToast('Demaciadas coincidencias!','Ingrese un valor mas especifico','warning',5000);
+            }
+            else if(response.count == 0){
+                this.addToast('No hay coincidencias','Ingrese otro valor','error',5000);
+            }
         };
-        this.httputils.doGet('/search'+endpoint+value+'?offset=0&max=1',successCallback,this.error)
+        this.httputils.doGet('/search'+endpoint+value+'?offset=0&max=1',successCallback,this.error);
     }
 }
