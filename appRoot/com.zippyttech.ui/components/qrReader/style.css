@@ -122,6 +122,15 @@ form.open {
     width: 250px;
 
 }
+@media(max-width: 400px){
+    form.open {
+        max-width: 150px !important;
+    }
+    input{
+        max-width: 150px !important;
+    }
+}
+
 form.in>input,
 form.open>input{
     cursor:text;

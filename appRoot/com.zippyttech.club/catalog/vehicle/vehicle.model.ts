@@ -23,7 +23,6 @@ export class VehicleModel extends ModelBase{
 
     }
     initRules() {
-
         this.rules['tags'] = {
             'type': 'list',
             'typeView':'modal',
@@ -37,15 +36,15 @@ export class VehicleModel extends ModelBase{
             'visible': this.permissions.visible,
             'key': 'tags',
             'title': 'Tags',
+            'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
+            'tagFree':this.permissions.tagFree,
             'refreshField':{
                 'icon':'fa-refresh',
                 'endpoint':'/read/tags',
-                'tagFree':this.permissions.tagFree,
-                'instance':null,//tipo list van a mantener la instancia para poder manipular el objecto
                 'callback':function (rules,newData,control) {
                         newData.forEach(obj=> {
                             obj.tags.forEach(tag => {
-                                rules.refreshField.instance.addValue({
+                                rules.instance.addValue({
                                     'id': obj.code,
                                     'value': tag,
                                     'title': obj.title + '(' + (obj.code || 'Local') + ')'

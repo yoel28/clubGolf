@@ -1,9 +1,14 @@
 <div class="dm"  *ngIf="sessionValid">
     {{this.loadPage()}}
     <header class="main-header">
-        <a href="#" [routerLink]="['/init/dashboard']" class="logo">
-            <img [attr.src]="db.pathElements.miniLogo" class="img-logo">
-        </a>
+        <div class="user-panel cursor-pointer" (click)='onDashboard()'>
+            <div class="image">
+                <img [attr.src]="db.pathElements.miniLogo" class="img-circle">
+            </div>
+            <div class="info">
+                <span class="name">&nbsp;Club de Golf Panamá</span>
+            </div>
+        </div>
         <nav class="navbar navbar-static-top" role="navigation">
             <a *ngIf="menuType.value && menuType.value.list" href="#" class="sidebar-toggle"  data-toggle="offcanvas"
                role="button">
@@ -22,45 +27,34 @@
             </a>
 
             <qr-reader *ngIf="db.myglobal.existsPermission(['DASH_QR'])"></qr-reader>
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img [attr.src]="db.myglobal.user.image || db.pathElements.robot" class="user-image"
-                                 alt="User Image">
-                            <span class="hidden-xs">{{db.myglobal.user.email}}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="user-header">
-                                <img [attr.src]="db.myglobal.user.image || db.pathElements.robot" class="img-circle"
-                                     alt="User Image">
-                            </li>
-                            <li class="user-footer">
-                                <div class="user-btns">
-                                    <button (click)='onProfile($event)' class="btn btn-success text-white pull-left">Perfil</button>
-                                    <button (click)='logout($event)' class="btn btn-success pull-right">Salir</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
         </nav>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img [attr.src]="db.myglobal.user.image || db.pathElements.robot" class="user-image"
+                             alt="User Image">
+                        <span class="hidden-xs">{{db.myglobal.user.email}}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img [attr.src]="db.myglobal.user.image || db.pathElements.robot" class="img-circle"
+                                 alt="User Image">
+                        </li>
+                        <li class="user-footer">
+                            <div class="user-btns">
+                                <button (click)='onProfile($event)' class="btn btn-success text-white pull-left">Perfil</button>
+                                <button (click)='logout($event)' class="btn btn-success pull-right">Salir</button>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </header>
 
     <aside class="main-sidebar" *ngIf="menuType.value && menuType.value.list">
         <section class="sidebar">
-            <div class="user-panel cursor-pointer" (click)='onProfile()'>
-                <div class="image">
-                    <img [attr.src]="db.myglobal.user.image || db.pathElements.robot" class="img-circle">
-                </div>
-                <div class="info">
-                    <span class="name">{{db.myglobal.user.name}}</span>
-                    <span class="company" *ngIf="db.myglobal.user.companyName && db.myglobal.user.companyName!=''">
-                        <i class="fa fa-industry"></i> {{db.myglobal.user.companyName}}
-                    </span>
-                </div>
-            </div>
             <ul class="sidebar-menu">
                 <li class="header"><i class="fa fa-circle text-success"></i> {{db.myglobal.user.email}}</li>
                 <li *ngFor="let item of menuItemsVisible(menuItems.value)"

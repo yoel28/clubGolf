@@ -1,4 +1,4 @@
-<div class="frame">
+<div class="frame" *ngIf="model && model.completed">
     <div class="view">
         <section class="view-header">
             <i class="fa fa-bell"></i>&nbsp;&nbsp;<h2>Generar notificación</h2>
@@ -14,6 +14,6 @@
                 ></form-view>
             </div>
         </section>
-        <button class="submit-btn" (click)="sendNotification($event)" [disabled]="!(instanceForm && instanceForm.isValidForm())">Generar</button>
+        <button [disabled]="!_enableForm" class="submit-btn" (click)="sendNotification($event)">Generar</button>
     </div>
 </div>

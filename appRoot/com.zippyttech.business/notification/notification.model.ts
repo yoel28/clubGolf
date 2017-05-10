@@ -1,14 +1,15 @@
-import {ModelRoot} from "../../com.zippyttech.common/modelRoot";
 import {DependenciesBase} from "../../com.zippyttech.common/DependenciesBase";
 import {ModelBase} from "../../com.zippyttech.common/modelBase";
+import {FormComponent} from "../../com.zippyttech.ui/components/form/form.component";
 
 export class NotificationModel extends ModelBase{
 
     constructor(public db:DependenciesBase){
         super(db,'/notifications/');
-        this.initModel();
+        this.initModel(false);
         this.loadDataPublic();
     }
+
     modelExternal() {}
     initRules(){
 
@@ -20,8 +21,8 @@ export class NotificationModel extends ModelBase{
             'visible':this.permissions.visible,
             'key': 'code',
             'icon': 'fa fa-key',
-            'title': 'Codigo',
-            'placeholder': 'Ingrese codigo'
+            'title': 'Código',
+            'placeholder': 'Ingrese código'
         };
 
         this.rules['wayType']={
@@ -31,6 +32,7 @@ export class NotificationModel extends ModelBase{
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'source': [],
+            'value':this.db.myglobal.getParams('NOTIFICATION_WAY_TYPE_DEFAULT'),
             'key': 'wayType',
             'title': 'Canal',
             'placeholder': 'Seleccione un canal'
@@ -50,6 +52,13 @@ export class NotificationModel extends ModelBase{
         this.rules['targetType']={
             'type': 'select',
             'required':true,
+            'events':{
+                'valueChange':(form:FormComponent,value)=>{
+                    console.log("value change!!");
+                    this.rules["target"].instance.removeAll();
+                }
+            },
+            'value':this.db.myglobal.getParams('NOTIFICATION_TARGET_TYPE_DEFAULT'),
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
@@ -60,19 +69,59 @@ export class NotificationModel extends ModelBase{
         };
 
         this.rules['target']={
-            'type': 'text',
+            'type': 'list',
+            'hiddenOnly':'this.getFormValue("targetType") ==  "EVERY_BODY"',
+            'events':{
+                'addTag':(form:FormComponent,value,instance)=>{
+                    let target = form.getFormValue('targetType');
+                    switch (target){
+                        case 'BY_USER_EMAIL':
+                            this.rules["target"].instance.addValue({
+                                'id': 0,
+                                'value': value,
+                                'title': 'Entrada manual'
+                            });
+                            break;
+                        case 'BY_ROLE_AUTHORITY':
+                            this._loadCheckTarget(form,'/roles/',value,instance);
+                            break;
+                        case 'BY_USER_TYPE':
+                            this._loadCheckTarget(form,'/type/users/',value,instance);
+                            break;
+                        case 'BY_CONTRACT_CODE':
+                            this._loadCheckTarget(form,'/contracts/',value,instance);
+                            break;
+                        case 'BY_USER_STATUS_CODE':
+                            this._loadCheckTarget(form,'/type/users/',value,instance);
+                            break;
+                        case 'BY_USER_GROUP_CODE':
+                            this._loadCheckTarget(form,'/groups/',value,instance);
+                            break;
+                        case 'BY_MAIN_TYPE':
+                            this._loadCheckTarget(form,'/type/main/',value,instance);
+                            break;
+                        case 'EVERY_BODY':
+                            this._targetTouch=true;
+                            form.form.controls['target'].setValue('n/a');
+                            break;
+                    }
+                }
+            },
             'required':true,
             'update':this.permissions.update,
             'search':this.permissions.filter,
             'visible':this.permissions.visible,
             'key': 'target',
             'icon': 'fa fa-key',
-            'title': 'Target',
-            'placeholder': 'Destino donde se enviara la notificacion'
+            'title': 'Destino',
+            'placeholder': 'Destino',
+            'value':[],
+            'tagFree':true,
+            'instance':null
         };
 
         this.rules = Object.assign({},this.rules,this.getRulesDefault());
-        this.rules['detail'].required = true;
+        this.rules["detail"].required = true;
         this.rules['image']={
             'type': 'image',
             'update':this.permissions.update,
@@ -101,6 +150,7 @@ export class NotificationModel extends ModelBase{
     initRulesSave() {
         this.rulesSave = Object.assign({},this.rules);
         delete this.rulesSave.enabled;
+        delete this.rulesSave.code;
         //delete this.rulesSave.image;
     }
     initModelActions(params){
@@ -132,5 +182,26 @@ export class NotificationModel extends ModelBase{
                 });
         }
         this.completed = true
+    }
+
+    private _targetTouch:boolean;
+
+    private _loadCheckTarget(form:FormComponent,endpoint:string,value='',instance){
+        let successCallback = response =>{
+            response = response.json();
+            if(response.count == 1){
+                let tag = {'id': 0, 'value': response.list[0].title, 'title': 'Entrada manual'};
+                let exist = (this.rules["target"].instance.control.value.indexOf(tag) != -1);
+                if (!exist)
+                    this.rules["target"].instance.addValue(tag);
+            }
+            else if(response.count > 1){
+                this.addToast('Demaciadas coincidencias!','Ingrese un valor mas especifico','warning',5000);
+            }
+            else if(response.count == 0){
+                this.addToast('No hay coincidencias','Ingrese otro valor','error',5000);
+            }
+        };
+        this.httputils.doGet('/search'+endpoint+value+'?offset=0&max=1',successCallback,this.error);
     }
 }
