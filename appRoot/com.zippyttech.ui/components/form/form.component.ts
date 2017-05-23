@@ -257,7 +257,7 @@ export class FormComponent extends RestController implements OnInit,AfterViewIni
                     }
 
                 }
-                if(that.rules[key].type == 'combodate' && body[key]!=""){
+                if(that.rules[key].type == 'combodate' && body[key] && body[key]!=""){
                     if(that.rules[key].date == 'date'){
                         body[key] = moment(body[key],'DD/MM/YYYY').format('YYYY-MM-DD')
                     }
