@@ -68,13 +68,13 @@ export class QrcodeModel extends ModelBase{
         };
 
         this.rules['sponsor']=Object.assign({},this.sponsor.ruleObject);
-        this.rules['sponsor'].title='Patrocinador';
+        this.rules['sponsor'].title='Socio';
         this.rules['sponsor'].keyDisplay='sponsor';
         this.rules['sponsor'].key='sponsor';
         this.rules['sponsor'].update= this.permissions.update;
         this.rules['sponsor'].required=false;
         this.rules['sponsor'].eval=this.db.myglobal.getRule('QR_SPONSOR_WEB');
-        this.rules['sponsor'].placeholder='Patrocinador';
+        this.rules['sponsor'].placeholder='Socio';
         this.rules['sponsor'].paramsSearch.field='sponsor.id';
 
         this.rules['guest']=Object.assign({},this.guest.ruleObject);
