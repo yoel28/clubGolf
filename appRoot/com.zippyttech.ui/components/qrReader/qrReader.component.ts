@@ -133,7 +133,11 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
                     this.model.loadPager(this.model.dataList);
                 this.showMessage('El QR es valido!');
                 let val = response.json();
-                this.qrModal.header.title = (val['guestName']?val['guestName']+' | ':'')+val['sponsorName'] ;
+                let title ="";
+                if(val['guestName'])
+                    title = val['guestName']+' '+(val['guestIdCard'] || '')+' | ';
+
+                this.qrModal.header.title = title+val['sponsorName'] ;
                 this.processing=true;
 
                 if(this.submitTime != -1){
