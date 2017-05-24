@@ -70,7 +70,7 @@ export class DashboardModel extends ModelRoot{
                 that.guest.rules[key].search = false;
             }
         });
-        this.guest.rules['sponsor'].title = 'Patrocinador';
+        this.guest.rules['sponsor'].title = 'Socio';
 
     }
 
