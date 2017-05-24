@@ -177,5 +177,8 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
 
     ngAfterViewInit(){
         this.open(null);
+        jQuery('#qr-modal').on('hidden.bs.modal', ()=>{
+            this.input.nativeElement.focus();
+        });
     }
 }
