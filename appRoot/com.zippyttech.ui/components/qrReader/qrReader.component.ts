@@ -28,6 +28,8 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     public processing:boolean = false;
     public submitTime:number;
 
+    private _errorAudio = new Audio();
+
     constructor(public db:DependenciesBase){
         super(db);
         this.guestRemove = new FormControl();
@@ -64,6 +66,7 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
     }
     ngOnInit(){
         this.initModel();
+        this._errorAudio.src = "assets/audio/ERROR.mp3";
         let paramtime = this.db.myglobal.getParams('QR_SUBMIT');
         if(paramtime != '')
             this.submitTime = parseFloat(paramtime);
@@ -145,12 +148,15 @@ export class QrReader extends ControllerBase implements OnInit, AfterViewInit{
                 else jQuery('#qr-modal').modal('show');
             };
             let error = err=>{
-                let e = err.json();
-            }
+                this.model.error(err);
+                this._errorAudio.play();
+            };
             this.model.dataList={};
-            this.model.httputils.doGet(endpoint,successCallback,this.model.error);
+            this.model.httputils.doGet(endpoint,successCallback,error);
         }catch (e){
+            this._errorAudio.play();
             this.showMessage('Formato de QR invalido!');//TODO:Change!, use data validation
+            this.model.addToast('QR','Formato de QR invalido!','error');
         }
     }
 
