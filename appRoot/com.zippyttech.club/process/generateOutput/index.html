@@ -165,9 +165,22 @@
                                         <td  class="border-right">Invitado</td>
                                         <td>{{dataClient.guestName || 'N/A'}}</td>
                                     </tr>
+
+                                    <tr>
+                                        <td  class="border-right">Compartir con</td>
+                                        <td>
+                                                {{_qrShared.sponsorName || 'N/A'}}&nbsp;<i *ngIf="_qrShared.id" class="fa fa-minus text-red" title="Eliminar"></i>
+                                        </td>
+                                    </tr>
+
                                     </tbody>
                                 </table>
-
+                                <form role="form" (submit)="searchQr($event,'#sharedQR',true)">
+                                    <div class="form-group input-icon right">
+                                        <i class="fa fa-qrcode text-white"></i>
+                                        <input id="sharedQR" class="form-control input-control" placeholder="Adicionar QR" type="text">
+                                    </div>
+                                </form>
                             </div>
                             <div class="{{db.classCol(6,6,6,12)}} ">
                                 <form role="form" [formGroup]="form" (submit)="loadProduct($event)">
@@ -176,6 +189,7 @@
                                         <input formControlName="code" class="form-control input-control"
                                                placeholder="ESCANEAR PRODUCTO" type="text">
                                     </div>
+
                                     <div *ngIf="!product.permissions.list">
                                         <div class="btn-red padding-error">
                                             <h5><i class="fa fa-warning"></i>&nbsp;<strong>{{msg.warningTitle | translate}} <tooltip-view [code]="trade.prefix+'_3'"></tooltip-view></strong></h5>

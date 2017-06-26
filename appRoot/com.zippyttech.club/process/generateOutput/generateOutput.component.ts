@@ -205,8 +205,10 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
             event.preventDefault();
         if(this.trade.permissions.add){
             let that=this;
-            let body={'qrCode':null,'list':[]};
+            let body={'qrCode':null,'qrAux':null,'list':[]};
             body.qrCode =  this.dataClient.id;
+            body.qrAux =  this._qrShared.id;
+
 
             Object.keys(this.listProduct).forEach(key=>{
                 if(that.listProduct[key].id){
@@ -247,15 +249,22 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
         this.db.ws.onSocket(this.channelWS);
     }
 
-    searchQr(event){
+    loadSharedQR(event){
+        console.log(event);
+
+    }
+
+    private _qrShared:any = {};
+
+    searchQr(event,target = '#validQr',shared=false){
         if(event)
             event.preventDefault();
         try {
             if(this.qr.permissions.list) {
                 let that = this;
-                let val = jQuery('#validQr').val();
-                val = (val.replace(/'|”|“/g,'"')).replace(/[^a-zA-Z 0-9:,"\{\}]+/g,'');
-                jQuery('#validQr').val('');
+                let val = jQuery(target).val();
+                val = (val.replace(/'|”|“/g,'"')).replace(/[^a-zA-Z 0-9\-:,"\{\}]+/g,'');
+                jQuery(target).val('');
                 let data = JSON.parse(val);
                 let where = [{
                     join: "sponsor",
@@ -264,6 +273,16 @@ export class GenerateOutputComponent extends ControllerBase implements OnInit,On
 
                 this.qr.loadDataWhere(data.id, where).then(
                     response => {
+                        if(shared)
+                        {
+                            if(this.dataClient.id != response.id){
+                                this._qrShared = response;
+                                return;
+                            }
+                            this.qr.addToast('Información','No puedes compartir la cuenta contigo.');
+
+
+                        }
                         that.db.ws.webSocket[that.channelWS].data.setValue(response);
                     }
                 )
