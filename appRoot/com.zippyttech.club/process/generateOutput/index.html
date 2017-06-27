@@ -169,7 +169,7 @@
                                     <tr>
                                         <td  class="border-right">Compartir con</td>
                                         <td>
-                                                {{_qrShared.sponsorName || 'N/A'}}&nbsp;<i *ngIf="_qrShared.id" class="fa fa-minus text-red" title="Eliminar"></i>
+                                                {{_qrShared.sponsorName || 'N/A'}}&nbsp;<i *ngIf="_qrShared.id" (click)="_qrShared={}" class="fa fa-minus text-red" title="Eliminar"></i>
                                         </td>
                                     </tr>
 

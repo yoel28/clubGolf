@@ -192,7 +192,7 @@ export abstract class ModelRoot extends RestController{
             callback:function(data?,index?){
                 this.navIndex = index;
             }.bind(this),
-            permission: this.permissions.list,
+            permission: this.permissions.list && false,
         };
 
         this.actions["enabled"] = {
