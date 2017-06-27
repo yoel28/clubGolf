@@ -43,7 +43,7 @@ export class ModelModel extends ModelRoot{
         this.paramsSave.title="Agregar modelo"
     }
     initRuleObject() {
-        this.ruleObject.title="Modelo";
+        this.ruleObject.title="Modelo de vehículo";
         this.ruleObject.placeholder="Ingrese el modelo";
         this.ruleObject.key="model";
         this.ruleObject.code="modelId";

@@ -48,7 +48,7 @@ export class UserGroupModel extends ModelBase{
         this.paramsSave.title="Agregar grupo de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Grupo";
+        this.ruleObject.title="Grupo de usuarios";
         this.ruleObject.placeholder="Ingrese el grupo de usuario";
         this.ruleObject.key="userGroup";
         this.ruleObject.code="userGroupId";

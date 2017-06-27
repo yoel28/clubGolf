@@ -34,7 +34,7 @@ export class BrandModel extends ModelRoot{
         this.paramsSave.title="Agregar marca"
     }
     initRuleObject() {
-        this.ruleObject.title="Marca";
+        this.ruleObject.title="Marca de vehículo";
         this.ruleObject.placeholder="Ingrese marca";
         this.ruleObject.key="brand";
         this.ruleObject.code="brandId";

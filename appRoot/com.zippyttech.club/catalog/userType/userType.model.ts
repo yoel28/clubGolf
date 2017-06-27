@@ -56,7 +56,7 @@ export class UserTypeModel extends ModelBase{
         this.paramsSave.title="Agregar tipo de usuario"
     }
     initRuleObject() {
-        this.ruleObject.title="Tipo";
+        this.ruleObject.title="Tipo de usuarios";
         this.ruleObject.placeholder="Ingrese el tipo de usuario";
         this.ruleObject.key="userType";
         this.ruleObject.code="userTypeId";
